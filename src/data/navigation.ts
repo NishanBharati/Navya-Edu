@@ -18,9 +18,10 @@ export const FOOTER_LINKS = {
   education: [
     { label: 'All Courses', href: '/courses' },
     { label: 'Career Programs', href: '/programs' },
-    { label: 'Student Project Showcase', href: '/student-work' },
-    { label: 'Course Curriculum FAQ', href: '/courses' },
-    { label: 'Talk to an Advisor', href: '/contact' },
+    { label: 'Student Work & Showcase', href: '/student-work' },
+    { label: 'Industry Insights', href: '/insights' },
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Privacy Policy', href: '/privacy' },
   ],
   popularCourses: [
     { label: 'MERN Stack Web Development', href: '/courses/mern-stack-development' },
@@ -34,7 +35,13 @@ export const FOOTER_LINKS = {
     { label: 'About Navya Ed Tech', href: '/about' },
     { label: 'Parent Company (Navya EdTech)', href: 'https://navyaedtech.com/', external: true },
     { label: 'Industry Insights & Articles', href: '/insights' },
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Privacy Policy', href: '/privacy' },
     { label: 'Contact & Advisory Desk', href: '/contact' },
+  ],
+  legal: [
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Privacy Policy', href: '/privacy' },
   ],
   contact: {
     organization: 'Navya Ed Tech Pvt. Ltd.',

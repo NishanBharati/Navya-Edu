@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Filter, BookOpen } from 'lucide-react';
-import { COURSES, COURSE_CATEGORIES } from '../data/courses';
-import { CourseCategory } from '../types';
+import { Search, Filter, BookOpen, Loader2 } from 'lucide-react';
+import { COURSE_CATEGORIES } from '../data/courses';
+import { Course, CourseCategory } from '../types';
+import { useSupabaseTable } from '../lib/useSupabaseTable';
 import { Container } from '../components/common/Container';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { CourseCard } from '../components/courses/CourseCard';
@@ -9,6 +10,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { AdvisorModal } from '../components/common/AdvisorModal';
 
 export const Courses: React.FC = () => {
+  const { items: courses, isLoading } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
   const [selectedCategory, setSelectedCategory] = useState<CourseCategory>('All');
   const [selectedLevel, setSelectedLevel] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -20,7 +22,7 @@ export const Courses: React.FC = () => {
     setIsAdvisorOpen(true);
   };
 
-  const filteredCourses = COURSES.filter((course) => {
+  const filteredCourses = courses.filter((course) => {
     const matchesCategory = selectedCategory === 'All' || course.category === selectedCategory;
     const matchesLevel =
       selectedLevel === 'All' || course.level.toLowerCase().includes(selectedLevel.toLowerCase());
@@ -118,7 +120,11 @@ export const Courses: React.FC = () => {
         </div>
 
         {/* Course Grid */}
-        {filteredCourses.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2 py-20 text-sm text-[#5F6670]">
+            <Loader2 className="w-4 h-4 animate-spin" /> Loading courses…
+          </div>
+        ) : filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredCourses.map((course) => (
               <CourseCard

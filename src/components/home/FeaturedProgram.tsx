@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, Calendar, Award } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Calendar, Award, Sparkles, ShieldCheck, Layers, Terminal, Rocket } from 'lucide-react';
 import { Container } from '../common/Container';
 import { Button } from '../common/Button';
 import { Badge } from '../common/Badge';
@@ -12,93 +12,112 @@ export const FeaturedProgram: React.FC<FeaturedProgramProps> = ({ onOpenAdvisor 
   return (
     <section className="py-16 sm:py-24 bg-[#FAFAF8] border-b border-[#EFECE5]">
       <Container>
-        <div className="bg-[#17324D] rounded-2xl text-white overflow-hidden shadow-xl border border-[#12283E]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12">
+        <div className="bg-[#17324D] rounded-3xl text-white overflow-hidden shadow-xl border border-[#12283E] relative">
+          {/* Subtle Grid Accent */}
+          <div
+            className="absolute inset-0 opacity-5 pointer-events-none"
+            style={{
+              backgroundImage: 'radial-gradient(circle at 1px 1px, #FFFFFF 1px, transparent 0)',
+              backgroundSize: '24px 24px'
+            }}
+          />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-8 sm:p-12 lg:p-14">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="flex items-center gap-2">
-                <Badge variant="amber" size="sm">
-                  Flagship Career Track
-                </Badge>
-                <span className="text-xs text-[#9BBAD4] font-medium">
-                  24 Weeks Intensive
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <span className="px-3 py-1 rounded-md bg-[#D97706]/20 text-[#F59E0B] text-xs font-mono font-bold border border-[#D97706]/30">
+                  FLAGSHIP CAREER FELLOWSHIP
+                </span>
+                <span className="text-xs text-[#9BBAD4] font-medium flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>6 Months (24 Weeks Intensive)</span>
                 </span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                Full Stack Engineering Career Track
+                Full Stack Software Engineering Fellowship
               </h2>
 
               <p className="text-sm sm:text-base text-[#C4CDD5] leading-relaxed">
-                An immersive, multi-module career program designed to take you from foundational JavaScript through full-stack MERN, TypeScript, relational databases, Docker containerization, and cloud deployment.
+                Our flagship career program designed to bridge the gap between academic CS degrees and professional software engineering. Master TypeScript, modern React/Next.js, PostgreSQL relational modeling, Docker containerization, and AWS deployment.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="flex items-start gap-2 text-xs sm:text-sm text-[#E5DFD4]">
-                  <CheckCircle2 className="w-4 h-4 text-[#C88A3D] shrink-0 mt-0.5" />
-                  <span>3 Production-grade portfolio deliverables</span>
+              {/* 3 Key Highlights */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="flex items-start gap-2.5 text-xs sm:text-sm text-[#E5DFD4]">
+                  <CheckCircle2 className="w-4 h-4 text-[#718C7A] shrink-0 mt-0.5" />
+                  <span>3 Multi-Tenant Production Capstones</span>
                 </div>
-                <div className="flex items-start gap-2 text-xs sm:text-sm text-[#E5DFD4]">
-                  <CheckCircle2 className="w-4 h-4 text-[#C88A3D] shrink-0 mt-0.5" />
-                  <span>Weekly code reviews by tech leads</span>
+                <div className="flex items-start gap-2.5 text-xs sm:text-sm text-[#E5DFD4]">
+                  <CheckCircle2 className="w-4 h-4 text-[#718C7A] shrink-0 mt-0.5" />
+                  <span>Weekly 1-on-1 Code Critiques with Tech Leads</span>
                 </div>
-                <div className="flex items-start gap-2 text-xs sm:text-sm text-[#E5DFD4]">
-                  <CheckCircle2 className="w-4 h-4 text-[#C88A3D] shrink-0 mt-0.5" />
-                  <span>Git branching & CI/CD workflow training</span>
+                <div className="flex items-start gap-2.5 text-xs sm:text-sm text-[#E5DFD4]">
+                  <CheckCircle2 className="w-4 h-4 text-[#718C7A] shrink-0 mt-0.5" />
+                  <span>Git Branching & GitHub Actions CI/CD</span>
                 </div>
-                <div className="flex items-start gap-2 text-xs sm:text-sm text-[#E5DFD4]">
-                  <CheckCircle2 className="w-4 h-4 text-[#C88A3D] shrink-0 mt-0.5" />
-                  <span>Technical project defense & evaluation</span>
+                <div className="flex items-start gap-2.5 text-xs sm:text-sm text-[#E5DFD4]">
+                  <CheckCircle2 className="w-4 h-4 text-[#718C7A] shrink-0 mt-0.5" />
+                  <span>Direct Placement Support with 40+ Tech Partners</span>
                 </div>
               </div>
 
+              {/* Actions */}
               <div className="pt-4 flex flex-wrap items-center gap-4">
                 <Button
-                  variant="amber"
-                  size="md"
+                  variant="secondary"
+                  size="lg"
                   href="/programs"
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
+                  rightIcon={<ArrowRight className="w-4 h-4 text-[#17324D]" />}
                 >
-                  View Program Details
+                  View Fellowship Syllabus
                 </Button>
                 <Button
                   variant="outline"
-                  size="md"
+                  size="lg"
                   className="text-white border-white/30 hover:border-white hover:bg-white/10"
                   onClick={onOpenAdvisor}
                 >
-                  Inquire for Schedule & Fees
+                  Inquire for Schedule & Fees (NPR)
                 </Button>
               </div>
             </div>
 
-            {/* Right Card / Meta Info */}
-            <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-xl p-6 space-y-4 backdrop-blur-sm">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#9BBAD4] block">
-                Track Structure
+            {/* Right Card / 3-Phase Roadmap Preview */}
+            <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-7 space-y-4 backdrop-blur-xs">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#9BBAD4] block border-b border-white/10 pb-3">
+                Curriculum Progression Roadmap
               </span>
 
-              <div className="space-y-3 text-xs sm:text-sm">
-                <div className="p-3 rounded-lg bg-white/5 flex items-center justify-between">
-                  <span className="text-[#C4CDD5]">Duration</span>
-                  <span className="font-semibold text-white">6 Months (24 Weeks)</span>
+              <div className="space-y-3.5 text-xs sm:text-sm">
+                <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <strong className="text-white font-bold">Phase 1: Modern Frontend & TypeScript</strong>
+                    <span className="text-[10px] font-mono text-[#9BBAD4]">Months 1–2</span>
+                  </div>
+                  <p className="text-[11px] text-[#C4CDD5]">React 19, Next.js App Router, Tailwind, State Architecture</p>
                 </div>
-                <div className="p-3 rounded-lg bg-white/5 flex items-center justify-between">
-                  <span className="text-[#C4CDD5]">Learning Mode</span>
-                  <span className="font-semibold text-white">Classroom / In-Person</span>
+
+                <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <strong className="text-white font-bold">Phase 2: Scalable Backend & Databases</strong>
+                    <span className="text-[10px] font-mono text-[#9BBAD4]">Months 3–4</span>
+                  </div>
+                  <p className="text-[11px] text-[#C4CDD5]">Node.js, Express, PostgreSQL, Prisma, Redis Queues & JWT</p>
                 </div>
-                <div className="p-3 rounded-lg bg-white/5 flex items-center justify-between">
-                  <span className="text-[#C4CDD5]">Primary Stack</span>
-                  <span className="font-semibold text-white">MERN + TypeScript + Cloud</span>
-                </div>
-                <div className="p-3 rounded-lg bg-white/5 flex items-center justify-between">
-                  <span className="text-[#C4CDD5]">Admission</span>
-                  <span className="font-semibold text-[#C88A3D]">Open for Next Batch</span>
+
+                <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <strong className="text-white font-bold">Phase 3: Cloud DevOps & Placement Sprint</strong>
+                    <span className="text-[10px] font-mono text-[#9BBAD4]">Months 5–6</span>
+                  </div>
+                  <p className="text-[11px] text-[#C4CDD5]">Docker, AWS, CI/CD, Capstone Code Defense & Tech Interviews</p>
                 </div>
               </div>
 
-              <div className="pt-2 text-center text-xs text-[#9BBAD4]">
-                Admissions are capped per batch to maintain 1-on-1 code critique quality.
+              <div className="pt-2 text-center text-[11px] text-[#9BBAD4] italic">
+                * Cohort size is strictly capped at 16 students for deep code review quality.
               </div>
             </div>
           </div>

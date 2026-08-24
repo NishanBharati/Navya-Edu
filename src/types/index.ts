@@ -125,3 +125,19 @@ export interface CourseInquiryForm {
   experienceLevel: string;
   message: string;
 }
+
+export type InquiryStatus = 'New' | 'Contacted' | 'Enrolled' | 'Closed';
+
+export interface Inquiry {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  interestedCourse: string;
+  preferredMode: string;
+  message: string;
+  status: InquiryStatus;
+  source: string;
+  createdAt: string;
+  notes?: string;
+}

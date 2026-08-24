@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, BookOpen } from 'lucide-react';
-import { INSIGHTS } from '../../data/insights';
+import { ArrowRight, Clock, BookOpen, Loader2 } from 'lucide-react';
+import type { InsightArticle } from '../../types';
+import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 
 export const InsightsPreview: React.FC = () => {
+  const { items: insights, isLoading } = useSupabaseTable<InsightArticle>('insights', { orderBy: 'createdAt' });
+  const latestInsights = insights.slice(0, 3);
+
   return (
     <section className="py-16 sm:py-24 bg-[#FAFAF8] border-b border-[#EFECE5]">
       <Container>
@@ -27,8 +31,13 @@ export const InsightsPreview: React.FC = () => {
           </div>
         </div>
 
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2 py-16 text-sm text-[#5F6670]">
+            <Loader2 className="w-4 h-4 animate-spin" /> Loading insights…
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {INSIGHTS.map((article) => (
+          {latestInsights.map((article) => (
             <article
               key={article.id}
               className="group flex flex-col justify-between bg-white border border-[#E8E4DA] rounded-xl overflow-hidden hover:border-[#17324D]/40 transition-colors"
@@ -79,6 +88,7 @@ export const InsightsPreview: React.FC = () => {
             </article>
           ))}
         </div>
+        )}
       </Container>
     </section>
   );

@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, ArrowRight, CheckCircle2, MessageSquare, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { Container } from '../components/common/Container';
 import { Button } from '../components/common/Button';
-import { COURSES } from '../data/courses';
 import { SEOHead } from '../components/common/SEOHead';
+import { supabase } from '../lib/supabaseClient';
+import { useSupabaseTable } from '../lib/useSupabaseTable';
+import type { Course, Inquiry } from '../types';
 
 export const Contact: React.FC = () => {
+  const { items: courses } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -17,14 +21,32 @@ export const Contact: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 600);
+    setSubmitError(null);
+
+    const inquiry: Omit<Inquiry, 'id' | 'createdAt'> = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      interestedCourse: formData.interestedCourse,
+      preferredMode: formData.preferredMode,
+      message: formData.message,
+      status: 'New',
+      source: 'Contact Page',
+    };
+
+    const { error } = await supabase.from('inquiries').insert(inquiry as never);
+    setIsSubmitting(false);
+
+    if (error) {
+      setSubmitError('Something went wrong sending your inquiry. Please try again.');
+      return;
+    }
+    setIsSubmitted(true);
   };
 
   return (
@@ -138,7 +160,7 @@ export const Contact: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, interestedCourse: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-[#171A1F] text-sm focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white"
                     >
-                      {COURSES.map((course) => (
+                      {courses.map((course) => (
                         <option key={course.slug} value={course.slug}>
                           {course.title} ({course.duration})
                         </option>
@@ -176,6 +198,12 @@ export const Contact: React.FC = () => {
                     className="w-full px-4 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-[#171A1F] text-sm focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white resize-none"
                   />
                 </div>
+
+                {submitError && (
+                  <div className="px-4 py-2.5 rounded-lg bg-red-50 border border-red-100 text-xs font-medium text-red-700">
+                    {submitError}
+                  </div>
+                )}
 
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <p className="text-xs text-[#5F6670]">

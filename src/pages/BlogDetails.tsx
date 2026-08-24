@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Clock, Calendar, User, Share2 } from 'lucide-react';
-import { INSIGHTS } from '../data/insights';
+import { ArrowLeft, Clock, Calendar, User, Share2, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
+import type { InsightArticle } from '../types';
 import { Container } from '../components/common/Container';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
@@ -10,11 +11,38 @@ import { SEOHead } from '../components/common/SEOHead';
 export const BlogDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
 
-  const article = INSIGHTS.find((a) => a.slug === slug);
+  const [article, setArticle] = useState<InsightArticle | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isActive = true;
+    setIsLoading(true);
+    supabase
+      .from('insights')
+      .select('*')
+      .eq('slug', slug)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!isActive) return;
+        setArticle((data as InsightArticle) ?? null);
+        setIsLoading(false);
+      });
+    return () => {
+      isActive = false;
+    };
+  }, [slug]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen py-20 bg-[#FAFAF8] flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-[#17324D] animate-spin" />
+      </main>
+    );
+  }
 
   if (!article) {
     return (

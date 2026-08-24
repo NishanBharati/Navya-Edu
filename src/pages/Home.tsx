@@ -8,6 +8,7 @@ import { FeaturedProgram } from '../components/home/FeaturedProgram';
 import { LearningExperience } from '../components/home/LearningExperience';
 import { StudentProjectsPreview } from '../components/home/StudentProjectsPreview';
 import { CareerPathway } from '../components/home/CareerPathway';
+import { TestimonialsSection } from '../components/home/TestimonialsSection';
 import { InsightsPreview } from '../components/home/InsightsPreview';
 import { AdvisorCTA } from '../components/home/AdvisorCTA';
 import { AdvisorModal } from '../components/common/AdvisorModal';
@@ -31,7 +32,7 @@ export const Home: React.FC = () => {
       {/* 1. Hero */}
       <Hero onOpenAdvisor={() => handleOpenAdvisor()} />
 
-      {/* 2. Trust Intro */}
+      {/* 2. Trust & Live Verification Metrics */}
       <TrustIntro />
 
       {/* 3. Course Discovery */}
@@ -40,22 +41,25 @@ export const Home: React.FC = () => {
       {/* 4. Why Navya Ed Tech (Parent company credibility) */}
       <WhyNavya />
 
-      {/* 5. Featured Career Track */}
+      {/* 5. Featured Career Fellowship Track */}
       <FeaturedProgram onOpenAdvisor={() => handleOpenAdvisor('full-stack-career-track')} />
 
-      {/* 6. Learning Experience (From Learning to Building) */}
+      {/* 6. Learning Experience (4-Pillar Pedagogical Standard) */}
       <LearningExperience />
 
-      {/* 7. Student Project Showcase */}
+      {/* 7. Student Capstone Project Showcase */}
       <StudentProjectsPreview />
 
-      {/* 8. Career Pathway */}
+      {/* 8. Career Outcomes & Compensation Insights */}
       <CareerPathway />
 
-      {/* 9. Latest Insights */}
+      {/* 9. Verified Graduate Reviews & Testimonials */}
+      <TestimonialsSection />
+
+      {/* 10. Latest Insights & Technical Articles */}
       <InsightsPreview />
 
-      {/* 10. Contact / Advisor CTA */}
+      {/* 11. Admissions & Campus Advisory CTA */}
       <AdvisorCTA onOpenAdvisor={() => handleOpenAdvisor()} />
 
       {/* Modal */}

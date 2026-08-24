@@ -4,6 +4,7 @@ import { Menu, X, ArrowUpRight, MessageSquareCode } from 'lucide-react';
 import { MAIN_NAV_ITEMS } from '../../data/navigation';
 import { Button } from '../common/Button';
 import { AdvisorModal } from '../common/AdvisorModal';
+import { Logo } from '../common/Logo';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,27 +44,14 @@ export const Navbar: React.FC = () => {
           {/* Logo & Brand Identity */}
           <Link
             to="/"
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#17324D] rounded-lg p-1"
+            className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#17324D] rounded-lg p-1"
             aria-label="Navya Ed Tech Home"
           >
-            {/* Visual Mark */}
-            <div className="w-10 h-10 rounded-xl bg-[#17324D] text-white flex items-center justify-center font-heading font-extrabold text-lg shadow-sm group-hover:bg-[#12283E] transition-colors">
-              N
-            </div>
-            
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="font-heading font-bold text-lg sm:text-xl tracking-tight text-[#171A1F]">
-                  NAVYA
-                </span>
-                <span className="font-heading font-semibold text-xs tracking-wider uppercase text-[#356A9A] bg-[#356A9A]/10 px-1.5 py-0.5 rounded">
-                  ED TECH
-                </span>
-              </div>
-              <span className="text-[11px] text-[#5F6670] tracking-wide font-normal -mt-0.5 hidden sm:inline-block">
-                IT Training & Professional Education
-              </span>
-            </div>
+            <Logo
+              variant="light"
+              size="md"
+              subtitle="IT Training & Professional Education"
+            />
           </Link>
 
           {/* Desktop Navigation Links */}

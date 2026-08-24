@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, CheckCircle, ArrowRight, BookOpen, Clock, MapPin, Phone } from 'lucide-react';
 import { Button } from './Button';
-import { COURSES } from '../../data/courses';
+import { supabase } from '../../lib/supabaseClient';
+import { useSupabaseTable } from '../../lib/useSupabaseTable';
+import type { Course, Inquiry } from '../../types';
 
 interface AdvisorModalProps {
   isOpen: boolean;
@@ -14,29 +16,55 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
   onClose,
   defaultCourseSlug = ''
 }) => {
+  const { items: courses } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
-    interestedCourse: defaultCourseSlug || (COURSES[0]?.slug ?? 'mern-stack-development'),
+    interestedCourse: defaultCourseSlug,
     preferredMode: 'Classroom (Kathmandu)',
     learningGoal: 'Career preparation / Job readiness',
     message: ''
   });
 
+  useEffect(() => {
+    if (!formData.interestedCourse && courses.length > 0) {
+      setFormData((prev) => ({ ...prev, interestedCourse: courses[0].slug }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courses]);
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission delay
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 600);
+    setSubmitError(null);
+
+    const inquiry: Omit<Inquiry, 'id' | 'createdAt'> = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      interestedCourse: formData.interestedCourse,
+      preferredMode: formData.preferredMode,
+      message: [formData.learningGoal, formData.message].filter(Boolean).join(' — '),
+      status: 'New',
+      source: 'Advisor Modal',
+    };
+
+    const { error } = await supabase.from('inquiries').insert(inquiry as never);
+    setIsSubmitting(false);
+
+    if (error) {
+      setSubmitError('Something went wrong sending your inquiry. Please try again.');
+      return;
+    }
+    setIsSubmitted(true);
   };
 
   const handleReset = () => {
@@ -163,7 +191,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   onChange={(e) => setFormData({ ...formData, interestedCourse: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-[#171A1F] text-sm focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-all"
                 >
-                  {COURSES.map((course) => (
+                  {courses.map((course) => (
                     <option key={course.slug} value={course.slug}>
                       {course.title} ({course.duration})
                     </option>
@@ -218,6 +246,12 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   className="w-full px-3.5 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-[#171A1F] text-sm focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-all resize-none"
                 />
               </div>
+
+              {submitError && (
+                <div className="px-3.5 py-2.5 rounded-lg bg-red-50 border border-red-100 text-xs font-medium text-red-700">
+                  {submitError}
+                </div>
+              )}
 
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <p className="text-xs text-[#5F6670]">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { COURSES } from '../data/courses';
+import { supabase } from '../lib/supabaseClient';
+import type { Course } from '../types';
 import { CourseHero } from '../components/courses/CourseHero';
 import { CourseAudience } from '../components/courses/CourseAudience';
 import { CourseProjects } from '../components/courses/CourseProjects';
@@ -15,7 +16,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { AdvisorModal } from '../components/common/AdvisorModal';
 import { Container } from '../components/common/Container';
 import { Button } from '../components/common/Button';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 
 export const CourseDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -25,12 +26,39 @@ export const CourseDetails: React.FC = () => {
   const [downloadEmail, setDownloadEmail] = useState('');
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
-  const course = COURSES.find((c) => c.slug === slug);
+  const [course, setCourse] = useState<Course | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isActive = true;
+    setIsLoading(true);
+    supabase
+      .from('courses')
+      .select('*')
+      .eq('slug', slug)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!isActive) return;
+        setCourse((data as Course) ?? null);
+        setIsLoading(false);
+      });
+    return () => {
+      isActive = false;
+    };
+  }, [slug]);
 
   // Scroll to top when slug changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen py-20 bg-[#FAFAF8] flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-[#17324D] animate-spin" />
+      </main>
+    );
+  }
 
   if (!course) {
     return (

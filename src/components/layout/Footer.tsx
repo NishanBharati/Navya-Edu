@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, ShieldCheck, Mail, Clock } from 'lucide-react';
 import { FOOTER_LINKS } from '../../data/navigation';
 import { Container } from '../common/Container';
+import { Logo } from '../common/Logo';
 
 export const Footer: React.FC = () => {
   return (
@@ -12,19 +13,13 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
           {/* Col 1 & 2: Brand & Parent Company Connection */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-white text-[#17324D] flex items-center justify-center font-heading font-extrabold text-base">
-                N
-              </div>
-              <div>
-                <span className="font-heading font-bold text-lg text-white tracking-tight">
-                  NAVYA ED TECH
-                </span>
-                <span className="block text-[11px] text-[#9BBAD4] uppercase tracking-wider">
-                  Technology Education Division
-                </span>
-              </div>
-            </div>
+            <Link to="/" className="inline-block group focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-lg p-0.5" aria-label="Navya Ed Tech Home">
+              <Logo
+                variant="dark"
+                size="md"
+                subtitle="Technology Education Division"
+              />
+            </Link>
 
             <p className="text-sm text-[#C4CDD5] leading-relaxed max-w-md">
               Learn technology from a company that actually builds technology. Practical, project-driven IT training bridging academic theory and modern commercial software engineering in Nepal.
@@ -74,7 +69,7 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-sm">
               {FOOTER_LINKS.education.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     to={link.href}
                     className="text-[#C4CDD5] hover:text-white transition-colors"
@@ -100,9 +95,8 @@ export const Footer: React.FC = () => {
                 <Clock className="w-3.5 h-3.5 text-[#9BBAD4] shrink-0 mt-0.5" />
                 <span>Sun – Fri: 7:00 AM – 7:00 PM</span>
               </div>
-              <p className="pt-2 text-[11px] text-[#9BBAD4] leading-normal">
-                Kathmandu, Nepal <br />
-                [Inquire via Advisor Desk for batch schedules]
+              <p className="pt-1 text-[11px] text-[#9BBAD4] leading-normal">
+                Kathmandu, Nepal
               </p>
             </div>
           </div>
@@ -114,10 +108,11 @@ export const Footer: React.FC = () => {
             © {new Date().getFullYear()} Navya Ed Tech Pvt. Ltd. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <span>Currency: NPR (Rs.)</span>
-            <span>No Online Payments</span>
-            <Link to="/contact" className="hover:text-white transition-colors">
-              Advisory Contact
+            <Link to="/terms" className="hover:text-white transition-colors">
+              Terms & Conditions
+            </Link>
+            <Link to="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
             </Link>
           </div>
         </div>

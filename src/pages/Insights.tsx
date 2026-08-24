@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, ArrowRight, BookOpen, Search } from 'lucide-react';
-import { INSIGHTS } from '../data/insights';
+import { Clock, ArrowRight, BookOpen, Search, Loader2 } from 'lucide-react';
+import type { InsightArticle } from '../types';
+import { useSupabaseTable } from '../lib/useSupabaseTable';
 import { Container } from '../components/common/Container';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { Badge } from '../components/common/Badge';
 import { SEOHead } from '../components/common/SEOHead';
 
 export const Insights: React.FC = () => {
+  const { items: insights, isLoading } = useSupabaseTable<InsightArticle>('insights', { orderBy: 'createdAt' });
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const categories = ['All', 'Nepal IT Industry', 'Programming', 'Web Development'];
 
-  const filteredArticles = INSIGHTS.filter((article) => {
+  const filteredArticles = insights.filter((article) => {
     const matchesCategory = selectedCategory === 'All' || article.category === selectedCategory;
     const matchesSearch =
       article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -21,7 +23,7 @@ export const Insights: React.FC = () => {
     return matchesCategory && matchesSearch;
   });
 
-  const featuredArticle = INSIGHTS[0];
+  const featuredArticle = insights[0];
 
   return (
     <main className="min-h-screen py-10 sm:py-16 bg-[#FAFAF8]">
@@ -120,6 +122,11 @@ export const Insights: React.FC = () => {
         </div>
 
         {/* Articles Grid */}
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2 py-20 text-sm text-[#5F6670]">
+            <Loader2 className="w-4 h-4 animate-spin" /> Loading insights…
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredArticles.map((article) => (
             <article
@@ -172,6 +179,7 @@ export const Insights: React.FC = () => {
             </article>
           ))}
         </div>
+        )}
       </Container>
     </main>
   );
