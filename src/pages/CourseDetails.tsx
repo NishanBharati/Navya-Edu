@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import type { Course } from '../types';
+import { COURSES } from '../data/courses';
+
+// Focused, High-Impact Course Components
 import { CourseHero } from '../components/courses/CourseHero';
-import { CourseAudience } from '../components/courses/CourseAudience';
-import { CourseProjects } from '../components/courses/CourseProjects';
-import { CourseTechStack } from '../components/courses/CourseTechStack';
-import { CourseLearningJourney } from '../components/courses/CourseLearningJourney';
+import { CourseStickyNav } from '../components/courses/CourseStickyNav';
 import { CourseCurriculum } from '../components/courses/CourseCurriculum';
-import { CourseInstructor } from '../components/courses/CourseInstructor';
-import { CourseCareerPaths } from '../components/courses/CourseCareerPaths';
+import { CourseProjects } from '../components/courses/CourseProjects';
+import { CourseEligibilityMatrix } from '../components/courses/CourseEligibilityMatrix';
 import { CourseFAQ } from '../components/courses/CourseFAQ';
 import { CourseEnrollCTA } from '../components/courses/CourseEnrollCTA';
+
+// Common Components
 import { SEOHead } from '../components/common/SEOHead';
 import { AdvisorModal } from '../components/common/AdvisorModal';
 import { Container } from '../components/common/Container';
 import { Button } from '../components/common/Button';
-import { ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
+import { Loader2, CheckCircle2 } from 'lucide-react';
+import { downloadCourseSyllabus } from '../utils/pdfGenerator';
 
 export const CourseDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
   const [isAdvisorOpen, setIsAdvisorOpen] = useState(false);
-  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
-  const [downloadEmail, setDownloadEmail] = useState('');
-  const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [downloadStatus, setDownloadStatus] = useState<'idle' | 'downloading' | 'downloaded'>('idle');
 
   const [course, setCourse] = useState<Course | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,16 +32,29 @@ export const CourseDetails: React.FC = () => {
   useEffect(() => {
     let isActive = true;
     setIsLoading(true);
-    supabase
-      .from('courses')
-      .select('*')
-      .eq('slug', slug)
-      .maybeSingle()
-      .then(({ data }) => {
+
+    async function loadCourse() {
+      try {
+        const { data } = await supabase
+          .from('courses')
+          .select('*')
+          .eq('slug', slug)
+          .maybeSingle();
+
         if (!isActive) return;
-        setCourse((data as Course) ?? null);
-        setIsLoading(false);
-      });
+        const matched = (data as Course) ?? COURSES.find((c) => c.slug === slug) ?? null;
+        setCourse(matched);
+      } catch {
+        if (!isActive) return;
+        setCourse(COURSES.find((c) => c.slug === slug) ?? null);
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadCourse();
     return () => {
       isActive = false;
     };
@@ -52,27 +65,40 @@ export const CourseDetails: React.FC = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  const handleDirectDownload = () => {
+    if (!course) return;
+    setDownloadStatus('downloading');
+    setTimeout(() => {
+      downloadCourseSyllabus(course);
+      setDownloadStatus('downloaded');
+      setTimeout(() => {
+        setDownloadStatus('idle');
+      }, 4000);
+    }, 400);
+  };
+
   if (isLoading) {
     return (
-      <main className="min-h-screen py-20 bg-[#FAFAF8] flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-[#17324D] animate-spin" />
+      <main className="min-h-screen py-24 bg-paper flex flex-col items-center justify-center gap-3">
+        <Loader2 className="w-8 h-8 text-navy animate-spin" />
+        <span className="text-sm font-medium text-ink-soft">Loading course syllabus…</span>
       </main>
     );
   }
 
   if (!course) {
     return (
-      <main className="min-h-screen py-20 bg-[#FAFAF8] flex items-center justify-center">
-        <Container size="narrow" className="text-center space-y-4">
-          <h1 className="text-2xl font-bold text-[#171A1F]">
+      <main className="min-h-screen py-24 bg-paper flex items-center justify-center">
+        <Container size="narrow" className="text-center space-y-4 bg-white p-8 sm:p-12 rounded-3xl border border-border shadow-xs">
+          <h1 className="text-2xl font-bold text-ink">
             Course Not Found
           </h1>
-          <p className="text-sm text-[#5F6670]">
-            The course you are looking for does not exist or has been relocated.
+          <p className="text-sm text-ink-soft max-w-md mx-auto">
+            The course you are looking for does not exist or has been updated in our catalog.
           </p>
           <div className="pt-2">
             <Button variant="primary" href="/courses">
-              Back to All Courses
+              Browse All Courses
             </Button>
           </div>
         </Container>
@@ -80,53 +106,57 @@ export const CourseDetails: React.FC = () => {
     );
   }
 
-  const handleDownloadSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setDownloadSuccess(true);
-  };
+  const hasProjects = !!(course.projects && course.projects.length > 0);
+  const hasFaqs = !!(course.faqs && course.faqs.length > 0);
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-paper">
       <SEOHead
-        title={`${course.title} in Nepal | Navya Ed Tech`}
-        description={course.shortDescription}
+        title={`${course.title} Course in Nepal | Navya Ed Tech Kathmandu`}
+        description={course.shortDescription || course.description}
       />
 
-      {/* 1. Course Hero with Batch & Overview */}
+      {/* 1. Course Hero with Key Telemetry & Cohort Card */}
       <CourseHero
         course={course}
         onOpenAdvisor={() => setIsAdvisorOpen(true)}
-        onDownloadSyllabus={() => setIsDownloadModalOpen(true)}
+        onDownloadSyllabus={handleDirectDownload}
       />
 
-      {/* 2. "Is this course right for you?" + Prerequisites */}
-      <CourseAudience course={course} />
+      {/* 2. Sticky Sub-Navigation Bar */}
+      <CourseStickyNav
+        courseTitle={course.title}
+        hasProjects={hasProjects}
+        hasFaqs={hasFaqs}
+        onOpenAdvisor={() => setIsAdvisorOpen(true)}
+        onDownloadSyllabus={handleDirectDownload}
+      />
 
-      {/* 3. "What You'll Build" (Outcome-focused Project deliverables) */}
-      <CourseProjects course={course} />
+      {/* 3. Detailed Curriculum & Interactive Syllabus */}
+      <CourseCurriculum
+        course={course}
+        onDownloadSyllabus={handleDirectDownload}
+        onOpenAdvisor={() => setIsAdvisorOpen(true)}
+      />
 
-      {/* 4. Course Tech Stack Strip */}
-      <CourseTechStack course={course} />
+      {/* 4. Production-Grade Capstone Deliverables (if configured for this course) */}
+      {hasProjects && <CourseProjects course={course} />}
 
-      {/* 5. "How You'll Learn" (Learning Journey) */}
-      <CourseLearningJourney />
+      {/* 5. Target Learners, Prerequisites & Career Outcomes */}
+      <CourseEligibilityMatrix course={course} />
 
-      {/* 6. Curriculum Accordion */}
-      <CourseCurriculum course={course} />
+      {/* 6. Course-Specific FAQs (if available) */}
+      {hasFaqs && (
+        <div id="faqs" className="scroll-mt-24">
+          <CourseFAQ faqs={course.faqs!} />
+        </div>
+      )}
 
-      {/* 7. Instructor & Faculty Guidance */}
-      <CourseInstructor course={course} />
-
-      {/* 8. Career Application */}
-      <CourseCareerPaths course={course} />
-
-      {/* 9. FAQs */}
-      <CourseFAQ faqs={course.faqs} />
-
-      {/* 10. Final Enroll / Advisor CTA */}
+      {/* 7. Final Consultation & Advisor CTA */}
       <CourseEnrollCTA
         course={course}
         onOpenAdvisor={() => setIsAdvisorOpen(true)}
+        onDownloadSyllabus={handleDirectDownload}
       />
 
       {/* Advisor Inquiry Modal */}
@@ -136,83 +166,30 @@ export const CourseDetails: React.FC = () => {
         defaultCourseSlug={course.slug}
       />
 
-      {/* Download Syllabus Modal */}
-      {isDownloadModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-[2px]"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setIsDownloadModalOpen(false);
-              setDownloadSuccess(false);
-            }
-          }}
-        >
-          <div className="bg-white rounded-2xl border border-[#E5DFD4] p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-4">
-            {downloadSuccess ? (
-              <div className="text-center py-4 space-y-3">
-                <div className="w-12 h-12 rounded-full bg-[#718C7A]/20 text-[#3D5644] mx-auto flex items-center justify-center">
-                  <CheckCircle2 className="w-7 h-7" />
+      {/* Direct PDF Download Toast Notification */}
+      {downloadStatus !== 'idle' && (
+        <div className="fixed bottom-6 right-6 z-50 animate-slide-in">
+          <div className="flex items-center gap-3.5 px-5 py-3.5 rounded-2xl bg-navy text-white shadow-2xl border border-white/20 backdrop-blur-md max-w-sm">
+            {downloadStatus === 'downloading' ? (
+              <>
+                <Loader2 className="w-5 h-5 text-[#93C5FD] animate-spin shrink-0" />
+                <div className="space-y-0.5">
+                  <p className="text-xs font-bold text-white">Generating Official Syllabus PDF...</p>
+                  <p className="text-[11px] text-white/70">Direct download starting immediately</p>
                 </div>
-                <h3 className="text-lg font-bold text-[#171A1F]">
-                  Outline Ready
-                </h3>
-                <p className="text-xs text-[#5F6670] leading-relaxed">
-                  The complete syllabus PDF for <strong>{course.title}</strong> has been dispatched to <strong>{downloadEmail}</strong>.
-                </p>
-                <div className="pt-2">
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => {
-                      setIsDownloadModalOpen(false);
-                      setDownloadSuccess(false);
-                    }}
-                  >
-                    Done
-                  </Button>
-                </div>
-              </div>
+              </>
             ) : (
-              <form onSubmit={handleDownloadSubmit} className="space-y-4">
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#356A9A] block">
-                    Curriculum Document
-                  </span>
-                  <h3 className="text-lg font-bold text-[#171A1F] mt-1">
-                    Download {course.title} Outline
-                  </h3>
-                  <p className="text-xs text-[#5F6670] mt-1 leading-relaxed">
-                    Receive the full module-by-module breakdown, project specifications, and laboratory schedule.
+              <>
+                <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+                  <CheckCircle2 className="w-4 h-4" />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="text-xs font-bold text-white">Syllabus PDF Downloaded</p>
+                  <p className="text-[11px] text-[#A8C8E6] truncate max-w-[220px]">
+                    Navya-Edu_{course.title.replace(/[^a-zA-Z0-9_-]/g, '_')}_Syllabus.pdf
                   </p>
                 </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-[#171A1F] uppercase mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@example.com"
-                    value={downloadEmail}
-                    onChange={(e) => setDownloadEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-sm text-[#171A1F] focus:outline-none focus:ring-2 focus:ring-[#17324D]"
-                  />
-                </div>
-
-                <div className="flex items-center justify-end gap-2 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsDownloadModalOpen(false)}
-                    className="px-3.5 py-2 text-xs font-semibold text-[#5F6670] hover:text-[#171A1F]"
-                  >
-                    Cancel
-                  </button>
-                  <Button type="submit" variant="primary" size="sm">
-                    Receive Syllabus
-                  </Button>
-                </div>
-              </form>
+              </>
             )}
           </div>
         </div>

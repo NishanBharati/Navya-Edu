@@ -70,10 +70,10 @@ export const Dashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Recent inquiries */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-[#E8E4DA] shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#EFECE5]">
-            <h2 className="text-sm font-bold text-[#171A1F]">Recent Admissions Inquiries</h2>
-            <Link to="/admin/inquiries" className="text-xs font-semibold text-[#356A9A] hover:text-[#17324D] inline-flex items-center gap-1">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border-soft">
+            <h2 className="text-sm font-bold text-ink">Recent Admissions Inquiries</h2>
+            <Link to="/admin/inquiries" className="text-xs font-semibold text-blue hover:text-navy inline-flex items-center gap-1">
               View all <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -87,7 +87,7 @@ export const Dashboard: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-left text-[10px] uppercase tracking-wider text-[#8C939E] border-b border-[#EFECE5]">
+                  <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
                     <th className="px-5 py-2.5 font-semibold">Name</th>
                     <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Interested Course</th>
                     <th className="px-5 py-2.5 font-semibold">Status</th>
@@ -96,18 +96,18 @@ export const Dashboard: React.FC = () => {
                 </thead>
                 <tbody>
                   {recentInquiries.map((inquiry) => (
-                    <tr key={inquiry.id} className="border-b border-[#F4F1EA] last:border-0 hover:bg-[#FAFAF8] transition-colors">
+                    <tr key={inquiry.id} className="border-b border-paper-alt last:border-0 hover:bg-paper transition-colors">
                       <td className="px-5 py-3">
-                        <p className="font-medium text-[#171A1F] truncate max-w-[160px]">{inquiry.fullName}</p>
-                        <p className="text-xs text-[#8C939E] truncate max-w-[160px]">{inquiry.email}</p>
+                        <p className="font-medium text-ink truncate max-w-[160px]">{inquiry.fullName}</p>
+                        <p className="text-xs text-ink-faint truncate max-w-[160px]">{inquiry.email}</p>
                       </td>
-                      <td className="px-5 py-3 hidden sm:table-cell text-[#5F6670] truncate max-w-[200px]">
+                      <td className="px-5 py-3 hidden sm:table-cell text-ink-soft truncate max-w-[200px]">
                         {courses.find((c) => c.slug === inquiry.interestedCourse)?.title || inquiry.interestedCourse}
                       </td>
                       <td className="px-5 py-3">
                         <StatusBadge status={inquiry.status} size="sm" />
                       </td>
-                      <td className="px-5 py-3 hidden md:table-cell text-xs text-[#8C939E] whitespace-nowrap">
+                      <td className="px-5 py-3 hidden md:table-cell text-xs text-ink-faint whitespace-nowrap">
                         {new Date(inquiry.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </td>
                     </tr>
@@ -119,21 +119,21 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Inquiries by course */}
-        <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm p-5">
-          <h2 className="text-sm font-bold text-[#171A1F] mb-4">Inquiries by Course</h2>
+        <div className="bg-white rounded-2xl border border-border shadow-sm p-5">
+          <h2 className="text-sm font-bold text-ink mb-4">Inquiries by Course</h2>
           {inquiriesByCourse.length === 0 ? (
-            <p className="text-xs text-[#8C939E] py-6 text-center">No inquiry data yet.</p>
+            <p className="text-xs text-ink-faint py-6 text-center">No inquiry data yet.</p>
           ) : (
             <div className="space-y-3.5">
               {inquiriesByCourse.map((row) => (
                 <div key={row.label}>
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-[#171A1F] font-medium truncate pr-2">{row.label}</span>
-                    <span className="text-[#5F6670] tabular-nums shrink-0">{row.count}</span>
+                    <span className="text-ink font-medium truncate pr-2">{row.label}</span>
+                    <span className="text-ink-soft tabular-nums shrink-0">{row.count}</span>
                   </div>
-                  <div className="h-2 rounded-full bg-[#F4F1EA] overflow-hidden">
+                  <div className="h-2 rounded-full bg-paper-alt overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-[#356A9A]"
+                      className="h-full rounded-full bg-blue"
                       style={{ width: `${Math.max(row.pct, 6)}%` }}
                     />
                   </div>
@@ -145,8 +145,8 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Quick actions */}
-      <div className="mt-5 bg-white rounded-2xl border border-[#E8E4DA] shadow-sm p-5">
-        <h2 className="text-sm font-bold text-[#171A1F] mb-4">Quick Actions</h2>
+      <div className="mt-5 bg-white rounded-2xl border border-border shadow-sm p-5">
+        <h2 className="text-sm font-bold text-ink mb-4">Quick Actions</h2>
         <div className="flex flex-wrap gap-3">
           <Button variant="secondary" size="sm" href="/admin/courses" leftIcon={<Plus className="w-3.5 h-3.5" />}>
             Add Course

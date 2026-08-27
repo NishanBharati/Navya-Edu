@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Plus, Search, Pencil, Trash2, FolderKanban, Loader2 } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, FolderKanban, Loader2, Eye } from 'lucide-react';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import type { StudentProject } from '../../types';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -11,6 +11,7 @@ import { ImageUpload } from '../components/ui/ImageUpload';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
 import { ImagePlaceholder } from '../../components/common/ImagePlaceholder';
+import { Toast, useToast } from '../components/ui/Toast';
 
 const CATEGORIES: StudentProject['category'][] = ['Web', 'Mobile', 'AI', 'UI/UX', 'Data'];
 
@@ -30,9 +31,11 @@ export const StudentWorkAdmin: React.FC = () => {
   const { items: projects, isLoading, error, add, update, remove } = useSupabaseTable<StudentProject>('student_projects', { orderBy: 'title', ascending: true });
   const [search, setSearch] = useState('');
   const [drawerState, setDrawerState] = useState<{ mode: 'create' | 'edit'; draft: StudentProject } | null>(null);
+  const [viewTarget, setViewTarget] = useState<StudentProject | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<StudentProject | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const { toast, showToast, dismissToast } = useToast();
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -82,7 +85,7 @@ export const StudentWorkAdmin: React.FC = () => {
     try {
       await remove(deleteTarget.id);
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to delete project.');
+      showToast(err instanceof Error ? err.message : 'Failed to delete project.');
     } finally {
       setDeleteTarget(null);
     }
@@ -100,34 +103,34 @@ export const StudentWorkAdmin: React.FC = () => {
         }
       />
 
-      <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm p-4 mb-5">
+      <div className="bg-white rounded-2xl border border-border shadow-sm p-4 mb-5">
         <div className="relative max-w-xs">
-          <Search className="w-4 h-4 text-[#8C939E] absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search student work…"
-            className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#F4F1EA] text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-colors"
+            className="w-full pl-9 pr-3 py-2 rounded-lg bg-paper-alt text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors"
           />
         </div>
       </div>
 
       {isLoading ? (
-        <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm flex items-center justify-center gap-2 py-14 text-sm text-[#8C939E]">
+        <div className="bg-white rounded-2xl border border-border shadow-sm flex items-center justify-center gap-2 py-14 text-sm text-ink-faint">
           <Loader2 className="w-4 h-4 animate-spin" /> Loading student work…
         </div>
       ) : error ? (
-        <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm px-5 py-10 text-center text-sm text-red-600">
+        <div className="bg-white rounded-2xl border border-border shadow-sm px-5 py-10 text-center text-sm text-red-600">
           Failed to load student work: {error}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm">
+        <div className="bg-white rounded-2xl border border-border shadow-sm">
           <EmptyState icon={FolderKanban} title="No projects found" description="Try a different search term, or add a new project." />
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
           {filtered.map((project) => (
-            <div key={project.id} className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm overflow-hidden group">
+            <div key={project.id} className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden group">
               <ImagePlaceholder src={project.image} alt={project.title} aspectRatio="video" />
               <div className="p-4">
                 <div className="flex items-start justify-between gap-2">
@@ -135,9 +138,19 @@ export const StudentWorkAdmin: React.FC = () => {
                   <div className="flex items-center gap-1 shrink-0">
                     <button
                       type="button"
+                      onClick={() => setViewTarget(project)}
+                      aria-label={`View details for ${project.title}`}
+                      title="View project details"
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
                       onClick={() => openEdit(project)}
                       aria-label={`Edit ${project.title}`}
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-[#F4F1EA] hover:text-[#17324D] transition-colors"
+                      title="Edit project"
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-navy transition-colors cursor-pointer"
                     >
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
@@ -145,22 +158,23 @@ export const StudentWorkAdmin: React.FC = () => {
                       type="button"
                       onClick={() => setDeleteTarget(project)}
                       aria-label={`Delete ${project.title}`}
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-red-50 hover:text-red-600 transition-colors"
+                      title="Delete project"
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-ink-soft hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
-                <h3 className="text-sm font-bold text-[#171A1F] mt-2.5 line-clamp-2">{project.title}</h3>
-                <p className="text-xs text-[#8C939E] mt-1 line-clamp-2">{project.completionContext}</p>
+                <h3 className="text-sm font-bold text-ink mt-2.5 line-clamp-2">{project.title}</h3>
+                <p className="text-xs text-ink-faint mt-1 line-clamp-2">{project.completionContext}</p>
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   {project.technologies.slice(0, 3).map((tech) => (
-                    <span key={tech} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[#F4F1EA] text-[#5F6670]">
+                    <span key={tech} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-paper-alt text-ink-soft">
                       {tech}
                     </span>
                   ))}
                   {project.technologies.length > 3 && (
-                    <span className="text-[10px] font-medium px-2 py-0.5 text-[#8C939E]">
+                    <span className="text-[10px] font-medium px-2 py-0.5 text-ink-faint">
                       +{project.technologies.length - 3}
                     </span>
                   )}
@@ -182,7 +196,7 @@ export const StudentWorkAdmin: React.FC = () => {
             <button
               type="button"
               onClick={() => setDrawerState(null)}
-              className="px-3.5 py-2 text-sm font-semibold text-[#5F6670] hover:text-[#171A1F]"
+              className="px-3.5 py-2 text-sm font-semibold text-ink-soft hover:text-ink"
             >
               Cancel
             </button>
@@ -274,6 +288,122 @@ export const StudentWorkAdmin: React.FC = () => {
         )}
       </Drawer>
 
+      {/* In-Dashboard Read-Only Student Project Inspection Drawer */}
+      <Drawer
+        isOpen={!!viewTarget}
+        onClose={() => setViewTarget(null)}
+        title="Student Project Overview"
+        description={viewTarget?.title || ''}
+        widthClass="max-w-2xl"
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setViewTarget(null)}
+              className="px-4 py-2 text-sm font-semibold text-ink-soft hover:text-ink cursor-pointer"
+            >
+              Close
+            </button>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => {
+                if (viewTarget) {
+                  const target = viewTarget;
+                  setViewTarget(null);
+                  openEdit(target);
+                }
+              }}
+              leftIcon={<Pencil className="w-4 h-4" />}
+            >
+              Edit This Project
+            </Button>
+          </>
+        }
+      >
+        {viewTarget && (
+          <div className="space-y-6">
+            {/* Banner Preview */}
+            <div className="rounded-2xl overflow-hidden border border-border bg-white">
+              <ImagePlaceholder src={viewTarget.image} alt={viewTarget.title} aspectRatio="video" />
+            </div>
+
+            {/* Header Telemetry */}
+            <div className="p-5 rounded-2xl bg-navy text-white space-y-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge variant="sage" size="sm">{viewTarget.category}</Badge>
+                {viewTarget.isPlaceholder && (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/20 text-amber-200 border border-amber-500/30">
+                    Sample / Placeholder
+                  </span>
+                )}
+              </div>
+              <h3 className="text-xl font-bold text-white">{viewTarget.title}</h3>
+              {viewTarget.completionContext && (
+                <p className="text-xs text-navy-mist font-medium">{viewTarget.completionContext}</p>
+              )}
+              <p className="text-xs text-white/80 leading-relaxed">{viewTarget.description}</p>
+            </div>
+
+            {/* Links */}
+            {(viewTarget.liveUrl || viewTarget.githubUrl) && (
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-border">
+                {viewTarget.liveUrl && (
+                  <a
+                    href={viewTarget.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-blue hover:underline"
+                  >
+                    View Live Deployment ↗
+                  </a>
+                )}
+                {viewTarget.liveUrl && viewTarget.githubUrl && <span className="text-input-border">|</span>}
+                {viewTarget.githubUrl && (
+                  <a
+                    href={viewTarget.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-navy hover:underline"
+                  >
+                    Source Code (GitHub) ↗
+                  </a>
+                )}
+              </div>
+            )}
+
+            {/* Technologies */}
+            {viewTarget.technologies && viewTarget.technologies.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-navy">Technologies Used</h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {viewTarget.technologies.map((t, idx) => (
+                    <span key={idx} className="px-2.5 py-1 rounded-lg bg-white border border-input-border text-xs font-mono text-navy">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Highlights */}
+            {viewTarget.highlights && viewTarget.highlights.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-navy">Project Highlights & Achievements</h4>
+                <ul className="text-xs text-ink-soft space-y-1.5 pl-3">
+                  {viewTarget.highlights.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="text-blue font-bold">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </Drawer>
+
       <ConfirmDialog
         isOpen={!!deleteTarget}
         title="Delete this project?"
@@ -282,6 +412,8 @@ export const StudentWorkAdmin: React.FC = () => {
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />
+
+      <Toast toast={toast} onDismiss={dismissToast} />
     </div>
   );
 };

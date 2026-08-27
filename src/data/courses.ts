@@ -72,66 +72,382 @@ export const COURSES: Course[] = [
         type: 'Backend Service'
       }
     ],
+    upcomingClasses: [
+      { date: '26 Aug 2026', time: '05:00 PM - 06:30 PM', mode: 'Evening Batch' },
+      { date: '30 Aug 2026', time: '08:00 AM - 09:30 AM', mode: 'Morning Batch' },
+      { date: '07 Sep 2026', time: '08:00 AM - 09:30 AM', mode: 'Morning Batch' },
+      { date: '07 Sep 2026', time: '03:30 PM - 05:00 PM', mode: 'Afternoon Batch' },
+      { date: '15 Sep 2026', time: '06:00 PM - 07:30 PM', mode: 'Evening Batch' },
+      { date: '22 Sep 2026', time: '07:00 AM - 08:30 AM', mode: 'Morning Batch' },
+      { date: '01 Oct 2026', time: '05:00 PM - 06:30 PM', mode: 'Evening Batch' }
+    ],
+    whyChooseThis: {
+      title: 'Why MERN Stack?',
+      points: [
+        {
+          headline: 'Single Language, Industry Standard:',
+          detail: 'JavaScript powers both backend development with Node.js and Express and frontend development with React and Next.js, making it easier to learn and apply skills across the full stack.'
+        },
+        {
+          headline: 'High-Demand Skill:',
+          detail: 'Learn an open-source technology stack supported by a large developer community and widely used across the industry, creating opportunities for both entry-level and experienced developers.'
+        },
+        {
+          headline: 'Full-Stack Mastery:',
+          detail: 'Build strong database skills with MongoDB and PostgreSQL, backend expertise with Node.js and Express, and frontend skills with React and Next.js. Add Generative AI to become a Prompt-AI-driven Full Stack Developer.'
+        },
+        {
+          headline: 'Scalable, Real-World Projects:',
+          detail: 'Build applications ranging from e-commerce platforms to enterprise ERP systems and develop the skills needed to handle projects of different scales and complexity.'
+        },
+        {
+          headline: 'Hands-On, Project-Based Training:',
+          detail: 'Gain practical experience through real-world projects and guided training from industry-experienced instructors at Navya EdTech.'
+        }
+      ]
+    },
     curriculum: [
       {
-        moduleNumber: 'Module 01',
-        title: 'Modern JavaScript (ES6+) & TypeScript Foundations',
+        moduleNumber: 'Lesson 1',
+        title: 'JavaScript With Git',
+        duration: '2 Weeks',
         topics: [
-          'Closures, Lexical Scope, and the JavaScript Event Loop',
-          'Promises, Async/Await, and Error Handling',
-          'Modular Architecture and Array/Object Transformations',
-          'TypeScript types, interfaces, generics, and strict compiler setups'
+          'Overview of web development',
+          'Key Features and Applications',
+          'MERN Stack roadmap',
+          'Environment Setup (Node.js, MongoDB, VSCode, Git)',
+          'JavaScript Core Fundamentals & ES6+',
+          'Git Branches, Pull Requests & Version Control'
         ],
-        practicalExercise: 'Build an asynchronous CLI data processing utility and type-safe data validation system.',
-        expectedOutcome: 'Command strong modern JavaScript fundamentals without reliance on boilerplate libraries.'
+        subLessons: [
+          {
+            subNumber: '1.1',
+            title: 'Introduction to Web Development and Git Basics',
+            topics: [
+              'Overview of web development.',
+              'Key Features and Applications',
+              'MERN Stack roadmap',
+              'Environment Setup',
+              'Installing Required Tools (Node.js, MongoDB, VSCode, Git)',
+              'Setting up development tools: Node.js, npm, VS Code.'
+            ]
+          },
+          {
+            subNumber: '1.2',
+            title: 'JavaScript (JS) Basics',
+            topics: [
+              'Variables (var, let, const) and Data Types',
+              'Operators, Type Coercion and Equality',
+              'Control Flow (if/else, switch, loops)'
+            ]
+          },
+          {
+            subNumber: '1.3',
+            title: 'Function Declaration and Expression',
+            topics: [
+              'Function declarations vs expressions',
+              'Arrow functions and lexical this',
+              'Higher-order functions and Callback patterns'
+            ]
+          },
+          {
+            subNumber: '1.4',
+            title: 'DSA Overview',
+            topics: [
+              'Array transformations (map, filter, reduce, find)',
+              'Object manipulation and memory references',
+              'Time and space complexity fundamentals'
+            ]
+          },
+          {
+            subNumber: '1.5',
+            title: 'Introduction to ES6+',
+            topics: [
+              'Destructuring, Spread/Rest operators',
+              'Template Literals and Enhanced Object Literals',
+              'Promises, Async/Await and Error Handling'
+            ]
+          },
+          {
+            subNumber: '1.6',
+            title: 'Git and Versioning',
+            topics: [
+              'Git init, staging, commits and log history',
+              'Branching strategies, merging and conflict resolution',
+              'Remote GitHub repositories and SSH configuration'
+            ]
+          },
+          {
+            subNumber: '1.7',
+            title: 'TypeScript Foundations',
+            topics: [
+              'Type annotations, interfaces and type aliases',
+              'Generics and Union/Intersection types',
+              'Strict compiler configurations and TS workflows'
+            ]
+          }
+        ],
+        practicalExercise: 'Build an interactive CLI task tracker and asynchronous data validation utility in TypeScript.',
+        expectedOutcome: 'Command modern JavaScript and TypeScript without relying on boilerplate code.'
       },
       {
-        moduleNumber: 'Module 02',
-        title: 'React Architecture & Modern Frontend Engineering',
+        moduleNumber: 'Lesson 2',
+        title: 'Frontend Technology: Learning React and Next.js with AI',
+        duration: '2 Weeks',
         topics: [
-          'Component lifecycle, Virtual DOM, and reconciliation',
-          'Custom hooks, useMemo, useCallback, and Context API',
-          'Form management, React Hook Form, and Zod validation',
-          'Tailwind CSS design systems, responsive UI patterns, and routing'
+          'Modern Frontend Architecture & Tooling',
+          'Next.js App Router & Server Components',
+          'Tailwind CSS & Glassmorphic UI Systems',
+          'AI-assisted code generation & Prompt workflows'
         ],
-        practicalExercise: 'Develop an interactive analytics dashboard with client-side filters, paginated tables, and dark/light UI modes.',
-        expectedOutcome: 'Create responsive, accessible, and maintainable user interfaces with React.'
+        subLessons: [
+          {
+            subNumber: '2.1',
+            title: 'Modern Frontend Architecture & Vite Setup',
+            topics: [
+              'Client-Side Rendering (CSR) vs Server-Side Rendering (SSR)',
+              'Vite tooling and project folder scaffolding',
+              'JSX/TSX syntax and component composition'
+            ]
+          },
+          {
+            subNumber: '2.2',
+            title: 'Next.js App Router & Server Components',
+            topics: [
+              'React Server Components (RSC) vs Client Components',
+              'File-system based routing, layouts and nested routes',
+              'AI prompt engineering for rapid component prototyping'
+            ]
+          },
+          {
+            subNumber: '2.3',
+            title: 'Tailwind CSS & Responsive Layout Systems',
+            topics: [
+              'Tailwind configuration and design token system',
+              'Responsive container grids and flexbox layouts',
+              'Modern UI micro-interactions and dark mode themes'
+            ]
+          }
+        ],
+        practicalExercise: 'Develop a responsive landing page and product dashboard with Next.js and Tailwind CSS.',
+        expectedOutcome: 'Architect high-performance user interfaces with modern React and Next.js principles.'
       },
       {
-        moduleNumber: 'Module 03',
-        title: 'Node.js, Express & Server-Side API Architecture',
+        moduleNumber: 'Lesson 3',
+        title: 'React Fundamentals (using Ts)',
+        duration: '2 Weeks',
         topics: [
-          'Event-driven Node.js architecture and Streams',
-          'RESTful design principles, routing, and custom middleware',
-          'JWT authentication, bcrypt hashing, and cookie security',
-          'Error middleware, Winston logging, and request validation'
+          'Component lifecycle and Virtual DOM reconciliation',
+          'State, Props and Custom Hooks in TypeScript',
+          'Context API & Global State Management',
+          'React Hook Form with Zod Schema Validation'
         ],
-        practicalExercise: 'Build a production-grade auth and user management API with refresh token rotation.',
-        expectedOutcome: 'Construct secure, modular server-side architectures ready for production workloads.'
+        subLessons: [
+          {
+            subNumber: '3.1',
+            title: 'Component State & Prop Drilling Solutions',
+            topics: [
+              'useState, useEffect, and useRef deeply explained',
+              'State lifting and unidirectional data flow',
+              'Prop types vs TypeScript interfaces'
+            ]
+          },
+          {
+            subNumber: '3.2',
+            title: 'Advanced React Hooks',
+            topics: [
+              'useMemo and useCallback performance optimizations',
+              'useReducer for complex state transitions',
+              'Building custom reusable data-fetching hooks'
+            ]
+          },
+          {
+            subNumber: '3.3',
+            title: 'Forms and Data Validation',
+            topics: [
+              'Controlled vs Uncontrolled components',
+              'React Hook Form integration',
+              'Type-safe Zod schema validation'
+            ]
+          }
+        ],
+        practicalExercise: 'Build a multi-step user onboarding and settings dashboard with dynamic forms and live validation.',
+        expectedOutcome: 'Construct robust, type-safe React applications.'
       },
       {
-        moduleNumber: 'Module 04',
-        title: 'MongoDB Database Design & Aggregation Pipelines',
+        moduleNumber: 'Lesson 4',
+        title: 'React with Next.js',
+        duration: '2 Weeks',
         topics: [
-          'Document modeling vs relational schemas',
-          'Mongoose schema definitions, hooks, and virtuals',
-          'Complex aggregations, indexing strategies, and lookup operations',
-          'Data migration and backup procedures'
+          'Server Actions & Data Mutations',
+          'Static Site Generation (SSG) & Incremental Static Regeneration (ISR)',
+          'Route Handlers and RESTful API Endpoints in Next.js',
+          'Optimistic UI Updates and Caching Strategies'
         ],
-        practicalExercise: 'Design and benchmark a scalable database schema for an e-commerce catalog with search filters.',
-        expectedOutcome: 'Store, query, and optimize document databases effectively.'
+        subLessons: [
+          {
+            subNumber: '4.1',
+            title: 'Data Fetching & Server Actions',
+            topics: [
+              'Server Actions for database mutations',
+              'Streaming with Suspense and loading states',
+              'Revalidation tags and ISR caching'
+            ]
+          },
+          {
+            subNumber: '4.2',
+            title: 'Next.js Route Handlers',
+            topics: [
+              'Creating GET, POST, PUT, DELETE route handlers',
+              'Request validation and header manipulations',
+              'Connecting with external REST APIs'
+            ]
+          }
+        ],
+        practicalExercise: 'Build a dynamic blog and content management system with server actions and revalidation.',
+        expectedOutcome: 'Build fast full-stack applications with Next.js.'
       },
       {
-        moduleNumber: 'Module 05',
-        title: 'Capstone Project, Code Reviews & Deployment',
+        moduleNumber: 'Lesson 5',
+        title: 'Frontend Project Module',
+        duration: '2 Weeks',
         topics: [
-          'Git workflows, GitHub Actions CI/CD basics',
-          'Environment management and production security headers (Helmet, CORS)',
-          'Deploying client to Vercel and API to Render/DigitalOcean/AWS',
-          'Technical presentation and code walkthrough'
+          'Production-Ready E-Commerce Storefront',
+          'Cart Persistence & Global Checkout State',
+          'Payment Gateway Webhooks (Khalti / eSewa)',
+          'Lighthouse 95+ Performance Auditing'
         ],
-        practicalExercise: 'Deploy a complete full-stack capstone project to a live public URL with full documentation.',
-        expectedOutcome: 'A live portfolio project and practical experience in end-to-end deployment.'
+        subLessons: [
+          {
+            subNumber: '5.1',
+            title: 'Storefront Architecture & Product Catalog',
+            topics: [
+              'Product grid with multi-filter faceted search',
+              'Product detail pages with image galleries and variant selectors',
+              'Cart management with LocalStorage persistence'
+            ]
+          },
+          {
+            subNumber: '5.2',
+            title: 'Payment Integration & Webhooks',
+            topics: [
+              'Khalti and eSewa payment integration',
+              'Webhook event handling and order verification',
+              'Invoice PDF generation and order summary'
+            ]
+          }
+        ],
+        practicalExercise: 'Complete and deploy an interactive e-commerce storefront with live payment processing.',
+        expectedOutcome: 'Deliver a production-ready commercial frontend.'
+      },
+      {
+        moduleNumber: 'Lesson 6',
+        title: 'Node js With Express',
+        duration: '2 Weeks',
+        topics: [
+          'Event-driven Node.js runtime and architecture',
+          'RESTful API design with Express router',
+          'JWT Authentication, Bcrypt and Cookie Security',
+          'Error handling middleware and Winston logging'
+        ],
+        subLessons: [
+          {
+            subNumber: '6.1',
+            title: 'Node.js Core Architecture',
+            topics: [
+              'The Event Loop, Libuv and thread pool',
+              'Buffers, Streams and file system manipulation',
+              'Node.js Module system (CommonJS vs ESM)'
+            ]
+          },
+          {
+            subNumber: '6.2',
+            title: 'Express Server & Routing',
+            topics: [
+              'Custom middleware creation (auth, logger, rate-limit)',
+              'Controller and service pattern architecture',
+              'RESTful URL conventions and status code standards'
+            ]
+          },
+          {
+            subNumber: '6.3',
+            title: 'Authentication & Security',
+            topics: [
+              'JWT access & refresh token rotation strategies',
+              'Password hashing with Bcrypt and salt rounds',
+              'CORS, Helmet, Rate limiting and XSS protection'
+            ]
+          }
+        ],
+        practicalExercise: 'Build a secure, modular REST API gateway with JWT auth, role-based access control, and Swagger docs.',
+        expectedOutcome: 'Architect enterprise-grade backend APIs.'
+      },
+      {
+        moduleNumber: 'Lesson 7',
+        title: 'Database and Usages',
+        duration: '2 Weeks',
+        topics: [
+          'MongoDB Architecture & NoSQL Data Modeling',
+          'Mongoose Schema, Hooks and Virtuals',
+          'Aggregation Pipelines, Indexes & Lookup Joins',
+          'Database Transactions and Redis Caching'
+        ],
+        subLessons: [
+          {
+            subNumber: '7.1',
+            title: 'Document Data Modeling',
+            topics: [
+              'Relational vs Document database modeling tradeoffs',
+              'Embedding vs Referencing documents',
+              'Schema validation and indexing for performance'
+            ]
+          },
+          {
+            subNumber: '7.2',
+            title: 'Complex Aggregations & Query Optimization',
+            topics: [
+              '$match, $group, $lookup, $project, and $facet stages',
+              'Text search indexing and geospatial queries',
+              'MongoDB Atlas cluster setup and backup routines'
+            ]
+          }
+        ],
+        practicalExercise: 'Design and benchmark a scalable database schema for an analytics dashboard with complex aggregations.',
+        expectedOutcome: 'Store, query, and optimize high-throughput databases.'
+      },
+      {
+        moduleNumber: 'Lesson 8',
+        title: 'Project Modules',
+        duration: '2 Weeks',
+        topics: [
+          'Full-Stack Capstone Defense & Architecture Review',
+          'Docker Containerization & Multi-Stage Builds',
+          'CI/CD with GitHub Actions and Cloud Deployment',
+          'Technical Presentation and Portfolio Defense'
+        ],
+        subLessons: [
+          {
+            subNumber: '8.1',
+            title: 'Capstone System Integration',
+            topics: [
+              'Connecting Next.js/React frontend with Node/Express/Mongo backend',
+              'Real-time features using WebSockets / Socket.io',
+              'Comprehensive unit and integration testing'
+            ]
+          },
+          {
+            subNumber: '8.2',
+            title: 'Docker & Production Cloud Deployment',
+            topics: [
+              'Dockerizing Node.js and Next.js applications',
+              'Continuous integration and deployment via GitHub Actions',
+              'Deploying frontend to Vercel and API to Render/AWS with custom domains',
+              'Live Capstone Defense in front of engineering panel'
+            ]
+          }
+        ],
+        practicalExercise: 'Deploy a multi-tier collaborative enterprise web application to live production URLs with full documentation.',
+        expectedOutcome: 'Graduate with a verified, deployed full-stack portfolio.'
       }
     ],
     careerPaths: [

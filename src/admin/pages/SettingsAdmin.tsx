@@ -38,17 +38,17 @@ interface DataRowProps {
 }
 
 const DataRow: React.FC<DataRowProps> = ({ label, count, isLoading, isBusy, onExport, onReset, resetLabel = 'Reset to Defaults' }) => (
-  <div className="flex items-center justify-between gap-4 py-3.5 border-b border-[#EFECE5] last:border-0">
+  <div className="flex items-center justify-between gap-4 py-3.5 border-b border-border-soft last:border-0">
     <div>
-      <p className="text-sm font-semibold text-[#171A1F]">{label}</p>
-      <p className="text-xs text-[#8C939E]">{isLoading ? 'Loading…' : `${count} ${count === 1 ? 'record' : 'records'} in the database`}</p>
+      <p className="text-sm font-semibold text-ink">{label}</p>
+      <p className="text-xs text-ink-faint">{isLoading ? 'Loading…' : `${count} ${count === 1 ? 'record' : 'records'} in the database`}</p>
     </div>
     <div className="flex items-center gap-2 shrink-0">
       <button
         type="button"
         onClick={onExport}
         disabled={isLoading || isBusy}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#D8D2C6] text-xs font-semibold text-[#171A1F] hover:bg-[#F4F1EA] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-input-border text-xs font-semibold text-ink hover:bg-paper-alt transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <Download className="w-3.5 h-3.5" />
         Export
@@ -57,7 +57,7 @@ const DataRow: React.FC<DataRowProps> = ({ label, count, isLoading, isBusy, onEx
         type="button"
         onClick={onReset}
         disabled={isLoading || isBusy}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#D8D2C6] text-xs font-semibold text-[#5F6670] hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-input-border text-xs font-semibold text-ink-soft hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RotateCcw className="w-3.5 h-3.5" />}
         {resetLabel}
@@ -99,29 +99,29 @@ export const SettingsAdmin: React.FC = () => {
 
       <div className="space-y-5">
         {/* Account */}
-        <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm p-5 sm:p-6">
+        <div className="bg-white rounded-2xl border border-border shadow-sm p-5 sm:p-6">
           <div className="flex items-center gap-2.5 mb-4">
-            <ShieldCheck className="w-4 h-4 text-[#356A9A]" />
-            <h2 className="text-sm font-bold text-[#171A1F]">Admin Account</h2>
+            <ShieldCheck className="w-4 h-4 text-blue" />
+            <h2 className="text-sm font-bold text-ink">Admin Account</h2>
           </div>
           <div className="flex items-center gap-3.5">
-            <span className="w-11 h-11 rounded-full bg-[#17324D] text-white flex items-center justify-center text-sm font-bold shrink-0">
+            <span className="w-11 h-11 rounded-full bg-navy text-white flex items-center justify-center text-sm font-bold shrink-0">
               {(account?.name || 'Admin').slice(0, 2).toUpperCase()}
             </span>
             <div>
-              <p className="text-sm font-semibold text-[#171A1F]">{account?.name}</p>
-              <p className="text-xs text-[#8C939E]">{account?.email}</p>
+              <p className="text-sm font-semibold text-ink">{account?.name}</p>
+              <p className="text-xs text-ink-faint">{account?.email}</p>
             </div>
           </div>
-          <p className="text-xs text-[#8C939E] mt-4 leading-relaxed">
+          <p className="text-xs text-ink-faint mt-4 leading-relaxed">
             Signed in via Supabase Auth. Manage admin users from your Supabase project's Authentication dashboard.
           </p>
         </div>
 
         {/* Data management */}
-        <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm p-5 sm:p-6">
-          <h2 className="text-sm font-bold text-[#171A1F] mb-1">Data Management</h2>
-          <p className="text-xs text-[#8C939E] mb-2">Export the live database as JSON, or reset a section back to its original seed content.</p>
+        <div className="bg-white rounded-2xl border border-border shadow-sm p-5 sm:p-6">
+          <h2 className="text-sm font-bold text-ink mb-1">Data Management</h2>
+          <p className="text-xs text-ink-faint mb-2">Export the live database as JSON, or reset a section back to its original seed content.</p>
           {resetError && (
             <div className="mb-3 px-4 py-2.5 rounded-lg bg-red-50 border border-red-100 text-xs font-medium text-red-700">
               {resetError}
@@ -180,9 +180,9 @@ export const SettingsAdmin: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-start gap-3 px-4 py-3.5 rounded-xl bg-[#356A9A]/5 border border-[#356A9A]/15">
-          <Info className="w-4 h-4 text-[#356A9A] shrink-0 mt-0.5" />
-          <p className="text-xs text-[#5F6670] leading-relaxed">
+        <div className="flex items-start gap-3 px-4 py-3.5 rounded-xl bg-blue/5 border border-blue/15">
+          <Info className="w-4 h-4 text-blue shrink-0 mt-0.5" />
+          <p className="text-xs text-ink-soft leading-relaxed">
             This console reads and writes directly to your Supabase database &mdash; changes made here (or through
             the live site's Contact form) take effect immediately for every visitor.
           </p>

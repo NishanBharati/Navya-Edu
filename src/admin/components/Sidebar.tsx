@@ -63,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#17324D] text-white">
+    <div className="flex flex-col h-full bg-navy text-white">
       <div className="flex items-center justify-between px-5 h-20 shrink-0 border-b border-white/10">
         <NavLink to="/admin" className="group focus:outline-none" onClick={onCloseMobile}>
           <Logo
@@ -76,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
           type="button"
           onClick={onCloseMobile}
           aria-label="Close menu"
-          className="lg:hidden w-8 h-8 rounded-lg flex items-center justify-center text-[#C4CDD5] hover:bg-white/10"
+          className="lg:hidden w-8 h-8 rounded-lg flex items-center justify-center text-mist hover:bg-white/10"
         >
           <X className="w-5 h-5" />
         </button>
@@ -97,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
                   onClick={onCloseMobile}
                   className={({ isActive }) =>
                     `flex items-center justify-between gap-2 px-2.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                      isActive ? 'bg-white/10 text-white' : 'text-[#C4CDD5] hover:bg-white/5 hover:text-white'
+                      isActive ? 'bg-white/10 text-white' : 'text-mist hover:bg-white/5 hover:text-white'
                     }`
                   }
                 >
@@ -106,7 +106,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
                     {item.label}
                   </span>
                   {!!item.badge && (
-                    <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-[#C88A3D] text-white text-[10px] font-bold flex items-center justify-center">
+                    <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-amber text-white text-[10px] font-bold flex items-center justify-center">
                       {item.badge}
                     </span>
                   )}
@@ -122,7 +122,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
           href="/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-between gap-2 px-2.5 py-2.5 rounded-lg text-xs font-medium text-[#C4CDD5] hover:bg-white/5 hover:text-white transition-colors"
+          className="flex items-center justify-between gap-2 px-2.5 py-2.5 rounded-lg text-xs font-medium text-mist hover:bg-white/5 hover:text-white transition-colors"
         >
           <span>View Live Site</span>
           <ArrowUpRight className="w-3.5 h-3.5" />

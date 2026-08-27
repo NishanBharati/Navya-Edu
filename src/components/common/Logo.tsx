@@ -64,7 +64,7 @@ export const Logo: React.FC<LogoProps> = ({
         } ${
           isDark
             ? 'bg-white/10 border border-white/15 shadow-inner backdrop-blur-sm'
-            : 'bg-[#17324D] shadow-sm'
+            : 'bg-navy shadow-sm'
         }`}
       >
         <img
@@ -84,7 +84,7 @@ export const Logo: React.FC<LogoProps> = ({
           <div className="flex items-center gap-1.5">
             <span
               className={`font-heading tracking-tight ${sizeClasses.title} ${
-                isDark ? 'text-white' : 'text-[#171A1F]'
+                isDark ? 'text-white' : 'text-ink'
               }`}
             >
               NAVYA
@@ -95,8 +95,8 @@ export const Logo: React.FC<LogoProps> = ({
                   sizeClasses.badge
                 } ${
                   isDark
-                    ? 'text-[#9BBAD4] bg-white/10'
-                    : 'text-[#356A9A] bg-[#356A9A]/10'
+                    ? 'text-navy-mist bg-white/10'
+                    : 'text-blue bg-blue/10'
                 }`}
               >
                 ED TECH
@@ -106,7 +106,7 @@ export const Logo: React.FC<LogoProps> = ({
           {subtitle && (
             <span
               className={`tracking-wide font-normal -mt-0.5 ${sizeClasses.subtitle} ${
-                isDark ? 'text-[#9BBAD4]' : 'text-[#5F6670]'
+                isDark ? 'text-navy-mist' : 'text-ink-soft'
               }`}
             >
               {subtitle}

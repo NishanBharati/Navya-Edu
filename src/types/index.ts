@@ -14,13 +14,20 @@ export interface ProjectExample {
   type?: string;
 }
 
+export interface SubLesson {
+  subNumber?: string;
+  title: string;
+  topics?: string[];
+}
+
 export interface CurriculumModule {
   moduleNumber: string;
   title: string;
   duration?: string;
   topics: string[];
-  practicalExercise: string;
-  expectedOutcome: string;
+  subLessons?: SubLesson[];
+  practicalExercise?: string;
+  expectedOutcome?: string;
 }
 
 export interface InstructorProfile {
@@ -36,6 +43,17 @@ export interface InstructorProfile {
 export interface FAQItem {
   question: string;
   answer: string;
+}
+
+export interface UpcomingClassItem {
+  date: string;
+  time: string;
+  mode?: string;
+}
+
+export interface ValuePropositionPoint {
+  headline: string;
+  detail: string;
 }
 
 export interface Course {
@@ -56,6 +74,11 @@ export interface Course {
     seatsStatus: string;
     location: string;
   };
+  upcomingClasses?: UpcomingClassItem[];
+  whyChooseThis?: {
+    title: string;
+    points: ValuePropositionPoint[];
+  };
   fee: string; // e.g., "Contact for current fee" or specific NPR value
   technologies: string[];
   targetAudience: string[];
@@ -67,6 +90,7 @@ export interface Course {
   instructor: InstructorProfile;
   faqs: FAQItem[];
   featured?: boolean;
+  syllabusPdfUrl?: string;
   seoTitle: string;
   seoDescription: string;
 }
@@ -85,6 +109,7 @@ export interface Program {
   expectedOutcome: string[];
   coursesIncluded?: string[];
   eligibility: string;
+  syllabusPdfUrl?: string;
 }
 
 export interface StudentProject {
@@ -103,6 +128,7 @@ export interface InsightArticle {
   id: string;
   slug: string;
   title: string;
+  subtitle?: string;
   excerpt: string;
   category: 'Technology' | 'Career' | 'Web Development' | 'AI' | 'Programming' | 'Digital Skills' | 'Nepal IT Industry';
   date: string;
@@ -110,20 +136,15 @@ export interface InsightArticle {
   author: {
     name: string;
     role: string;
+    avatarUrl?: string;
+    bio?: string;
   };
   coverImage: string;
   content: string[];
   tags: string[];
-}
-
-export interface CourseInquiryForm {
-  fullName: string;
-  email: string;
-  phone: string;
-  interestedCourse: string;
-  preferredMode: string;
-  experienceLevel: string;
-  message: string;
+  keyTakeaways?: string[];
+  relatedCourseSlug?: string;
+  featured?: boolean;
 }
 
 export type InquiryStatus = 'New' | 'Contacted' | 'Enrolled' | 'Closed';

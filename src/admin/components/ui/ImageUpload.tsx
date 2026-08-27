@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Upload, X, Image as ImageIcon, Loader2, Link2, ExternalLink, RefreshCw } from 'lucide-react';
+import { Upload, X, Loader2, Link2, ExternalLink, RefreshCw } from 'lucide-react';
 import { supabase } from '../../../lib/supabaseClient';
 
 interface ImageUploadProps {
@@ -104,15 +104,15 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     <div className="space-y-2">
       {/* Mode Switcher */}
       <div className="flex items-center justify-between">
-        <span className="text-[11px] text-[#8C939E]">{hint}</span>
-        <div className="flex items-center gap-1 bg-[#F4F1EA] p-0.5 rounded-lg text-xs">
+        <span className="text-[11px] text-ink-faint">{hint}</span>
+        <div className="flex items-center gap-1 bg-paper-alt p-0.5 rounded-lg text-xs">
           <button
             type="button"
             onClick={() => setMode('upload')}
             className={`px-2 py-1 rounded-md font-medium transition-colors ${
               mode === 'upload'
-                ? 'bg-white text-[#17324D] shadow-sm font-semibold'
-                : 'text-[#5F6670] hover:text-[#171A1F]'
+                ? 'bg-white text-navy shadow-sm font-semibold'
+                : 'text-ink-soft hover:text-ink'
             }`}
           >
             Upload File
@@ -122,8 +122,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             onClick={() => setMode('url')}
             className={`px-2 py-1 rounded-md font-medium transition-colors ${
               mode === 'url'
-                ? 'bg-white text-[#17324D] shadow-sm font-semibold'
-                : 'text-[#5F6670] hover:text-[#171A1F]'
+                ? 'bg-white text-navy shadow-sm font-semibold'
+                : 'text-ink-soft hover:text-ink'
             }`}
           >
             Direct URL
@@ -133,8 +133,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       {/* Existing Image Preview Card */}
       {value ? (
-        <div className="relative rounded-xl border border-[#D8D2C6] bg-[#FAFAF8] p-3 flex flex-col sm:flex-row items-start sm:items-center gap-3.5 group">
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg bg-white border border-[#E8E4DA] overflow-hidden shrink-0 flex items-center justify-center">
+        <div className="relative rounded-xl border border-input-border bg-paper p-3 flex flex-col sm:flex-row items-start sm:items-center gap-3.5 group">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg bg-white border border-border overflow-hidden shrink-0 flex items-center justify-center">
             <img
               src={value}
               alt="Preview"
@@ -148,10 +148,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
 
           <div className="flex-1 min-w-0 space-y-1">
-            <p className="text-xs font-semibold text-[#171A1F] truncate" title={value}>
+            <p className="text-xs font-semibold text-ink truncate" title={value}>
               {value.split('/').pop() || 'Image Asset'}
             </p>
-            <p className="text-[11px] text-[#8C939E] truncate max-w-sm" title={value}>
+            <p className="text-[11px] text-ink-faint truncate max-w-sm" title={value}>
               {value}
             </p>
 
@@ -160,22 +160,22 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading || disabled}
-                className="inline-flex items-center gap-1 text-xs font-medium text-[#356A9A] hover:text-[#17324D] transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-medium text-blue hover:text-navy transition-colors"
               >
                 <RefreshCw className="w-3 h-3" />
                 Replace
               </button>
-              <span className="text-[#D8D2C6]">|</span>
+              <span className="text-input-border">|</span>
               <a
                 href={value}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-medium text-[#5F6670] hover:text-[#171A1F] transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-medium text-ink-soft hover:text-ink transition-colors"
               >
                 <ExternalLink className="w-3 h-3" />
                 View Full
               </a>
-              <span className="text-[#D8D2C6]">|</span>
+              <span className="text-input-border">|</span>
               <button
                 type="button"
                 onClick={() => onChange('')}
@@ -199,30 +199,30 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           onClick={() => !isUploading && !disabled && fileInputRef.current?.click()}
           className={`relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer ${
             isDragging
-              ? 'border-[#17324D] bg-[#17324D]/5'
-              : 'border-[#D8D2C6] bg-[#FAFAF8] hover:bg-[#F4F1EA] hover:border-[#8C939E]'
+              ? 'border-navy bg-navy/5'
+              : 'border-input-border bg-paper hover:bg-paper-alt hover:border-ink-faint'
           } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`}
         >
           <div className="flex flex-col items-center justify-center space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E4DA] shadow-sm flex items-center justify-center text-[#17324D]">
+            <div className="w-10 h-10 rounded-xl bg-white border border-border shadow-sm flex items-center justify-center text-navy">
               {isUploading ? (
-                <Loader2 className="w-5 h-5 animate-spin text-[#356A9A]" />
+                <Loader2 className="w-5 h-5 animate-spin text-blue" />
               ) : (
-                <Upload className="w-5 h-5 text-[#356A9A]" />
+                <Upload className="w-5 h-5 text-blue" />
               )}
             </div>
 
             <div>
-              <p className="text-xs font-semibold text-[#171A1F]">
+              <p className="text-xs font-semibold text-ink">
                 {isUploading ? (
                   'Uploading image to Supabase Storage…'
                 ) : (
                   <>
-                    <span className="text-[#356A9A] underline">Click to upload</span> or drag and drop
+                    <span className="text-blue underline">Click to upload</span> or drag and drop
                   </>
                 )}
               </p>
-              <p className="text-[11px] text-[#8C939E] mt-0.5">
+              <p className="text-[11px] text-ink-faint mt-0.5">
                 PNG, JPG, WebP, GIF, or SVG (max. 5MB)
               </p>
             </div>
@@ -233,14 +233,14 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       {/* Direct URL Input Mode */}
       {(!value || mode === 'url') && mode === 'url' && (
         <div className="relative">
-          <Link2 className="w-4 h-4 text-[#8C939E] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Link2 className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="url"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             disabled={disabled}
-            className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-colors"
+            className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-input-border bg-paper text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors"
           />
         </div>
       )}

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Plus, Search, Pencil, Trash2, GraduationCap, Star, Loader2 } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, GraduationCap, Star, Loader2, FileText, Eye } from 'lucide-react';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import { slugify } from '../../lib/storage';
 import type { Course, CurriculumModule, ProjectExample, FAQItem } from '../../types';
@@ -9,6 +9,8 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { Drawer } from '../components/ui/Drawer';
 import { Field, TextInput, TextArea, Select, ListField, TagsField, Toggle } from '../components/ui/Field';
 import { ImageUpload } from '../components/ui/ImageUpload';
+import { PdfUpload } from '../components/ui/PdfUpload';
+import { Toast, useToast } from '../components/ui/Toast';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
 
@@ -21,7 +23,7 @@ type TabId = 'overview' | 'batch' | 'curriculum' | 'content' | 'instructor' | 's
 const TABS: { id: TabId; label: string }[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'batch', label: 'Batch & Fee' },
-  { id: 'curriculum', label: 'Curriculum' },
+  { id: 'curriculum', label: 'Curriculum & PDF' },
   { id: 'content', label: 'Audience & Outcomes' },
   { id: 'instructor', label: 'Instructor' },
   { id: 'seo', label: 'SEO' },
@@ -39,6 +41,7 @@ const emptyCourse = (): Course => ({
   level: 'Beginner to Intermediate',
   mode: 'Classroom / In-Person',
   featured: false,
+  syllabusPdfUrl: '',
   upcomingBatch: {
     startDate: 'Next batch starting soon [Inquire for exact schedule]',
     classDays: 'Sunday – Friday',
@@ -65,9 +68,11 @@ export const CoursesAdmin: React.FC = () => {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [drawerState, setDrawerState] = useState<{ mode: 'create' | 'edit'; draft: Course; tab: TabId } | null>(null);
+  const [viewTarget, setViewTarget] = useState<Course | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Course | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const { toast, showToast, dismissToast } = useToast();
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -132,7 +137,7 @@ export const CoursesAdmin: React.FC = () => {
     try {
       await remove(deleteTarget.id);
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to delete course.');
+      showToast(err instanceof Error ? err.message : 'Failed to delete course.');
     } finally {
       setDeleteTarget(null);
     }
@@ -150,21 +155,21 @@ export const CoursesAdmin: React.FC = () => {
         }
       />
 
-      <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-[#EFECE5] flex flex-col sm:flex-row gap-3">
+      <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-border-soft flex flex-col sm:flex-row gap-3">
           <div className="relative max-w-xs flex-1">
-            <Search className="w-4 h-4 text-[#8C939E] absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search courses…"
-              className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#F4F1EA] text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-colors"
+              className="w-full pl-9 pr-3 py-2 rounded-lg bg-paper-alt text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors"
             />
           </div>
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2 rounded-lg bg-[#F4F1EA] text-sm text-[#171A1F] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-colors sm:max-w-[180px]"
+            className="px-3 py-2 rounded-lg bg-paper-alt text-sm text-ink focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors sm:max-w-[180px]"
           >
             <option value="All">All Categories</option>
             {CATEGORIES.map((c) => (
@@ -174,7 +179,7 @@ export const CoursesAdmin: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center gap-2 py-14 text-sm text-[#8C939E]">
+          <div className="flex items-center justify-center gap-2 py-14 text-sm text-ink-faint">
             <Loader2 className="w-4 h-4 animate-spin" /> Loading courses…
           </div>
         ) : error ? (
@@ -185,7 +190,7 @@ export const CoursesAdmin: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[10px] uppercase tracking-wider text-[#8C939E] border-b border-[#EFECE5]">
+                <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
                   <th className="px-5 py-2.5 font-semibold">Course</th>
                   <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Category</th>
                   <th className="px-5 py-2.5 font-semibold hidden md:table-cell">Duration</th>
@@ -195,28 +200,45 @@ export const CoursesAdmin: React.FC = () => {
               </thead>
               <tbody>
                 {filtered.map((course) => (
-                  <tr key={course.id} className="border-b border-[#F4F1EA] last:border-0 hover:bg-[#FAFAF8] transition-colors">
+                  <tr key={course.id} className="border-b border-paper-alt last:border-0 hover:bg-paper transition-colors">
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
-                        {course.featured && <Star className="w-3.5 h-3.5 text-[#C88A3D] fill-[#C88A3D] shrink-0" />}
+                        {course.featured && <Star className="w-3.5 h-3.5 text-amber fill-amber shrink-0" />}
                         <div className="min-w-0">
-                          <p className="font-medium text-[#171A1F] truncate max-w-[260px]">{course.title}</p>
-                          <p className="text-xs text-[#8C939E] truncate max-w-[260px]">{course.shortDescription}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-ink truncate max-w-[260px]">{course.title}</p>
+                            {course.syllabusPdfUrl && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-50 text-navy border border-blue-200 shrink-0" title="Custom syllabus PDF attached">
+                                <FileText className="w-3 h-3 text-blue" /> PDF
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-ink-faint truncate max-w-[260px]">{course.shortDescription}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-5 py-3.5 hidden sm:table-cell">
                       <Badge variant="navy" size="sm">{course.category}</Badge>
                     </td>
-                    <td className="px-5 py-3.5 hidden md:table-cell text-[#5F6670]">{course.duration}</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell text-[#5F6670]">{course.level}</td>
+                    <td className="px-5 py-3.5 hidden md:table-cell text-ink-soft">{course.duration}</td>
+                    <td className="px-5 py-3.5 hidden lg:table-cell text-ink-soft">{course.level}</td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           type="button"
+                          onClick={() => setViewTarget(course)}
+                          aria-label={`View details for ${course.title}`}
+                          title="View course details"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => openEdit(course)}
                           aria-label={`Edit ${course.title}`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-[#F4F1EA] hover:text-[#17324D] transition-colors"
+                          title="Edit course"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-navy transition-colors cursor-pointer"
                         >
                           <Pencil className="w-4 h-4" />
                         </button>
@@ -224,7 +246,8 @@ export const CoursesAdmin: React.FC = () => {
                           type="button"
                           onClick={() => setDeleteTarget(course)}
                           aria-label={`Delete ${course.title}`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-red-50 hover:text-red-600 transition-colors"
+                          title="Delete course"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -249,7 +272,7 @@ export const CoursesAdmin: React.FC = () => {
             <button
               type="button"
               onClick={() => setDrawerState(null)}
-              className="mr-auto px-3.5 py-2 text-sm font-semibold text-[#5F6670] hover:text-[#171A1F]"
+              className="mr-auto px-3.5 py-2 text-sm font-semibold text-ink-soft hover:text-ink"
             >
               Cancel
             </button>
@@ -267,7 +290,7 @@ export const CoursesAdmin: React.FC = () => {
               </div>
             )}
             {/* Tabs */}
-            <div className="flex flex-wrap gap-1.5 mb-6 border-b border-[#E8E4DA] -mt-1">
+            <div className="flex flex-wrap gap-1.5 mb-6 border-b border-border -mt-1">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
@@ -275,8 +298,8 @@ export const CoursesAdmin: React.FC = () => {
                   onClick={() => setDrawerState({ ...drawerState, tab: tab.id })}
                   className={`px-3 py-2.5 text-xs font-semibold border-b-2 -mb-px transition-colors ${
                     drawerState.tab === tab.id
-                      ? 'border-[#17324D] text-[#17324D]'
-                      : 'border-transparent text-[#8C939E] hover:text-[#171A1F]'
+                      ? 'border-navy text-navy'
+                      : 'border-transparent text-ink-faint hover:text-ink'
                   }`}
                 >
                   {tab.label}
@@ -418,8 +441,10 @@ export const CoursesAdmin: React.FC = () => {
               <CurriculumTab
                 modules={drawerState.draft.curriculum}
                 projects={drawerState.draft.projects}
+                syllabusPdfUrl={drawerState.draft.syllabusPdfUrl}
                 onModulesChange={(curriculum) => setDraft((d) => ({ ...d, curriculum }))}
                 onProjectsChange={(projects) => setDraft((d) => ({ ...d, projects }))}
+                onSyllabusPdfChange={(syllabusPdfUrl) => setDraft((d) => ({ ...d, syllabusPdfUrl }))}
               />
             )}
 
@@ -517,6 +542,149 @@ export const CoursesAdmin: React.FC = () => {
         )}
       </Drawer>
 
+      {/* In-Dashboard Read-Only Course Inspection Drawer */}
+      <Drawer
+        isOpen={!!viewTarget}
+        onClose={() => setViewTarget(null)}
+        title="Course Overview & Syllabus"
+        description={viewTarget?.title || ''}
+        widthClass="max-w-3xl"
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setViewTarget(null)}
+              className="px-4 py-2 text-sm font-semibold text-ink-soft hover:text-ink cursor-pointer"
+            >
+              Close
+            </button>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => {
+                if (viewTarget) {
+                  const target = viewTarget;
+                  setViewTarget(null);
+                  openEdit(target);
+                }
+              }}
+              leftIcon={<Pencil className="w-4 h-4" />}
+            >
+              Edit This Course
+            </Button>
+          </>
+        }
+      >
+        {viewTarget && (
+          <div className="space-y-6">
+            {/* Header Telemetry */}
+            <div className="p-5 rounded-2xl bg-navy text-white space-y-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white">
+                  {viewTarget.category}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-white/90">
+                  {viewTarget.level}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-white/90">
+                  {viewTarget.mode}
+                </span>
+                {viewTarget.featured && (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber text-white flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-current" /> Featured
+                  </span>
+                )}
+              </div>
+
+              <h3 className="text-xl font-bold text-white">{viewTarget.title}</h3>
+              <p className="text-xs text-white/80 leading-relaxed">{viewTarget.description || viewTarget.shortDescription}</p>
+
+              <div className="pt-2 border-t border-white/15 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <span className="text-[10px] uppercase text-navy-mist block">Duration</span>
+                  <span className="font-semibold text-white">{viewTarget.duration || 'N/A'}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase text-navy-mist block">Fee Structure</span>
+                  <span className="font-semibold text-white">{viewTarget.fee || 'Contact Admissions'}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase text-navy-mist block">Cohort Status</span>
+                  <span className="font-semibold text-white">{viewTarget.upcomingBatch?.seatsStatus || 'Open'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Attached Syllabus PDF Section */}
+            <div className="p-4 rounded-2xl border border-blue-mist bg-white space-y-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-navy flex items-center gap-1.5">
+                <FileText className="w-4 h-4 text-blue" /> Syllabus PDF Status
+              </span>
+              {viewTarget.syllabusPdfUrl ? (
+                <div className="flex items-center justify-between p-3 rounded-xl bg-blue-50/60 border border-blue-200">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-navy" />
+                    <span className="text-xs font-semibold text-navy">Custom Official PDF Attached</span>
+                  </div>
+                  <a
+                    href={viewTarget.syllabusPdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-bold text-blue hover:underline"
+                  >
+                    Open Document
+                  </a>
+                </div>
+              ) : (
+                <p className="text-xs text-ink-soft">
+                  Automated Verified Vector PDF is active for direct student downloads.
+                </p>
+              )}
+            </div>
+
+            {/* Curriculum Breakdown */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-navy">
+                Curriculum Modules ({viewTarget.curriculum.length})
+              </h4>
+              <div className="space-y-2.5">
+                {viewTarget.curriculum.map((mod, idx) => (
+                  <div key={idx} className="p-3.5 rounded-xl border border-border bg-paper space-y-2">
+                    <div className="flex items-center justify-between">
+                      <strong className="text-xs font-bold text-ink">
+                        {mod.moduleNumber || `Module ${idx + 1}`}: {mod.title}
+                      </strong>
+                      {mod.duration && <span className="text-[10px] text-ink-faint font-mono">{mod.duration}</span>}
+                    </div>
+                    {mod.topics && mod.topics.length > 0 && (
+                      <ul className="text-xs text-ink-soft space-y-1 pl-3">
+                        {mod.topics.map((t, tIdx) => (
+                          <li key={tIdx}>• {t}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Technologies */}
+            {viewTarget.technologies && viewTarget.technologies.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-navy">Technologies & Toolchain</h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {viewTarget.technologies.map((t, idx) => (
+                    <span key={idx} className="px-2.5 py-1 rounded-lg bg-white border border-input-border text-xs font-mono text-navy">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </Drawer>
+
       <ConfirmDialog
         isOpen={!!deleteTarget}
         title="Delete this course?"
@@ -525,6 +693,8 @@ export const CoursesAdmin: React.FC = () => {
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />
+
+      <Toast toast={toast} onDismiss={dismissToast} />
     </div>
   );
 };
@@ -532,11 +702,20 @@ export const CoursesAdmin: React.FC = () => {
 interface CurriculumTabProps {
   modules: CurriculumModule[];
   projects: ProjectExample[];
+  syllabusPdfUrl?: string;
   onModulesChange: (modules: CurriculumModule[]) => void;
   onProjectsChange: (projects: ProjectExample[]) => void;
+  onSyllabusPdfChange: (url: string) => void;
 }
 
-const CurriculumTab: React.FC<CurriculumTabProps> = ({ modules, projects, onModulesChange, onProjectsChange }) => {
+const CurriculumTab: React.FC<CurriculumTabProps> = ({
+  modules,
+  projects,
+  syllabusPdfUrl,
+  onModulesChange,
+  onProjectsChange,
+  onSyllabusPdfChange,
+}) => {
   const updateModule = (index: number, patch: Partial<CurriculumModule>) => {
     onModulesChange(modules.map((m, i) => (i === index ? { ...m, ...patch } : m)));
   };
@@ -555,19 +734,40 @@ const CurriculumTab: React.FC<CurriculumTabProps> = ({ modules, projects, onModu
 
   return (
     <div className="space-y-8">
+      {/* 1. Official Syllabus PDF Upload Section */}
+      <div className="rounded-2xl border border-blue-mist p-5 bg-[#F8FAFC] space-y-3">
+        <div className="space-y-1">
+          <p className="text-xs font-bold uppercase tracking-wider text-navy flex items-center gap-1.5">
+            <FileText className="w-4 h-4 text-blue" />
+            <span>Official Syllabus PDF Attachment</span>
+          </p>
+          <p className="text-xs text-ink-soft leading-relaxed">
+            Upload a custom PDF syllabus brochure. When attached, students clicking &quot;Download Syllabus (PDF)&quot; on the course page will directly download this official file. If left blank, our automated verified PDF generator will be used.
+          </p>
+        </div>
+
+        <PdfUpload
+          value={syllabusPdfUrl || ''}
+          onChange={onSyllabusPdfChange}
+          folder="syllabi"
+          hint="Supports PDF documents up to 25MB or direct document URLs."
+        />
+      </div>
+
+      {/* 2. Structured Curriculum Modules */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#8C939E]">Curriculum Modules</p>
-          <button type="button" onClick={addModule} className="text-xs font-semibold text-[#356A9A] hover:text-[#17324D]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint">Curriculum Modules</p>
+          <button type="button" onClick={addModule} className="text-xs font-semibold text-blue hover:text-navy cursor-pointer">
             + Add Module
           </button>
         </div>
         {modules.length === 0 ? (
-          <p className="text-xs text-[#8C939E] py-6 text-center border border-dashed border-[#D8D2C6] rounded-xl">No modules yet.</p>
+          <p className="text-xs text-ink-faint py-6 text-center border border-dashed border-input-border rounded-xl">No modules yet.</p>
         ) : (
           <div className="space-y-3">
             {modules.map((module, index) => (
-              <div key={index} className="rounded-xl border border-[#E8E4DA] p-4 space-y-3 bg-[#FAFAF8]">
+              <div key={index} className="rounded-xl border border-border p-4 space-y-3 bg-paper">
                 <div className="flex items-start justify-between gap-3">
                   <div className="grid grid-cols-2 gap-3 flex-1">
                     <TextInput
@@ -585,7 +785,7 @@ const CurriculumTab: React.FC<CurriculumTabProps> = ({ modules, projects, onModu
                     type="button"
                     onClick={() => removeModule(index)}
                     aria-label="Remove module"
-                    className="shrink-0 w-9 h-9 rounded-lg border border-[#D8D2C6] text-[#8C939E] hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
+                    className="shrink-0 w-9 h-9 rounded-lg border border-input-border text-ink-faint hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
                   >
                     &times;
                   </button>
@@ -616,17 +816,17 @@ const CurriculumTab: React.FC<CurriculumTabProps> = ({ modules, projects, onModu
 
       <div>
         <div className="flex items-center justify-between mb-3">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#8C939E]">Project Examples</p>
-          <button type="button" onClick={addProject} className="text-xs font-semibold text-[#356A9A] hover:text-[#17324D]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint">Project Examples</p>
+          <button type="button" onClick={addProject} className="text-xs font-semibold text-blue hover:text-navy">
             + Add Project
           </button>
         </div>
         {projects.length === 0 ? (
-          <p className="text-xs text-[#8C939E] py-6 text-center border border-dashed border-[#D8D2C6] rounded-xl">No project examples yet.</p>
+          <p className="text-xs text-ink-faint py-6 text-center border border-dashed border-input-border rounded-xl">No project examples yet.</p>
         ) : (
           <div className="space-y-3">
             {projects.map((project, index) => (
-              <div key={index} className="rounded-xl border border-[#E8E4DA] p-4 space-y-3 bg-[#FAFAF8]">
+              <div key={index} className="rounded-xl border border-border p-4 space-y-3 bg-paper">
                 <div className="flex items-start justify-between gap-3">
                   <div className="grid grid-cols-2 gap-3 flex-1">
                     <TextInput value={project.title} onChange={(e) => updateProject(index, { title: e.target.value })} placeholder="Project title" />
@@ -636,7 +836,7 @@ const CurriculumTab: React.FC<CurriculumTabProps> = ({ modules, projects, onModu
                     type="button"
                     onClick={() => removeProject(index)}
                     aria-label="Remove project"
-                    className="shrink-0 w-9 h-9 rounded-lg border border-[#D8D2C6] text-[#8C939E] hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
+                    className="shrink-0 w-9 h-9 rounded-lg border border-input-border text-ink-faint hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
                   >
                     &times;
                   </button>
@@ -669,17 +869,17 @@ const FaqTab: React.FC<{ faqs: FAQItem[]; onChange: (faqs: FAQItem[]) => void }>
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#8C939E]">Frequently Asked Questions</p>
-        <button type="button" onClick={addFaq} className="text-xs font-semibold text-[#356A9A] hover:text-[#17324D]">
+        <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint">Frequently Asked Questions</p>
+        <button type="button" onClick={addFaq} className="text-xs font-semibold text-blue hover:text-navy">
           + Add FAQ
         </button>
       </div>
       {faqs.length === 0 ? (
-        <p className="text-xs text-[#8C939E] py-6 text-center border border-dashed border-[#D8D2C6] rounded-xl">No FAQs yet.</p>
+        <p className="text-xs text-ink-faint py-6 text-center border border-dashed border-input-border rounded-xl">No FAQs yet.</p>
       ) : (
         <div className="space-y-3">
           {faqs.map((faq, index) => (
-            <div key={index} className="rounded-xl border border-[#E8E4DA] p-4 space-y-2.5 bg-[#FAFAF8]">
+            <div key={index} className="rounded-xl border border-border p-4 space-y-2.5 bg-paper">
               <div className="flex items-start gap-2">
                 <TextInput
                   value={faq.question}
@@ -691,7 +891,7 @@ const FaqTab: React.FC<{ faqs: FAQItem[]; onChange: (faqs: FAQItem[]) => void }>
                   type="button"
                   onClick={() => removeFaq(index)}
                   aria-label="Remove FAQ"
-                  className="shrink-0 w-9 h-9 rounded-lg border border-[#D8D2C6] text-[#8C939E] hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
+                  className="shrink-0 w-9 h-9 rounded-lg border border-input-border text-ink-faint hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
                 >
                   &times;
                 </button>

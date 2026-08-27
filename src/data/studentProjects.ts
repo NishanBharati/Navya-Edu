@@ -37,7 +37,7 @@ export const STUDENT_PROJECTS: StudentProject[] = [
     category: 'Data',
     technologies: ['Python', 'Pandas', 'Scikit-Learn', 'FastAPI', 'Matplotlib'],
     description: 'A machine learning system trained on historical daily price datasets from the Kalimati vegetable market. Predicts price fluctuations for 30+ staples based on seasonal indices and rainfall patterns.',
-    image: 'https://images.unsplash.com/photo-1595053826286-2e59ef795186?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
     completionContext: 'Python & Data Science Capstone Project',
     highlights: [
       'Rigorous time-series cleaning and outlier normalization',

@@ -46,18 +46,18 @@ export const Drawer: React.FC<DrawerProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className={`relative w-full ${widthClass} bg-[#FAFAF8] h-full shadow-2xl flex flex-col animate-slide-in`}
+        className={`relative w-full ${widthClass} bg-paper h-full shadow-2xl flex flex-col animate-slide-in`}
       >
-        <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-[#E8E4DA] bg-white shrink-0">
+        <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-border bg-white shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-[#171A1F]">{title}</h2>
-            {description && <p className="text-xs text-[#5F6670] mt-0.5">{description}</p>}
+            <h2 className="text-lg font-bold text-ink">{title}</h2>
+            {description && <p className="text-xs text-ink-soft mt-0.5">{description}</p>}
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close panel"
-            className="w-9 h-9 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-[#F4F1EA] hover:text-[#171A1F] transition-colors shrink-0"
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-ink transition-colors shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
@@ -66,7 +66,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         <div className="flex-1 overflow-y-auto px-6 py-6">{children}</div>
 
         {footer && (
-          <div className="px-6 py-4 border-t border-[#E8E4DA] bg-white shrink-0 flex items-center justify-end gap-3">
+          <div className="px-6 py-4 border-t border-border bg-white shrink-0 flex items-center justify-end gap-3">
             {footer}
           </div>
         )}

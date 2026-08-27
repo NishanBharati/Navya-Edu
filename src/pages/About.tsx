@@ -6,8 +6,6 @@ import {
   Cpu,
   Users,
   Award,
-  BookOpen,
-  Layers,
   CheckCircle2,
   Code2,
   GitBranch,
@@ -17,14 +15,8 @@ import {
   Sparkles,
   Laptop,
   Server,
-  Zap,
-  TrendingUp,
   Globe,
-  Briefcase,
-  ChevronDown,
   ArrowRight,
-  GraduationCap,
-  Calendar,
   Check,
   Compass,
   HeartHandshake
@@ -33,159 +25,85 @@ import { Container } from '../components/common/Container';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { Button } from '../components/common/Button';
 import { SEOHead } from '../components/common/SEOHead';
-
-// Milestone Data
-interface Milestone {
-  year: string;
-  quarter?: string;
-  tag: string;
-  title: string;
-  description: string;
-  highlights: string[];
-}
-
-const MILESTONES: Milestone[] = [
-  {
-    year: '2022',
-    quarter: 'Q2–Q4',
-    tag: 'The Genesis',
-    title: 'Internal Engineering Academy & Pilot Cohorts',
-    description:
-      'Started as an internal talent incubator inside our parent software company, Navya EdTech. Frustrated by the gap between traditional college graduates and production engineering readiness, senior engineers designed a project-first pilot for 30 students.',
-    highlights: [
-      'First 2 pilot cohorts completed 100-hour MERN Stack sprints',
-      '88% of pilot graduates transitioned to junior developer positions in Kathmandu',
-      'Established core "continuous code production" methodology'
-    ]
-  },
-  {
-    year: '2023',
-    quarter: 'Q1–Q3',
-    tag: 'Formal Incorporation',
-    title: 'Dedicated Training Campus & Government Registration',
-    description:
-      'Incorporated officially as Navya Ed Tech Pvt. Ltd. Established our flagship physical learning laboratory in Kathmandu, equipped with dual-monitor developer stations, fiber backup, and dedicated mentor desks.',
-    highlights: [
-      'Official incorporation as a recognized IT education provider in Nepal',
-      'Opened Kathmandu physical laboratory with dedicated lab power backup',
-      'Expanded curriculum to include Flutter Mobile and UI/UX Design'
-    ]
-  },
-  {
-    year: '2024',
-    quarter: 'Q1–Q4',
-    tag: 'Cloud & AI Expansion',
-    title: 'Modernizing Syllabi with DevOps, Cloud & Applied AI',
-    description:
-      'Recognizing industry shifts toward cloud-native architecture and artificial intelligence, we revamped all courses to integrate Docker containerization, AWS cloud workflows, and applied Generative AI tooling.',
-    highlights: [
-      'Launched 6-Month Full Stack Engineering Fellowship',
-      'Introduced Applied AI & Machine Learning with Python and vector search',
-      'Crossed 800+ cumulative students trained across physical and live online tracks'
-    ]
-  },
-  {
-    year: '2025',
-    quarter: 'Q1–Q4',
-    tag: 'Hiring Network Growth',
-    title: '40+ Industry Placement Partnerships & Capstone Showcases',
-    description:
-      'Formalized hiring pipelines with leading software houses, fintech startups, and remote overseas agencies. Launched quarterly "Demo Day" events where students pitch production systems directly to hiring managers.',
-    highlights: [
-      'Built network of 40+ software companies hiring directly from cohorts',
-      'Recorded 94.6% capstone deployment rate on live production domains',
-      'Surpassed 1,450+ total developers, engineers, and designers trained'
-    ]
-  },
-  {
-    year: '2026',
-    quarter: 'Present & Beyond',
-    tag: 'The Future',
-    title: 'Open-Source Incubation & Specialized Fellowships',
-    description:
-      'Expanding our footprint with open-source student labs, advanced microservices tracks, and direct international remote placement support for Nepali developers.',
-    highlights: [
-      'Launching Student Open Source Incubation Grants',
-      'Advanced High-Scale Backend & Distributed Systems Masterclass',
-      'Continuous alumni upskilling & lifetime career advisory network'
-    ]
-  }
-];
+import { FAQAccordion } from '../components/common/FAQAccordion';
+import type { FAQItem } from '../types';
 
 // Faculty / Leadership Data
 interface FacultyMember {
   name: string;
+  initials: string;
+  monogramColor: string;
   role: string;
   department: string;
   experience: string;
   specialties: string[];
   bio: string;
-  image: string;
 }
 
 const FACULTY: FacultyMember[] = [
   {
     name: 'Er. Anish Shrestha',
+    initials: 'AS',
+    monogramColor: 'from-navy to-[#0E1F30]',
     role: 'Head of Academics & Systems Architecture',
     department: 'Full-Stack & Cloud Engineering',
     experience: '10+ Years Industry Experience',
     specialties: ['Distributed Systems', 'Node.js / Go', 'Microservices Architecture', 'PostgreSQL'],
-    bio: 'Former Senior Systems Architect with a track record of building high-concurrency fintech platforms. Leads curriculum quality, architectural reviews, and capstone evaluations.',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
+    bio: 'Former Senior Systems Architect with a track record of building high-concurrency fintech platforms. Leads curriculum quality, architectural reviews, and capstone evaluations.'
   },
   {
     name: 'Prashant Sharma',
+    initials: 'PS',
+    monogramColor: 'from-blue to-[#1F4468]',
     role: 'Lead Full-Stack Instructor & Frontend Architect',
     department: 'Modern Web & React Ecosystem',
     experience: '8+ Years Industry Experience',
     specialties: ['React 19 & Next.js', 'TypeScript', 'State Architectures', 'Performance Optimization'],
-    bio: 'Passionate frontend craftsman who has engineered enterprise web apps for international clients. Mentors students on building production-grade Next.js SaaS applications.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'
+    bio: 'Passionate frontend craftsman who has engineered enterprise web apps for international clients. Mentors students on building production-grade Next.js SaaS applications.'
   },
   {
     name: 'Kripa Adhikari',
+    initials: 'KA',
+    monogramColor: 'from-sage-ink to-[#263A2E]',
     role: 'Data Science & Applied AI Lead',
     department: 'Machine Learning & AI Systems',
     experience: '6+ Years Industry Experience',
     specialties: ['Python & PyTorch', 'LLM Fine-Tuning', 'Vector Databases', 'MLOps Pipelines'],
-    bio: 'Specialist in machine learning applications and data engineering. Guides students through building real predictive models, retrieval-augmented generation (RAG), and data APIs.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80'
+    bio: 'Specialist in machine learning applications and data engineering. Guides students through building real predictive models, retrieval-augmented generation (RAG), and data APIs.'
   },
   {
     name: 'Sunil Maharjan',
+    initials: 'SM',
+    monogramColor: 'from-navy to-[#0E1F30]',
     role: 'Cloud Infrastructure & DevOps Mentor',
     department: 'DevOps & Platform Engineering',
     experience: '7+ Years Industry Experience',
     specialties: ['AWS Cloud Architecture', 'Docker & Kubernetes', 'CI/CD Pipelines', 'Linux Security'],
-    bio: 'AWS Certified Solutions Architect who oversees production deployments at Navya EdTech. Teaches container orchestration, infrastructure-as-code, and resilient cloud architectures.',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80'
+    bio: 'AWS Certified Solutions Architect who oversees production deployments at Navya EdTech. Teaches container orchestration, infrastructure-as-code, and resilient cloud architectures.'
   },
   {
     name: 'Bandana Thapa',
+    initials: 'BT',
+    monogramColor: 'from-blue to-[#1F4468]',
     role: 'Head of UI/UX & Product Design',
     department: 'Product & Interaction Design',
     experience: '7+ Years Industry Experience',
     specialties: ['Design Systems', 'Figma Tokens', 'User Research & Testing', 'Micro-Interactions'],
-    bio: 'Design systems lead who bridges the gap between visual aesthetics and developer implementation. Mentors students in building scalable, accessible component design libraries.',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80'
+    bio: 'Design systems lead who bridges the gap between visual aesthetics and developer implementation. Mentors students in building scalable, accessible component design libraries.'
   },
   {
     name: 'Rojina Prajapati',
+    initials: 'RP',
+    monogramColor: 'from-sage-ink to-[#263A2E]',
     role: 'Admissions Director & Tech Career Coach',
     department: 'Career Services & Placement Cell',
     experience: '8+ Years Tech Recruitment',
     specialties: ['Technical Resume Auditing', 'Behavioral Interview Prep', 'Salary Negotiation', 'Employer Relations'],
-    bio: 'Has connected hundreds of tech graduates with hiring managers across Nepal and overseas. Manages student portfolio reviews, mock interviews, and industry recruitment days.',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80'
+    bio: 'Has connected hundreds of tech graduates with hiring managers across Nepal and overseas. Manages student portfolio reviews, mock interviews, and industry recruitment days.'
   }
 ];
 
 // FAQ Data
-interface FAQItem {
-  question: string;
-  answer: string;
-}
-
 const FAQS: FAQItem[] = [
   {
     question: 'How is Navya Ed Tech different from typical computer training centers in Nepal?',
@@ -210,7 +128,7 @@ const FAQS: FAQItem[] = [
   {
     question: 'How does career guidance and internship placement support work?',
     answer:
-      'During the final 4 weeks of each track, students participate in our Career Transition Sprint: technical resume building, GitHub portfolio optimization, Mock System Design & Coding Interviews, and private Demo Days. Qualified graduates are recommended directly to our network of 40+ partner tech companies, as well as considered for internal junior engineering roles at Navya EdTech.'
+      'During the final 4 weeks of each track, students participate in our Career Transition Sprint: technical resume building, GitHub portfolio optimization, Mock System Design & Coding Interviews, and private Demo Days. Qualified graduates are recommended directly to our growing network of partner tech companies, as well as considered for internal junior engineering roles at Navya EdTech.'
   },
   {
     question: 'Are fees payable in Nepali Rupees (NPR)? Are installment plans available?',
@@ -220,16 +138,10 @@ const FAQS: FAQItem[] = [
 ];
 
 export const About: React.FC = () => {
-  const [activeMilestone, setActiveMilestone] = useState<number>(3); // Default to 2025
-  const [openFaq, setOpenFaq] = useState<number | null>(0); // First open by default
   const [activeLabTab, setActiveLabTab] = useState<'physical' | 'digital'>('physical');
 
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
-
   return (
-    <main className="min-h-screen py-10 sm:py-16 bg-[#FAFAF8] text-[#171A1F]">
+    <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="About Navya Ed Tech | IT Education Division of Navya EdTech Nepal"
         description="Learn about Navya Ed Tech Pvt. Ltd., our engineering-first philosophy, parent software enterprise, senior faculty, Kathmandu physical laboratory, and our mission to elevate tech education in Nepal."
@@ -239,62 +151,69 @@ export const About: React.FC = () => {
         {/* ========================================================================= */}
         {/* 1. HERO SECTION & STRATEGIC MISSION */}
         {/* ========================================================================= */}
-        <section className="mb-16 lg:mb-24">
-          <div className="max-w-4xl space-y-6">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#17324D]/5 border border-[#17324D]/15 text-xs font-semibold tracking-wider text-[#17324D] uppercase">
-              <span className="w-2 h-2 rounded-full bg-[#356A9A] animate-pulse" />
-              <span>Navya Ed Tech Pvt. Ltd. • Established in Kathmandu, Nepal</span>
+        <section className="mb-16 lg:mb-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-navy/5 border border-navy/15 text-xs font-semibold tracking-wider text-navy uppercase">
+              <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
+              <span>About Navya Ed Tech • Kathmandu Innovation Center</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#171A1F] leading-[1.12]">
-              Engineering Education Rooted in Real-World Software Production.
-            </h1>
+            <div className="space-y-3">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-ink leading-[1.12]">
+                Engineering Education Rooted in Real-World Software Production.
+              </h1>
+              <p className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl">
+                We founded Navya Ed Tech to replace passive computer tuition with production engineering. As the education division of an active commercial software company, we mentor aspiring developers, career switchers, and university graduates to write scalable, production-grade code on Day 1.
+              </p>
+            </div>
 
-            <p className="text-base sm:text-lg md:text-xl text-[#5F6670] leading-relaxed max-w-3xl">
-              We founded Navya Ed Tech to replace passive computer tuition with production engineering. As the education division of an active software enterprise, we mentor aspiring developers, career switchers, and university graduates to write scalable, production-grade code on Day 1.
-            </p>
+            {/* Quick Strategic Pillars */}
+            <div className="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs">
+              <div className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1">
+                <strong className="text-sm font-bold text-navy block">Industry Backed</strong>
+                <span className="text-ink-soft">Direct synergy with parent software engineering firm</span>
+              </div>
+              <div className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1">
+                <strong className="text-sm font-bold text-sage-ink block">1:12 Mentorship</strong>
+                <span className="text-ink-soft">Small cohort attention & daily Git code audits</span>
+              </div>
+              <div className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1">
+                <strong className="text-sm font-bold text-blue block">100% Deployed</strong>
+                <span className="text-ink-soft">Live cloud apps and production capstone portfolios</span>
+              </div>
+            </div>
           </div>
 
-          {/* Key Metrics Banner */}
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E8E4DA] shadow-xs space-y-1">
-              <div className="flex items-center gap-2 text-[#356A9A]">
-                <Users className="w-4 h-4" />
-                <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">1,450+</span>
-              </div>
-              <p className="text-xs text-[#5F6670] font-medium">Graduates & Alumni Trained</p>
-            </div>
+          {/* Right Visual Composition with Generated Hero Image */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative mx-auto max-w-lg lg:max-w-none">
+              <div className="absolute -inset-2 bg-gradient-to-tr from-navy/20 via-blue/15 to-sage/20 rounded-3xl blur-xl -z-10" />
+              <div className="relative rounded-3xl overflow-hidden border border-blue-mist shadow-xl bg-white group">
+                <img
+                  src="/images/heroes/about-hero.jpg"
+                  alt="Navya EdTech software development innovation laboratory in Kathmandu"
+                  className="w-full h-[320px] sm:h-[380px] object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-black/20" />
 
-            <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E8E4DA] shadow-xs space-y-1">
-              <div className="flex items-center gap-2 text-[#718C7A]">
-                <ShieldCheck className="w-4 h-4 text-[#3D5644]" />
-                <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">94.6%</span>
-              </div>
-              <p className="text-xs text-[#5F6670] font-medium">Live Deployed Capstones</p>
-            </div>
+                {/* Floating Top Badge */}
+                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/40 shadow-sm text-xs font-bold text-navy">
+                  <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
+                  <span>Navya EdTech Headquarters</span>
+                </div>
 
-            <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E8E4DA] shadow-xs space-y-1">
-              <div className="flex items-center gap-2 text-[#356A9A]">
-                <Building2 className="w-4 h-4" />
-                <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">40+</span>
+                {/* Bottom Overlay Card */}
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <p className="text-xs font-bold text-ink">Corporate Technology Lab</p>
+                    <p className="text-[11px] text-ink-soft">Kathmandu Innovation Hub</p>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
+                    Kathmandu, NP
+                  </span>
+                </div>
               </div>
-              <p className="text-xs text-[#5F6670] font-medium">Tech Hiring Partners</p>
-            </div>
-
-            <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E8E4DA] shadow-xs space-y-1">
-              <div className="flex items-center gap-2 text-[#D97706]">
-                <GitBranch className="w-4 h-4" />
-                <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">1 : 12</span>
-              </div>
-              <p className="text-xs text-[#5F6670] font-medium">Strict Mentor-to-Student Ratio</p>
-            </div>
-
-            <div className="col-span-2 sm:col-span-1 p-4 sm:p-5 bg-[#17324D] rounded-xl border border-[#12283E] text-white space-y-1 shadow-xs">
-              <div className="flex items-center gap-2 text-[#9BBAD4]">
-                <TrendingUp className="w-4 h-4" />
-                <span className="text-xl sm:text-2xl font-extrabold text-white font-mono">70 / 30</span>
-              </div>
-              <p className="text-xs text-[#C4CDD5] font-medium">Coding vs. Theory Split</p>
             </div>
           </div>
         </section>
@@ -303,7 +222,7 @@ export const About: React.FC = () => {
         {/* 2. CORPORATE INTEGRATION & PARENT COMPANY SYNERGY */}
         {/* ========================================================================= */}
         <section className="mb-16 lg:mb-24">
-          <div className="bg-[#17324D] rounded-2xl sm:rounded-3xl text-white p-6 sm:p-10 lg:p-12 border border-[#12283E] shadow-lg relative overflow-hidden">
+          <div className="bg-navy rounded-2xl sm:rounded-3xl text-white p-6 sm:p-10 lg:p-12 border border-navy-deep shadow-lg relative overflow-hidden">
             {/* Background Decorative Grid */}
             <div
               className="absolute inset-0 opacity-5 pointer-events-none"
@@ -316,7 +235,7 @@ export const About: React.FC = () => {
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-7 space-y-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 text-xs font-mono uppercase tracking-wider text-[#9BBAD4] border border-white/10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 text-xs font-mono uppercase tracking-wider text-navy-mist border border-white/10">
                   <Building2 className="w-3.5 h-3.5" />
                   <span>Corporate Ecosystem</span>
                 </div>
@@ -325,7 +244,7 @@ export const About: React.FC = () => {
                   Backed by Navya EdTech — A Commercial Software & Cloud Solutions Enterprise.
                 </h2>
 
-                <p className="text-sm sm:text-base text-[#C4CDD5] leading-relaxed">
+                <p className="text-sm sm:text-base text-mist leading-relaxed">
                   Most computer institutes operate in an academic vacuum, teaching technologies that went obsolete three years ago. Navya Ed Tech operates in direct synergy with <strong className="text-white">Navya EdTech</strong> (our parent commercial software company).
                 </p>
 
@@ -338,14 +257,14 @@ export const About: React.FC = () => {
                     href="https://navyaedtech.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white text-[#17324D] text-xs font-bold hover:bg-[#F4F1EA] transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white text-navy text-xs font-bold hover:bg-paper-alt transition-colors shadow-sm"
                   >
                     <span>Visit Parent Company (navyaedtech.com)</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#17324D]" />
+                    <ArrowUpRight className="w-4 h-4 text-navy" />
                   </a>
 
-                  <span className="text-xs text-[#9BBAD4] flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-[#718C7A]" />
+                  <span className="text-xs text-navy-mist flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-sage" />
                     <span>Direct Internship & Hiring Pipeline</span>
                   </span>
                 </div>
@@ -354,15 +273,15 @@ export const About: React.FC = () => {
               {/* Right Side: Parent Company Capabilities & Live Integration */}
               <div className="lg:col-span-5 bg-white/5 backdrop-blur-xs p-6 sm:p-7 rounded-2xl border border-white/15 space-y-4">
                 <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#9BBAD4]">
+                  <span className="text-xs font-bold uppercase tracking-wider text-navy-mist">
                     Parent Company Disciplines
                   </span>
                   <span className="text-[11px] font-mono text-white/60">Kathmandu, NP</span>
                 </div>
 
-                <ul className="space-y-3 text-xs sm:text-sm text-[#E5DFD4]">
+                <ul className="space-y-3 text-xs sm:text-sm text-border-warm">
                   <li className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-md bg-[#356A9A]/30 text-[#9BBAD4] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
                       <Code2 className="w-3.5 h-3.5" />
                     </div>
                     <div>
@@ -372,7 +291,7 @@ export const About: React.FC = () => {
                   </li>
 
                   <li className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-md bg-[#356A9A]/30 text-[#9BBAD4] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
                       <Laptop className="w-3.5 h-3.5" />
                     </div>
                     <div>
@@ -382,7 +301,7 @@ export const About: React.FC = () => {
                   </li>
 
                   <li className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-md bg-[#356A9A]/30 text-[#9BBAD4] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
                       <Server className="w-3.5 h-3.5" />
                     </div>
                     <div>
@@ -392,7 +311,7 @@ export const About: React.FC = () => {
                   </li>
 
                   <li className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-md bg-[#356A9A]/30 text-[#9BBAD4] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
                       <Cpu className="w-3.5 h-3.5" />
                     </div>
                     <div>
@@ -402,7 +321,7 @@ export const About: React.FC = () => {
                   </li>
                 </ul>
 
-                <div className="pt-2 border-t border-white/10 text-[11px] text-[#9BBAD4] italic">
+                <div className="pt-2 border-t border-white/10 text-[11px] text-navy-mist italic">
                   * Students in advanced tracks work on real internal software modules under direct supervision.
                 </div>
               </div>
@@ -423,13 +342,13 @@ export const About: React.FC = () => {
                 description="We didn't start Navya Ed Tech as a generic training franchise. We built it because we were struggling to hire competent software engineers."
               />
 
-              <div className="space-y-4 text-sm sm:text-base text-[#5F6670] leading-relaxed">
+              <div className="space-y-4 text-sm sm:text-base text-ink-soft leading-relaxed">
                 <p>
                   Between 2020 and 2022, while interviewing hundreds of university graduates and bootcamp certificate holders for engineering roles at our parent tech firm, we identified a consistent, frustrating reality:
                 </p>
 
-                <div className="p-4 sm:p-5 rounded-xl bg-[#F4F1EA] border border-[#E8E4DA] space-y-2">
-                  <p className="text-xs sm:text-sm font-semibold text-[#171A1F]">
+                <div className="p-4 sm:p-5 rounded-xl bg-paper-alt border border-border space-y-2">
+                  <p className="text-xs sm:text-sm font-semibold text-ink">
                     "Candidates knew the textbook definition of polymorphism, but couldn't resolve a Git merge conflict, design a normalized SQL database, handle async JavaScript errors, or deploy a Docker container to AWS."
                   </p>
                 </div>
@@ -444,19 +363,19 @@ export const About: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-white border border-[#E8E4DA]">
-                  <CheckCircle2 className="w-5 h-5 text-[#718C7A] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-white border border-border">
+                  <CheckCircle2 className="w-5 h-5 text-sage shrink-0 mt-0.5" />
                   <div className="text-xs">
-                    <strong className="text-[#171A1F] block font-bold">100% Practical Rigor</strong>
-                    <span className="text-[#5F6670]">Real terminals, real compilers, real Git commits every class.</span>
+                    <strong className="text-ink block font-bold">100% Practical Rigor</strong>
+                    <span className="text-ink-soft">Real terminals, real compilers, real Git commits every class.</span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-white border border-[#E8E4DA]">
-                  <CheckCircle2 className="w-5 h-5 text-[#718C7A] shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-3.5 rounded-lg bg-white border border-border">
+                  <CheckCircle2 className="w-5 h-5 text-sage shrink-0 mt-0.5" />
                   <div className="text-xs">
-                    <strong className="text-[#171A1F] block font-bold">Verifiable Proof-of-Work</strong>
-                    <span className="text-[#5F6670]">Live URLs & GitHub repos instead of hollow paper certificates.</span>
+                    <strong className="text-ink block font-bold">Verifiable Proof-of-Work</strong>
+                    <span className="text-ink-soft">Live URLs & GitHub repos instead of hollow paper certificates.</span>
                   </div>
                 </div>
               </div>
@@ -464,35 +383,35 @@ export const About: React.FC = () => {
 
             {/* Right: Visual Story Composition */}
             <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl overflow-hidden border border-[#E0DACF] shadow-lg bg-[#F4F1EA]">
+              <div className="relative rounded-2xl overflow-hidden border border-[#E0DACF] shadow-lg bg-paper-alt">
                 <img
                   src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
                   alt="Navya engineering instructors conducting code review with students"
                   className="w-full h-[400px] object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#17324D]/90 via-[#17324D]/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" />
 
                 <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
-                  <span className="text-[11px] font-mono tracking-wider uppercase text-[#9BBAD4] block">
+                  <span className="text-[11px] font-mono tracking-wider uppercase text-navy-mist block">
                     [OUR MISSION IN NUMBERS]
                   </span>
                   <h3 className="text-lg font-bold text-white leading-tight">
                     Transforming Nepal into a Globally Respected Hub for World-Class Software Builders.
                   </h3>
-                  <p className="text-xs text-[#C4CDD5]">
+                  <p className="text-xs text-mist">
                     Equipping students with modern stacks, technical resilience, and international engineering standards.
                   </p>
                 </div>
               </div>
 
               {/* Floating Badge */}
-              <div className="absolute -top-4 -right-4 hidden sm:flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white border border-[#E8E4DA] shadow-md">
-                <div className="w-8 h-8 rounded-lg bg-[#718C7A]/20 text-[#3D5644] flex items-center justify-center">
+              <div className="absolute -top-4 -right-4 hidden sm:flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white border border-border shadow-md">
+                <div className="w-8 h-8 rounded-lg bg-sage/20 text-sage-ink flex items-center justify-center">
                   <Award className="w-5 h-5" />
                 </div>
                 <div className="text-xs">
-                  <span className="font-bold text-[#171A1F] block">Production Standard</span>
-                  <span className="text-[#5F6670] text-[10px]">OWASP & Clean Code Guidelines</span>
+                  <span className="font-bold text-ink block">Production Standard</span>
+                  <span className="text-ink-soft text-[10px]">OWASP & Clean Code Guidelines</span>
                 </div>
               </div>
             </div>
@@ -511,81 +430,81 @@ export const About: React.FC = () => {
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Pillar 1 */}
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] hover:border-[#17324D]/40 transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-[#17324D]/10 text-[#17324D] flex items-center justify-center font-mono font-bold text-lg">
+            <div className="p-6 bg-white rounded-2xl border border-border hover:border-navy/40 transition-all space-y-4 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-navy/10 text-navy flex items-center justify-center font-mono font-bold text-lg">
                 <Terminal className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-mono font-bold text-[#356A9A] tracking-wider uppercase block">
+              <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
                 Pillar 01
               </span>
-              <h3 className="text-base font-bold text-[#171A1F] leading-snug">
+              <h3 className="text-base font-bold text-ink leading-snug">
                 Production-First Curricula
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 We do not teach obsolete frameworks or toy examples. Syllabi focus on TypeScript, modern React/Next.js, PostgreSQL, Docker, Redis queues, and cloud deployment pipelines.
               </p>
-              <div className="pt-2 border-t border-[#EFECE5] text-[11px] font-semibold text-[#17324D] flex items-center gap-1">
-                <Check className="w-3.5 h-3.5 text-[#718C7A]" />
+              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+                <Check className="w-3.5 h-3.5 text-sage" />
                 <span>Zero legacy syntax</span>
               </div>
             </div>
 
             {/* Pillar 2 */}
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] hover:border-[#17324D]/40 transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-[#356A9A]/10 text-[#356A9A] flex items-center justify-center font-mono font-bold text-lg">
+            <div className="p-6 bg-white rounded-2xl border border-border hover:border-navy/40 transition-all space-y-4 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-blue/10 text-blue flex items-center justify-center font-mono font-bold text-lg">
                 <Code2 className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-mono font-bold text-[#356A9A] tracking-wider uppercase block">
+              <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
                 Pillar 02
               </span>
-              <h3 className="text-base font-bold text-[#171A1F] leading-snug">
+              <h3 className="text-base font-bold text-ink leading-snug">
                 Keyboard-On-Code Practice
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 Every single session involves hands-on programming. Students build architectural muscle memory by fixing real bugs, writing unit tests, and designing database schemas from scratch.
               </p>
-              <div className="pt-2 border-t border-[#EFECE5] text-[11px] font-semibold text-[#17324D] flex items-center gap-1">
-                <Check className="w-3.5 h-3.5 text-[#718C7A]" />
+              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+                <Check className="w-3.5 h-3.5 text-sage" />
                 <span>70% coding / 30% architecture</span>
               </div>
             </div>
 
             {/* Pillar 3 */}
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] hover:border-[#17324D]/40 transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-[#718C7A]/20 text-[#3D5644] flex items-center justify-center font-mono font-bold text-lg">
+            <div className="p-6 bg-white rounded-2xl border border-border hover:border-navy/40 transition-all space-y-4 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-sage/20 text-sage-ink flex items-center justify-center font-mono font-bold text-lg">
                 <GitBranch className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-mono font-bold text-[#356A9A] tracking-wider uppercase block">
+              <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
                 Pillar 03
               </span>
-              <h3 className="text-base font-bold text-[#171A1F] leading-snug">
+              <h3 className="text-base font-bold text-ink leading-snug">
                 Mandatory Pull Request Reviews
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 Writing code that runs is only step one. Our senior engineering instructors review every student PR line-by-line for security, variable naming, error boundaries, and design patterns.
               </p>
-              <div className="pt-2 border-t border-[#EFECE5] text-[11px] font-semibold text-[#17324D] flex items-center gap-1">
-                <Check className="w-3.5 h-3.5 text-[#718C7A]" />
+              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+                <Check className="w-3.5 h-3.5 text-sage" />
                 <span>Line-by-line feedback on GitHub</span>
               </div>
             </div>
 
             {/* Pillar 4 */}
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] hover:border-[#17324D]/40 transition-all space-y-4 shadow-xs">
-              <div className="w-12 h-12 rounded-xl bg-[#D97706]/15 text-[#B45309] flex items-center justify-center font-mono font-bold text-lg">
+            <div className="p-6 bg-white rounded-2xl border border-border hover:border-navy/40 transition-all space-y-4 shadow-xs">
+              <div className="w-12 h-12 rounded-xl bg-amber/15 text-[#966324] flex items-center justify-center font-mono font-bold text-lg">
                 <Award className="w-6 h-6" />
               </div>
-              <span className="text-[11px] font-mono font-bold text-[#356A9A] tracking-wider uppercase block">
+              <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
                 Pillar 04
               </span>
-              <h3 className="text-base font-bold text-[#171A1F] leading-snug">
+              <h3 className="text-base font-bold text-ink leading-snug">
                 Verifiable Proof-of-Work
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 Graduates complete 3-5 comprehensive production capstones deployed on live custom domains with clean README documentation, database schemas, and demo screencasts.
               </p>
-              <div className="pt-2 border-t border-[#EFECE5] text-[11px] font-semibold text-[#17324D] flex items-center gap-1">
-                <Check className="w-3.5 h-3.5 text-[#718C7A]" />
+              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+                <Check className="w-3.5 h-3.5 text-sage" />
                 <span>Live URLs for hiring managers</span>
               </div>
             </div>
@@ -603,8 +522,8 @@ export const About: React.FC = () => {
               description="Our instructors are active technology leads, DevOps engineers, and UI/UX designers who build production systems every day."
             />
             <div className="shrink-0">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-[#E8E4DA] text-xs font-semibold text-[#17324D]">
-                <Users className="w-4 h-4 text-[#356A9A]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-border text-xs font-semibold text-navy">
+                <Users className="w-4 h-4 text-blue" />
                 <span>100% Industry Practitioners</span>
               </div>
             </div>
@@ -614,19 +533,17 @@ export const About: React.FC = () => {
             {FACULTY.map((member, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl border border-[#E8E4DA] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+                className="bg-white rounded-2xl border border-border overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
               >
                 <div>
-                  {/* Top image & badge */}
-                  <div className="relative h-48 bg-[#F4F1EA] overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-top"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#171A1F]/80 via-transparent to-transparent" />
-                    <div className="absolute bottom-3 left-4 right-4">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#9BBAD4] block">
+                  {/* Monogram header & department */}
+                  <div className={`relative h-48 bg-gradient-to-br ${member.monogramColor} overflow-hidden flex items-end`}>
+                    <div className="absolute inset-0 opacity-[0.07] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #FFFFFF 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+                    <span className="absolute top-5 right-5 text-4xl font-heading font-extrabold text-white/15 select-none">
+                      {member.initials}
+                    </span>
+                    <div className="relative z-10 p-4">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-navy-mist block">
                         {member.department}
                       </span>
                       <h3 className="text-lg font-bold text-white">{member.name}</h3>
@@ -636,11 +553,11 @@ export const About: React.FC = () => {
                   {/* Body Content */}
                   <div className="p-5 space-y-3.5">
                     <div>
-                      <span className="text-xs font-bold text-[#17324D] block">{member.role}</span>
-                      <span className="text-[11px] font-mono text-[#718C7A] font-semibold">{member.experience}</span>
+                      <span className="text-xs font-bold text-navy block">{member.role}</span>
+                      <span className="text-[11px] font-mono text-sage font-semibold">{member.experience}</span>
                     </div>
 
-                    <p className="text-xs text-[#5F6670] leading-relaxed">
+                    <p className="text-xs text-ink-soft leading-relaxed">
                       {member.bio}
                     </p>
 
@@ -653,7 +570,7 @@ export const About: React.FC = () => {
                         {member.specialties.map((spec, sIdx) => (
                           <span
                             key={sIdx}
-                            className="px-2 py-0.5 rounded bg-[#F4F1EA] text-[#17324D] text-[10px] font-mono font-medium border border-[#E5DFD4]"
+                            className="px-2 py-0.5 rounded bg-paper-alt text-navy text-[10px] font-mono font-medium border border-border-warm"
                           >
                             {spec}
                           </span>
@@ -663,91 +580,12 @@ export const About: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-4 bg-[#FAFAF8] border-t border-[#E8E4DA] flex items-center justify-between text-[11px] text-[#5F6670]">
+                <div className="p-4 bg-paper border-t border-border flex items-center justify-between text-[11px] text-ink-soft">
                   <span>Office Hours & PR Reviews</span>
-                  <span className="font-semibold text-[#17324D]">Available Weekly</span>
+                  <span className="font-semibold text-navy">Available Weekly</span>
                 </div>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* 6. EVOLUTION & MILESTONE TIMELINE (Interactive) */}
-        {/* ========================================================================= */}
-        <section className="mb-16 lg:mb-24 p-6 sm:p-10 lg:p-12 rounded-3xl bg-[#F4F1EA] border border-[#E8E4DA]">
-          <div className="max-w-3xl space-y-3 mb-10">
-            <span className="text-xs font-semibold uppercase tracking-wider text-[#356A9A]">
-              Our Journey & Growth
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#171A1F]">
-              From Internal Code Sprints to Nepal's Premier IT Institute.
-            </h2>
-            <p className="text-sm sm:text-base text-[#5F6670] leading-relaxed">
-              Explore the key milestones that shaped our institution's growth, curriculum expansion, and alumni hiring network.
-            </p>
-          </div>
-
-          {/* Timeline Navigation Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-4 border-b border-[#DCD6C9] scrollbar-none">
-            {MILESTONES.map((item, idx) => {
-              const isActive = activeMilestone === idx;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => setActiveMilestone(idx)}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 cursor-pointer ${
-                    isActive
-                      ? 'bg-[#17324D] text-white shadow-sm'
-                      : 'bg-white text-[#5F6670] hover:text-[#171A1F] border border-[#E5DFD4]'
-                  }`}
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>{item.year}</span>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isActive ? 'bg-white/20 text-white' : 'bg-[#F4F1EA] text-[#5F6670]'}`}>
-                    {item.tag}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Milestone Card */}
-          <div className="mt-8 bg-white p-6 sm:p-8 rounded-2xl border border-[#E8E4DA] shadow-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              <div className="lg:col-span-7 space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 rounded-md bg-[#17324D]/10 text-[#17324D] text-xs font-mono font-bold">
-                    {MILESTONES[activeMilestone].year} {MILESTONES[activeMilestone].quarter}
-                  </span>
-                  <span className="text-xs font-semibold text-[#356A9A] uppercase tracking-wider">
-                    {MILESTONES[activeMilestone].tag}
-                  </span>
-                </div>
-
-                <h3 className="text-xl sm:text-2xl font-bold text-[#171A1F]">
-                  {MILESTONES[activeMilestone].title}
-                </h3>
-
-                <p className="text-sm text-[#5F6670] leading-relaxed">
-                  {MILESTONES[activeMilestone].description}
-                </p>
-              </div>
-
-              <div className="lg:col-span-5 bg-[#FAFAF8] p-5 rounded-xl border border-[#E8E4DA] space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#171A1F] block">
-                  Key Achievements & Impact:
-                </span>
-                <ul className="space-y-2 text-xs text-[#5F6670]">
-                  {MILESTONES[activeMilestone].highlights.map((point, pIdx) => (
-                    <li key={pIdx} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-[#718C7A] shrink-0 mt-0.5" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -767,8 +605,8 @@ export const About: React.FC = () => {
               onClick={() => setActiveLabTab('physical')}
               className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeLabTab === 'physical'
-                  ? 'bg-[#17324D] text-white shadow-md'
-                  : 'bg-white text-[#5F6670] hover:text-[#171A1F] border border-[#E8E4DA]'
+                  ? 'bg-navy text-white shadow-md'
+                  : 'bg-white text-ink-soft hover:text-ink border border-border'
               }`}
             >
               <Building2 className="w-4 h-4" />
@@ -779,8 +617,8 @@ export const About: React.FC = () => {
               onClick={() => setActiveLabTab('digital')}
               className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeLabTab === 'digital'
-                  ? 'bg-[#17324D] text-white shadow-md'
-                  : 'bg-white text-[#5F6670] hover:text-[#171A1F] border border-[#E8E4DA]'
+                  ? 'bg-navy text-white shadow-md'
+                  : 'bg-white text-ink-soft hover:text-ink border border-border'
               }`}
             >
               <Globe className="w-4 h-4" />
@@ -789,41 +627,41 @@ export const About: React.FC = () => {
           </div>
 
           {activeLabTab === 'physical' ? (
-            <div className="bg-white rounded-3xl border border-[#E8E4DA] p-6 sm:p-10 shadow-sm">
+            <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <div className="lg:col-span-6 space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#718C7A]/20 text-[#3D5644] text-xs font-bold">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-sage/20 text-sage-ink text-xs font-bold">
                     <MapPin className="w-3.5 h-3.5" />
                     <span>Kathmandu Innovation Lab</span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#171A1F]">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-ink">
                     Ergonomic Developer Workstations & Hardware Labs
                   </h3>
 
-                  <p className="text-sm text-[#5F6670] leading-relaxed">
+                  <p className="text-sm text-ink-soft leading-relaxed">
                     Our physical lab is designed specifically for pair programming, sprint hackathons, and mentor collaboration. Students enjoy uninterrupted power, dedicated high-speed optical fiber, and external multi-display setups.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">Dual-Monitor Stations</strong>
-                      <p className="text-[11px] text-[#5F6670]">External high-res displays for simultaneous code & debugger views.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">Dual-Monitor Stations</strong>
+                      <p className="text-[11px] text-ink-soft">External high-res displays for simultaneous code & debugger views.</p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">Dual Redundant Fiber</strong>
-                      <p className="text-[11px] text-[#5F6670]">Gigabit dedicated connection with automatic failover.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">Dual Redundant Fiber</strong>
+                      <p className="text-[11px] text-ink-soft">Gigabit dedicated connection with automatic failover.</p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">Zero-Downtime Power</strong>
-                      <p className="text-[11px] text-[#5F6670]">Online UPS system backed by on-premise generator backup.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">Zero-Downtime Power</strong>
+                      <p className="text-[11px] text-ink-soft">Online UPS system backed by on-premise generator backup.</p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">Hardware & Server Rack</strong>
-                      <p className="text-[11px] text-[#5F6670]">Physical Linux server racks for hands-on networking drills.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">Hardware & Server Rack</strong>
+                      <p className="text-[11px] text-ink-soft">Physical Linux server racks for hands-on networking drills.</p>
                     </div>
                   </div>
                 </div>
@@ -836,49 +674,49 @@ export const About: React.FC = () => {
                       className="w-full h-72 sm:h-80 object-cover"
                     />
                   </div>
-                  <div className="p-4 rounded-xl bg-[#F4F1EA] border border-[#E5DFD4] text-xs text-[#5F6670] flex items-center justify-between">
+                  <div className="p-4 rounded-xl bg-paper-alt border border-border-warm text-xs text-ink-soft flex items-center justify-between">
                     <span>Campus Location: Kathmandu, Nepal</span>
-                    <span className="font-semibold text-[#17324D]">Open Sun–Fri: 7:00 AM – 7:00 PM</span>
+                    <span className="font-semibold text-navy">Open Sun–Fri: 7:00 AM – 7:00 PM</span>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-3xl border border-[#E8E4DA] p-6 sm:p-10 shadow-sm">
+            <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <div className="lg:col-span-6 space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#356A9A]/15 text-[#356A9A] text-xs font-bold">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue/15 text-blue text-xs font-bold">
                     <Globe className="w-3.5 h-3.5" />
                     <span>Interactive Remote Learning</span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#171A1F]">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-ink">
                     Live Interactive Sessions with Cloud Sandbox Environments
                   </h3>
 
-                  <p className="text-sm text-[#5F6670] leading-relaxed">
+                  <p className="text-sm text-ink-soft leading-relaxed">
                     For students attending from outside Kathmandu or working professionals requiring flexible participation, our digital campus delivers the exact same instructor interaction, live code reviews, and cohort energy.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">Live Stream + Screen Sharing</strong>
-                      <p className="text-[11px] text-[#5F6670]">Real-time audio-visual connection with instant instructor terminal sharing.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">Live Stream + Screen Sharing</strong>
+                      <p className="text-[11px] text-ink-soft">Real-time audio-visual connection with instant instructor terminal sharing.</p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">1080p HD Archive</strong>
-                      <p className="text-[11px] text-[#5F6670]">Every session recorded with timestamped code checkpoints for revision.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">1080p HD Archive</strong>
+                      <p className="text-[11px] text-ink-soft">Every session recorded with timestamped code checkpoints for revision.</p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">Cloud Dev Sandboxes</strong>
-                      <p className="text-[11px] text-[#5F6670]">Pre-configured cloud database & Docker sandboxes for smooth setup.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">Cloud Dev Sandboxes</strong>
+                      <p className="text-[11px] text-ink-soft">Pre-configured cloud database & Docker sandboxes for smooth setup.</p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-[#FAFAF8] border border-[#E8E4DA] space-y-1">
-                      <strong className="text-xs font-bold text-[#171A1F] block">24/7 Discord Community</strong>
-                      <p className="text-[11px] text-[#5F6670]">Active peer channels, bug-fix threads, and mentor office hours.</p>
+                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
+                      <strong className="text-xs font-bold text-ink block">24/7 Discord Community</strong>
+                      <p className="text-[11px] text-ink-soft">Active peer channels, bug-fix threads, and mentor office hours.</p>
                     </div>
                   </div>
                 </div>
@@ -891,9 +729,9 @@ export const About: React.FC = () => {
                       className="w-full h-72 sm:h-80 object-cover"
                     />
                   </div>
-                  <div className="p-4 rounded-xl bg-[#F4F1EA] border border-[#E5DFD4] text-xs text-[#5F6670] flex items-center justify-between">
+                  <div className="p-4 rounded-xl bg-paper-alt border border-border-warm text-xs text-ink-soft flex items-center justify-between">
                     <span>Platform: Interactive Live Cohorts + LMS</span>
-                    <span className="font-semibold text-[#17324D]">Lifetime Archive Access</span>
+                    <span className="font-semibold text-navy">Lifetime Archive Access</span>
                   </div>
                 </div>
               </div>
@@ -912,38 +750,38 @@ export const About: React.FC = () => {
           />
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] space-y-3 shadow-xs">
-              <div className="w-10 h-10 rounded-lg bg-[#17324D]/10 text-[#17324D] flex items-center justify-center">
+            <div className="p-6 bg-white rounded-2xl border border-border space-y-3 shadow-xs">
+              <div className="w-10 h-10 rounded-lg bg-navy/10 text-navy flex items-center justify-center">
                 <Compass className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-[#171A1F]">
+              <h3 className="text-base font-bold text-ink">
                 1. Radical Transparency
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 We provide clear syllabi, realistic salary expectations, and straightforward NPR pricing with zero hidden fees. We never sell hollow promises or fake 100% placement guarantees.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] space-y-3 shadow-xs">
-              <div className="w-10 h-10 rounded-lg bg-[#356A9A]/10 text-[#356A9A] flex items-center justify-center">
+            <div className="p-6 bg-white rounded-2xl border border-border space-y-3 shadow-xs">
+              <div className="w-10 h-10 rounded-lg bg-blue/10 text-blue flex items-center justify-center">
                 <Code2 className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-[#171A1F]">
+              <h3 className="text-base font-bold text-ink">
                 2. Code Craftsmanship
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 We believe good software is readable, secure, and maintainable. We teach students to write clean code, handle edge cases, and take genuine pride in their architectural decisions.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-2xl border border-[#E8E4DA] space-y-3 shadow-xs">
-              <div className="w-10 h-10 rounded-lg bg-[#718C7A]/20 text-[#3D5644] flex items-center justify-center">
+            <div className="p-6 bg-white rounded-2xl border border-border space-y-3 shadow-xs">
+              <div className="w-10 h-10 rounded-lg bg-sage/20 text-sage-ink flex items-center justify-center">
                 <HeartHandshake className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-[#171A1F]">
+              <h3 className="text-base font-bold text-ink">
                 3. Lifetime Alumni Community
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 Graduation isn't the end of your relationship with Navya. Alumni retain lifelong access to guest masterclasses, career advice, job board listings, and our senior mentor network.
               </p>
             </div>
@@ -956,45 +794,19 @@ export const About: React.FC = () => {
         <section className="mb-16 lg:mb-24">
           <div className="max-w-3xl mx-auto space-y-8">
             <div className="text-center space-y-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#356A9A]">
+              <span className="text-xs font-semibold uppercase tracking-wider text-blue">
                 Frequently Asked Questions
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
                 Everything You Need to Know About Navya Ed Tech
               </h2>
-              <p className="text-sm text-[#5F6670]">
+              <p className="text-sm text-ink-soft">
                 Have questions about our background, teaching model, parent company, or placement support?
               </p>
             </div>
 
-            <div className="space-y-3">
-              {FAQS.map((faq, index) => {
-                const isOpen = openFaq === index;
-                return (
-                  <div
-                    key={index}
-                    className="bg-white rounded-xl border border-[#E8E4DA] overflow-hidden transition-colors"
-                  >
-                    <button
-                      onClick={() => toggleFaq(index)}
-                      className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-[#171A1F] hover:text-[#356A9A] transition-colors cursor-pointer"
-                    >
-                      <span>{faq.question}</span>
-                      <ChevronDown
-                        className={`w-5 h-5 text-[#5F6670] shrink-0 transition-transform duration-200 ${
-                          isOpen ? 'rotate-180 text-[#17324D]' : ''
-                        }`}
-                      />
-                    </button>
-
-                    {isOpen && (
-                      <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#5F6670] leading-relaxed border-t border-[#F4F1EA]">
-                        {faq.answer}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+            <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-xs">
+              <FAQAccordion items={FAQS} />
             </div>
           </div>
         </section>
@@ -1002,10 +814,10 @@ export const About: React.FC = () => {
         {/* ========================================================================= */}
         {/* 10. CAMPUS VISIT & ACTION CTA */}
         {/* ========================================================================= */}
-        <section className="bg-[#17324D] rounded-3xl text-white p-8 sm:p-12 lg:p-16 border border-[#12283E] shadow-xl text-center relative overflow-hidden">
+        <section className="bg-navy rounded-3xl text-white p-8 sm:p-12 lg:p-16 border border-navy-deep shadow-xl text-center relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-6 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-mono uppercase tracking-wider text-[#9BBAD4]">
-              <Sparkles className="w-3.5 h-3.5 text-[#9BBAD4]" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-mono uppercase tracking-wider text-navy-mist">
+              <Sparkles className="w-3.5 h-3.5 text-navy-mist" />
               <span>Take the Next Step</span>
             </div>
 
@@ -1013,7 +825,7 @@ export const About: React.FC = () => {
               Ready to Accelerate Your Software Engineering Career?
             </h2>
 
-            <p className="text-sm sm:text-base text-[#C4CDD5] leading-relaxed">
+            <p className="text-sm sm:text-base text-mist leading-relaxed">
               Schedule a personalized academic counseling session or visit our Kathmandu Innovation Lab to review our syllabus modules, meet our mentors, and inspect our student capstone projects in person.
             </p>
 
@@ -1022,31 +834,31 @@ export const About: React.FC = () => {
                 variant="secondary"
                 size="lg"
                 href="/contact"
-                rightIcon={<ArrowRight className="w-4 h-4 text-[#17324D]" />}
+                rightIcon={<ArrowRight className="w-4 h-4 text-navy" />}
               >
                 Schedule a Campus Visit & Counseling
               </Button>
               <Button
-                variant="outline"
+                variant="outline-white"
                 size="lg"
                 href="/courses"
-                className="border-white/30 text-white hover:bg-white/10"
+                rightIcon={<ArrowRight className="w-4 h-4 text-white" />}
               >
                 Browse Course Catalog
               </Button>
             </div>
 
-            <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-[#9BBAD4] border-t border-white/10">
+            <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-navy-mist border-t border-white/10">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#718C7A]" />
+                <MapPin className="w-4 h-4 text-sage" />
                 <span>Kathmandu, Nepal</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#718C7A]" />
+                <Clock className="w-4 h-4 text-sage" />
                 <span>Sun – Fri: 7:00 AM – 7:00 PM</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#718C7A]" />
+                <ShieldCheck className="w-4 h-4 text-sage" />
                 <span>Registered IT Education Provider</span>
               </div>
             </div>

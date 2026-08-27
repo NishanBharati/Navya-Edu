@@ -13,7 +13,7 @@ import { Terms } from '../pages/Terms';
 import { Privacy } from '../pages/Privacy';
 
 // ScrollToTop component to reset viewport on route transition
-export const ScrollToTop: React.FC = () => {
+const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {

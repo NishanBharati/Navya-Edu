@@ -8,11 +8,13 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { Drawer } from '../components/ui/Drawer';
 import { Field, TextArea } from '../components/ui/Field';
 import { StatusBadge, STATUS_OPTIONS } from '../components/ui/StatusBadge';
+import { Toast, useToast } from '../components/ui/Toast';
 import { Button } from '../../components/common/Button';
 
 export const InquiriesAdmin: React.FC = () => {
   const { items: inquiries, isLoading, error, update, remove } = useSupabaseTable<Inquiry>('inquiries', { orderBy: 'createdAt' });
   const { items: courses } = useSupabaseTable<Course>('courses');
+  const { toast, showToast, dismissToast } = useToast();
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<InquiryStatus | 'All'>('All');
@@ -58,7 +60,7 @@ export const InquiriesAdmin: React.FC = () => {
       await update(activeInquiry.id, { status });
     } catch (err) {
       setActiveInquiry(previous);
-      alert(err instanceof Error ? err.message : 'Failed to update status.');
+      showToast(err instanceof Error ? err.message : 'Failed to update status.');
     }
   };
 
@@ -67,8 +69,9 @@ export const InquiriesAdmin: React.FC = () => {
     try {
       await update(activeInquiry.id, { notes: notesDraft });
       setActiveInquiry({ ...activeInquiry, notes: notesDraft });
+      showToast('Notes saved.', 'success');
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to save notes.');
+      showToast(err instanceof Error ? err.message : 'Failed to save notes.');
     }
   };
 
@@ -78,7 +81,7 @@ export const InquiriesAdmin: React.FC = () => {
       await remove(deleteTarget.id);
       if (activeInquiry?.id === deleteTarget.id) setActiveInquiry(null);
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to delete inquiry.');
+      showToast(err instanceof Error ? err.message : 'Failed to delete inquiry.');
     } finally {
       setDeleteTarget(null);
     }
@@ -100,8 +103,8 @@ export const InquiriesAdmin: React.FC = () => {
             onClick={() => setStatusFilter(status)}
             className={`px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
               statusFilter === status
-                ? 'bg-[#17324D] text-white border-[#17324D]'
-                : 'bg-white text-[#5F6670] border-[#E8E4DA] hover:border-[#D8D2C6]'
+                ? 'bg-navy text-white border-navy'
+                : 'bg-white text-ink-soft border-border hover:border-input-border'
             }`}
           >
             {status} <span className="opacity-70">({statusCounts[status]})</span>
@@ -109,21 +112,21 @@ export const InquiriesAdmin: React.FC = () => {
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl border border-[#E8E4DA] shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-[#EFECE5]">
+      <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-border-soft">
           <div className="relative max-w-xs">
-            <Search className="w-4 h-4 text-[#8C939E] absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, email, course…"
-              className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#F4F1EA] text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-colors"
+              className="w-full pl-9 pr-3 py-2 rounded-lg bg-paper-alt text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors"
             />
           </div>
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center gap-2 py-14 text-sm text-[#8C939E]">
+          <div className="flex items-center justify-center gap-2 py-14 text-sm text-ink-faint">
             <Loader2 className="w-4 h-4 animate-spin" /> Loading inquiries…
           </div>
         ) : error ? (
@@ -142,7 +145,7 @@ export const InquiriesAdmin: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[10px] uppercase tracking-wider text-[#8C939E] border-b border-[#EFECE5]">
+                <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
                   <th className="px-5 py-2.5 font-semibold">Contact</th>
                   <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Interested Course</th>
                   <th className="px-5 py-2.5 font-semibold hidden lg:table-cell">Source</th>
@@ -156,20 +159,20 @@ export const InquiriesAdmin: React.FC = () => {
                   <tr
                     key={inquiry.id}
                     onClick={() => openInquiry(inquiry)}
-                    className="border-b border-[#F4F1EA] last:border-0 hover:bg-[#FAFAF8] transition-colors cursor-pointer"
+                    className="border-b border-paper-alt last:border-0 hover:bg-paper transition-colors cursor-pointer"
                   >
                     <td className="px-5 py-3.5">
-                      <p className="font-medium text-[#171A1F]">{inquiry.fullName}</p>
-                      <p className="text-xs text-[#8C939E]">{inquiry.email}</p>
+                      <p className="font-medium text-ink">{inquiry.fullName}</p>
+                      <p className="text-xs text-ink-faint">{inquiry.email}</p>
                     </td>
-                    <td className="px-5 py-3.5 hidden sm:table-cell text-[#5F6670] max-w-[200px] truncate">
+                    <td className="px-5 py-3.5 hidden sm:table-cell text-ink-soft max-w-[200px] truncate">
                       {courseTitle(inquiry.interestedCourse)}
                     </td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell text-[#5F6670]">{inquiry.source}</td>
+                    <td className="px-5 py-3.5 hidden lg:table-cell text-ink-soft">{inquiry.source}</td>
                     <td className="px-5 py-3.5">
                       <StatusBadge status={inquiry.status} size="sm" />
                     </td>
-                    <td className="px-5 py-3.5 hidden md:table-cell text-xs text-[#8C939E] whitespace-nowrap">
+                    <td className="px-5 py-3.5 hidden md:table-cell text-xs text-ink-faint whitespace-nowrap">
                       {new Date(inquiry.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>
                     <td className="px-5 py-3.5">
@@ -181,7 +184,7 @@ export const InquiriesAdmin: React.FC = () => {
                             setDeleteTarget(inquiry);
                           }}
                           aria-label={`Delete inquiry from ${inquiry.fullName}`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-red-50 hover:text-red-600 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-red-50 hover:text-red-600 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -215,7 +218,7 @@ export const InquiriesAdmin: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setActiveInquiry(null)}
-                className="px-3.5 py-2 text-sm font-semibold text-[#5F6670] hover:text-[#171A1F]"
+                className="px-3.5 py-2 text-sm font-semibold text-ink-soft hover:text-ink"
               >
                 Close
               </button>
@@ -229,7 +232,7 @@ export const InquiriesAdmin: React.FC = () => {
         {activeInquiry && (
           <div className="space-y-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#8C939E] mb-2">Status</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint mb-2">Status</p>
               <div className="flex flex-wrap gap-2">
                 {STATUS_OPTIONS.map((status) => (
                   <button
@@ -244,30 +247,30 @@ export const InquiriesAdmin: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3.5 bg-[#FAFAF8] border border-[#E8E4DA] rounded-xl p-4">
+            <div className="grid grid-cols-1 gap-3.5 bg-paper border border-border rounded-xl p-4">
               <div className="flex items-center gap-2.5 text-sm">
-                <Mail className="w-4 h-4 text-[#356A9A] shrink-0" />
-                <span className="text-[#171A1F]">{activeInquiry.email}</span>
+                <Mail className="w-4 h-4 text-blue shrink-0" />
+                <span className="text-ink">{activeInquiry.email}</span>
               </div>
               <div className="flex items-center gap-2.5 text-sm">
-                <Phone className="w-4 h-4 text-[#356A9A] shrink-0" />
-                <span className="text-[#171A1F]">{activeInquiry.phone}</span>
+                <Phone className="w-4 h-4 text-blue shrink-0" />
+                <span className="text-ink">{activeInquiry.phone}</span>
               </div>
               <div className="flex items-center gap-2.5 text-sm">
-                <BookOpen className="w-4 h-4 text-[#356A9A] shrink-0" />
-                <span className="text-[#171A1F]">{courseTitle(activeInquiry.interestedCourse)}</span>
+                <BookOpen className="w-4 h-4 text-blue shrink-0" />
+                <span className="text-ink">{courseTitle(activeInquiry.interestedCourse)}</span>
               </div>
               <div className="flex items-center gap-2.5 text-sm">
-                <MonitorSmartphone className="w-4 h-4 text-[#356A9A] shrink-0" />
-                <span className="text-[#171A1F]">{activeInquiry.preferredMode}</span>
+                <MonitorSmartphone className="w-4 h-4 text-blue shrink-0" />
+                <span className="text-ink">{activeInquiry.preferredMode}</span>
               </div>
               <div className="flex items-center gap-2.5 text-sm">
-                <Tag className="w-4 h-4 text-[#356A9A] shrink-0" />
-                <span className="text-[#171A1F]">{activeInquiry.source}</span>
+                <Tag className="w-4 h-4 text-blue shrink-0" />
+                <span className="text-ink">{activeInquiry.source}</span>
               </div>
               <div className="flex items-center gap-2.5 text-sm">
-                <Calendar className="w-4 h-4 text-[#356A9A] shrink-0" />
-                <span className="text-[#171A1F]">
+                <Calendar className="w-4 h-4 text-blue shrink-0" />
+                <span className="text-ink">
                   {new Date(activeInquiry.createdAt).toLocaleString('en-US', {
                     dateStyle: 'medium',
                     timeStyle: 'short',
@@ -278,8 +281,8 @@ export const InquiriesAdmin: React.FC = () => {
 
             {activeInquiry.message && (
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#8C939E] mb-2">Message</p>
-                <p className="text-sm text-[#171A1F] leading-relaxed bg-white border border-[#E8E4DA] rounded-xl p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint mb-2">Message</p>
+                <p className="text-sm text-ink leading-relaxed bg-white border border-border rounded-xl p-4">
                   {activeInquiry.message}
                 </p>
               </div>
@@ -305,6 +308,8 @@ export const InquiriesAdmin: React.FC = () => {
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
       />
+
+      <Toast toast={toast} onDismiss={dismissToast} />
     </div>
   );
 };

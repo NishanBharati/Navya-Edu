@@ -15,14 +15,14 @@ export const Container: React.FC<ContainerProps> = ({
 }) => {
   const sizeClasses = {
     narrow: 'max-w-4xl',
-    default: 'max-w-7xl',
-    wide: 'max-w-[1360px]'
+    default: 'max-w-350',
+    wide: 'max-w-380'
   };
 
   return (
     <div
       id={id}
-      className={`w-full mx-auto px-4 sm:px-6 lg:px-8 ${sizeClasses[size]} ${className}`}
+      className={`w-full mx-auto px-4 sm:px-6 lg:px-6 ${sizeClasses[size]} ${className}`}
     >
       {children}
     </div>

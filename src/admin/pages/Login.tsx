@@ -52,9 +52,9 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#FAFAF8]">
+    <div className="min-h-screen flex bg-paper">
       {/* Brand panel */}
-      <div className="hidden lg:flex lg:w-[44%] xl:w-[40%] bg-[#17324D] text-white flex-col justify-between p-10 xl:p-14 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-[44%] xl:w-[40%] bg-navy text-white flex-col justify-between p-10 xl:p-14 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
           style={{
@@ -77,7 +77,7 @@ export const Login: React.FC = () => {
             <h1 className="text-3xl xl:text-4xl font-heading font-bold leading-tight tracking-tight">
               Run the academy&apos;s content and admissions from one place.
             </h1>
-            <p className="mt-4 text-sm text-[#C4CDD5] leading-relaxed max-w-md">
+            <p className="mt-4 text-sm text-mist leading-relaxed max-w-md">
               The operations console behind navyaedtech.com &mdash; keep course catalogs current,
               publish student work, and respond to admissions inquiries quickly.
             </p>
@@ -85,9 +85,9 @@ export const Login: React.FC = () => {
 
           <ul className="space-y-3.5">
             {FEATURES.map((feature) => (
-              <li key={feature.text} className="flex items-center gap-3 text-sm text-[#E5DFD4]">
+              <li key={feature.text} className="flex items-center gap-3 text-sm text-border-warm">
                 <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                  <feature.icon className="w-4 h-4 text-[#9BBAD4]" />
+                  <feature.icon className="w-4 h-4 text-navy-mist" />
                 </span>
                 {feature.text}
               </li>
@@ -96,7 +96,7 @@ export const Login: React.FC = () => {
         </div>
 
         <div className="relative flex items-center gap-2 text-xs text-[#8C9BAE]">
-          <ShieldCheck className="w-4 h-4 text-[#718C7A]" />
+          <ShieldCheck className="w-4 h-4 text-sage" />
           <span>Access restricted to authorized Navya Ed Tech staff.</span>
         </div>
       </div>
@@ -106,7 +106,7 @@ export const Login: React.FC = () => {
         <div className="w-full max-w-sm mx-auto">
           <a
             href="/"
-            className="lg:hidden inline-flex items-center gap-2 mb-8 text-xs font-medium text-[#5F6670] hover:text-[#171A1F]"
+            className="lg:hidden inline-flex items-center gap-2 mb-8 text-xs font-medium text-ink-soft hover:text-ink"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to site
@@ -120,8 +120,8 @@ export const Login: React.FC = () => {
             />
           </div>
 
-          <h2 className="text-2xl font-heading font-bold text-[#171A1F]">Sign in to Admin</h2>
-          <p className="text-sm text-[#5F6670] mt-1.5 mb-7">Enter your credentials to access the console.</p>
+          <h2 className="text-2xl font-heading font-bold text-ink">Sign in to Admin</h2>
+          <p className="text-sm text-ink-soft mt-1.5 mb-7">Enter your credentials to access the console.</p>
 
           {error && (
             <div className="mb-5 px-4 py-2.5 rounded-lg bg-red-50 border border-red-100 text-xs font-medium text-red-700">
@@ -155,7 +155,7 @@ export const Login: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C939E] hover:text-[#171A1F]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -168,7 +168,7 @@ export const Login: React.FC = () => {
             </Button>
           </form>
 
-          <p className="mt-8 text-[11px] text-[#8C939E] text-center leading-relaxed">
+          <p className="mt-8 text-[11px] text-ink-faint text-center leading-relaxed">
             Changes made here are saved directly to the live database and reflect on the site immediately.
           </p>
         </div>

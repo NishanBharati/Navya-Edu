@@ -13,7 +13,7 @@ export const AdminLayout: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#171A1F]">
+    <div className="min-h-screen bg-paper-alt text-ink">
       <Sidebar isMobileOpen={isMobileSidebarOpen} onCloseMobile={() => setIsMobileSidebarOpen(false)} />
       <div className="lg:pl-64 flex flex-col min-h-screen">
         <Topbar onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)} />

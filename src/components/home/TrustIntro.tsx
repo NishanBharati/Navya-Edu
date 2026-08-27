@@ -1,115 +1,71 @@
 import React from 'react';
-import { Terminal, Cpu, Briefcase, Building2, ShieldCheck, ArrowUpRight, Users, GitBranch, Award, CheckCircle2 } from 'lucide-react';
+import { Terminal, Cpu, Briefcase, CheckCircle2 } from 'lucide-react';
 import { Container } from '../common/Container';
+import { DarkCTACard } from '../common/DarkCTACard';
 
 export const TrustIntro: React.FC = () => {
+  const pillars = [
+    {
+      title: 'Production-First Stacks',
+      description: 'We reject outdated college syllabi. Students learn TypeScript, modern React/Next.js, PostgreSQL, Docker containerization, and AWS cloud workflows currently demanded by software companies.',
+      proof: 'Zero legacy syntax or toy projects',
+      icon: <Terminal className="w-5 h-5" />
+    },
+    {
+      title: 'Continuous Code Reviews',
+      description: 'Every line of code you write is inspected on GitHub by senior software engineers — error boundaries, OWASP security standards, naming conventions, and clean architectural design.',
+      proof: 'Line-by-line feedback on every pull request',
+      icon: <Cpu className="w-5 h-5" />
+    },
+    {
+      title: 'Verifiable Proof-of-Work',
+      description: 'Graduates leave with live-deployed applications, clean GitHub repositories, and structured technical documentation that prove real capability to hiring managers in Nepal and abroad.',
+      proof: 'Live custom domain deployments',
+      icon: <Briefcase className="w-5 h-5" />
+    }
+  ];
+
   return (
-    <section className="py-14 sm:py-20 bg-[#F4F1EA] border-b border-[#E8E4DA]">
+    <section className="py-14 sm:py-20 bg-paper-alt border-b border-border">
       <Container>
-        {/* Verification Numbers Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14">
-          <div className="p-5 bg-white rounded-2xl border border-[#E8E4DA] shadow-xs space-y-1">
-            <div className="flex items-center gap-2 text-[#356A9A]">
-              <Users className="w-4 h-4" />
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">1,450+</span>
-            </div>
-            <p className="text-xs text-[#5F6670] font-medium">Alumni & Engineers Mentored</p>
+        <DarkCTACard decoration="dots" className="p-8 sm:p-12 lg:p-14">
+          <div className="max-w-2xl mx-auto text-center space-y-4 mb-12 lg:mb-14">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+              Technology education engineered by software practitioners.
+            </h2>
+            <p className="text-sm sm:text-base text-mist leading-relaxed">
+              Navya Ed Tech is the dedicated technology education division of{' '}
+              <strong className="text-white font-semibold">Navya EdTech</strong> — our parent
+              commercial software company. We translate active production practices, architecture
+              patterns, and live bug reviews directly into modern classroom and online training.
+            </p>
           </div>
 
-          <div className="p-5 bg-white rounded-2xl border border-[#E8E4DA] shadow-xs space-y-1">
-            <div className="flex items-center gap-2 text-[#718C7A]">
-              <ShieldCheck className="w-4 h-4 text-[#3D5644]" />
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">94.6%</span>
-            </div>
-            <p className="text-xs text-[#5F6670] font-medium">Live Deployed Capstones</p>
-          </div>
-
-          <div className="p-5 bg-white rounded-2xl border border-[#E8E4DA] shadow-xs space-y-1">
-            <div className="flex items-center gap-2 text-[#356A9A]">
-              <Building2 className="w-4 h-4" />
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">40+</span>
-            </div>
-            <p className="text-xs text-[#5F6670] font-medium">Tech Hiring Partners</p>
-          </div>
-
-          <div className="p-5 bg-white rounded-2xl border border-[#E8E4DA] shadow-xs space-y-1">
-            <div className="flex items-center gap-2 text-[#D97706]">
-              <GitBranch className="w-4 h-4" />
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#171A1F]">1 : 12</span>
-            </div>
-            <p className="text-xs text-[#5F6670] font-medium">Strict Live Lab Ratio</p>
-          </div>
-        </div>
-
-        {/* Advantage Narrative Header */}
-        <div className="max-w-4xl mx-auto text-center space-y-4 mb-12">
-          <p className="text-xs font-semibold tracking-wider uppercase text-[#356A9A]">
-            The Navya Advantage
-          </p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#171A1F]">
-            Technology Education Engineered by Software Practitioners.
-          </h2>
-          <p className="text-sm sm:text-base text-[#5F6670] leading-relaxed max-w-3xl mx-auto">
-            Navya Ed Tech is the dedicated technology education division of <strong className="text-[#171A1F]">Navya EdTech</strong> (our parent commercial software company). We translate active production software practices, architecture patterns, and live bug reviews directly into modern classroom and online training.
-          </p>
-        </div>
-
-        {/* 3 Core Advantage Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-7 rounded-2xl border border-[#E5DFD4] shadow-xs space-y-3 flex flex-col justify-between hover:border-[#17324D]/30 transition-all">
-            <div className="space-y-3">
-              <div className="w-11 h-11 rounded-xl bg-[#17324D]/10 text-[#17324D] flex items-center justify-center">
-                <Terminal className="w-5 h-5" />
+          <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-white/10">
+            {pillars.map((pillar, i) => (
+              <div
+                key={i}
+                className={`md:px-8 space-y-3 ${
+                  i !== 0 ? 'pt-8 md:pt-0 border-t border-white/10 md:border-t-0' : ''
+                }`}
+              >
+                <div className="w-9 h-9 rounded-lg bg-white/10 text-navy-mist flex items-center justify-center">
+                  {pillar.icon}
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                  {pillar.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#A9B8C7] leading-relaxed">
+                  {pillar.description}
+                </p>
+                <div className="pt-2 flex items-start gap-1.5 text-[11px] font-semibold text-navy-mist">
+                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pillar.proof}</span>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-[#171A1F]">
-                1. Production-First Stacks
-              </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
-                We reject outdated college syllabi. Students learn TypeScript, modern React/Next.js, PostgreSQL, Docker containerization, and AWS cloud workflows currently demanded by software companies.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-[#F0ECE1] text-[11px] font-semibold text-[#17324D] flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#718C7A]" />
-              <span>Zero legacy syntax or toy projects</span>
-            </div>
+            ))}
           </div>
-
-          <div className="bg-white p-7 rounded-2xl border border-[#E5DFD4] shadow-xs space-y-3 flex flex-col justify-between hover:border-[#17324D]/30 transition-all">
-            <div className="space-y-3">
-              <div className="w-11 h-11 rounded-xl bg-[#356A9A]/10 text-[#356A9A] flex items-center justify-center">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-[#171A1F]">
-                2. Continuous Code Reviews
-              </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
-                Every line of code you write is inspected on GitHub by senior software engineers. You learn error boundaries, security standards (OWASP), naming conventions, and clean architectural design.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-[#F0ECE1] text-[11px] font-semibold text-[#17324D] flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#718C7A]" />
-              <span>Line-by-line feedback on PRs</span>
-            </div>
-          </div>
-
-          <div className="bg-white p-7 rounded-2xl border border-[#E5DFD4] shadow-xs space-y-3 flex flex-col justify-between hover:border-[#17324D]/30 transition-all">
-            <div className="space-y-3">
-              <div className="w-11 h-11 rounded-xl bg-[#718C7A]/20 text-[#3D5644] flex items-center justify-center">
-                <Briefcase className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-bold text-[#171A1F]">
-                3. Verifiable Proof-of-Work
-              </h3>
-              <p className="text-xs sm:text-sm text-[#5F6670] leading-relaxed">
-                Graduates leave with live-deployed applications, clean GitHub repositories, and structured technical documentation that prove real capability to hiring managers in Nepal and abroad.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-[#F0ECE1] text-[11px] font-semibold text-[#17324D] flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#718C7A]" />
-              <span>Live custom domain deployments</span>
-            </div>
-          </div>
-        </div>
+        </DarkCTACard>
       </Container>
     </section>
   );

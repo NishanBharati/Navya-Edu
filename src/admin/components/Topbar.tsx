@@ -69,12 +69,12 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
   };
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-white border-b border-[#E8E4DA] flex items-center gap-3 px-4 sm:px-6">
+    <header className="sticky top-0 z-20 h-16 bg-white border-b border-border flex items-center gap-3 px-4 sm:px-6">
       <button
         type="button"
         onClick={onOpenMobileSidebar}
         aria-label="Open menu"
-        className="lg:hidden w-9 h-9 rounded-lg flex items-center justify-center text-[#171A1F] hover:bg-[#F4F1EA]"
+        className="lg:hidden w-9 h-9 rounded-lg flex items-center justify-center text-ink hover:bg-paper-alt"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -82,7 +82,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
       {/* Quick search */}
       <div ref={searchRef} className="relative flex-1 max-w-md">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#8C939E] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             value={query}
             onChange={(e) => {
@@ -91,23 +91,23 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
             }}
             onFocus={() => setIsSearchOpen(true)}
             placeholder="Search courses, inquiries, insights…"
-            className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#F4F1EA] border border-transparent text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white focus:border-[#D8D2C6] transition-colors"
+            className="w-full pl-9 pr-3 py-2 rounded-lg bg-paper-alt border border-transparent text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white focus:border-input-border transition-colors"
           />
         </div>
         {isSearchOpen && query.trim() && (
-          <div className="absolute top-full mt-2 left-0 w-full sm:w-96 bg-white rounded-xl border border-[#E8E4DA] shadow-lg py-2 max-h-80 overflow-y-auto animate-fade-in">
+          <div className="absolute top-full mt-2 left-0 w-full sm:w-96 bg-white rounded-xl border border-border shadow-lg py-2 max-h-80 overflow-y-auto animate-fade-in">
             {results.length === 0 ? (
-              <p className="px-4 py-3 text-xs text-[#8C939E]">No matches for "{query}"</p>
+              <p className="px-4 py-3 text-xs text-ink-faint">No matches for "{query}"</p>
             ) : (
               results.map((result, index) => (
                 <button
                   key={`${result.href}-${index}`}
                   type="button"
                   onClick={() => goTo(result.href)}
-                  className="w-full text-left px-4 py-2.5 hover:bg-[#F4F1EA] transition-colors flex items-center justify-between gap-3"
+                  className="w-full text-left px-4 py-2.5 hover:bg-paper-alt transition-colors flex items-center justify-between gap-3"
                 >
-                  <span className="text-sm text-[#171A1F] truncate">{result.label}</span>
-                  <span className="text-[10px] uppercase tracking-wide text-[#8C939E] shrink-0">{result.meta}</span>
+                  <span className="text-sm text-ink truncate">{result.label}</span>
+                  <span className="text-[10px] uppercase tracking-wide text-ink-faint shrink-0">{result.meta}</span>
                 </button>
               ))
             )}
@@ -122,21 +122,21 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
             type="button"
             onClick={() => setIsNotifOpen((v) => !v)}
             aria-label="Notifications"
-            className="relative w-9 h-9 rounded-lg flex items-center justify-center text-[#5F6670] hover:bg-[#F4F1EA] hover:text-[#171A1F] transition-colors"
+            className="relative w-9 h-9 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-ink transition-colors"
           >
             <Bell className="w-4.5 h-4.5" />
             {newInquiries.length > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#C88A3D] ring-2 ring-white" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber ring-2 ring-white" />
             )}
           </button>
           {isNotifOpen && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-[#E8E4DA] shadow-lg py-2 animate-fade-in">
-              <div className="px-4 py-2 flex items-center justify-between border-b border-[#EFECE5]">
-                <span className="text-xs font-bold uppercase tracking-wide text-[#171A1F]">New Inquiries</span>
-                <span className="text-[11px] text-[#8C939E]">{newInquiries.length} unread</span>
+            <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-border shadow-lg py-2 animate-fade-in">
+              <div className="px-4 py-2 flex items-center justify-between border-b border-border-soft">
+                <span className="text-xs font-bold uppercase tracking-wide text-ink">New Inquiries</span>
+                <span className="text-[11px] text-ink-faint">{newInquiries.length} unread</span>
               </div>
               {newInquiries.length === 0 ? (
-                <p className="px-4 py-6 text-xs text-[#8C939E] text-center">No new inquiries right now.</p>
+                <p className="px-4 py-6 text-xs text-ink-faint text-center">No new inquiries right now.</p>
               ) : (
                 newInquiries.map((inquiry) => (
                   <button
@@ -146,24 +146,24 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
                       setIsNotifOpen(false);
                       navigate('/admin/inquiries');
                     }}
-                    className="w-full text-left px-4 py-2.5 hover:bg-[#F4F1EA] transition-colors flex items-start gap-2.5"
+                    className="w-full text-left px-4 py-2.5 hover:bg-paper-alt transition-colors flex items-start gap-2.5"
                   >
-                    <Inbox className="w-3.5 h-3.5 text-[#356A9A] mt-0.5 shrink-0" />
+                    <Inbox className="w-3.5 h-3.5 text-blue mt-0.5 shrink-0" />
                     <span className="min-w-0">
-                      <span className="block text-sm text-[#171A1F] truncate">{inquiry.fullName}</span>
-                      <span className="block text-[11px] text-[#8C939E] truncate">{inquiry.interestedCourse}</span>
+                      <span className="block text-sm text-ink truncate">{inquiry.fullName}</span>
+                      <span className="block text-[11px] text-ink-faint truncate">{inquiry.interestedCourse}</span>
                     </span>
                   </button>
                 ))
               )}
-              <div className="px-4 pt-2 mt-1 border-t border-[#EFECE5]">
+              <div className="px-4 pt-2 mt-1 border-t border-border-soft">
                 <button
                   type="button"
                   onClick={() => {
                     setIsNotifOpen(false);
                     navigate('/admin/inquiries');
                   }}
-                  className="text-xs font-semibold text-[#356A9A] hover:text-[#17324D]"
+                  className="text-xs font-semibold text-blue hover:text-navy"
                 >
                   View all inquiries
                 </button>
@@ -177,23 +177,23 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
           <button
             type="button"
             onClick={() => setIsUserOpen((v) => !v)}
-            className="flex items-center gap-2 pl-1.5 pr-2.5 py-1.5 rounded-lg hover:bg-[#F4F1EA] transition-colors"
+            className="flex items-center gap-2 pl-1.5 pr-2.5 py-1.5 rounded-lg hover:bg-paper-alt transition-colors"
           >
-            <span className="w-8 h-8 rounded-full bg-[#17324D] text-white flex items-center justify-center text-xs font-bold shrink-0">
+            <span className="w-8 h-8 rounded-full bg-navy text-white flex items-center justify-center text-xs font-bold shrink-0">
               {initials}
             </span>
             <span className="hidden sm:block text-left">
-              <span className="block text-xs font-semibold text-[#171A1F] leading-tight max-w-[120px] truncate">
+              <span className="block text-xs font-semibold text-ink leading-tight max-w-[120px] truncate">
                 {account?.name || 'Admin'}
               </span>
             </span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#8C939E] hidden sm:block" />
+            <ChevronDown className="w-3.5 h-3.5 text-ink-faint hidden sm:block" />
           </button>
           {isUserOpen && (
-            <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl border border-[#E8E4DA] shadow-lg py-1.5 animate-fade-in">
-              <div className="px-3.5 py-2.5 border-b border-[#EFECE5]">
-                <p className="text-sm font-semibold text-[#171A1F] truncate">{account?.name}</p>
-                <p className="text-xs text-[#8C939E] truncate">{account?.email}</p>
+            <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl border border-border shadow-lg py-1.5 animate-fade-in">
+              <div className="px-3.5 py-2.5 border-b border-border-soft">
+                <p className="text-sm font-semibold text-ink truncate">{account?.name}</p>
+                <p className="text-xs text-ink-faint truncate">{account?.email}</p>
               </div>
               <button
                 type="button"
@@ -201,9 +201,9 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
                   setIsUserOpen(false);
                   navigate('/admin/settings');
                 }}
-                className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-[#171A1F] hover:bg-[#F4F1EA] transition-colors"
+                className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm text-ink hover:bg-paper-alt transition-colors"
               >
-                <Settings className="w-4 h-4 text-[#5F6670]" />
+                <Settings className="w-4 h-4 text-ink-soft" />
                 Account Settings
               </button>
               <button

@@ -3,8 +3,8 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
 const FullScreenLoader: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#F4F1EA]">
-    <div className="w-8 h-8 rounded-full border-2 border-[#17324D]/20 border-t-[#17324D] animate-spin" />
+  <div className="min-h-screen flex items-center justify-center bg-paper-alt">
+    <div className="w-8 h-8 rounded-full border-2 border-navy/20 border-t-navy animate-spin" />
   </div>
 );
 

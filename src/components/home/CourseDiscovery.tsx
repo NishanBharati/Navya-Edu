@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, Search, Sparkles, BookOpen, Layers } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import { Course, CourseCategory } from '../../types';
 import { COURSE_CATEGORIES, COURSES } from '../../data/courses';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
@@ -39,7 +39,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
   }, [allCourses, selectedCategory, searchQuery]);
 
   return (
-    <section id="courses-section" className="py-16 sm:py-24 bg-[#FAFAF8] border-b border-[#EFECE5]">
+    <section id="courses-section" className="py-16 sm:py-24 bg-paper border-b border-border-soft">
       <Container>
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10">
@@ -61,7 +61,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
         </div>
 
         {/* Filter Navigation Bar & Search */}
-        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pb-4 border-b border-[#E8E4DA]">
+        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pb-4 border-b border-border">
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
             {COURSE_CATEGORIES.map((cat) => {
@@ -73,8 +73,8 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
                   onClick={() => setSelectedCategory(cat as CourseCategory)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#17324D] text-white shadow-sm'
-                      : 'bg-[#F4F1EA] text-[#5F6670] hover:text-[#171A1F] hover:bg-[#EAE5DA] border border-[#E5DFD4]'
+                      ? 'bg-navy text-white shadow-sm'
+                      : 'bg-paper-alt text-ink-soft hover:text-ink hover:bg-[#EAE5DA] border border-border-warm'
                   }`}
                 >
                   {cat}
@@ -85,13 +85,13 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
 
           {/* Quick Filter Search */}
           <div className="relative min-w-[240px]">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#5F6670]" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft" />
             <input
               type="text"
               placeholder="Search by stack, e.g. React, Python..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-[#D8D2C6] bg-white text-[#171A1F] focus:outline-none focus:ring-2 focus:ring-[#17324D]"
+              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-input-border bg-white text-ink focus:outline-none focus:ring-2 focus:ring-navy"
             />
           </div>
         </div>
@@ -108,11 +108,11 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-white rounded-2xl border border-[#E8E4DA] p-8 space-y-3">
-            <p className="text-sm font-bold text-[#171A1F]">
+          <div className="text-center py-16 bg-white rounded-2xl border border-border p-8 space-y-3">
+            <p className="text-sm font-bold text-ink">
               No courses matching your filter criteria.
             </p>
-            <p className="text-xs text-[#5F6670]">
+            <p className="text-xs text-ink-soft">
               Try selecting "All" or resetting your search term.
             </p>
             <button
@@ -120,7 +120,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
                 setSelectedCategory('All');
                 setSearchQuery('');
               }}
-              className="text-xs font-bold text-[#356A9A] hover:underline"
+              className="text-xs font-bold text-blue hover:underline"
             >
               Reset Filters
             </button>
@@ -133,7 +133,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
             variant="secondary"
             size="lg"
             href="/courses"
-            rightIcon={<ArrowRight className="w-4 h-4 text-[#17324D]" />}
+            rightIcon={<ArrowRight className="w-4 h-4 text-navy" />}
           >
             Browse All {allCourses.length} Courses & Batch Timelines
           </Button>

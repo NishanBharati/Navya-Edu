@@ -1,9 +1,19 @@
 import React from 'react';
-import { Clock, BarChart2, Laptop, Calendar, MessageSquare, Download, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import {
+  Clock,
+  Laptop,
+  Calendar,
+  MessageSquare,
+  Download,
+  MapPin,
+  Users,
+  Layers
+} from 'lucide-react';
 import { Course } from '../../types';
 import { Container } from '../common/Container';
 import { Button } from '../common/Button';
-import { Badge } from '../common/Badge';
+import { ImagePlaceholder } from '../common/ImagePlaceholder';
 
 interface CourseHeroProps {
   course: Course;
@@ -17,140 +27,214 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
   onDownloadSyllabus
 }) => {
   return (
-    <section className="pt-8 pb-14 sm:pb-18 bg-[#FAFAF8] border-b border-[#EFECE5]">
+    <section className="pt-6 pb-12 sm:pb-16 bg-paper border-b border-border-soft">
       <Container>
-        {/* Breadcrumb / Top Category */}
-        <div className="flex items-center gap-2 text-xs text-[#5F6670] mb-4">
-          <a href="/courses" className="hover:text-[#17324D] underline">
-            Courses
-          </a>
+        {/* Breadcrumb Navigation */}
+        <div className="flex items-center gap-2 text-xs text-ink-soft mb-5">
+          <Link to="/" className="hover:text-navy transition-colors">
+            Home
+          </Link>
           <span>/</span>
-          <span className="text-[#17324D] font-medium">{course.category}</span>
+          <Link to="/courses" className="hover:text-navy transition-colors">
+            Courses
+          </Link>
+          <span>/</span>
+          <span className="text-blue font-semibold">{course.category}</span>
+          <span>/</span>
+          <span className="text-ink font-bold truncate max-w-[200px] sm:max-w-none">
+            {course.title}
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* Left Column: Heading & Value Proposition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* Left Column: Heading, Value Prop, Telemetry */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="flex items-center gap-2">
-              <Badge variant="navy" size="md">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-navy text-white tracking-wide shadow-xs">
                 {course.category}
-              </Badge>
-              <Badge variant="default" size="md">
+              </span>
+              <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-blue/15 text-navy">
                 {course.level}
-              </Badge>
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-sage/10 text-sage-ink border border-sage/25">
+                <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
+                {course.upcomingBatch?.seatsStatus || 'Admissions Open'}
+              </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#171A1F] leading-[1.15]">
-              {course.title}
-            </h1>
+            <div className="space-y-3">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-ink leading-[1.14]">
+                {course.title}
+              </h1>
 
-            <p className="text-base sm:text-lg text-[#5F6670] leading-relaxed">
-              {course.description}
-            </p>
+              <p className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl">
+                {course.description || course.shortDescription}
+              </p>
+            </div>
 
-            {/* Key Metadata Stats Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-[#F4F1EA] border border-[#E5DFD4]">
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5 text-xs text-[#5F6670]">
-                  <Clock className="w-3.5 h-3.5 text-[#356A9A]" />
-                  <span>Duration</span>
-                </div>
-                <div className="text-sm font-bold text-[#171A1F]">
+            {/* Telemetry Metric Bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-white border border-border shadow-xs">
+              <div className="space-y-0.5">
+                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                  Duration
+                </span>
+                <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-blue" />
                   {course.duration}
-                </div>
+                </strong>
               </div>
 
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5 text-xs text-[#5F6670]">
-                  <Laptop className="w-3.5 h-3.5 text-[#356A9A]" />
-                  <span>Format</span>
-                </div>
-                <div className="text-sm font-bold text-[#171A1F]">
-                  {course.mode}
-                </div>
+              <div className="space-y-0.5">
+                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                  Delivery Mode
+                </span>
+                <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
+                  <Laptop className="w-4 h-4 text-blue" />
+                  {course.mode.includes('Hybrid') ? 'Hybrid' : course.mode.split(' ')[0]}
+                </strong>
               </div>
 
-              <div className="space-y-1 col-span-2 sm:col-span-1">
-                <div className="flex items-center gap-1.5 text-xs text-[#5F6670]">
-                  <BarChart2 className="w-3.5 h-3.5 text-[#356A9A]" />
-                  <span>Target Level</span>
-                </div>
-                <div className="text-sm font-bold text-[#171A1F]">
-                  {course.level}
-                </div>
+              <div className="space-y-0.5">
+                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                  Curriculum
+                </span>
+                <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
+                  <Layers className="w-4 h-4 text-blue" />
+                  {course.curriculum?.length || 4} Modules
+                </strong>
+              </div>
+
+              <div className="space-y-0.5">
+                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                  Mentorship
+                </span>
+                <strong className="text-sm sm:text-base font-bold text-sage-ink flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-sage-ink" />
+                  1 : 12 Max
+                </strong>
               </div>
             </div>
 
-            {/* CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            {/* Core Tech Pill Cloud */}
+            <div className="space-y-2 pt-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-soft block">
+                Primary Technologies & Tools Covered:
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {course.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2.5 py-1 rounded-lg text-xs font-mono font-medium bg-paper-alt text-navy border border-border-warm"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-3.5">
               <Button
                 variant="primary"
                 size="lg"
                 onClick={onOpenAdvisor}
-                leftIcon={<MessageSquare className="w-4 h-4 text-[#9BBAD4]" />}
+                leftIcon={<MessageSquare className="w-4 h-4 text-navy-mist" />}
               >
-                Enquire About This Course
+                Enquire / Reserve Seat
               </Button>
 
               <Button
                 variant="outline"
                 size="lg"
                 onClick={onDownloadSyllabus}
-                leftIcon={<Download className="w-4 h-4 text-[#356A9A]" />}
+                leftIcon={<Download className="w-4 h-4 text-blue" />}
               >
-                Download Course Outline
+                Download Syllabus (PDF)
               </Button>
             </div>
           </div>
 
-          {/* Right Column: Hero Image & Batch Info Card */}
+          {/* Right Column: Hero Image & Batch Card */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="rounded-2xl overflow-hidden border border-[#E0DACF] shadow-sm aspect-[16/10] bg-[#F4F1EA]">
-              <img
-                src={course.heroImage}
-                alt={course.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Upcoming Batch Card */}
-            <div className="p-5 rounded-xl bg-white border border-[#E5DFD4] space-y-3.5 shadow-sm">
-              <div className="flex items-center justify-between border-b border-[#F0ECE1] pb-2.5">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#17324D] flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-[#356A9A]" />
-                  <span>Upcoming Batch Details</span>
+            <ImagePlaceholder
+              src={course.heroImage}
+              alt={course.title}
+              aspectRatio="video"
+              priority
+              className="rounded-2xl border border-[#E0DACF] shadow-sm group"
+              imgClassName="group-hover:scale-102 transition-transform duration-500"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-semibold">
+                <span className="bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-md">
+                  Kathmandu Campus & Live Online
                 </span>
-                <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-[#718C7A]/20 text-[#3D5644]">
+                <span className="bg-navy/80 backdrop-blur-xs px-2.5 py-1 rounded-md">
+                  {course.projects?.length || 3} Capstone Projects
+                </span>
+              </div>
+            </ImagePlaceholder>
+
+            {/* Upcoming Batch Schedule Card */}
+            <div id="schedule" className="p-5 sm:p-6 rounded-2xl bg-white border border-border-warm space-y-4 shadow-sm scroll-mt-28">
+              <div className="flex items-center justify-between border-b border-border-faint pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-navy/5 text-navy">
+                    <Calendar className="w-4 h-4 text-blue" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-ink">
+                      Upcoming Cohort Details
+                    </h3>
+                    <p className="text-[11px] text-ink-soft">Next scheduled batch start</p>
+                  </div>
+                </div>
+                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-sage/10 text-sage-ink border border-sage/25">
                   {course.upcomingBatch.seatsStatus}
                 </span>
               </div>
 
-              <div className="space-y-2 text-xs sm:text-sm">
-                <div className="flex items-start justify-between">
-                  <span className="text-[#5F6670]">Schedule:</span>
-                  <span className="font-semibold text-[#171A1F] text-right">
+              <div className="space-y-2.5 text-xs sm:text-sm">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-ink-soft">Start Date:</span>
+                  <span className="font-bold text-ink text-right">
+                    {course.upcomingBatch.startDate}
+                  </span>
+                </div>
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-ink-soft">Class Days:</span>
+                  <span className="font-semibold text-ink text-right">
                     {course.upcomingBatch.classDays}
                   </span>
                 </div>
-                <div className="flex items-start justify-between">
-                  <span className="text-[#5F6670]">Session Times:</span>
-                  <span className="font-medium text-[#171A1F] text-right">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-ink-soft">Session Times:</span>
+                  <span className="font-medium text-ink text-right">
                     {course.upcomingBatch.classTime}
                   </span>
                 </div>
-                <div className="flex items-start justify-between">
-                  <span className="text-[#5F6670]">Location:</span>
-                  <span className="font-medium text-[#171A1F] text-right">
-                    {course.upcomingBatch.location}
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-ink-soft">Location:</span>
+                  <span className="font-medium text-ink text-right flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-blue shrink-0" />
+                    <span>{course.upcomingBatch.location}</span>
                   </span>
                 </div>
-                <div className="flex items-start justify-between pt-2 border-t border-[#F0ECE1]">
-                  <span className="text-[#5F6670]">Tuition & Batch Fee:</span>
-                  <span className="font-bold text-[#17324D] text-right">
+                <div className="flex items-start justify-between pt-2.5 border-t border-border-faint">
+                  <span className="text-ink-soft">Tuition & Fee Structure:</span>
+                  <span className="font-bold text-navy text-right">
                     {course.fee}
                   </span>
                 </div>
               </div>
+
+              <button
+                type="button"
+                onClick={onOpenAdvisor}
+                className="w-full py-2.5 rounded-xl bg-navy hover:bg-navy-deep text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+              >
+                Inquire for Fee & Seat Availability
+              </button>
             </div>
           </div>
         </div>

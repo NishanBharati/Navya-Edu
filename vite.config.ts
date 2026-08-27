@@ -26,9 +26,6 @@ export default defineConfig(() => {
               if (id.includes('@supabase')) {
                 return 'vendor-supabase';
               }
-              if (id.includes('@google/genai')) {
-                return 'vendor-ai';
-              }
             }
           },
         },

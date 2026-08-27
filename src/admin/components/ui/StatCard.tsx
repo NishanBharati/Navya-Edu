@@ -5,10 +5,10 @@ import type { LucideIcon } from 'lucide-react';
 type Tone = 'navy' | 'blue' | 'amber' | 'sage' | 'neutral';
 
 const toneStyles: Record<Tone, string> = {
-  navy: 'bg-[#17324D]/10 text-[#17324D]',
-  blue: 'bg-[#356A9A]/10 text-[#356A9A]',
-  amber: 'bg-[#C88A3D]/10 text-[#966324]',
-  sage: 'bg-[#718C7A]/15 text-[#3D5644]',
+  navy: 'bg-navy/10 text-navy',
+  blue: 'bg-blue/10 text-blue',
+  amber: 'bg-amber/10 text-[#966324]',
+  sage: 'bg-sage/15 text-sage-ink',
   neutral: 'bg-stone-100 text-stone-600',
 };
 
@@ -30,19 +30,19 @@ export const StatCard: React.FC<StatCardProps> = ({ label, value, icon: Icon, to
         </div>
       </div>
       <div className="mt-4">
-        <p className="text-2xl font-heading font-bold text-[#171A1F] tabular-nums">{value}</p>
-        <p className="text-xs font-medium text-[#5F6670] mt-1">{label}</p>
-        {hint && <p className="text-[11px] text-[#8C939E] mt-1.5">{hint}</p>}
+        <p className="text-2xl font-heading font-bold text-ink tabular-nums">{value}</p>
+        <p className="text-xs font-medium text-ink-soft mt-1">{label}</p>
+        {hint && <p className="text-[11px] text-ink-faint mt-1.5">{hint}</p>}
       </div>
     </>
   );
 
   const className =
-    'bg-white rounded-2xl border border-[#E8E4DA] p-5 shadow-sm transition-all duration-200 h-full';
+    'bg-white rounded-2xl border border-border p-5 shadow-sm transition-all duration-200 h-full';
 
   if (href) {
     return (
-      <Link to={href} className={`${className} block hover:shadow-md hover:border-[#D8D2C6] group`}>
+      <Link to={href} className={`${className} block hover:shadow-md hover:border-input-border group`}>
         {content}
       </Link>
     );

@@ -20,15 +20,15 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       className={`max-w-3xl ${align === 'center' ? 'mx-auto text-center' : 'text-left'} ${className}`}
     >
       {eyebrow && (
-        <p className="text-xs md:text-sm font-semibold tracking-wider uppercase text-[#356A9A] mb-2.5">
+        <p className="text-xs md:text-sm font-semibold tracking-wider uppercase text-blue mb-2.5">
           {eyebrow}
         </p>
       )}
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#171A1F] leading-tight">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-ink leading-tight">
         {title}
       </h2>
       {description && (
-        <p className="mt-3.5 text-base sm:text-lg text-[#5F6670] leading-relaxed">
+        <p className="mt-3.5 text-base sm:text-lg text-ink-soft leading-relaxed">
           {description}
         </p>
       )}

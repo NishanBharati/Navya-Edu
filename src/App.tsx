@@ -7,7 +7,7 @@ import { AppRoutes } from './routes/AppRoutes';
 const AdminRoutes = lazy(() => import('./admin/routes/AdminRoutes').then((m) => ({ default: m.AdminRoutes })));
 
 const PublicSite: React.FC = () => (
-  <div className="min-h-screen flex flex-col bg-[#FAFAF8] text-[#171A1F] selection:bg-[#17324D] selection:text-white">
+  <div className="min-h-screen flex flex-col bg-paper text-ink selection:bg-navy selection:text-white">
     <Navbar />
     <div className="flex-1">
       <AppRoutes />
@@ -17,8 +17,8 @@ const PublicSite: React.FC = () => (
 );
 
 const AdminLoading: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#F4F1EA]">
-    <div className="w-8 h-8 rounded-full border-2 border-[#17324D]/20 border-t-[#17324D] animate-spin" />
+  <div className="min-h-screen flex items-center justify-center bg-paper-alt">
+    <div className="w-8 h-8 rounded-full border-2 border-navy/20 border-t-navy animate-spin" />
   </div>
 );
 

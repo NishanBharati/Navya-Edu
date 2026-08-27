@@ -13,18 +13,18 @@ interface FieldProps {
 export const Field: React.FC<FieldProps> = ({ label, htmlFor, required, hint, error, className = '', children }) => {
   return (
     <div className={className}>
-      <label htmlFor={htmlFor} className="block text-xs font-semibold text-[#171A1F] uppercase tracking-wider mb-1.5">
+      <label htmlFor={htmlFor} className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {children}
-      {hint && !error && <p className="mt-1.5 text-[11px] text-[#8C939E]">{hint}</p>}
+      {hint && !error && <p className="mt-1.5 text-[11px] text-ink-faint">{hint}</p>}
       {error && <p className="mt-1.5 text-[11px] font-medium text-red-600">{error}</p>}
     </div>
   );
 };
 
 const inputBase =
-  'w-full px-3.5 py-2.5 rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none focus:ring-2 focus:ring-[#17324D] focus:bg-white transition-colors';
+  'w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors';
 
 export const TextInput: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({ className = '', ...props }) => (
   <input className={`${inputBase} ${className}`} {...props} />
@@ -55,7 +55,7 @@ export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, label, descri
       aria-checked={checked}
       onClick={() => onChange(!checked)}
       className={`mt-0.5 relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${
-        checked ? 'bg-[#17324D]' : 'bg-[#D8D2C6]'
+        checked ? 'bg-navy' : 'bg-input-border'
       }`}
     >
       <span
@@ -66,8 +66,8 @@ export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, label, descri
       />
     </button>
     <span>
-      <span className="block text-sm font-medium text-[#171A1F]">{label}</span>
-      {description && <span className="block text-xs text-[#8C939E] mt-0.5">{description}</span>}
+      <span className="block text-sm font-medium text-ink">{label}</span>
+      {description && <span className="block text-xs text-ink-faint mt-0.5">{description}</span>}
     </span>
   </label>
 );
@@ -102,7 +102,7 @@ export const ListField: React.FC<ListFieldProps> = ({ items, onChange, placehold
             type="button"
             onClick={() => removeAt(index)}
             aria-label="Remove item"
-            className="shrink-0 w-9 h-9 rounded-lg border border-[#D8D2C6] text-[#8C939E] hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
+            className="shrink-0 w-9 h-9 rounded-lg border border-input-border text-ink-faint hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center"
           >
             &times;
           </button>
@@ -111,7 +111,7 @@ export const ListField: React.FC<ListFieldProps> = ({ items, onChange, placehold
       <button
         type="button"
         onClick={addNew}
-        className="text-xs font-semibold text-[#356A9A] hover:text-[#17324D] transition-colors"
+        className="text-xs font-semibold text-blue hover:text-navy transition-colors"
       >
         + {addLabel}
       </button>
@@ -137,18 +137,18 @@ export const TagsField: React.FC<TagsFieldProps> = ({ tags, onChange, placeholde
   };
 
   return (
-    <div className="rounded-lg border border-[#D8D2C6] bg-[#FAFAF8] focus-within:ring-2 focus-within:ring-[#17324D] focus-within:bg-white px-2.5 py-2">
+    <div className="rounded-lg border border-input-border bg-paper focus-within:ring-2 focus-within:ring-navy focus-within:bg-white px-2.5 py-2">
       <div className="flex flex-wrap gap-1.5">
         {tags.map((tag, index) => (
           <span
             key={`${tag}-${index}`}
-            className="inline-flex items-center gap-1 rounded-md bg-[#17324D]/10 text-[#17324D] text-xs font-medium px-2 py-1"
+            className="inline-flex items-center gap-1 rounded-md bg-navy/10 text-navy text-xs font-medium px-2 py-1"
           >
             {tag}
             <button
               type="button"
               onClick={() => onChange(tags.filter((_, i) => i !== index))}
-              className="text-[#17324D]/60 hover:text-[#17324D]"
+              className="text-navy/60 hover:text-navy"
               aria-label={`Remove ${tag}`}
             >
               &times;
@@ -168,7 +168,7 @@ export const TagsField: React.FC<TagsFieldProps> = ({ tags, onChange, placeholde
           }}
           onBlur={commit}
           placeholder={tags.length ? '' : placeholder}
-          className="flex-1 min-w-[140px] bg-transparent text-sm text-[#171A1F] placeholder:text-[#8C939E] focus:outline-none py-1"
+          className="flex-1 min-w-[140px] bg-transparent text-sm text-ink placeholder:text-ink-faint focus:outline-none py-1"
         />
       </div>
     </div>
