@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ArrowRight, Search } from 'lucide-react';
 import { Course, CourseCategory } from '../../types';
-import { COURSE_CATEGORIES, COURSES } from '../../data/courses';
+import { COURSE_CATEGORIES, COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
@@ -17,10 +17,13 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
   const [selectedCategory, setSelectedCategory] = useState<CourseCategory>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fallback to COURSES if database returns empty
+  // Fallback to COURSES if database returns empty or contains legacy courses
   const allCourses = useMemo(() => {
     if (dbCourses && dbCourses.length > 0) {
-      return dbCourses;
+      const active = dbCourses.filter((c) => !LEGACY_COURSE_SLUGS.has(c.slug));
+      if (active.length > 0) {
+        return active;
+      }
     }
     return COURSES;
   }, [dbCourses]);
@@ -88,7 +91,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft" />
             <input
               type="text"
-              placeholder="Search by stack, e.g. React, Python..."
+              placeholder="Search by stack, e.g. JavaScript, Python..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-input-border bg-white text-ink focus:outline-none focus:ring-2 focus:ring-navy"

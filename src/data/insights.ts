@@ -19,7 +19,7 @@ export const INSIGHTS: InsightArticle[] = [
     },
     coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
     tags: ['Career Growth', 'Hiring Trends', 'Software Engineering', 'Nepal Tech', 'Portfolio Review'],
-    relatedCourseSlug: 'mern-stack-development',
+    relatedCourseSlug: 'web-development',
     keyTakeaways: [
       'Syntax memorization is obsolete: local and offshore hiring leads evaluate candidate debugging workflows, modularity, and problem-solving under constraints.',
       'A GitHub profile with 3 complete, deployed, well-documented applications carries significantly more weight than 15 unfinished tutorial clones.',
@@ -55,7 +55,7 @@ export const INSIGHTS: InsightArticle[] = [
     },
     coverImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
     tags: ['Learning Methodology', 'Code Reviews', 'Productivity', 'Engineering Habits'],
-    relatedCourseSlug: 'react-frontend-engineering',
+    relatedCourseSlug: 'web-development',
     keyTakeaways: [
       'Passive video consumption creates an "illusion of competence" because the instructor has pre-resolved all syntax errors and architectural decisions.',
       'Cognitive retention occurs when a developer hits a runtime error, reads the stack trace, and iterates on hypotheses to resolve it.',
@@ -90,7 +90,7 @@ export const INSIGHTS: InsightArticle[] = [
     },
     coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
     tags: ['TypeScript', 'React', 'Frontend', 'Best Practices', 'Code Quality'],
-    relatedCourseSlug: 'react-frontend-engineering',
+    relatedCourseSlug: 'web-development',
     keyTakeaways: [
       'TypeScript catches undefined property errors and type mismatches at compile time rather than crashing in production on the user’s browser.',
       'Shared data models between frontend and backend guarantee strict contract adherence and eliminate guessing API response shapes.',
@@ -105,7 +105,7 @@ export const INSIGHTS: InsightArticle[] = [
       'Furthermore, TypeScript turns your codebase into self-documenting software. When a new engineer joins a project, they do not need to decipher undocumented JSON objects or guess what fields an API endpoint returns; the interfaces and types provide an instant blueprint.',
       '## Fearless Refactoring in Scale Codebases',
       'Consider renaming a core data model attribute across a 50,000-line application. In JavaScript, this requires global search-and-replace and crossing your fingers during QA testing. In TypeScript, renaming a symbol updates every single reference across the workspace, and the compiler instantly flags any overlooked discrepancies.',
-      'In our MERN and React courses, TypeScript is taught alongside core syntax so students build muscle memory with types, interfaces, generics, and strict linting from day one.'
+      'In our Web Development courses, modern JavaScript is taught alongside clean data contracts so students build muscle memory with clean architecture, strict linting, and predictable data flow from day one.'
     ]
   },
   {
@@ -125,7 +125,7 @@ export const INSIGHTS: InsightArticle[] = [
     },
     coverImage: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1200&q=80',
     tags: ['Python', 'Machine Learning', 'Artificial Intelligence', 'Data Science', 'LLMs'],
-    relatedCourseSlug: 'python-data-science-ai',
+    relatedCourseSlug: 'data-science',
     keyTakeaways: [
       'The foundation of all AI engineering remains solid software fundamentals: object-oriented Python, virtual environments, data structures, and mathematical intuition.',
       'Modern AI engineering is shifting toward Retrieval-Augmented Generation (RAG), vector databases (Chroma/Pinecone), and agentic workflows.',
@@ -161,7 +161,7 @@ export const INSIGHTS: InsightArticle[] = [
     },
     coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
     tags: ['Architecture', 'Cloud', 'PostgreSQL', 'Docker', 'DevOps'],
-    relatedCourseSlug: 'devops-cloud-engineering',
+    relatedCourseSlug: 'python-advance',
     keyTakeaways: [
       'Monolithic code with high cohesion and clean module boundaries is often faster to ship and easier to maintain than premature microservices.',
       'Database connection pooling and proper index selection prevent database bottlenecks as user concurrency grows.',
@@ -192,11 +192,11 @@ export const INSIGHTS: InsightArticle[] = [
       name: 'Product Design Practice',
       role: 'UI/UX Designers & UX Researchers',
       avatarUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=200&q=80',
-      bio: 'Leading UI/UX curriculum, usability testing labs, and design system workshops at Navya Ed Tech.'
+      bio: 'Focusing on frontend user experience, accessibility, and modern design system implementations at Navya Ed Tech.'
     },
     coverImage: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1200&q=80',
     tags: ['UI/UX Design', 'Design Systems', 'Figma', 'Accessibility', 'Product Strategy'],
-    relatedCourseSlug: 'ui-ux-product-design',
+    relatedCourseSlug: 'web-development',
     keyTakeaways: [
       'UI/UX design is not merely making things look visually pretty; it is the science of reducing cognitive friction and guiding user actions.',
       'Modern product studios expect mastery of Figma auto-layout, design tokens, component variants, and interactive states.',
@@ -211,7 +211,7 @@ export const INSIGHTS: InsightArticle[] = [
       'By utilizing Figma features like Auto Layout, Component Properties, and Variable Modes (such as Light and Dark mode tokens), designers produce assets that directly translate into reusable React or Tailwind CSS components for the engineering team.',
       '## Usability Testing and Evidence-Based Decisions',
       'A defensible design decision is backed by user research and usability testing, not personal aesthetic preferences. Knowing how to conduct user interviews, map out friction points in an onboarding flow, and interpret analytical metrics is what distinguishes senior product designers.',
-      'In our UI/UX & Product Design program, students build end-to-end case studies addressing real Nepali and international digital services, complete with interactive clickable prototypes, design token libraries, and developer handoff documentation.'
+      'In our Web Development and frontend coursework, students learn the fundamentals of clean UI layouts, accessible component hierarchies, and translating design tokens directly into responsive JavaScript interfaces.'
     ]
   }
 ];

@@ -7,7 +7,7 @@ export const TrustIntro: React.FC = () => {
   const pillars = [
     {
       title: 'Production-First Stacks',
-      description: 'We reject outdated college syllabi. Students learn TypeScript, modern React/Next.js, PostgreSQL, Docker containerization, and AWS cloud workflows currently demanded by software companies.',
+      description: 'We reject outdated college syllabi. Students master modern Python, JavaScript ES6+, Tailwind CSS, FastAPI, and Data Science workflows currently demanded by modern technology firms.',
       proof: 'Zero legacy syntax or toy projects',
       icon: <Terminal className="w-5 h-5" />
     },

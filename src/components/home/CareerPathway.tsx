@@ -7,31 +7,31 @@ import { Button } from '../common/Button';
 export const CareerPathway: React.FC = () => {
   const pathways = [
     {
-      role: 'Full Stack & Backend Developer',
-      description: 'Engineering responsive web apps, high-throughput REST APIs, microservices, and database models.',
-      technologies: 'React, Node.js, Express, PostgreSQL, TypeScript, Next.js',
+      role: 'Modern Web & Frontend Developer',
+      description: 'Crafting responsive websites, interactive JavaScript-driven interfaces, and connecting RESTful APIs.',
+      technologies: 'HTML5, CSS3, Tailwind CSS, JavaScript ES6+, Vercel',
+      salaryRange: 'NPR 40,000 – 105,000 / mo',
+      demand: 'High Demand'
+    },
+    {
+      role: 'Python & Backend Software Engineer',
+      description: 'Building high-throughput asynchronous REST microservices, database ORMs, automation tools, and modular systems.',
+      technologies: 'Python 3.12, FastAPI, SQLAlchemy, AsyncIO, Pydantic, Git',
+      salaryRange: 'NPR 45,000 – 115,000 / mo',
+      demand: 'Rapidly Growing'
+    },
+    {
+      role: 'Data Analyst & Machine Learning Practitioner',
+      description: 'Extracting data intelligence, performing statistical modeling, and deploying predictive machine learning models.',
+      technologies: 'Python, Pandas, NumPy, SQL, Scikit-Learn, Matplotlib',
       salaryRange: 'NPR 45,000 – 120,000 / mo',
       demand: 'High Demand'
     },
     {
-      role: 'Applied AI & Data Engineer',
-      description: 'Building machine learning inference pipelines, vector search systems, and data analytics dashboards.',
-      technologies: 'Python, Pandas, Scikit-Learn, SQL, FastAPI, PyTorch',
-      salaryRange: 'NPR 50,000 – 130,000 / mo',
-      demand: 'Rapidly Growing'
-    },
-    {
-      role: 'Cross-Platform Mobile Developer',
-      description: 'Developing high-performance iOS and Android digital products with smooth native integrations.',
-      technologies: 'Flutter, Dart, BLoC, Firebase, SQLite, REST APIs',
-      salaryRange: 'NPR 40,000 – 100,000 / mo',
-      demand: 'High Demand'
-    },
-    {
-      role: 'UI/UX & Digital Product Designer',
-      description: 'Architecting scalable Figma design systems, user journey wireframes, and design token handoffs.',
-      technologies: 'Figma, Design Systems, UX Research, Prototyping',
-      salaryRange: 'NPR 40,000 – 95,000 / mo',
+      role: 'Junior Programmer & Automation Developer',
+      description: 'Writing clean idiomatic scripts, building CLI utilities, handling structured files, and automating repetitive tasks.',
+      technologies: 'Python, Git, GitHub, JSON/CSV Parsing, OOP Fundamentals',
+      salaryRange: 'NPR 30,000 – 65,000 / mo',
       demand: 'Steady Demand'
     }
   ];

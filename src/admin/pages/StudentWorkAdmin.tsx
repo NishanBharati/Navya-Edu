@@ -13,12 +13,12 @@ import { Badge } from '../../components/common/Badge';
 import { ImagePlaceholder } from '../../components/common/ImagePlaceholder';
 import { Toast, useToast } from '../components/ui/Toast';
 
-const CATEGORIES: StudentProject['category'][] = ['Web', 'Mobile', 'AI', 'UI/UX', 'Data'];
+const CATEGORIES: StudentProject['category'][] = ['Web Development', 'Python Engineering', 'Data Science', 'Kids Coding'];
 
 const emptyProject = (): StudentProject => ({
   id: '',
   title: '',
-  category: 'Web',
+  category: 'Web Development',
   technologies: [''],
   description: '',
   image: '',
@@ -238,7 +238,7 @@ export const StudentWorkAdmin: React.FC = () => {
                 <TextInput
                   value={drawerState.draft.completionContext}
                   onChange={(e) => setDrawerState({ ...drawerState, draft: { ...drawerState.draft, completionContext: e.target.value } })}
-                  placeholder="e.g. MERN Stack Capstone Project"
+                  placeholder="e.g. Web Development Capstone Project"
                 />
               </Field>
             </div>
@@ -264,7 +264,7 @@ export const StudentWorkAdmin: React.FC = () => {
               <ListField
                 items={drawerState.draft.technologies}
                 onChange={(items) => setDrawerState({ ...drawerState, draft: { ...drawerState.draft, technologies: items } })}
-                placeholder="e.g. React"
+                placeholder="e.g. JavaScript"
                 addLabel="Add technology"
               />
             </Field>

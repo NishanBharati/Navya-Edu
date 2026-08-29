@@ -50,10 +50,12 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
     }));
   };
 
+  const hasModules = Boolean(course.curriculum && course.curriculum.length > 0);
+
   const expandAll = () => {
     setOpenModuleIndex(-1); // special flag for all open
     const allSubs: Record<string, boolean> = {};
-    course.curriculum.forEach((mod, mIdx) => {
+    (course.curriculum || []).forEach((mod, mIdx) => {
       const count = mod.subLessons?.length || 1;
       for (let sIdx = 0; sIdx < count; sIdx++) {
         allSubs[`${mIdx}-${sIdx}`] = true;
@@ -69,10 +71,11 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
 
   // Filter modules based on search
   const filteredCurriculum = useMemo(() => {
+    const list = course.curriculum || [];
     const q = searchQuery.trim().toLowerCase();
-    if (!q) return course.curriculum.map((mod, idx) => ({ module: mod, originalIndex: idx, matches: true }));
+    if (!q) return list.map((mod, idx) => ({ module: mod, originalIndex: idx, matches: true }));
 
-    return course.curriculum.map((mod, idx) => {
+    return list.map((mod, idx) => {
       const matchTitle = mod.title.toLowerCase().includes(q) || mod.moduleNumber?.toLowerCase().includes(q);
       const matchTopics = mod.topics?.some((t) => t.toLowerCase().includes(q));
       const matchSub = mod.subLessons?.some((s) =>
@@ -89,24 +92,20 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
   // Fallback "Why [Course]?" value points
   const defaultWhyPoints = [
     {
-      headline: 'Single Language, Industry Standard:',
-      detail: `JavaScript powers modern full-stack development with Node.js and React, making it easier to learn and build real-world software applications.`
-    },
-    {
-      headline: 'High-Demand Skill:',
-      detail: `Learn an open-source technology stack supported by a global developer community and widely used by tech firms in Nepal and overseas.`
-    },
-    {
-      headline: 'Full-Stack Mastery:',
-      detail: `Build strong database schema skills, robust RESTful API backend architectures, and dynamic component frontends with state management.`
-    },
-    {
-      headline: 'Scalable, Real-World Projects:',
-      detail: `Build production applications ranging from e-commerce platforms to real-time management dashboards with live payments.`
+      headline: 'Modern Industry Standards:',
+      detail: `Learn practical technologies and engineering patterns widely demanded by technology firms in Nepal and international markets.`
     },
     {
       headline: 'Hands-On, Project-Based Training:',
-      detail: `Gain practical experience through line-by-line Git code reviews, 1:12 cohort mentorship, and guided training from industry engineers at Navya EdTech.`
+      detail: `Gain practical keyboard muscle memory through daily laboratory coding sessions, Git version control, and verifiable project portfolios.`
+    },
+    {
+      headline: 'Line-by-Line Code Critiques:',
+      detail: `Receive personalized feedback on every project deliverable from active software engineers and instructors at Navya EdTech.`
+    },
+    {
+      headline: 'Small Cohort Mentorship:',
+      detail: `Learn in an intensive small-batch environment ensuring personalized attention, direct doubt resolution, and collaborative code reviews.`
     }
   ];
 
@@ -162,186 +161,317 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
           </div>
         </div>
 
-        {/* Syllabus Search & Quick Expand Control Bar */}
-        <div className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-2xl bg-white border border-blue-mist shadow-xs">
-          <div className="relative flex-1">
-            <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search syllabus topics (e.g. Next.js, Redux, PostgreSQL, Docker)..."
-              className="w-full pl-9 pr-8 py-2 rounded-xl text-xs sm:text-sm text-ink placeholder:text-ink-faint bg-paper border border-transparent focus:border-navy focus:bg-white focus:outline-none transition-colors"
-            />
-            {searchQuery && (
+        {/* Syllabus Search & Quick Control Bar (if modules uploaded) or Status Strip */}
+        {hasModules ? (
+          <div className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-2xl bg-white border border-blue-mist shadow-xs">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search syllabus topics..."
+                className="w-full pl-9 pr-8 py-2 rounded-xl text-xs sm:text-sm text-ink placeholder:text-ink-faint bg-paper border border-transparent focus:border-navy focus:bg-white focus:outline-none transition-colors"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-ink-faint hover:text-ink p-1 cursor-pointer"
+                >
+                  &times;
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2 text-xs font-medium shrink-0">
+              <span className="text-ink-faint hidden md:inline">
+                {(course.curriculum || []).length} Modules Total
+              </span>
+              <span className="text-input-border hidden md:inline">|</span>
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-ink-faint hover:text-ink p-1 cursor-pointer"
+                onClick={expandAll}
+                className="px-2.5 py-1.5 rounded-lg text-blue hover:bg-[#F0F5FA] transition-colors cursor-pointer font-semibold"
               >
-                &times;
+                Expand All
               </button>
-            )}
+              <button
+                type="button"
+                onClick={collapseAll}
+                className="px-2.5 py-1.5 rounded-lg text-ink-soft hover:bg-paper-alt transition-colors cursor-pointer"
+              >
+                Collapse All
+              </button>
+            </div>
           </div>
-
-          <div className="flex items-center gap-2 text-xs font-medium shrink-0">
-            <span className="text-ink-faint hidden md:inline">
-              {course.curriculum.length} Modules Total
-            </span>
-            <span className="text-input-border hidden md:inline">|</span>
-            <button
-              type="button"
-              onClick={expandAll}
-              className="px-2.5 py-1.5 rounded-lg text-blue hover:bg-[#F0F5FA] transition-colors cursor-pointer font-semibold"
-            >
-              Expand All
-            </button>
-            <button
-              type="button"
-              onClick={collapseAll}
-              className="px-2.5 py-1.5 rounded-lg text-ink-soft hover:bg-paper-alt transition-colors cursor-pointer"
-            >
-              Collapse All
-            </button>
+        ) : (
+          <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 sm:px-5 rounded-2xl bg-white border border-blue-mist shadow-xs text-xs">
+            <div className="flex items-center gap-2 text-ink">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-semibold text-navy">Official {course.duration} Syllabus Specification</span>
+              <span className="text-ink-faint hidden sm:inline">•</span>
+              <span className="text-ink-soft hidden sm:inline">Module schedule & lecture plan verified by Navya Ed Tech</span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              {course.syllabusPdfUrl && (
+                <span className="text-xs font-bold text-blue flex items-center gap-1">
+                  <FileText className="w-3.5 h-3.5" /> PDF Attached
+                </span>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* 2-Column Layout: Left (Main Syllabus Accordion) & Right (Sidebar Cards) */}
+        {/* 2-Column Layout: Left (Syllabus Content) & Right (Sidebar Cards) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* ========================================================================= */}
-          {/* LEFT COLUMN: Clean Multi-Level Syllabus Accordion */}
+          {/* LEFT COLUMN: Main Curriculum Accordion OR Comprehensive Syllabus Overview */}
           {/* ========================================================================= */}
           <div className="lg:col-span-8">
-            <div className="border border-blue-mist rounded-2xl bg-white overflow-hidden shadow-xs divide-y divide-blue-mist">
-              {filteredCurriculum.map(({ module, originalIndex, matches }, modIdx) => {
-                if (!matches) return null;
+            {hasModules ? (
+              <div className="border border-blue-mist rounded-2xl bg-white overflow-hidden shadow-xs divide-y divide-blue-mist">
+                {filteredCurriculum.map(({ module, originalIndex, matches }, modIdx) => {
+                  if (!matches) return null;
 
-                const isModuleOpen = openModuleIndex === -1 || openModuleIndex === originalIndex || (searchQuery.trim() !== '' && matches);
+                  const isModuleOpen = openModuleIndex === -1 || openModuleIndex === originalIndex || (searchQuery.trim() !== '' && matches);
 
-                // Check if subLessons exist, or format topics into structured subLessons
-                const subLessonsList: SubLesson[] =
-                  module.subLessons && module.subLessons.length > 0
-                    ? module.subLessons
-                    : [
-                        {
-                          subNumber: `${originalIndex + 1}.1`,
-                          title: `Core Architectural Concepts & Syntax`,
-                          topics: module.topics
-                        }
-                      ];
+                  // Check if subLessons exist, or format topics into structured subLessons
+                  const subLessonsList: SubLesson[] =
+                    module.subLessons && module.subLessons.length > 0
+                      ? module.subLessons
+                      : [
+                          {
+                            subNumber: `${originalIndex + 1}.1`,
+                            title: `Core Architectural Concepts & Syntax`,
+                            topics: module.topics
+                          }
+                        ];
 
-                return (
-                  <div key={modIdx} className="transition-colors">
-                    {/* Primary Lesson Header */}
-                    <button
-                      type="button"
-                      onClick={() => toggleModule(originalIndex)}
-                      className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-colors cursor-pointer focus:outline-none ${
-                        isModuleOpen
-                          ? 'bg-[#F0F5FA] text-navy'
-                          : 'bg-white hover:bg-[#F8FAFC] text-ink'
-                      }`}
-                      aria-expanded={isModuleOpen}
-                    >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="px-2.5 py-1 rounded-md bg-navy/10 text-navy font-mono text-xs font-bold shrink-0">
-                          {module.moduleNumber || `M${String(originalIndex + 1).padStart(2, '0')}`}
-                        </span>
-                        <span className="text-sm sm:text-base font-bold tracking-tight leading-snug truncate">
-                          {module.title}
-                        </span>
-                      </div>
-                      <div className="shrink-0 flex items-center gap-3">
-                        {module.duration && (
-                          <span className="text-xs text-ink-soft font-medium hidden sm:inline">
-                            {module.duration}
+                  return (
+                    <div key={modIdx} className="transition-colors">
+                      {/* Primary Lesson Header */}
+                      <button
+                        type="button"
+                        onClick={() => toggleModule(originalIndex)}
+                        className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-colors cursor-pointer focus:outline-none ${
+                          isModuleOpen
+                            ? 'bg-[#F0F5FA] text-navy'
+                            : 'bg-white hover:bg-[#F8FAFC] text-ink'
+                        }`}
+                        aria-expanded={isModuleOpen}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="px-2.5 py-1 rounded-md bg-navy/10 text-navy font-mono text-xs font-bold shrink-0">
+                            {module.moduleNumber || `M${String(originalIndex + 1).padStart(2, '0')}`}
                           </span>
-                        )}
-                        <div className="p-1 rounded-md text-ink-soft">
-                          <ChevronDown
-                            className={`w-4 h-4 transition-transform duration-200 ${
-                              isModuleOpen ? 'rotate-180 text-navy' : ''
-                            }`}
-                          />
+                          <span className="text-sm sm:text-base font-bold tracking-tight leading-snug truncate">
+                            {module.title}
+                          </span>
                         </div>
-                      </div>
-                    </button>
-
-                    {/* Lesson Body: Sub-lessons tree */}
-                    {isModuleOpen && (
-                      <div className="p-5 sm:p-6 bg-white space-y-4 animate-fade-in">
-                        <div className="space-y-3">
-                          {subLessonsList.map((sub, subIdx) => {
-                            const subKey = `${originalIndex}-${subIdx}`;
-                            const isSubOpen = openModuleIndex === -1 || (openSubLessons[subKey] ?? (subIdx === 0)) || searchQuery.trim() !== '';
-
-                            return (
-                              <div key={subIdx} className="space-y-2">
-                                {/* Sub-lesson header button */}
-                                <button
-                                  type="button"
-                                  onClick={() => toggleSubLesson(originalIndex, subIdx)}
-                                  className="w-full flex items-start sm:items-center gap-2 text-left text-xs sm:text-sm font-bold text-navy hover:text-blue transition-colors cursor-pointer py-1"
-                                >
-                                  <span className="font-mono text-blue shrink-0 font-bold">
-                                    {isSubOpen ? '−' : '+'}
-                                  </span>
-                                  <span>
-                                    {sub.subNumber ? `${sub.subNumber} ` : ''}
-                                    {sub.title}
-                                  </span>
-                                </button>
-
-                                {/* Sub-lesson bullet points */}
-                                {isSubOpen && sub.topics && sub.topics.length > 0 && (
-                                  <ul className="pl-6 sm:pl-7 space-y-2 text-xs sm:text-[13px] text-[#4A5568] animate-fade-in">
-                                    {sub.topics.map((t, tIdx) => (
-                                      <li key={tIdx} className="flex items-start gap-2.5">
-                                        <span className="text-ink font-bold shrink-0 mt-0.5">•</span>
-                                        <span className="leading-relaxed">{t}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        {/* Practical Exercise & Target Competency */}
-                        {(module.practicalExercise || module.expectedOutcome) && (
-                          <div className="mt-5 pt-4 border-t border-[#EAEFF5] grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                            {module.practicalExercise && (
-                              <div className="p-3.5 rounded-xl bg-[#F0F5FA] border border-[#D9E6F2] space-y-1">
-                                <div className="flex items-center gap-1.5 text-xs font-bold text-navy">
-                                  <Terminal className="w-3.5 h-3.5 text-blue" />
-                                  <span>Lab Deliverable</span>
-                                </div>
-                                <p className="text-xs text-[#4A5568] leading-relaxed">
-                                  {module.practicalExercise}
-                                </p>
-                              </div>
-                            )}
-
-                            {module.expectedOutcome && (
-                              <div className="p-3.5 rounded-xl bg-sage/10 border border-sage/25 space-y-1">
-                                <div className="flex items-center gap-1.5 text-xs font-bold text-sage-ink">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-sage-ink" />
-                                  <span>Target Competency</span>
-                                </div>
-                                <p className="text-xs text-sage-ink leading-relaxed">
-                                  {module.expectedOutcome}
-                                </p>
-                              </div>
-                            )}
+                        <div className="shrink-0 flex items-center gap-3">
+                          {module.duration && (
+                            <span className="text-xs text-ink-soft font-medium hidden sm:inline">
+                              {module.duration}
+                            </span>
+                          )}
+                          <div className="p-1 rounded-md text-ink-soft">
+                            <ChevronDown
+                              className={`w-4 h-4 transition-transform duration-200 ${
+                                isModuleOpen ? 'rotate-180 text-navy' : ''
+                              }`}
+                            />
                           </div>
-                        )}
-                      </div>
-                    )}
+                        </div>
+                      </button>
+
+                      {/* Lesson Body: Sub-lessons tree */}
+                      {isModuleOpen && (
+                        <div className="p-5 sm:p-6 bg-white space-y-4 animate-fade-in">
+                          <div className="space-y-3">
+                            {subLessonsList.map((sub, subIdx) => {
+                              const subKey = `${originalIndex}-${subIdx}`;
+                              const isSubOpen = openModuleIndex === -1 || (openSubLessons[subKey] ?? (subIdx === 0)) || searchQuery.trim() !== '';
+
+                              return (
+                                <div key={subIdx} className="space-y-2">
+                                  {/* Sub-lesson header button */}
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleSubLesson(originalIndex, subIdx)}
+                                    className="w-full flex items-start sm:items-center gap-2 text-left text-xs sm:text-sm font-bold text-navy hover:text-blue transition-colors cursor-pointer py-1"
+                                  >
+                                    <span className="font-mono text-blue shrink-0 font-bold">
+                                      {isSubOpen ? '−' : '+'}
+                                    </span>
+                                    <span>
+                                      {sub.subNumber ? `${sub.subNumber} ` : ''}
+                                      {sub.title}
+                                    </span>
+                                  </button>
+
+                                  {/* Sub-lesson bullet points */}
+                                  {isSubOpen && sub.topics && sub.topics.length > 0 && (
+                                    <ul className="pl-6 sm:pl-7 space-y-2 text-xs sm:text-[13px] text-[#4A5568] animate-fade-in">
+                                      {sub.topics.map((t, tIdx) => (
+                                        <li key={tIdx} className="flex items-start gap-2.5">
+                                          <span className="text-ink font-bold shrink-0 mt-0.5">•</span>
+                                          <span className="leading-relaxed">{t}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          {/* Practical Exercise & Target Competency */}
+                          {(module.practicalExercise || module.expectedOutcome) && (
+                            <div className="mt-5 pt-4 border-t border-[#EAEFF5] grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                              {module.practicalExercise && (
+                                <div className="p-3.5 rounded-xl bg-[#F0F5FA] border border-[#D9E6F2] space-y-1">
+                                  <div className="flex items-center gap-1.5 text-xs font-bold text-navy">
+                                    <Terminal className="w-3.5 h-3.5 text-blue" />
+                                    <span>Lab Deliverable</span>
+                                  </div>
+                                  <p className="text-xs text-[#4A5568] leading-relaxed">
+                                    {module.practicalExercise}
+                                  </p>
+                                </div>
+                              )}
+
+                              {module.expectedOutcome && (
+                                <div className="p-3.5 rounded-xl bg-sage/10 border border-sage/25 space-y-1">
+                                  <div className="flex items-center gap-1.5 text-xs font-bold text-sage-ink">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-sage-ink" />
+                                    <span>Target Competency</span>
+                                  </div>
+                                  <p className="text-xs text-sage-ink leading-relaxed">
+                                    {module.expectedOutcome}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              /* Fallback when curriculum modules are being uploaded via admin */
+              <div className="space-y-6">
+                {/* Official Syllabus Document Banner */}
+                <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-navy via-[#162D4A] to-navy text-white shadow-md relative overflow-hidden">
+                  <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-blue/20 rounded-full blur-2xl pointer-events-none" />
+                  <div className="relative z-10 space-y-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-[#A8C6E5] uppercase tracking-wider">
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>Curriculum Specification • {course.duration}</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
+                      Structured Course Syllabus & Topic Plan
+                    </h3>
+                    <p className="text-xs sm:text-sm text-mist leading-relaxed max-w-xl">
+                      The comprehensive lecture plan, practical exercises, and lab schedules for {course.title} are available through our admissions desk and direct PDF download.
+                    </p>
+                    <div className="pt-2 flex flex-wrap items-center gap-3">
+                      {onDownloadSyllabus && (
+                        <Button
+                          variant="secondary"
+                          size="md"
+                          onClick={onDownloadSyllabus}
+                          leftIcon={<Download className="w-4 h-4" />}
+                        >
+                          Download Syllabus (PDF)
+                        </Button>
+                      )}
+                      {onOpenAdvisor && (
+                        <Button
+                          variant="outline"
+                          size="md"
+                          onClick={onOpenAdvisor}
+                          className="!border-white/30 !text-white hover:!bg-white/10"
+                          leftIcon={<MessageSquare className="w-4 h-4" />}
+                        >
+                          Request Detailed Roadmap
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+
+                {/* Core Learning Tracks / Modules Overview */}
+                <div className="bg-white p-6 sm:p-8 rounded-3xl border border-blue-mist shadow-xs space-y-6">
+                  <div className="space-y-1">
+                    <h4 className="text-base sm:text-lg font-bold text-ink flex items-center gap-2">
+                      <Terminal className="w-4 h-4 text-blue" />
+                      <span>Core Competencies & Learning Pillars</span>
+                    </h4>
+                    <p className="text-xs text-ink-soft">
+                      Key foundational and project milestones covered over the {course.duration} instructional period.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Card 1: Technologies & Frameworks */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-paper border border-border space-y-3">
+                      <div className="flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-lg bg-navy/10 text-navy font-bold text-xs flex items-center justify-center font-mono">01</span>
+                        <h5 className="text-sm font-bold text-ink">Core Toolchain & Environment</h5>
+                      </div>
+                      <p className="text-xs text-ink-soft leading-relaxed">
+                        Hands-on command of the primary tools, libraries, and workflows required for modern development.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {course.technologies.slice(0, 6).map((tech, tIdx) => (
+                          <span key={tIdx} className="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium bg-white text-navy border border-input-border">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Card 2: Guided Project Development */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-paper border border-border space-y-3">
+                      <div className="flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-lg bg-navy/10 text-navy font-bold text-xs flex items-center justify-center font-mono">02</span>
+                        <h5 className="text-sm font-bold text-ink">Practical Capstone Execution</h5>
+                      </div>
+                      <p className="text-xs text-ink-soft leading-relaxed">
+                        Directly apply conceptual knowledge into real-world code deliverables reviewed by engineering mentors.
+                      </p>
+                      <ul className="space-y-1.5 text-xs text-ink-soft">
+                        {course.projects.map((proj, pIdx) => (
+                          <li key={pIdx} className="flex items-start gap-1.5">
+                            <Check className="w-3.5 h-3.5 text-blue shrink-0 mt-0.5" />
+                            <span className="font-medium text-ink truncate">{proj.title}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Card 3: Measured Outcomes */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-paper border border-border space-y-3 sm:col-span-2">
+                      <div className="flex items-center gap-2">
+                        <span className="w-7 h-7 rounded-lg bg-navy/10 text-navy font-bold text-xs flex items-center justify-center font-mono">03</span>
+                        <h5 className="text-sm font-bold text-ink">Verified Competency Outcomes</h5>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                        {course.outcomes.map((outcome, oIdx) => (
+                          <div key={oIdx} className="flex items-start gap-2 text-xs text-ink-soft">
+                            <CheckCircle2 className="w-4 h-4 text-sage-ink shrink-0 mt-0.5" />
+                            <span className="leading-snug">{outcome}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ========================================================================= */}
@@ -483,65 +613,87 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
               {/* Module-by-Module Complete Reading View */}
               <div className="space-y-6">
                 <h4 className="text-sm font-bold uppercase tracking-wider text-navy border-b border-border pb-2">
-                  Comprehensive Module Breakdown ({course.curriculum.length} Modules)
+                  {hasModules
+                    ? `Comprehensive Module Breakdown (${(course.curriculum || []).length} Modules)`
+                    : `Syllabus Overview & Practical Framework (${course.duration})`}
                 </h4>
 
-                <div className="space-y-5">
-                  {course.curriculum.map((mod, idx) => (
-                    <div key={idx} className="p-5 rounded-2xl bg-paper border border-border space-y-3">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex items-center gap-2.5">
-                          <span className="px-2.5 py-1 rounded-lg bg-navy text-white font-mono text-xs font-bold">
-                            {mod.moduleNumber || `Module ${idx + 1}`}
-                          </span>
-                          <h5 className="text-base font-bold text-ink">
-                            {mod.title}
-                          </h5>
+                {hasModules ? (
+                  <div className="space-y-5">
+                    {(course.curriculum || []).map((mod, idx) => (
+                      <div key={idx} className="p-5 rounded-2xl bg-paper border border-border space-y-3">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-center gap-2.5">
+                            <span className="px-2.5 py-1 rounded-lg bg-navy text-white font-mono text-xs font-bold">
+                              {mod.moduleNumber || `Module ${idx + 1}`}
+                            </span>
+                            <h5 className="text-base font-bold text-ink">
+                              {mod.title}
+                            </h5>
+                          </div>
+                          {mod.duration && (
+                            <span className="text-xs font-mono text-ink-soft shrink-0">
+                              {mod.duration}
+                            </span>
+                          )}
                         </div>
-                        {mod.duration && (
-                          <span className="text-xs font-mono text-ink-soft shrink-0">
-                            {mod.duration}
-                          </span>
+
+                        {/* Topics */}
+                        {mod.topics && mod.topics.length > 0 && (
+                          <div className="space-y-1.5 pl-3">
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-ink-soft block">
+                              Topics Covered:
+                            </span>
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#4A5568]">
+                              {mod.topics.map((top, tIdx) => (
+                                <li key={tIdx} className="flex items-start gap-2">
+                                  <span className="text-blue font-bold shrink-0">•</span>
+                                  <span>{top}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Practical Lab & Competency */}
+                        {(mod.practicalExercise || mod.expectedOutcome) && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            {mod.practicalExercise && (
+                              <div className="p-3 rounded-xl bg-white border border-[#E2E8F0] space-y-1 text-xs">
+                                <span className="font-bold text-navy block">Lab Deliverable:</span>
+                                <p className="text-ink-soft">{mod.practicalExercise}</p>
+                              </div>
+                            )}
+                            {mod.expectedOutcome && (
+                              <div className="p-3 rounded-xl bg-white border border-[#E2E8F0] space-y-1 text-xs">
+                                <span className="font-bold text-sage-ink block">Expected Outcome:</span>
+                                <p className="text-ink-soft">{mod.expectedOutcome}</p>
+                              </div>
+                            )}
+                          </div>
                         )}
                       </div>
-
-                      {/* Topics */}
-                      {mod.topics && mod.topics.length > 0 && (
-                        <div className="space-y-1.5 pl-3">
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-ink-soft block">
-                            Topics Covered:
-                          </span>
-                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#4A5568]">
-                            {mod.topics.map((top, tIdx) => (
-                              <li key={tIdx} className="flex items-start gap-2">
-                                <span className="text-blue font-bold shrink-0">•</span>
-                                <span>{top}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-5 sm:p-6 rounded-2xl bg-paper border border-border space-y-4">
+                    <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
+                      The day-by-day lecture plan and lab exercises for <strong className="text-ink">{course.title}</strong> ({course.duration}) are structured around practical industry milestones. You can download the verified syllabus PDF prospectus or consult with our course counselor for batch scheduling and lab facilities.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      {onDownloadSyllabus && (
+                        <Button variant="primary" size="sm" onClick={onDownloadSyllabus} leftIcon={<Download className="w-4 h-4" />}>
+                          Download Official Syllabus (PDF)
+                        </Button>
                       )}
-
-                      {/* Practical Lab & Competency */}
-                      {(mod.practicalExercise || mod.expectedOutcome) && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                          {mod.practicalExercise && (
-                            <div className="p-3 rounded-xl bg-white border border-[#E2E8F0] space-y-1 text-xs">
-                              <span className="font-bold text-navy block">Lab Deliverable:</span>
-                              <p className="text-ink-soft">{mod.practicalExercise}</p>
-                            </div>
-                          )}
-                          {mod.expectedOutcome && (
-                            <div className="p-3 rounded-xl bg-white border border-[#E2E8F0] space-y-1 text-xs">
-                              <span className="font-bold text-sage-ink block">Expected Outcome:</span>
-                              <p className="text-ink-soft">{mod.expectedOutcome}</p>
-                            </div>
-                          )}
-                        </div>
+                      {onOpenAdvisor && (
+                        <Button variant="outline" size="sm" onClick={onOpenAdvisor} leftIcon={<MessageSquare className="w-4 h-4" />}>
+                          Consult Academic Advisor
+                        </Button>
                       )}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Capstone Projects Section if available */}

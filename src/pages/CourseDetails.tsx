@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import type { Course } from '../types';
-import { COURSES } from '../data/courses';
+import { COURSES, LEGACY_COURSE_SLUGS } from '../data/courses';
 
 // Focused, High-Impact Course Components
 import { CourseHero } from '../components/courses/CourseHero';
@@ -34,6 +34,14 @@ export const CourseDetails: React.FC = () => {
     setIsLoading(true);
 
     async function loadCourse() {
+      if (slug && LEGACY_COURSE_SLUGS.has(slug)) {
+        if (isActive) {
+          setCourse(null);
+          setIsLoading(false);
+        }
+        return;
+      }
+
       try {
         const { data } = await supabase
           .from('courses')
@@ -42,7 +50,17 @@ export const CourseDetails: React.FC = () => {
           .maybeSingle();
 
         if (!isActive) return;
-        const matched = (data as Course) ?? COURSES.find((c) => c.slug === slug) ?? null;
+        const localCourse = COURSES.find((c) => c.slug === slug);
+        let matched: Course | null = null;
+        if (data) {
+          matched = {
+            ...(localCourse || {}),
+            ...(data as Course),
+            whyChooseThis: (data as Course).whyChooseThis || localCourse?.whyChooseThis
+          };
+        } else {
+          matched = localCourse ?? null;
+        }
         setCourse(matched);
       } catch {
         if (!isActive) return;

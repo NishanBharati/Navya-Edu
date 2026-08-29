@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   RotateCcw
 } from 'lucide-react';
-import { COURSE_CATEGORIES, COURSES } from '../data/courses';
+import { COURSE_CATEGORIES, COURSES, LEGACY_COURSE_SLUGS } from '../data/courses';
 import { Course, CourseCategory } from '../types';
 import { useSupabaseTable } from '../lib/useSupabaseTable';
 import { Container } from '../components/common/Container';
@@ -32,10 +32,13 @@ export const Courses: React.FC = () => {
     ascending: true
   });
 
-  // Guarantee fallback to COURSES if database returns empty
+  // Guarantee fallback to COURSES if database returns empty or contains legacy courses
   const allCourses = useMemo(() => {
     if (dbCourses && dbCourses.length > 0) {
-      return dbCourses;
+      const active = dbCourses.filter((c) => !LEGACY_COURSE_SLUGS.has(c.slug));
+      if (active.length > 0) {
+        return active;
+      }
     }
     return COURSES;
   }, [dbCourses]);
@@ -88,7 +91,7 @@ export const Courses: React.FC = () => {
   };
 
   // Popular search keywords
-  const popularKeywords = ['MERN', 'Python AI', 'React', 'Figma UI/UX', 'Docker', 'Flutter', 'Cybersecurity'];
+  const popularKeywords = ['Python', 'Web Development', 'Scratch', 'Data Science', 'Beginner', 'Advance'];
 
   // Calculate dynamic category item counts
   const categoryCounts = useMemo(() => {
@@ -103,7 +106,7 @@ export const Courses: React.FC = () => {
 
   // Featured course spotlight (top flagship track)
   const spotlightCourse = useMemo(() => {
-    return allCourses.find((c) => c.featured && c.slug === 'mern-stack-development') || allCourses.find((c) => c.featured) || allCourses[0];
+    return allCourses.find((c) => c.featured && c.slug === 'web-development') || allCourses.find((c) => c.featured) || allCourses[0];
   }, [allCourses]);
 
   // Filtered & Sorted courses
@@ -147,8 +150,11 @@ export const Courses: React.FC = () => {
         return a.title.localeCompare(b.title);
       }
       if (sortBy === 'duration') {
-        const getMonths = (d: string) => parseInt(d) || 0;
-        return getMonths(b.duration) - getMonths(a.duration);
+        const getDays = (d: string) => {
+          const n = parseInt(d) || 0;
+          return d.toLowerCase().includes('month') ? n * 30 : n;
+        };
+        return getDays(b.duration) - getDays(a.duration);
       }
       return 0;
     });
@@ -173,7 +179,7 @@ export const Courses: React.FC = () => {
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="Explore Professional IT Courses & Tech Training | Navya Ed Tech Nepal"
-        description="Browse industry-standard courses in MERN Full-Stack, Python & Machine Learning, UI/UX Design, DevOps, Flutter, and Cybersecurity in Kathmandu. Real production projects and career mentorship."
+        description="Browse industry-standard courses in Python, Web Development, Scratch Programming, and Data Science in Kathmandu. Real production projects and career mentorship."
       />
 
       <Container>
@@ -202,7 +208,7 @@ export const Courses: React.FC = () => {
                 <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft" />
                 <input
                   type="text"
-                  placeholder="Search courses, frameworks, or tools (e.g., React, Python, Docker, Figma)..."
+                  placeholder="Search courses, frameworks, or tools (e.g., Python, JavaScript, Scratch, Data Science)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-10 py-3.5 text-sm sm:text-base rounded-2xl border border-input-border bg-white text-ink shadow-xs placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:border-transparent"

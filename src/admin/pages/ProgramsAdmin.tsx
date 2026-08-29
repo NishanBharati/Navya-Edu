@@ -320,7 +320,7 @@ export const ProgramsAdmin: React.FC = () => {
               <ListField
                 items={drawerState.draft.coursesIncluded || []}
                 onChange={(items) => setDrawerState({ ...drawerState, draft: { ...drawerState.draft, coursesIncluded: items } })}
-                placeholder="e.g. MERN Stack Web Development"
+                placeholder="e.g. Web Development"
                 addLabel="Add course"
               />
             </Field>
@@ -330,7 +330,7 @@ export const ProgramsAdmin: React.FC = () => {
                 value={drawerState.draft.syllabusPdfUrl || ''}
                 onChange={(url) => setDrawerState({ ...drawerState, draft: { ...drawerState.draft, syllabusPdfUrl: url } })}
                 folder="syllabi"
-                hint="Upload official Career Fellowship / Program Syllabus PDF (max. 25MB)."
+                hint="Upload official Career Track / Program Syllabus PDF (max. 25MB)."
               />
             </Field>
           </div>

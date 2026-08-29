@@ -1,7 +1,10 @@
 export type CourseCategory = 
   | 'All'
-  | 'Development'
+  | 'Programming'
+  | 'Web Development'
+  | 'Kids Coding'
   | 'Data & AI'
+  | 'Development'
   | 'Design'
   | 'Cloud & DevOps'
   | 'Cybersecurity'
@@ -99,7 +102,7 @@ export interface Program {
   id: string;
   slug: string;
   title: string;
-  category: 'Career Programs' | 'Professional Programs' | 'Short Courses' | 'Internship Programs';
+  category: 'Career Programs' | 'Professional Programs' | 'Specialized Tracks' | 'Kids & School Programs' | 'Short Courses' | 'Internship Programs';
   tagline: string;
   description: string;
   duration: string;
@@ -115,7 +118,7 @@ export interface Program {
 export interface StudentProject {
   id: string;
   title: string;
-  category: 'Web' | 'Mobile' | 'AI' | 'UI/UX' | 'Data';
+  category: 'Web Development' | 'Python Engineering' | 'Data Science' | 'Kids Coding' | 'Web' | 'Data' | 'Mobile' | 'AI' | 'UI/UX';
   technologies: string[];
   description: string;
   image: string;

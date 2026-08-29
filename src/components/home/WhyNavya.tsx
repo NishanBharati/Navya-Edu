@@ -1,46 +1,47 @@
 import React from 'react';
-import { ArrowUpRight, Code, Smartphone, Brain, Cloud, Palette, Shield, Building2 } from 'lucide-react';
+import { ArrowUpRight, Code, Terminal, BarChart3, Gamepad2, GitBranch, Users, Building2 } from 'lucide-react';
 import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 
 export const WhyNavya: React.FC = () => {
   const capabilities = [
     {
-      title: 'Full-Stack Software Engineering',
-      description: 'Production web apps, microservices, high-throughput REST APIs, and database modeling with TypeScript & Node.js.',
+      title: 'Modern Web Craftsmanship',
+      description: 'Semantic HTML5, responsive Tailwind CSS layouts, and modern JavaScript ES6+ application logic for interactive user interfaces.',
       icon: <Code className="w-4.5 h-4.5" />,
-      tag: 'Core discipline',
+      tag: 'Frontend & UI',
       featured: true
     },
     {
-      title: 'Cross-Platform Mobile Apps',
-      description: 'Smooth 60fps native and hybrid mobile digital products for iOS and Android using Flutter & Dart.',
-      icon: <Smartphone className="w-4.5 h-4.5" />,
-      tag: 'Mobile engineering'
+      title: 'Python Software Engineering',
+      description: 'Clean object-oriented architecture, modular automation scripting, asynchronous concurrency, and high-performance FastAPI microservices.',
+      icon: <Terminal className="w-4.5 h-4.5" />,
+      tag: 'Backend & Core',
+      featured: true
     },
     {
-      title: 'Applied AI & Data Systems',
-      description: 'Retrieval-augmented generation (RAG), vector databases, predictive ML pipelines, and Python analytics.',
-      icon: <Brain className="w-4.5 h-4.5" />,
-      tag: 'Generative AI'
+      title: 'Applied Data Science & ML',
+      description: 'Exploratory data analysis, Pandas, NumPy, statistical hypothesis testing, and predictive machine learning models using Scikit-Learn.',
+      icon: <BarChart3 className="w-4.5 h-4.5" />,
+      tag: 'Analytics & AI'
     },
     {
-      title: 'Cloud Infrastructure & DevOps',
-      description: 'Docker containerization, automated GitHub Actions CI/CD pipelines, and AWS cloud architecting.',
-      icon: <Cloud className="w-4.5 h-4.5" />,
-      tag: 'Cloud-native'
+      title: 'STEM & Early Coding Logic',
+      description: 'Visual block programming in Scratch 3.0, computational thinking, 2D arcade physics, and interactive problem solving for young learners.',
+      icon: <Gamepad2 className="w-4.5 h-4.5" />,
+      tag: 'Kids Coding'
     },
     {
-      title: 'Digital Product & UI/UX Design',
-      description: 'Design tokens, auto-layout component systems, Figma design libraries, and user research protocols.',
-      icon: <Palette className="w-4.5 h-4.5" />,
-      tag: 'Design systems'
+      title: 'Verifiable Production Workflows',
+      description: 'Line-by-line pull request reviews on GitHub, Git branching strategies, clean code standards, and live deployments on Vercel.',
+      icon: <GitBranch className="w-4.5 h-4.5" />,
+      tag: 'Engineering rigor'
     },
     {
-      title: 'Cybersecurity & Defense',
-      description: 'Vulnerability assessment, OWASP Top 10 mitigation, token security, and secure API audits.',
-      icon: <Shield className="w-4.5 h-4.5" />,
-      tag: 'Security auditing'
+      title: 'Direct Industry Mentorship',
+      description: 'Learn directly from active software developers and technical trainers at Navya EdTech with personalized feedback in small cohorts.',
+      icon: <Users className="w-4.5 h-4.5" />,
+      tag: 'Mentorship desk'
     }
   ];
 

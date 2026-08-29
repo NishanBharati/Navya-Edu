@@ -2,126 +2,134 @@ import { Program } from '../types';
 
 export const PROGRAMS: Program[] = [
   {
-    id: 'full-stack-career-track',
-    slug: 'full-stack-career-track',
-    title: 'Full Stack Engineering Career Program',
+    id: 'web-development-career-track',
+    slug: 'web-development-career-track',
+    title: 'Modern Web Development Career Track',
     category: 'Career Programs',
-    tagline: 'An intensive, end-to-end program for candidates preparing for professional software engineering roles.',
-    description: 'Our flagship multi-tier career program designed to bridge the gap between academic theory and commercial software engineering. Spanning modern frontend, backend systems, database modeling, cloud deployment, code reviews, and structured capstone engineering.',
-    duration: '6 Months (24 Weeks)',
-    format: 'Classroom Immersion / Intensive Hybrid',
-    eligibility: 'Graduates or final-year students in CS/IT/Engineering or individuals with dedicated full-time learning commitment.',
+    tagline: 'Practical, project-based web development from UI foundations to interactive, API-driven web applications.',
+    description: 'Our premier frontend and web engineering track designed to bridge the gap between academic theory and commercial web craftsmanship. Spanning semantic HTML5, modern Tailwind CSS styling, JavaScript ES6+ application logic, REST API integration, and cloud deployment on Vercel.',
+    duration: '45 Days (7.5 Weeks)',
+    format: 'In-Person Computer Lab & Mentored Sprints',
+    eligibility: 'Open to beginners and students passionate about building modern web software. Personal laptop required.',
     whoItsFor: [
-      'Fresh graduates looking to secure their first software developer role.',
-      'Self-taught programmers seeking rigorous industry structure and mentoring.',
-      'Career switchers wanting a comprehensive, guided technology pathway.'
+      'Students and fresh graduates aspiring to become frontend and web engineers.',
+      'Career switchers looking to build commercial, production-ready web applications.',
+      'Designers and tech enthusiasts who want to bring digital interfaces to life with clean code.'
     ],
     whatItIncludes: [
-      'Comprehensive MERN Stack & TypeScript curriculum',
-      'Advanced Database Architecture & REST API Design',
-      'DevOps, Docker & Cloud Deployment fundamentals',
-      '3 major production-grade portfolio projects with senior code reviews',
-      'Resume reviews, technical interview prep, and project defense sessions'
+      'Semantic HTML5, CSS3 Flexbox & Grid, and Tailwind CSS design systems',
+      'Modern JavaScript ES6+ application logic, array methods, and async/await',
+      'Dynamic DOM manipulation, reusable UI patterns, and client-side state management',
+      'REST API consumption and third-party data fetching',
+      'Cloud deployment to Vercel with Git branching and GitHub version control',
+      '3 major production capstones: E-Commerce Storefront, Real-Time Kanban Board, and Live API Portal'
     ],
     expectedOutcome: [
-      'Ability to build and deploy complex full-stack web applications independently.',
-      'Strong fluency in Git collaboration workflows, CI/CD, and system architecture.',
-      'A verifiable GitHub portfolio with live deployed applications.'
+      'Ability to build responsive, accessible web applications independently.',
+      'Live deployed portfolio containing 3 interactive JavaScript applications on Vercel.',
+      'Fluency in Git branching, pull requests, and modern frontend tooling.'
     ],
     coursesIncluded: [
-      'MERN Stack Web Development',
-      'React & Modern Frontend Engineering',
-      'DevOps & Cloud Engineering Fundamentals'
+      'Web Development'
     ]
   },
   {
-    id: 'applied-data-ai-program',
-    slug: 'applied-data-ai-program',
-    title: 'Applied Data Science & Machine Learning Program',
+    id: 'python-data-science-program',
+    slug: 'python-data-science-program',
+    title: 'Python & Applied Data Science Program',
     category: 'Career Programs',
     tagline: 'Comprehensive data engineering, statistical modeling, and machine learning for modern analytical roles.',
-    description: 'Designed for analytical professionals and students who want to build real data pipelines, perform rigorous exploratory analysis, train predictive models, and deploy machine learning APIs in production.',
-    duration: '4 Months (16 Weeks)',
-    format: 'Classroom / Online Live',
-    eligibility: 'Basic mathematical aptitude (algebra/statistics) and strong motivation for data problem solving.',
+    description: 'An intensive, multi-tier data intelligence pathway taking you from core Python programming and asynchronous FastAPI microservices to high-impact exploratory data analysis, Pandas data wrangling, SQL querying, and predictive machine learning models with Scikit-Learn.',
+    duration: '90 Days (~3 Months)',
+    format: 'Classroom Immersion / Intensive Laboratory',
+    eligibility: 'Basic mathematical aptitude (algebra/statistics) and strong motivation for analytical problem solving.',
     whoItsFor: [
-      'Economics, statistics, mathematics, and engineering graduates.',
+      'Graduates in CS, IT, BCA, statistics, mathematics, economics, or engineering.',
       'Business analysts looking to transition to data science and ML engineering.',
-      'Software developers wanting to add machine learning capabilities.'
+      'Software developers wanting to add predictive machine learning capabilities.'
     ],
     whatItIncludes: [
-      'Python programming for high-performance computing',
-      'Pandas, NumPy & SQL Data Warehousing',
-      'Scikit-Learn Machine Learning Pipelines',
-      'FastAPI deployment & modern AI model integrations',
-      '2 domain-specific analytics capstone projects'
+      'Foundational and advanced object-oriented Python 3 programming',
+      'High-performance data analysis with NumPy, Pandas & SQL Data Warehousing',
+      'Exploratory data visualization and statistical trend modeling',
+      'Scikit-Learn machine learning pipelines and predictive model evaluation',
+      'FastAPI microservices for serving live machine learning predictions',
+      'Domain capstones using real Nepali economic, agriculture, and market datasets'
     ],
     expectedOutcome: [
-      'Ability to extract, clean, and model datasets to drive business decisions.',
+      'Ability to clean, transform, analyze, and extract business insights from complex datasets.',
       'Deployment of machine learning APIs capable of serving live predictions.',
-      'Statistical reporting and data visualization fluency.'
+      'Statistical reporting and data visualization fluency showcased in a public portfolio.'
     ],
     coursesIncluded: [
-      'Python, Data Science & Machine Learning'
+      'Python Beginner',
+      'Python Advance',
+      'Data Science'
     ]
   },
   {
-    id: 'digital-product-design-track',
-    slug: 'digital-product-design-track',
-    title: 'UI/UX & Product Design Professional Track',
-    category: 'Professional Programs',
-    tagline: 'A rigorous hands-on program covering UX research, design systems, Figma workflows, and high-impact case study formulation.',
-    description: 'Equips designers and technologists with the practical methodologies needed to design complex digital experiences. From user interviews and wireframes to scalable Figma design systems and developer handoff.',
-    duration: '3 Months (12 Weeks)',
-    format: 'Classroom / Hybrid',
-    eligibility: 'Open to all creative and analytical minds. No prior design software required.',
+    id: 'python-software-engineering',
+    slug: 'python-software-engineering',
+    title: 'Python Software Engineering Track',
+    category: 'Specialized Tracks',
+    tagline: 'Master clean object-oriented Python, asynchronous concurrency, and scalable API backend systems.',
+    description: 'A structured software engineering pathway combining fundamental logic with production-grade backend engineering. Cover internal Python object models, dunder protocols, asynchronous I/O with AsyncIO, concurrency with multiprocessing, decorators, FastAPI microservices, and database ORMs with SQLAlchemy.',
+    duration: '80 Days (~3 Months)',
+    format: 'Classroom & Hands-On Coding Lab',
+    eligibility: 'Candidates wanting rigorous programming foundations and production software craftsmanship.',
     whoItsFor: [
-      'Aspiring UI/UX and product designers.',
-      'Graphic designers transitioning into digital software product design.',
-      'Frontend developers wanting to master visual hierarchy and UX design.'
+      'Complete beginners wanting an end-to-end pathway to professional Python programming.',
+      'College students in BCA, BSc.CSIT, or Engineering seeking strong backend skills.',
+      'Developers wanting to master asynchronous concurrency and microservice architecture.'
     ],
     whatItIncludes: [
-      'User research, customer journey mapping, and empathy modeling',
-      'Figma auto-layout, component variants, variables, and design tokens',
-      'Interactive prototyping and usability testing protocols',
-      '2 detailed UX case studies formatted for international portfolio standards'
+      'PEP 8 idiomatic Python syntax, data structures, and OOP design patterns',
+      'File handling, JSON/CSV parsing, and automation scripting',
+      'Asynchronous I/O with AsyncIO and multiprocessing concurrency',
+      'FastAPI REST microservice creation, Pydantic validation & SQLAlchemy ORM',
+      'Unit testing with pytest, Git version control, and GitHub workflows',
+      '3 major projects: Personal Finance Tracker CLI, Async Scraper, and Auth Microservice'
     ],
     expectedOutcome: [
-      'Production of an industry-standard digital product portfolio.',
-      'Mastery of Figma design system creation and management.',
-      'Confidence in defending design decisions grounded in user research.'
+      'Mastery of professional Python programming from CLI utilities to backend microservices.',
+      'Ability to architect resilient asynchronous web services with database persistence.',
+      'A verifiable GitHub portfolio with production code reviewed by senior engineers.'
     ],
     coursesIncluded: [
-      'UI/UX & Digital Product Design'
+      'Python Beginner',
+      'Python Advance'
     ]
   },
   {
-    id: 'internship-readiness-pathway',
-    slug: 'internship-readiness-pathway',
-    title: 'Software Engineering Internship Readiness Program',
-    category: 'Internship Programs',
-    tagline: 'Focused preparation for college students and recent graduates targeting software development internships.',
-    description: 'A targeted program that simulates working in a real software team at Navya EdTech. Focuses on code quality, testing, code reviews, collaborative pull requests, and building software that adheres to commercial standards.',
-    duration: '8 Weeks',
-    format: 'In-Person Laboratory & Code Sprints',
-    eligibility: 'Candidates with basic programming knowledge who need practical team engineering experience.',
+    id: 'young-coders-stem-track',
+    slug: 'young-coders-stem-track',
+    title: 'Young Coders & STEM Foundation Pathway',
+    category: 'Kids & School Programs',
+    tagline: 'Inspiring the next generation of engineers through creative game design and interactive computational logic.',
+    description: 'A two-stage progressive coding curriculum designed specifically for young learners and school students. Starts with visual block-based storytelling and algorithmic sequencing in Scratch Beginner, and advances into 2D arcade physics, velocity math, collision detection, and multi-level game architecture in Scratch Advanced.',
+    duration: '60 Days (2 Months)',
+    format: 'Interactive Laboratory & Creative Sprints',
+    eligibility: 'School students (Grade 4–12) with enthusiasm for creativity, games, and technology. No prior coding required.',
     whoItsFor: [
-      'BSc.CSIT, BCA, BIT, Computer Engineering students seeking practical internship preparation.',
-      'Learners who know syntax but struggle to build complete applications in teams.'
+      'School students (+2 and below) taking their first steps in computer science.',
+      'Young learners interested in creating video games, animations, and interactive stories.',
+      'Parents seeking structured, creative screen time and computational thinking for kids.'
     ],
     whatItIncludes: [
-      'Weekly agile sprint simulations with tickets and standups',
-      'Git branching strategies, code reviews, and pair programming',
-      'Testing fundamentals and error handling best practices',
-      'Capstone team project evaluated by Navya EdTech engineers'
+      'Visual block-based logic, motion math, and coordinate geometry',
+      'Event broadcasting, condition trees, loops, and variable state management',
+      'Custom functions (My Blocks), collision detection, and clone management',
+      '2D arcade platformer game physics, jump mechanics, and enemy waves',
+      'Interactive capstone game showcase and certificate of achievement'
     ],
     expectedOutcome: [
-      'Demonstrated experience collaborating on a multi-developer codebase.',
-      'Readiness for technical interviews and corporate software internships.',
-      'Verified performance assessment from industry instructors.'
+      'Strong grasp of foundational computational thinking and algorithmic sequencing.',
+      'Creation of 6+ published interactive games, animations, and quizzes.',
+      'Confidence and readiness for transition into text-based coding languages like Python.'
     ],
     coursesIncluded: [
-      'Practical Team Engineering Workshop'
+      'Scratch Beginner',
+      'Scratch Advanced'
     ]
   }
 ];

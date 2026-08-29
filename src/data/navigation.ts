@@ -24,12 +24,12 @@ export const FOOTER_LINKS = {
     { label: 'Privacy Policy', href: '/privacy' },
   ],
   popularCourses: [
-    { label: 'MERN Stack Web Development', href: '/courses/mern-stack-development' },
-    { label: 'Python, Data Science & AI', href: '/courses/python-data-science-ai' },
-    { label: 'UI/UX & Product Design', href: '/courses/ui-ux-product-design' },
-    { label: 'React & Frontend Engineering', href: '/courses/react-frontend-engineering' },
-    { label: 'DevOps & Cloud Engineering', href: '/courses/devops-cloud-engineering' },
-    { label: 'Flutter Mobile App Development', href: '/courses/flutter-mobile-app-development' },
+    { label: 'Python Beginner (40 Days)', href: '/courses/python-beginner' },
+    { label: 'Python Advance (40 Days)', href: '/courses/python-advance' },
+    { label: 'Web Development (45 Days)', href: '/courses/web-development' },
+    { label: 'Scratch Beginner (30 Days)', href: '/courses/scratch-beginner' },
+    { label: 'Scratch Advanced (30 Days)', href: '/courses/scratch-advanced' },
+    { label: 'Data Science (50 Days)', href: '/courses/data-science' },
   ],
   company: [
     { label: 'About Navya Ed Tech', href: '/about' },

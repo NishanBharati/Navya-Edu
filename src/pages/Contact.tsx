@@ -17,7 +17,7 @@ import { SEOHead } from '../components/common/SEOHead';
 import { FAQAccordion } from '../components/common/FAQAccordion';
 import { supabase } from '../lib/supabaseClient';
 import { useSupabaseTable } from '../lib/useSupabaseTable';
-import { COURSES } from '../data/courses';
+import { COURSES, LEGACY_COURSE_SLUGS } from '../data/courses';
 import type { Course, Inquiry, FAQItem } from '../types';
 
 export const Contact: React.FC = () => {
@@ -27,7 +27,10 @@ export const Contact: React.FC = () => {
   });
 
   const allCourses = useMemo(() => {
-    if (dbCourses && dbCourses.length > 0) return dbCourses;
+    if (dbCourses && dbCourses.length > 0) {
+      const active = dbCourses.filter((c) => !LEGACY_COURSE_SLUGS.has(c.slug));
+      if (active.length > 0) return active;
+    }
     return COURSES;
   }, [dbCourses]);
 
@@ -35,7 +38,7 @@ export const Contact: React.FC = () => {
     fullName: '',
     email: '',
     phone: '',
-    interestedCourse: 'mern-stack-development',
+    interestedCourse: 'python-beginner',
     preferredMode: 'Classroom (Kathmandu Campus)',
     preferredTime: 'Morning (7:00 AM – 9:00 AM)',
     experienceLevel: 'College Student / Recent Graduate',
@@ -101,7 +104,7 @@ export const Contact: React.FC = () => {
     },
     {
       question: 'What laptop specifications do I need for practical lab classes?',
-      answer: 'A standard laptop with at least 8GB RAM, an Intel Core i5 / AMD Ryzen 5 / Apple Silicon processor, and 256GB SSD storage is sufficient for all Web Development, React, Python, and UI/UX courses.'
+      answer: 'A standard laptop with at least 8GB RAM, an Intel Core i5 / AMD Ryzen 5 / Apple Silicon processor, and 256GB SSD storage is sufficient for all Web Development, Python, Scratch, and Data Science courses.'
     }
   ];
 
@@ -225,7 +228,7 @@ export const Contact: React.FC = () => {
                         fullName: '',
                         email: '',
                         phone: '',
-                        interestedCourse: 'mern-stack-development',
+                        interestedCourse: 'python-beginner',
                         preferredMode: 'Classroom (Kathmandu Campus)',
                         preferredTime: 'Morning (7:00 AM – 9:00 AM)',
                         experienceLevel: 'College Student / Recent Graduate',

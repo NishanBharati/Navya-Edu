@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { X, CheckCircle, ArrowRight, BookOpen, Clock, MapPin } from 'lucide-react';
 import { Button } from './Button';
 import { Modal } from './Modal';
 import { supabase } from '../../lib/supabaseClient';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
+import { COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
 import type { Course, Inquiry } from '../../types';
 
 interface AdvisorModalProps {
@@ -18,6 +19,13 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
   defaultCourseSlug = ''
 }) => {
   const { items: courses } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
+  const allCourses = useMemo(() => {
+    if (courses && courses.length > 0) {
+      const active = courses.filter((c) => !LEGACY_COURSE_SLUGS.has(c.slug));
+      if (active.length > 0) return active;
+    }
+    return COURSES;
+  }, [courses]);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -30,11 +38,11 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
   });
 
   useEffect(() => {
-    if (!formData.interestedCourse && courses.length > 0) {
-      setFormData((prev) => ({ ...prev, interestedCourse: courses[0].slug }));
+    if (!formData.interestedCourse && allCourses.length > 0) {
+      setFormData((prev) => ({ ...prev, interestedCourse: allCourses[0].slug }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courses]);
+  }, [allCourses]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -182,7 +190,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   onChange={(e) => setFormData({ ...formData, interestedCourse: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
                 >
-                  {courses.map((course) => (
+                  {allCourses.map((course) => (
                     <option key={course.slug} value={course.slug}>
                       {course.title} ({course.duration})
                     </option>

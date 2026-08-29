@@ -296,6 +296,34 @@ ET
       }
       currentY -= 6;
     });
+  } else {
+    ensureSpace(45);
+    currentPage.commands.push(`
+0.09 0.20 0.30 rg
+BT
+/F1 12 Tf
+${margin} ${currentY} Td
+(2. Academic Curriculum Framework & Lecture Structure) Tj
+ET
+0.09 0.20 0.30 rg
+${margin} ${currentY - 4} ${contentWidth} 1 re f
+`);
+    currentY -= 20;
+
+    const noticeLines = wrapText(`This ${course.duration} program is structured around hands-on lab sprints, code reviews, and production capstone deliverables. The full daily lesson schedule, lecture notes, and lab assignments are provided to students during batch orientation. Contact our admissions desk at info@navyaedtech.com for complete schedule details.`, 88);
+    for (const line of noticeLines) {
+      ensureSpace(13);
+      currentPage.commands.push(`
+0.30 0.33 0.36 rg
+BT
+/F2 8.5 Tf
+${margin + 6} ${currentY} Td
+(${escapePdfText(line)}) Tj
+ET
+`);
+      currentY -= 12;
+    }
+    currentY -= 8;
   }
 
   // 7. Capstone Projects Section

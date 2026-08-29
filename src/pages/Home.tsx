@@ -41,8 +41,8 @@ export const Home: React.FC = () => {
       {/* 4. Why Navya Ed Tech (Parent company credibility) */}
       <WhyNavya />
 
-      {/* 5. Featured Career Fellowship Track */}
-      <FeaturedProgram onOpenAdvisor={() => handleOpenAdvisor('full-stack-career-track')} />
+      {/* 5. Featured Practical Tracks */}
+      <FeaturedProgram onOpenAdvisor={(slug) => handleOpenAdvisor(slug || 'web-development')} />
 
       {/* 6. Learning Experience (4-Pillar Pedagogical Standard) */}
       <LearningExperience />

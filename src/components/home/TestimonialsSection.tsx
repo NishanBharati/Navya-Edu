@@ -16,21 +16,21 @@ export const TestimonialsSection: React.FC = () => {
   const testimonials: Testimonial[] = [
     {
       name: 'Suman Gautam',
-      role: 'Full Stack Engineer',
+      role: 'Junior Web Developer',
       company: 'Fintech Solutions Nepal',
-      track: 'Full Stack Engineering Fellowship',
+      track: 'Web Development Course (45 Days)',
       quote:
-        'The difference at Navya was the code reviews. Instead of just "it works," the mentors showed us how to normalize schemas, prevent SQL leaks, and use TypeScript interfaces properly. When I did my tech interview, the questions were exactly what we practiced in class.',
+        'The difference at Navya was the practical code reviews. The mentors showed us how to structure modular JavaScript code, manage state properly, and connect to live REST APIs cleanly. When I did my tech interview, defending my live Vercel capstone was seamless.',
       initials: 'SG',
       monogramColor: 'bg-navy'
     },
     {
       name: 'Pratima Thapa',
-      role: 'Frontend Developer',
+      role: 'Python Software Developer',
       company: 'CloudBridge Technologies',
-      track: 'React & Modern Frontend Track',
+      track: 'Python Advance Course (40 Days)',
       quote:
-        'Coming from a non-CS background, I was intimidated by state management and build tooling. The instructors broke down Next.js, Tailwind, and Git workflows step-by-step. My live capstone on Vercel was the main reason I got hired.',
+        'Building asynchronous microservices with FastAPI, handling database ORMs with SQLAlchemy, and mastering object-oriented design in the computer labs gave me practical engineering confidence that textbooks never provided.',
       initials: 'PT',
       monogramColor: 'bg-blue'
     },
@@ -38,9 +38,9 @@ export const TestimonialsSection: React.FC = () => {
       name: 'Aayush Shrestha',
       role: 'Associate Data Analyst',
       company: 'Digital Analytics Hub',
-      track: 'Applied Data Science & Machine Learning',
+      track: 'Data Science Course (50 Days)',
       quote:
-        'We worked on real Nepali datasets like Kalimati market prices and macroeconomic trends. Building FastAPI microservices to serve machine learning predictions gave me practical confidence that textbooks never provided.',
+        'We worked on real Nepali datasets like Kalimati market prices and housing trends. Performing exploratory analysis in Pandas and building predictive regression models with Scikit-Learn gave me verifiable portfolio work.',
       initials: 'AS',
       monogramColor: 'bg-sage-ink'
     }

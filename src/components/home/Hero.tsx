@@ -133,7 +133,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
                 </div>
                 <div className="text-xs">
                   <span className="font-bold text-ink block">Production Workflows</span>
-                  <span className="text-ink-soft text-[10px]">TypeScript, Docker, AWS CI/CD</span>
+                  <span className="text-ink-soft text-[10px]">Python, JavaScript, Git & Vercel</span>
                 </div>
               </div>
 

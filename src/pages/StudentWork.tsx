@@ -44,7 +44,7 @@ export const StudentWork: React.FC = () => {
     return STUDENT_PROJECTS;
   }, [dbProjects]);
 
-  const categories = ['All', 'Web', 'Mobile', 'AI', 'UI/UX', 'Data'];
+  const categories = ['All', 'Web Development', 'Python Engineering', 'Data Science', 'Kids Coding'];
 
   const filteredProjects = useMemo(() => {
     return allProjects.filter((p) => {
@@ -62,7 +62,7 @@ export const StudentWork: React.FC = () => {
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="Verified Student Work & Capstone Projects | Navya Ed Tech"
-        description="Explore verifiable full-stack applications, mobile apps, AI models, and UI/UX case studies engineered by Navya Ed Tech students under senior code review."
+        description="Explore verifiable web applications, Python microservices, data analytics pipelines, and interactive games engineered by Navya Ed Tech students under senior code review."
       />
 
       <Container>

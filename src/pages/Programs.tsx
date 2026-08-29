@@ -32,7 +32,7 @@ export const Programs: React.FC = () => {
     return PROGRAMS;
   }, [dbPrograms]);
 
-  const categories = ['All', 'Career Programs', 'Professional Programs', 'Internship Programs'];
+  const categories = ['All', 'Career Programs', 'Specialized Tracks', 'Kids & School Programs'];
 
   const filteredPrograms = useMemo(() => {
     if (selectedCategory === 'All') return allPrograms;
@@ -48,7 +48,7 @@ export const Programs: React.FC = () => {
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="Career Programs & Professional Tracks | Navya Ed Tech Nepal"
-        description="Explore comprehensive multi-tier career programs in Full Stack Engineering, Data Science, AI, and UI/UX Design with live capstone defense and direct placement support in Kathmandu."
+        description="Explore comprehensive career programs in Modern Web Development, Python Software Engineering, Data Science, and Kids Coding with live capstone defense and direct placement support in Kathmandu."
       />
 
       <Container>
@@ -378,7 +378,7 @@ export const Programs: React.FC = () => {
                 <tr>
                   <td className="p-4 sm:p-5 font-bold text-ink">Ideal Candidate</td>
                   <td className="p-4 sm:p-5 text-navy font-medium">Fresh graduates, career switchers, aspiring full-stack engineers</td>
-                  <td className="p-4 sm:p-5">Working developers upskilling in a specific technology (e.g. Flutter, React)</td>
+                  <td className="p-4 sm:p-5">Working developers upskilling in a specific technology (e.g. Python, JavaScript)</td>
                 </tr>
                 <tr>
                   <td className="p-4 sm:p-5 font-bold text-ink">Typical Duration</td>

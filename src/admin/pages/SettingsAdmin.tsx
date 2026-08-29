@@ -22,9 +22,15 @@ function downloadJSON(filename: string, data: unknown) {
   URL.revokeObjectURL(url);
 }
 
-/** Strips the id (and any other DB-generated columns) so seed rows can be freshly inserted. */
+/** Strips the id (and any other DB-generated or non-table columns) so seed rows can be freshly inserted. */
 function stripGeneratedFields<T extends { id: string }>(rows: T[]): Partial<T>[] {
-  return rows.map(({ id: _id, ...rest }) => rest as Partial<T>);
+  return rows.map(({ id: _id, ...rest }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const copy = { ...rest } as any;
+    delete copy.whyChooseThis;
+    delete copy.upcomingClasses;
+    return copy as Partial<T>;
+  });
 }
 
 interface DataRowProps {

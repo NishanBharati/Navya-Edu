@@ -56,10 +56,10 @@ const FACULTY: FacultyMember[] = [
     initials: 'PS',
     monogramColor: 'from-blue to-[#1F4468]',
     role: 'Lead Full-Stack Instructor & Frontend Architect',
-    department: 'Modern Web & React Ecosystem',
+    department: 'Modern Web & JavaScript Ecosystem',
     experience: '8+ Years Industry Experience',
-    specialties: ['React 19 & Next.js', 'TypeScript', 'State Architectures', 'Performance Optimization'],
-    bio: 'Passionate frontend craftsman who has engineered enterprise web apps for international clients. Mentors students on building production-grade Next.js SaaS applications.'
+    specialties: ['JavaScript ES6+', 'Tailwind CSS', 'DOM Architecture', 'Performance Optimization'],
+    bio: 'Passionate frontend craftsman who has engineered enterprise web apps for international clients. Mentors students on building production-grade JavaScript web applications.'
   },
   {
     name: 'Kripa Adhikari',
@@ -75,21 +75,21 @@ const FACULTY: FacultyMember[] = [
     name: 'Sunil Maharjan',
     initials: 'SM',
     monogramColor: 'from-navy to-[#0E1F30]',
-    role: 'Cloud Infrastructure & DevOps Mentor',
-    department: 'DevOps & Platform Engineering',
+    role: 'Senior Python & Systems Mentor',
+    department: 'Python Architecture & Backend Systems',
     experience: '7+ Years Industry Experience',
-    specialties: ['AWS Cloud Architecture', 'Docker & Kubernetes', 'CI/CD Pipelines', 'Linux Security'],
-    bio: 'AWS Certified Solutions Architect who oversees production deployments at Navya EdTech. Teaches container orchestration, infrastructure-as-code, and resilient cloud architectures.'
+    specialties: ['Python 3.12+', 'FastAPI Microservices', 'AsyncIO & Concurrency', 'SQLAlchemy ORM'],
+    bio: 'Senior backend engineer specializing in Python system architecture and asynchronous APIs. Guides students through modular object-oriented coding, testing, and production microservices.'
   },
   {
     name: 'Bandana Thapa',
     initials: 'BT',
     monogramColor: 'from-blue to-[#1F4468]',
-    role: 'Head of UI/UX & Product Design',
-    department: 'Product & Interaction Design',
-    experience: '7+ Years Industry Experience',
-    specialties: ['Design Systems', 'Figma Tokens', 'User Research & Testing', 'Micro-Interactions'],
-    bio: 'Design systems lead who bridges the gap between visual aesthetics and developer implementation. Mentors students in building scalable, accessible component design libraries.'
+    role: 'Lead STEM & Computational Thinking Mentor',
+    department: 'Early Coding & Interactive Game Design',
+    experience: '7+ Years Education Experience',
+    specialties: ['Scratch 3.0 Logic', 'Algorithmic Thinking', '2D Arcade Physics', 'Creative Computing'],
+    bio: 'Specialist in early childhood computer science pedagogy and computational logic. Guides school students through visual block programming, interactive storytelling, and arcade game design.'
   },
   {
     name: 'Rojina Prajapati',
@@ -108,7 +108,7 @@ const FAQS: FAQItem[] = [
   {
     question: 'How is Navya Ed Tech different from typical computer training centers in Nepal?',
     answer:
-      'Most computer institutes rely on outdated slideshows, generic to-do apps, and instructors who teach part-time without production experience. Navya Ed Tech is the education division of Navya EdTech, an active commercial software company. Our syllabi reflect active production practices: students use Git/GitHub daily, build real multi-tenant software, containerize with Docker, deploy live to cloud domains, and receive line-by-line code reviews from working software engineers.'
+      'Most computer institutes rely on outdated slideshows, generic to-do apps, and instructors who teach part-time without production experience. Navya Ed Tech is the education division of Navya EdTech, an active commercial software company. Our syllabi reflect active production practices: students use Git/GitHub daily, build real practical software, deploy live to cloud domains, and receive line-by-line code reviews from working software engineers.'
   },
   {
     question: 'What is the relationship between Navya Ed Tech and Navya EdTech (navyaedtech.com)?',
@@ -133,7 +133,7 @@ const FAQS: FAQItem[] = [
   {
     question: 'Are fees payable in Nepali Rupees (NPR)? Are installment plans available?',
     answer:
-      'Yes, all course fees are quoted transparently in NPR (Rs.) with zero hidden registration fees or laboratory surcharges. Flexible 2-to-3 installment payment schedules are available for long-term tracks (such as the 6-Month Full Stack Engineering Fellowship).'
+      'Yes, all course fees are quoted transparently in NPR (Rs.) with zero hidden registration fees or laboratory surcharges. Flexible 2-to-3 installment payment schedules are available for comprehensive multi-month pathways (such as the Python & Data Science Program).'
   }
 ];
 
@@ -285,28 +285,18 @@ export const About: React.FC = () => {
                       <Code2 className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <strong className="text-white block font-semibold">Enterprise Web & Backend</strong>
-                      <span className="text-[#A9B8C7] text-xs">High-throughput microservices, Next.js, Node.js, Go, PostgreSQL</span>
+                      <strong className="text-white block font-semibold">Modern Web & Frontend Engineering</strong>
+                      <span className="text-[#A9B8C7] text-xs">Responsive Web Apps, Tailwind CSS & JavaScript ES6+</span>
                     </div>
                   </li>
 
                   <li className="flex items-start gap-2.5">
                     <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
-                      <Laptop className="w-3.5 h-3.5" />
+                      <Terminal className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <strong className="text-white block font-semibold">Cross-Platform Mobile Apps</strong>
-                      <span className="text-[#A9B8C7] text-xs">Production Flutter & iOS/Android digital products</span>
-                    </div>
-                  </li>
-
-                  <li className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
-                      <Server className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <strong className="text-white block font-semibold">Cloud Infrastructure & DevOps</strong>
-                      <span className="text-[#A9B8C7] text-xs">AWS architecture, Docker containerization, Kubernetes & CI/CD</span>
+                      <strong className="text-white block font-semibold">Python Software Architecture</strong>
+                      <span className="text-[#A9B8C7] text-xs">Object-oriented systems, FastAPI microservices, AsyncIO & SQLAlchemy</span>
                     </div>
                   </li>
 
@@ -315,8 +305,18 @@ export const About: React.FC = () => {
                       <Cpu className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <strong className="text-white block font-semibold">Applied AI & Machine Learning</strong>
-                      <span className="text-[#A9B8C7] text-xs">RAG pipelines, vector search, LLM integrations & predictive analytics</span>
+                      <strong className="text-white block font-semibold">Applied Data Science & Analytics</strong>
+                      <span className="text-[#A9B8C7] text-xs">Pandas data wrangling, NumPy, statistical modeling & Scikit-Learn</span>
+                    </div>
+                  </li>
+
+                  <li className="flex items-start gap-2.5">
+                    <div className="w-5 h-5 rounded-md bg-blue/30 text-navy-mist flex items-center justify-center shrink-0 mt-0.5">
+                      <Laptop className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <strong className="text-white block font-semibold">STEM & Computational Logic</strong>
+                      <span className="text-[#A9B8C7] text-xs">Visual block-based logic, 2D physics game design & early algorithms</span>
                     </div>
                   </li>
                 </ul>
@@ -441,7 +441,7 @@ export const About: React.FC = () => {
                 Production-First Curricula
               </h3>
               <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
-                We do not teach obsolete frameworks or toy examples. Syllabi focus on TypeScript, modern React/Next.js, PostgreSQL, Docker, Redis queues, and cloud deployment pipelines.
+                We do not teach obsolete frameworks or toy examples. Syllabi focus on modern Python, JavaScript ES6+, Tailwind CSS, FastAPI microservices, and Scikit-Learn data science workflows.
               </p>
               <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
                 <Check className="w-3.5 h-3.5 text-sage" />
@@ -519,7 +519,7 @@ export const About: React.FC = () => {
             <SectionHeader
               eyebrow="Faculty & Mentors"
               title="Learn Directly from Practicing Software Architects."
-              description="Our instructors are active technology leads, DevOps engineers, and UI/UX designers who build production systems every day."
+              description="Our instructors are active technology leads, software engineers, and data specialists who build production systems every day."
             />
             <div className="shrink-0">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-border text-xs font-semibold text-navy">

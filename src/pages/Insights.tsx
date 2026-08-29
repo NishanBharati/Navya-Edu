@@ -556,7 +556,7 @@ export const Insights: React.FC = () => {
               Ready to turn these principles into live production code?
             </h3>
             <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
-              Explore our project-driven courses in MERN Stack, Python AI, React Frontend, and Cloud DevOps. Build 4+ verified capstone projects under senior code review.
+              Explore our practical courses in Python Beginner, Python Advance, Web Development, Scratch, and Data Science. Build real capstone projects under mentor guidance.
             </p>
           </div>
 

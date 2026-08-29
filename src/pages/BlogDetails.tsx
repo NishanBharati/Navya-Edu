@@ -106,13 +106,13 @@ export const BlogDetails: React.FC = () => {
     }
     // Fallback matching by category keywords
     if (article.category === 'Web Development') {
-      return COURSES.find((c) => c.slug === 'mern-stack-development' || c.slug === 'react-frontend-engineering');
+      return COURSES.find((c) => c.slug === 'web-development');
     }
     if (article.category === 'AI') {
-      return COURSES.find((c) => c.slug === 'python-data-science-ai');
+      return COURSES.find((c) => c.slug === 'data-science' || c.slug === 'python-advance');
     }
-    if (article.category === 'Digital Skills') {
-      return COURSES.find((c) => c.slug === 'ui-ux-product-design');
+    if (article.category === 'Programming' || article.category === 'Technology') {
+      return COURSES.find((c) => c.slug === 'python-beginner');
     }
     return COURSES[0];
   }, [article]);

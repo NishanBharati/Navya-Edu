@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { Plus, Search, Pencil, Trash2, GraduationCap, Star, Loader2, FileText, Eye } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, GraduationCap, Star, Loader2, FileText, Eye, RotateCcw } from 'lucide-react';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
+import { COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
 import { slugify } from '../../lib/storage';
 import type { Course, CurriculumModule, ProjectExample, FAQItem } from '../../types';
 import { PageHeader } from '../components/ui/PageHeader';
@@ -14,7 +15,7 @@ import { Toast, useToast } from '../components/ui/Toast';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
 
-const CATEGORIES: Course['category'][] = ['Development', 'Data & AI', 'Design', 'Cloud & DevOps', 'Cybersecurity', 'Digital Skills'];
+const CATEGORIES: Course['category'][] = ['Programming', 'Web Development', 'Kids Coding', 'Data & AI', 'Development', 'Design', 'Cloud & DevOps', 'Cybersecurity', 'Digital Skills'];
 const LEVELS: Course['level'][] = ['Beginner', 'Intermediate', 'Advanced', 'All Levels', 'Beginner to Intermediate', 'Intermediate to Advanced'];
 const MODES: Course['mode'][] = ['Classroom / In-Person', 'Online Live', 'Hybrid (Classroom & Online)'];
 
@@ -33,7 +34,7 @@ const emptyCourse = (): Course => ({
   id: '',
   slug: '',
   title: '',
-  category: 'Development',
+  category: 'Programming',
   shortDescription: '',
   description: '',
   heroImage: '',
@@ -63,8 +64,18 @@ const emptyCourse = (): Course => ({
   seoDescription: '',
 });
 
+function stripGeneratedFields(rows: Course[]) {
+  return rows.map(({ id: _id, ...rest }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const copy = { ...rest } as any;
+    delete copy.whyChooseThis;
+    delete copy.upcomingClasses;
+    return copy;
+  });
+}
+
 export const CoursesAdmin: React.FC = () => {
-  const { items: courses, isLoading, error, add, update, remove } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
+  const { items: courses, isLoading, error, add, update, remove, replaceAll } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [drawerState, setDrawerState] = useState<{ mode: 'create' | 'edit'; draft: Course; tab: TabId } | null>(null);
@@ -72,7 +83,26 @@ export const CoursesAdmin: React.FC = () => {
   const [deleteTarget, setDeleteTarget] = useState<Course | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [confirmSyncOpen, setConfirmSyncOpen] = useState(false);
   const { toast, showToast, dismissToast } = useToast();
+
+  const hasLegacyCourses = useMemo(() => {
+    return courses.some((c) => LEGACY_COURSE_SLUGS.has(c.slug));
+  }, [courses]);
+
+  const handleSyncDefaults = async () => {
+    setIsSyncing(true);
+    try {
+      await replaceAll(stripGeneratedFields(COURSES));
+      showToast('Successfully replaced courses with the 6 new courses!');
+      setConfirmSyncOpen(false);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Failed to sync courses to database.');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -149,11 +179,43 @@ export const CoursesAdmin: React.FC = () => {
         title="Courses"
         description="Individual technical courses shown on the live Courses page and detail pages."
         actions={
-          <Button variant="primary" size="sm" onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
-            Add Course
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setConfirmSyncOpen(true)}
+              leftIcon={<RotateCcw className="w-4 h-4" />}
+            >
+              Sync 6 Default Courses
+            </Button>
+            <Button variant="primary" size="sm" onClick={openCreate} leftIcon={<Plus className="w-4 h-4" />}>
+              Add Course
+            </Button>
+          </div>
         }
       />
+
+      {hasLegacyCourses && (
+        <div className="mb-5 p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h4 className="text-sm font-bold text-amber-900 flex items-center gap-2">
+              <span>⚠️</span> Legacy Courses Found in Supabase Database
+            </h4>
+            <p className="text-xs text-amber-800 leading-relaxed max-w-2xl">
+              Your remote database contains legacy records. Click below to sync and replace them with your 6 active courses (Python Beginner, Python Advance, Web Development, Scratch Beginner, Scratch Advanced, Data Science).
+            </p>
+          </div>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setConfirmSyncOpen(true)}
+            isLoading={isSyncing}
+            className="shrink-0"
+          >
+            Sync 6 New Courses Now
+          </Button>
+        </div>
+      )}
 
       <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
         <div className="p-4 border-b border-border-soft flex flex-col sm:flex-row gap-3">
@@ -313,7 +375,7 @@ export const CoursesAdmin: React.FC = () => {
                   <TextInput
                     value={drawerState.draft.title}
                     onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
-                    placeholder="e.g. MERN Stack Web Development"
+                    placeholder="e.g. Modern Web Development"
                   />
                 </Field>
 
@@ -381,7 +443,7 @@ export const CoursesAdmin: React.FC = () => {
                   <TagsField
                     tags={drawerState.draft.technologies}
                     onChange={(tags) => setDraft((d) => ({ ...d, technologies: tags }))}
-                    placeholder="e.g. React 18+"
+                    placeholder="e.g. JavaScript ES6+"
                   />
                 </Field>
 
@@ -692,6 +754,15 @@ export const CoursesAdmin: React.FC = () => {
         confirmLabel="Delete Course"
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
+      />
+
+      <ConfirmDialog
+        isOpen={confirmSyncOpen}
+        title="Sync 6 New Courses to Database?"
+        description="This will remove the 7 legacy courses from your Supabase database and insert the 6 updated courses (Python Beginner, Python Advance, Web Development, Scratch Beginner, Scratch Advanced, and Data Science). Are you sure?"
+        confirmLabel="Sync & Replace Now"
+        onConfirm={handleSyncDefaults}
+        onCancel={() => setConfirmSyncOpen(false)}
       />
 
       <Toast toast={toast} onDismiss={dismissToast} />
