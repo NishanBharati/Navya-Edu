@@ -107,7 +107,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
                   className="w-full text-left px-4 py-2.5 hover:bg-paper-alt transition-colors flex items-center justify-between gap-3"
                 >
                   <span className="text-sm text-ink truncate">{result.label}</span>
-                  <span className="text-[10px] uppercase tracking-wide text-ink-faint shrink-0">{result.meta}</span>
+                  <span className="text-xs uppercase tracking-wide text-ink-faint shrink-0">{result.meta}</span>
                 </button>
               ))
             )}
@@ -133,7 +133,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
             <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl border border-border shadow-lg py-2 animate-fade-in">
               <div className="px-4 py-2 flex items-center justify-between border-b border-border-soft">
                 <span className="text-xs font-bold uppercase tracking-wide text-ink">New Inquiries</span>
-                <span className="text-[11px] text-ink-faint">{newInquiries.length} unread</span>
+                <span className="text-xs text-ink-faint">{newInquiries.length} unread</span>
               </div>
               {newInquiries.length === 0 ? (
                 <p className="px-4 py-6 text-xs text-ink-faint text-center">No new inquiries right now.</p>
@@ -151,7 +151,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenMobileSidebar }) => {
                     <Inbox className="w-3.5 h-3.5 text-blue mt-0.5 shrink-0" />
                     <span className="min-w-0">
                       <span className="block text-sm text-ink truncate">{inquiry.fullName}</span>
-                      <span className="block text-[11px] text-ink-faint truncate">{inquiry.interestedCourse}</span>
+                      <span className="block text-xs text-ink-faint truncate">{inquiry.interestedCourse}</span>
                     </span>
                   </button>
                 ))

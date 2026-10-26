@@ -46,7 +46,7 @@ export const IconStrip: React.FC<IconStripProps> = ({ items, className = '' }) =
                 {item.label}
               </span>
               {item.tag && (
-                <span className="text-[10px] font-mono text-ink-faint uppercase">
+                <span className="text-xs font-mono text-ink-faint uppercase">
                   {item.tag}
                 </span>
               )}

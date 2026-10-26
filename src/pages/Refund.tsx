@@ -268,7 +268,7 @@ export const Refund: React.FC = () => {
 
               {/* Admissions Advisory Desk */}
               <div className="p-6 rounded-2xl bg-navy text-white space-y-4">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-navy-mist">
+                <span className="text-xs font-bold uppercase tracking-wider text-navy-mist">
                   Admissions Office
                 </span>
                 <h4 className="text-base font-bold text-white">
@@ -282,7 +282,7 @@ export const Refund: React.FC = () => {
                     <Mail className="w-3.5 h-3.5 text-white shrink-0" />
                     <span>info@navyaedtech.com</span>
                   </div>
-                  <div className="text-[11px] text-navy-mist">
+                  <div className="text-xs text-navy-mist">
                     Kathmandu, Nepal • Navya Ed Tech
                   </div>
                 </div>

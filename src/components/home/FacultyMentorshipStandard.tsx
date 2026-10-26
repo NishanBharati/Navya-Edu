@@ -65,7 +65,7 @@ export const FacultyMentorshipStandard: React.FC<FacultyMentorshipStandardProps>
                 <div className="w-10 h-10 rounded-xl bg-navy/10 text-navy flex items-center justify-center">
                   {standard.icon}
                 </div>
-                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue block">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue block">
                   {standard.tag}
                 </span>
                 <h3 className="text-base font-bold text-ink leading-snug">

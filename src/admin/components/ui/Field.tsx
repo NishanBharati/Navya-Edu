@@ -17,8 +17,8 @@ export const Field: React.FC<FieldProps> = ({ label, htmlFor, required, hint, er
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {children}
-      {hint && !error && <p className="mt-1.5 text-[11px] text-ink-faint">{hint}</p>}
-      {error && <p className="mt-1.5 text-[11px] font-medium text-red-600">{error}</p>}
+      {hint && !error && <p className="mt-1.5 text-xs text-ink-faint">{hint}</p>}
+      {error && <p className="mt-1.5 text-xs font-medium text-red-600">{error}</p>}
     </div>
   );
 };

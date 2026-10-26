@@ -256,7 +256,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
 
         {/* Header Top Pills */}
         <div className="flex flex-wrap items-center gap-2 mb-2.5 relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-white/10 text-navy-mist border border-white/10">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/10 text-navy-mist border border-white/10">
             {initialIntent === 'demo' ? (
               <>
                 <Sparkles className="w-3 h-3 text-amber-300" />
@@ -276,7 +276,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
           </div>
 
           {/* Active Counselor Tag */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-950/70 border border-emerald-500/30 text-emerald-300">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-950/70 border border-emerald-500/30 text-emerald-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -427,7 +427,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   <User className="w-3.5 h-3.5 text-navy" />
                   1. Contact Information
                 </span>
-                <span className="text-[11px] text-ink-muted">Fields with <span className="text-red-500">*</span> are required</span>
+                <span className="text-xs text-ink-muted">Fields with <span className="text-red-500">*</span> are required</span>
               </div>
 
               {/* Full Name */}
@@ -471,7 +471,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                       className="w-full pl-3 pr-3 py-2.5 rounded-r-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all"
                     />
                   </div>
-                  <p className="text-[11px] text-ink-muted mt-1">We send batch guides & PDFs via WhatsApp</p>
+                  <p className="text-xs text-ink-muted mt-1">We send batch guides & PDFs via WhatsApp</p>
                 </div>
 
                 <div>
@@ -492,7 +492,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                       className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all"
                     />
                   </div>
-                  <p className="text-[11px] text-ink-muted mt-1">For admissions notice & syllabus receipt</p>
+                  <p className="text-xs text-ink-muted mt-1">For admissions notice & syllabus receipt</p>
                 </div>
               </div>
             </div>
@@ -505,7 +505,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   2. Course & Learning Format
                 </span>
                 {selectedCourseObj && (
-                  <span className="text-[11px] font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
+                  <span className="text-xs font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
                     Duration: {selectedCourseObj.duration}
                   </span>
                 )}
@@ -570,7 +570,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                         </div>
                         <div className="ml-2 sm:ml-0">
                           <div className="text-xs font-bold text-ink leading-tight">{mode.label}</div>
-                          <div className="text-[11px] text-ink-muted leading-tight mt-0.5">{mode.sublabel}</div>
+                          <div className="text-xs text-ink-muted leading-tight mt-0.5">{mode.sublabel}</div>
                         </div>
                       </button>
                     );
@@ -614,12 +614,12 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   <MessageSquare className="w-3.5 h-3.5 text-navy" />
                   3. Questions or Specific Inquiries (Optional)
                 </label>
-                <span className="text-[11px] text-ink-muted">{formData.message.length}/500</span>
+                <span className="text-xs text-ink-muted">{formData.message.length}/500</span>
               </div>
 
               {/* Quick Inquiry Chips */}
               <div>
-                <span className="text-[11px] font-medium text-ink-muted block mb-1.5">
+                <span className="text-xs font-medium text-ink-muted block mb-1.5">
                   Quick-add common questions with 1 click:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -630,7 +630,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                         key={tag}
                         type="button"
                         onClick={() => handleToggleTag(tag)}
-                        className={`text-[11px] px-2.5 py-1 rounded-full border transition-all cursor-pointer flex items-center gap-1 ${
+                        className={`text-xs px-2.5 py-1 rounded-full border transition-all cursor-pointer flex items-center gap-1 ${
                           isSelected
                             ? 'bg-navy text-white border-navy font-semibold shadow-xs'
                             : 'bg-paper text-ink-soft border-border hover:border-navy/30 hover:bg-paper-alt'

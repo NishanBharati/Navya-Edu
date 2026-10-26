@@ -74,7 +74,7 @@ export const GraduateQualityStandard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-border-faint flex items-center gap-1.5 text-[11px] font-semibold text-navy">
+              <div className="pt-3 border-t border-border-faint flex items-center gap-1.5 text-xs font-semibold text-navy">
                 <CheckCircle2 className="w-3.5 h-3.5 text-sage shrink-0" />
                 <span>{pillar.proof}</span>
               </div>

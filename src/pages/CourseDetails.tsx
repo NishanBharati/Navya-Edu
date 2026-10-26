@@ -301,7 +301,7 @@ export const CourseDetails: React.FC = () => {
                 <Loader2 className="w-5 h-5 text-[#93C5FD] animate-spin shrink-0" />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-white">Generating Official Syllabus PDF...</p>
-                  <p className="text-[11px] text-white/70">Direct download starting immediately</p>
+                  <p className="text-xs text-white/70">Direct download starting immediately</p>
                 </div>
               </>
             ) : (
@@ -311,7 +311,7 @@ export const CourseDetails: React.FC = () => {
                 </div>
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-white">Syllabus PDF Downloaded</p>
-                  <p className="text-[11px] text-[#A8C8E6] truncate max-w-[220px]">
+                  <p className="text-xs text-[#A8C8E6] truncate max-w-[220px]">
                     Navya-Edu_{course.title.replace(/[^a-zA-Z0-9_-]/g, '_')}_Syllabus.pdf
                   </p>
                 </div>

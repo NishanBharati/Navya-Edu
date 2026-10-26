@@ -254,7 +254,7 @@ export const About: React.FC = () => {
                 <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-ink">Putalisadak Campus</p>
-                    <p className="text-[11px] text-ink-soft">Kathmandu Innovation Lab</p>
+                    <p className="text-xs text-ink-soft">Kathmandu Innovation Lab</p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
                     Kathmandu, NP
@@ -517,7 +517,7 @@ export const About: React.FC = () => {
                   <span className="text-xs font-bold uppercase tracking-wider text-navy-mist">
                     Parent Studio Disciplines
                   </span>
-                  <span className="text-[11px] font-mono text-white/60">Kathmandu, NP</span>
+                  <span className="text-xs font-mono text-white/60">Kathmandu, NP</span>
                 </div>
 
                 <ul className="space-y-3 text-xs sm:text-sm text-border-warm">
@@ -552,7 +552,7 @@ export const About: React.FC = () => {
                   </li>
                 </ul>
 
-                <div className="pt-2 border-t border-white/10 text-[11px] text-navy-mist italic">
+                <div className="pt-2 border-t border-white/10 text-xs text-navy-mist italic">
                   * Advanced track students work on real internal software modules under direct engineer supervision.
                 </div>
               </div>
@@ -590,7 +590,7 @@ export const About: React.FC = () => {
                 >
                   <Terminal className="w-6 h-6 text-navy" />
                 </motion.div>
-                <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
+                <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block">
                   Pillar 01
                 </span>
                 <h3 className="text-base font-extrabold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -600,7 +600,7 @@ export const About: React.FC = () => {
                   We skip obsolete tutorials and toy projects. Syllabi focus exclusively on modern Python, JavaScript ES6+, Tailwind CSS, FastAPI, and Scikit-Learn data science.
                 </p>
               </div>
-              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+              <div className="pt-2 border-t border-border-soft text-xs font-semibold text-navy flex items-center gap-1">
                 <Check className="w-3.5 h-3.5 text-sage" />
                 <span>Zero legacy syntax</span>
               </div>
@@ -619,7 +619,7 @@ export const About: React.FC = () => {
                 >
                   <Code2 className="w-6 h-6 text-blue" />
                 </motion.div>
-                <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
+                <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block">
                   Pillar 02
                 </span>
                 <h3 className="text-base font-extrabold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -629,7 +629,7 @@ export const About: React.FC = () => {
                   Every session involves hands-on programming. Students develop muscle memory by fixing real runtime errors, writing unit tests, and structuring database schemas.
                 </p>
               </div>
-              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+              <div className="pt-2 border-t border-border-soft text-xs font-semibold text-navy flex items-center gap-1">
                 <Check className="w-3.5 h-3.5 text-sage" />
                 <span>70% coding / 30% architecture</span>
               </div>
@@ -648,7 +648,7 @@ export const About: React.FC = () => {
                 >
                   <GitBranch className="w-6 h-6 text-sage-ink" />
                 </motion.div>
-                <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
+                <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block">
                   Pillar 03
                 </span>
                 <h3 className="text-base font-extrabold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -658,7 +658,7 @@ export const About: React.FC = () => {
                   Code that merely runs is not enough. Senior engineering instructors review student pull requests line-by-line for security, variable naming, error handling, and architecture.
                 </p>
               </div>
-              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+              <div className="pt-2 border-t border-border-soft text-xs font-semibold text-navy flex items-center gap-1">
                 <Check className="w-3.5 h-3.5 text-sage" />
                 <span>Line-by-line GitHub reviews</span>
               </div>
@@ -677,7 +677,7 @@ export const About: React.FC = () => {
                 >
                   <Award className="w-6 h-6 text-amber-800" />
                 </motion.div>
-                <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block">
+                <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block">
                   Pillar 04
                 </span>
                 <h3 className="text-base font-extrabold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -687,7 +687,7 @@ export const About: React.FC = () => {
                   Graduates complete production capstones deployed on live custom domains with clean README documentation, database schemas, and demo walk-throughs.
                 </p>
               </div>
-              <div className="pt-2 border-t border-border-soft text-[11px] font-semibold text-navy flex items-center gap-1">
+              <div className="pt-2 border-t border-border-soft text-xs font-semibold text-navy flex items-center gap-1">
                 <Check className="w-3.5 h-3.5 text-sage" />
                 <span>Live URLs for employers</span>
               </div>
@@ -762,12 +762,12 @@ export const About: React.FC = () => {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0E1F30]/90 via-[#0E1F30]/40 to-transparent pointer-events-none p-5 flex flex-col justify-between">
                           <div className="self-end">
-                            <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[11px] font-mono font-bold border border-white/20">
+                            <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-xs font-mono font-bold border border-white/20">
                               {dept.initials}
                             </span>
                           </div>
                           <div className="relative z-10 space-y-0.5">
-                            <span className="text-[10px] font-mono uppercase tracking-wider text-navy-mist block">
+                            <span className="text-xs font-mono uppercase tracking-wider text-navy-mist block">
                               {dept.department}
                             </span>
                             <h3 className="text-lg font-bold text-white leading-tight">
@@ -801,7 +801,7 @@ export const About: React.FC = () => {
                         {dept.initials}
                       </motion.span>
                       <div className="relative z-10 space-y-1">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-navy-mist block">
+                        <span className="text-xs font-mono uppercase tracking-wider text-navy-mist block">
                           {dept.department}
                         </span>
                         <h3 className="text-lg font-bold text-white leading-tight">
@@ -814,7 +814,7 @@ export const About: React.FC = () => {
                   <div className="p-5 sm:p-6 space-y-4">
                     <div className="space-y-1">
                       <span className="text-xs font-semibold text-blue block">{dept.discipline}</span>
-                      <span className="text-[11px] font-mono text-sage-ink font-bold block">
+                      <span className="text-xs font-mono text-sage-ink font-bold block">
                         {dept.experienceRequirement}
                       </span>
                     </div>
@@ -824,14 +824,14 @@ export const About: React.FC = () => {
                     </p>
 
                     <div className="space-y-1.5 pt-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-ink-faint block">
+                      <span className="text-xs font-bold uppercase tracking-wider text-ink-faint block">
                         Supervised Technology Stack:
                       </span>
                       <div className="flex flex-wrap gap-1.5">
                         {dept.coreTech.map((tech, tIdx) => (
                           <span
                             key={tIdx}
-                            className="px-2 py-0.5 rounded-md bg-paper text-navy text-[10px] font-mono font-medium border border-border"
+                            className="px-2 py-0.5 rounded-md bg-paper text-navy text-xs font-mono font-medium border border-border"
                           >
                             {tech}
                           </span>
@@ -842,7 +842,7 @@ export const About: React.FC = () => {
                 </div>
 
                 {/* Bottom Interactive Affordance */}
-                <div className="p-4 bg-paper border-t border-border flex items-center justify-between text-[11px] text-ink-soft group-hover:bg-paper-alt transition-colors">
+                <div className="p-4 bg-paper border-t border-border flex items-center justify-between text-xs text-ink-soft group-hover:bg-paper-alt transition-colors">
                   <span className="flex items-center gap-1 text-navy font-semibold">
                     <span>1:1 Mentorship &amp; PR Reviews</span>
                   </span>
@@ -912,22 +912,22 @@ export const About: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Dual-Monitor Stations</strong>
-                      <p className="text-[11px] text-ink-soft">External displays for simultaneous code editor & browser debugger views.</p>
+                      <p className="text-xs text-ink-soft">External displays for simultaneous code editor & browser debugger views.</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Redundant Optical Fiber</strong>
-                      <p className="text-[11px] text-ink-soft">High-bandwidth dedicated internet with automatic secondary failover.</p>
+                      <p className="text-xs text-ink-soft">High-bandwidth dedicated internet with automatic secondary failover.</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Zero-Downtime Power</strong>
-                      <p className="text-[11px] text-ink-soft">Centralized online UPS system with generator backup during outages.</p>
+                      <p className="text-xs text-ink-soft">Centralized online UPS system with generator backup during outages.</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Physical Server Rack</strong>
-                      <p className="text-[11px] text-ink-soft">On-premise Linux hardware for practical networking and DevOps demonstrations.</p>
+                      <p className="text-xs text-ink-soft">On-premise Linux hardware for practical networking and DevOps demonstrations.</p>
                     </div>
                   </div>
                 </div>
@@ -971,22 +971,22 @@ export const About: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Live Interactive Code-Along</strong>
-                      <p className="text-[11px] text-ink-soft">Real-time two-way audio-video with live instructor screen casting.</p>
+                      <p className="text-xs text-ink-soft">Real-time two-way audio-video with live instructor screen casting.</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">1080p Video Archives</strong>
-                      <p className="text-[11px] text-ink-soft">Full session video recordings available for review and revision.</p>
+                      <p className="text-xs text-ink-soft">Full session video recordings available for review and revision.</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Cloud Dev Sandboxes</strong>
-                      <p className="text-[11px] text-ink-soft">Pre-configured cloud databases and virtual environments for seamless coding.</p>
+                      <p className="text-xs text-ink-soft">Pre-configured cloud databases and virtual environments for seamless coding.</p>
                     </div>
 
                     <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
                       <strong className="text-xs font-bold text-ink block">Dedicated Community</strong>
-                      <p className="text-[11px] text-ink-soft">Active peer channels, asynchronous bug-fix threads, and mentor office hours.</p>
+                      <p className="text-xs text-ink-soft">Active peer channels, asynchronous bug-fix threads, and mentor office hours.</p>
                     </div>
                   </div>
                 </div>
@@ -1034,7 +1034,7 @@ export const About: React.FC = () => {
               <p className="text-xs text-ink-soft leading-relaxed">
                 Navya Ed Tech issues certificates of technical completion upon verified milestones: 80% attendance, completed assignments, and live capstone defense. We transparently declare this is an industry competence credential, not an accredited university degree or CTEVT charter.
               </p>
-              <div className="pt-2 text-[11px] font-bold text-navy">
+              <div className="pt-2 text-xs font-bold text-navy">
                 Strict proof-of-work criteria
               </div>
             </div>
@@ -1050,7 +1050,7 @@ export const About: React.FC = () => {
                 All course tuitions are quoted upfront in NPR with zero hidden lab or examination surcharges. Milestone-based installments are available. Clear withdrawal and refund terms are documented in our refund policy prior to enrollment.
               </p>
               <div className="pt-2">
-                <a href="/refund" className="text-[11px] font-bold text-blue hover:underline">
+                <a href="/refund" className="text-xs font-bold text-blue hover:underline">
                   Read Refund Policy →
                 </a>
               </div>
@@ -1067,7 +1067,7 @@ export const About: React.FC = () => {
                 We maintain an inclusive, collaborative coding environment. Student personal data is strictly protected under our privacy policy. We never publish student reviews, names, or code without explicit written consent.
               </p>
               <div className="pt-2">
-                <a href="/privacy" className="text-[11px] font-bold text-blue hover:underline">
+                <a href="/privacy" className="text-xs font-bold text-blue hover:underline">
                   Read Privacy Policy →
                 </a>
               </div>

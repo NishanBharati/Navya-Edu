@@ -91,7 +91,7 @@ export const Dashboard: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
+                  <tr className="text-left text-xs uppercase tracking-wider text-ink-faint border-b border-border-soft">
                     <th className="px-5 py-2.5 font-semibold">Name</th>
                     <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Interested Course</th>
                     <th className="px-5 py-2.5 font-semibold">Status</th>

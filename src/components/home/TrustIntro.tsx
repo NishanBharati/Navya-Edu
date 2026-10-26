@@ -69,23 +69,23 @@ export const TrustIntro: React.FC = () => {
                 <span className="block text-xl sm:text-2xl font-extrabold text-white">
                   <AnimatedCounter prefix="1:" from={1} to={12} duration={900} />
                 </span>
-                <span className="text-[11px] text-navy-mist">Mentor Ratio Cap</span>
+                <span className="text-xs text-navy-mist">Mentor Ratio Cap</span>
               </div>
               <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                 <span className="block text-xl sm:text-2xl font-extrabold text-white">
                   <AnimatedCounter from={0} to={100} suffix="%" duration={1100} />
                 </span>
-                <span className="text-[11px] text-navy-mist">PR Review Coverage</span>
+                <span className="text-xs text-navy-mist">PR Review Coverage</span>
               </div>
               <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                 <span className="block text-xl sm:text-2xl font-extrabold text-white">
                   <AnimatedCounter from={0} to={30} suffix="+" duration={1000} />
                 </span>
-                <span className="text-[11px] text-navy-mist">Reference Capstones</span>
+                <span className="text-xs text-navy-mist">Reference Capstones</span>
               </div>
               <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                 <span className="block text-xl sm:text-2xl font-extrabold text-white">0</span>
-                <span className="text-[11px] text-navy-mist">Manufactured Claims</span>
+                <span className="text-xs text-navy-mist">Manufactured Claims</span>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export const TrustIntro: React.FC = () => {
                 <p className="text-xs sm:text-sm text-[#A9B8C7] leading-relaxed">
                   {pillar.description}
                 </p>
-                <div className="pt-2 flex items-start gap-1.5 text-[11px] font-semibold text-navy-mist">
+                <div className="pt-2 flex items-start gap-1.5 text-xs font-semibold text-navy-mist">
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-sage" />
                   <span>{pillar.proof}</span>
                 </div>

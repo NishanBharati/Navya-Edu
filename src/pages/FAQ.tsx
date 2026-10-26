@@ -166,7 +166,7 @@ export const FAQ: React.FC = () => {
                     aria-controls={`faq-answer-${item.id}`}
                   >
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-blue">
+                      <span className="text-xs font-bold uppercase tracking-wider text-blue">
                         {item.categoryLabel}
                       </span>
                       <h3 className="text-base sm:text-lg font-bold text-ink leading-snug">
@@ -252,7 +252,7 @@ export const FAQ: React.FC = () => {
           >
             <ShieldCheck className="w-4 h-4 text-blue" />
             <span className="font-semibold text-ink">Terms of Service</span>
-            <span className="text-[11px] text-ink-faint">Admissions & lab ethics</span>
+            <span className="text-xs text-ink-faint">Admissions & lab ethics</span>
           </Link>
           <Link
             to="/privacy"
@@ -260,7 +260,7 @@ export const FAQ: React.FC = () => {
           >
             <ShieldCheck className="w-4 h-4 text-sage" />
             <span className="font-semibold text-ink">Privacy Policy</span>
-            <span className="text-[11px] text-ink-faint">Data handling & cookies</span>
+            <span className="text-xs text-ink-faint">Data handling & cookies</span>
           </Link>
           <Link
             to="/refund"
@@ -268,7 +268,7 @@ export const FAQ: React.FC = () => {
           >
             <CreditCard className="w-4 h-4 text-amber-600" />
             <span className="font-semibold text-ink">Refund Policy</span>
-            <span className="text-[11px] text-ink-faint">Withdrawal & transfers</span>
+            <span className="text-xs text-ink-faint">Withdrawal & transfers</span>
           </Link>
         </div>
       </Container>

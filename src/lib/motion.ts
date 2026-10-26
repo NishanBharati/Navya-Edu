@@ -1,20 +1,37 @@
 import { Variants, Transition } from 'framer-motion';
 
 /**
- * 2026 Canonical Motion Design System for Navya Ed Tech
- * Single source of truth for easing curves, durations, and animation variants.
- * Performance rule: Animate ONLY transform (x, y, scale) and opacity.
+ * Motion design tokens for Navya Ed Tech.
+ * Mirrors the CSS custom properties in src/index.css (--ease-*, --duration-*)
+ * so Framer Motion and CSS transitions share one timing language.
+ * Performance rule: animate only transform and opacity.
  */
 
-// Production cubic bezier for smooth, authoritative product-company motion
+// Entrances and UI responses: fast start, long settle
 export const EASING: [number, number, number, number] = [0.22, 1, 0.36, 1];
+// Elements moving or morphing while on screen (indicators, layout changes)
+export const EASE_IN_OUT: [number, number, number, number] = [0.65, 0, 0.35, 1];
+// Drawers and sheets
+export const EASE_DRAWER: [number, number, number, number] = [0.32, 0.72, 0, 1];
 
-// Canonical duration scale
+// Duration scale in seconds: UI feedback 0.12 to 0.24, section reveals 0.56 to 0.72
 export const DURATION = {
-  fast: 0.25,
+  instant: 0.12,
+  fast: 0.18,
+  base: 0.24,
   normal: 0.4,
   moderate: 0.5,
-  slow: 0.7,
+  reveal: 0.56,
+  slow: 0.72,
+} as const;
+
+// Stagger between siblings in a revealed group
+export const STAGGER = 0.07;
+
+// Scroll reveals fire once, slightly before the element is fully on screen
+export const VIEWPORT_REVEAL = {
+  once: true,
+  margin: '0px 0px -12% 0px',
 } as const;
 
 // Default scroll viewport trigger config: trigger once to prevent re-scroll distraction
@@ -46,12 +63,12 @@ export const fastTransition: Transition = {
 export const fadeUp: Variants = {
   hidden: {
     opacity: 0,
-    y: 24,
+    y: 16,
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: standardTransition,
+    transition: { duration: DURATION.reveal, ease: EASING },
   },
 };
 
@@ -261,36 +278,20 @@ export const reducedStaggerContainer: Variants = {
 };
 
 /**
- * Route page transition variants:
- * Snappy fade + slight y-shift (180ms) for high-performance route changes.
+ * Route page transition: a 200ms fade-in of the incoming page.
+ * There is deliberately no exit phase, so navigation never waits on the old page.
  */
 export const pageTransitionVariants: Variants = {
-  initial: {
-    opacity: 0,
-    y: 8,
-  },
+  initial: { opacity: 0 },
   animate: {
     opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.18,
-      ease: EASING,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: -8,
-    transition: {
-      duration: 0.14,
-      ease: EASING,
-    },
+    transition: { duration: 0.2, ease: EASING },
   },
 };
 
 export const reducedPageTransitionVariants: Variants = {
-  initial: { opacity: 0, y: 0 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.01 } },
-  exit: { opacity: 0, y: 0, transition: { duration: 0.01 } },
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.01 } },
 };
 
 /**

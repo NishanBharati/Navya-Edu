@@ -85,21 +85,21 @@ export const CourseSpotlight: React.FC<CourseSpotlightProps> = ({
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-3 gap-3 pt-1 text-xs">
             <div className="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xs">
-              <span className="text-white/60 block text-[11px]">Duration</span>
+              <span className="text-white/60 block text-xs">Duration</span>
               <strong className="text-sm font-bold text-white flex items-center gap-1 mt-0.5">
                 <Clock className="w-3.5 h-3.5 text-blue-light" />
                 {course.duration}
               </strong>
             </div>
             <div className="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xs">
-              <span className="text-white/60 block text-[11px]">Format</span>
+              <span className="text-white/60 block text-xs">Format</span>
               <strong className="text-sm font-bold text-white flex items-center gap-1 mt-0.5">
                 <Laptop className="w-3.5 h-3.5 text-blue-light" />
                 {course.mode.split(' ')[0]}
               </strong>
             </div>
             <div className="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-xs">
-              <span className="text-white/60 block text-[11px]">Admissions</span>
+              <span className="text-white/60 block text-xs">Admissions</span>
               <strong className="text-sm font-bold text-sage flex items-center gap-1 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
                 {course.upcomingBatch?.seatsStatus || 'Open'}
@@ -109,7 +109,7 @@ export const CourseSpotlight: React.FC<CourseSpotlightProps> = ({
 
           {/* Key Tech Stack */}
           <div className="space-y-2 pt-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">
+            <span className="text-xs font-bold uppercase tracking-wider text-white/60">
               Core Technologies & Tooling:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -168,7 +168,7 @@ export const CourseSpotlight: React.FC<CourseSpotlightProps> = ({
                 <Award className="w-4 h-4" />
                 Featured Capstone Project
               </span>
-              <span className="text-[11px] text-white/60">Live Deployed</span>
+              <span className="text-xs text-white/60">Live Deployed</span>
             </div>
 
             {course.projects && course.projects[0] && (
@@ -183,7 +183,7 @@ export const CourseSpotlight: React.FC<CourseSpotlightProps> = ({
                   {course.projects[0].technologies.map((t) => (
                     <span
                       key={t}
-                      className="px-2 py-0.5 rounded text-[10px] bg-black/30 text-white/90"
+                      className="px-2 py-0.5 rounded text-xs bg-black/30 text-white/90"
                     >
                       {t}
                     </span>
@@ -202,7 +202,7 @@ export const CourseSpotlight: React.FC<CourseSpotlightProps> = ({
             <p className="text-white/90 font-medium">
               {course.upcomingBatch?.startDate || 'Admissions currently in progress'}
             </p>
-            <p className="text-white/70 text-[11px]">
+            <p className="text-white/70 text-xs">
               {course.upcomingBatch?.classTime || 'Morning (7:00 AM) & Evening (5:00 PM) sessions'}
             </p>
           </div>

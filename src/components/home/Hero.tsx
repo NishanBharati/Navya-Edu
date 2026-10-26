@@ -180,7 +180,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
 
                 {/* Top Video Indicators & Mute Control */}
                 <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0E1F30]/75 backdrop-blur-md border border-white/10 text-[11px] font-semibold tracking-wide text-white/90 shadow-sm">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0E1F30]/75 backdrop-blur-md border border-white/10 text-xs font-semibold tracking-wide text-white/90 shadow-sm">
                     <HeroLiveIndicator color="sage" />
                     <span>LIVE LAB EXPERIENCE</span>
                   </div>
@@ -197,7 +197,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
 
                 {/* Overlaid Badges / Real Value Pillars */}
                 <div className="absolute bottom-6 left-6 right-6 text-white space-y-2 pointer-events-none z-10">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/15 backdrop-blur-md border border-white/10 text-[10px] font-mono tracking-wider uppercase text-navy-mist">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/15 backdrop-blur-md border border-white/10 text-xs font-mono tracking-wider uppercase text-navy-mist">
                     <Terminal className="w-3.5 h-3.5 text-sage" />
                     <span>KATHMANDU INNOVATION LAB</span>
                   </div>
@@ -222,7 +222,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
                 </div>
                 <div className="text-xs">
                   <span className="font-bold text-ink block">Production Workflows</span>
-                  <span className="text-ink-soft text-[10px]">Python, JavaScript, Git & Vercel</span>
+                  <span className="text-ink-soft text-xs">Python, JavaScript, Git & Vercel</span>
                 </div>
               </motion.div>
 
@@ -237,7 +237,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
                 </div>
                 <div className="text-xs">
                   <span className="font-bold text-ink block">Industry-Backed Training</span>
-                  <span className="text-ink-soft text-[10px]">Navya EdTech Software Studio Lineage</span>
+                  <span className="text-ink-soft text-xs">Navya EdTech Software Studio Lineage</span>
                 </div>
               </motion.div>
             </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Reveal } from '../motion/Reveal';
 
 export interface SectionHeaderProps {
   eyebrow?: string;
@@ -7,6 +8,8 @@ export interface SectionHeaderProps {
   description?: string;
   align?: 'left' | 'center';
   headingTag?: 'h1' | 'h2' | 'h3';
+  /** Light text for use on navy backgrounds */
+  tone?: 'default' | 'inverse';
   className?: string;
 }
 
@@ -17,28 +20,33 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   description,
   align = 'left',
   headingTag = 'h2',
+  tone = 'default',
   className = '',
 }) => {
   const HeadingComponent = headingTag;
+  const isCenter = align === 'center';
+  const isInverse = tone === 'inverse';
 
   return (
-    <div
-      className={`max-w-3xl ${align === 'center' ? 'mx-auto text-center' : 'text-left'} ${className}`}
-    >
-      {badge && <div className={`mb-3 ${align === 'center' ? 'flex justify-center' : ''}`}>{badge}</div>}
+    <Reveal className={`max-w-3xl ${isCenter ? 'mx-auto text-center' : 'text-left'} ${className}`}>
+      {badge && <div className={`mb-4 ${isCenter ? 'flex justify-center' : ''}`}>{badge}</div>}
       {!badge && eyebrow && (
-        <p className="text-xs md:text-sm font-bold tracking-wider uppercase text-blue mb-2.5">
-          {eyebrow}
-        </p>
+        <p className={`eyebrow mb-4 ${isInverse ? 'text-blue-light' : ''}`}>{eyebrow}</p>
       )}
-      <HeadingComponent className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-ink leading-[1.2]">
+      <HeadingComponent
+        className={`text-title font-semibold ${isInverse ? 'text-white' : 'text-ink'}`}
+      >
         {title}
       </HeadingComponent>
       {description && (
-        <p className="mt-3.5 text-base sm:text-lg text-ink-muted leading-relaxed">
+        <p
+          className={`mt-4 text-base sm:text-lg leading-relaxed max-w-[62ch] ${isCenter ? 'mx-auto' : ''} ${
+            isInverse ? 'text-mist' : 'text-ink-muted'
+          }`}
+        >
           {description}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 };

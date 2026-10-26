@@ -114,7 +114,7 @@ export const CareerPathway: React.FC<CareerPathwayProps> = ({ onOpenAdvisor }) =
                     </h3>
                   </div>
 
-                  <span className="text-[11px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full bg-sage/20 text-sage-ink w-fit">
+                  <span className="text-xs font-bold tracking-wide uppercase px-2.5 py-1 rounded-full bg-sage/20 text-sage-ink w-fit">
                     {item.demand}
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export const CareerPathway: React.FC<CareerPathwayProps> = ({ onOpenAdvisor }) =
                     <span className="font-semibold text-ink-soft">Core Stack: </span>
                     <span className="text-navy font-medium">{item.technologies}</span>
                   </div>
-                  <div className="text-[11px] font-bold text-blue font-mono">
+                  <div className="text-xs font-bold text-blue font-mono">
                     {item.salaryRange}
                   </div>
                 </div>

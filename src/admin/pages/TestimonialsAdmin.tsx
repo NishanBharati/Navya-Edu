@@ -217,7 +217,7 @@ export const TestimonialsAdmin: React.FC = () => {
             >
               <span>{status === 'All' ? 'All Records' : status}</span>
               <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                className={`text-xs px-1.5 py-0.2 rounded-full ${
                   statusFilter === status ? 'bg-white/20 text-white' : 'bg-paper-alt text-ink-faint'
                 }`}
               >
@@ -255,7 +255,7 @@ export const TestimonialsAdmin: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
+                <tr className="text-left text-xs uppercase tracking-wider text-ink-faint border-b border-border-soft">
                   <th className="px-5 py-2.5 font-semibold">Student / Graduate</th>
                   <th className="px-5 py-2.5 font-semibold hidden md:table-cell">Quote Snippet</th>
                   <th className="px-5 py-2.5 font-semibold">Consent Status</th>
@@ -291,11 +291,11 @@ export const TestimonialsAdmin: React.FC = () => {
                     </td>
                     <td className="px-5 py-3.5 whitespace-nowrap">
                       {t.consentConfirmed ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                           <FileCheck className="w-3 h-3" /> Signed Consent
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-50 text-red-700 border border-red-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
                           <AlertTriangle className="w-3 h-3" /> Missing Consent
                         </span>
                       )}
@@ -628,7 +628,7 @@ export const TestimonialsAdmin: React.FC = () => {
                       ? `${viewTarget.role} @ ${viewTarget.company}`
                       : viewTarget.cohortOrCourse}
                   </p>
-                  <p className="text-[11px] text-ink-faint">{viewTarget.cohortOrCourse}</p>
+                  <p className="text-xs text-ink-faint">{viewTarget.cohortOrCourse}</p>
                 </div>
               </div>
 

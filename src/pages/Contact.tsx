@@ -98,14 +98,14 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
         htmlFor={id}
         className={`absolute left-4 transition-all duration-200 pointer-events-none font-medium ${
           isFloating
-            ? 'top-1.5 text-[10px] font-mono uppercase tracking-wider text-navy font-bold'
+            ? 'top-1.5 text-xs font-mono uppercase tracking-wider text-navy font-bold'
             : 'top-3.5 text-xs sm:text-sm text-ink-faint'
         } ${error && !isFocused ? 'text-red-500' : ''}`}
       >
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {error && (
-        <p id={`${id}-error`} role="alert" className="mt-1 text-[11px] font-medium text-red-600 flex items-center gap-1">
+        <p id={`${id}-error`} role="alert" className="mt-1 text-xs font-medium text-red-600 flex items-center gap-1">
           <AlertCircle className="w-3 h-3 shrink-0" />
           <span>{error}</span>
         </p>
@@ -166,14 +166,14 @@ const FloatingTextarea: React.FC<FloatingTextareaProps> = ({
         htmlFor={id}
         className={`absolute left-4 transition-all duration-200 pointer-events-none font-medium ${
           isFloating
-            ? 'top-1.5 text-[10px] font-mono uppercase tracking-wider text-navy font-bold'
+            ? 'top-1.5 text-xs font-mono uppercase tracking-wider text-navy font-bold'
             : 'top-3.5 text-xs sm:text-sm text-ink-faint'
         } ${error && !isFocused ? 'text-red-500' : ''}`}
       >
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       {error && (
-        <p id={`${id}-error`} role="alert" className="mt-1 text-[11px] font-medium text-red-600 flex items-center gap-1">
+        <p id={`${id}-error`} role="alert" className="mt-1 text-xs font-medium text-red-600 flex items-center gap-1">
           <AlertCircle className="w-3 h-3 shrink-0" />
           <span>{error}</span>
         </p>
@@ -195,7 +195,7 @@ const FloatingSelect: React.FC<FloatingSelectProps> = ({ id, label, children, ..
   <div className="relative">
     <label
       htmlFor={id}
-      className="absolute left-4 top-1.5 text-[10px] font-mono uppercase tracking-wider text-navy font-bold pointer-events-none z-10"
+      className="absolute left-4 top-1.5 text-xs font-mono uppercase tracking-wider text-navy font-bold pointer-events-none z-10"
     >
       {label}
     </label>
@@ -538,7 +538,7 @@ export const Contact: React.FC = () => {
                   <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                     <div className="space-y-0.5">
                       <p className="text-xs font-bold text-ink">Admissions Counseling</p>
-                      <p className="text-[11px] text-ink-soft">Putalisadak, Kathmandu • Call / WhatsApp</p>
+                      <p className="text-xs text-ink-soft">Putalisadak, Kathmandu • Call / WhatsApp</p>
                     </div>
                     <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
                       Open Now
@@ -594,7 +594,7 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div className="p-4 rounded-2xl bg-paper border border-border max-w-md mx-auto text-left text-xs space-y-2 text-ink-soft shadow-2xs">
-                  <span className="font-bold text-ink block border-b border-border-faint pb-1.5 font-mono text-[11px] uppercase tracking-wider">
+                  <span className="font-bold text-ink block border-b border-border-faint pb-1.5 font-mono text-xs uppercase tracking-wider">
                     Registration Summary:
                   </span>
                   <div className="flex justify-between">
@@ -610,7 +610,7 @@ export const Contact: React.FC = () => {
                     <strong className="text-ink">{formData.preferredTime}</strong>
                   </div>
                   {submissionResult && (
-                    <div className="pt-2 border-t border-border-faint flex items-center justify-between text-[11px]">
+                    <div className="pt-2 border-t border-border-faint flex items-center justify-between text-xs">
                       <span className="text-ink-faint">Storage Status:</span>
                       {submissionResult.cloudSynced ? (
                         <span className="px-2 py-0.5 rounded-md font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1 font-mono">
@@ -836,7 +836,7 @@ export const Contact: React.FC = () => {
                     </span>
                   </label>
                   {touched.privacyConsent && formErrors.privacyConsent && (
-                    <p id="contact-consent-error" role="alert" className="mt-1.5 text-[11px] font-medium text-red-600 flex items-center gap-1">
+                    <p id="contact-consent-error" role="alert" className="mt-1.5 text-xs font-medium text-red-600 flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" />
                       <span>{formErrors.privacyConsent}</span>
                     </p>
@@ -907,7 +907,7 @@ export const Contact: React.FC = () => {
                   <div className="min-w-0 flex-1">
                     <strong className="text-ink block text-sm">Training Campus & Labs:</strong>
                     <span>Putalisadak (IT Corridor), Ward 28, Kathmandu 44600, Bagmati Province, Nepal</span>
-                    <span className="block text-[11px] text-ink-faint mt-0.5">
+                    <span className="block text-xs text-ink-faint mt-0.5">
                       Opposite Kathmandu Plaza. 5-minute walk from City Center and Ratnapark.
                     </span>
                   </div>
@@ -927,7 +927,7 @@ export const Contact: React.FC = () => {
                         title="Click to call mobile admissions desk"
                       >
                         <span>+977 980-0000000</span>
-                        <span className="ml-1 text-[10px] font-mono text-ink-faint">(Mobile / WhatsApp)</span>
+                        <span className="ml-1 text-xs font-mono text-ink-faint">(Mobile / WhatsApp)</span>
                       </a>
                       <span className="hidden sm:inline text-ink-faint">•</span>
                       <a
@@ -936,10 +936,10 @@ export const Contact: React.FC = () => {
                         title="Click to call landline desk"
                       >
                         <span>+977 1-4400000</span>
-                        <span className="ml-1 text-[10px] font-mono text-ink-faint">(Desk)</span>
+                        <span className="ml-1 text-xs font-mono text-ink-faint">(Desk)</span>
                       </a>
                     </div>
-                    <span className="block text-[11px] text-ink-faint">
+                    <span className="block text-xs text-ink-faint">
                       Speak directly with an education counselor (7:00 AM – 7:00 PM).
                     </span>
                   </div>
@@ -980,7 +980,7 @@ export const Contact: React.FC = () => {
                         >
                           info@navyaedtech.com
                         </a>
-                        <span className="text-ink-faint text-[11px] shrink-0">(General Inquiries)</span>
+                        <span className="text-ink-faint text-xs shrink-0">(General Inquiries)</span>
                       </div>
                       <div className="flex flex-wrap items-baseline gap-x-1.5">
                         <a
@@ -989,7 +989,7 @@ export const Contact: React.FC = () => {
                         >
                           admissions@navyaedtech.com
                         </a>
-                        <span className="text-ink-faint text-[11px] shrink-0">(Syllabus & Fees)</span>
+                        <span className="text-ink-faint text-xs shrink-0">(Syllabus & Fees)</span>
                       </div>
                     </div>
                   </div>
@@ -1003,7 +1003,7 @@ export const Contact: React.FC = () => {
                   <div>
                     <strong className="text-ink block text-sm">Advisory & Visiting Hours:</strong>
                     <span>Sunday – Friday: 7:00 AM – 7:00 PM (NPT)</span>
-                    <span className="block text-[11px] text-ink-faint mt-0.5">
+                    <span className="block text-xs text-ink-faint mt-0.5">
                       Saturday: 9:00 AM – 3:00 PM (Trial demo sessions & lab tours by appointment)
                     </span>
                   </div>
@@ -1017,7 +1017,7 @@ export const Contact: React.FC = () => {
               className="p-6 rounded-2xl sm:rounded-3xl bg-paper-alt border border-border-warm space-y-3 shadow-xs"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-blue block font-mono">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue block font-mono">
                   Parent Organization
                 </span>
                 <Building2 className="w-4 h-4 text-ink-faint" />

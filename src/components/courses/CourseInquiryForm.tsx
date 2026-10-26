@@ -179,18 +179,18 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white/10 border border-white/15 space-y-2.5 text-xs text-white/90">
-                  <div className="font-bold text-blue-light uppercase tracking-wider text-[11px]">
+                  <div className="font-bold text-blue-light uppercase tracking-wider text-xs">
                     Identified Course Details:
                   </div>
-                  <div className="flex justify-between text-[11px]">
+                  <div className="flex justify-between text-xs">
                     <span className="text-white/70">Course:</span>
                     <span className="font-bold truncate max-w-[170px]">{course.title}</span>
                   </div>
-                  <div className="flex justify-between text-[11px]">
+                  <div className="flex justify-between text-xs">
                     <span className="text-white/70">Next Intake:</span>
                     <span className="font-semibold">{course.upcomingBatch.startDate}</span>
                   </div>
-                  <div className="flex justify-between text-[11px]">
+                  <div className="flex justify-between text-xs">
                     <span className="text-white/70">Tuition Fee:</span>
                     <span className="font-bold text-emerald-300">{course.fee}</span>
                   </div>
@@ -227,7 +227,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                       <p className="text-xs sm:text-sm text-ink-soft max-w-md mx-auto leading-relaxed">
                         Thank you, <strong>{formData.fullName}</strong>. Your request regarding <strong>{course.title}</strong> has been logged with our admissions desk.
                       </p>
-                      <p className="text-[11px] font-mono text-ink-faint">
+                      <p className="text-xs font-mono text-ink-faint">
                         Reference Ticket: {submissionResult.localId}
                       </p>
                     </div>
@@ -255,7 +255,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                       </button>
                     </div>
 
-                    <div className="text-[11px] text-ink-faint flex items-center justify-center gap-1.5 pt-2">
+                    <div className="text-xs text-ink-faint flex items-center justify-center gap-1.5 pt-2">
                       <ShieldCheck className="w-3.5 h-3.5 text-sage-ink" />
                       <span>Zero spam guarantee. Your contact information is never shared.</span>
                     </div>
@@ -311,7 +311,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                         } focus:outline-hidden focus:ring-2 focus:ring-navy/20 focus:border-navy`}
                       />
                       {errors.fullName && (
-                        <p id="course-inquiry-fullname-error" role="alert" className="text-[11px] text-rose-600 mt-1">{errors.fullName}</p>
+                        <p id="course-inquiry-fullname-error" role="alert" className="text-xs text-rose-600 mt-1">{errors.fullName}</p>
                       )}
                     </div>
 
@@ -335,7 +335,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                           } focus:outline-hidden focus:ring-2 focus:ring-navy/20 focus:border-navy`}
                         />
                         {errors.email && (
-                          <p id="course-inquiry-email-error" role="alert" className="text-[11px] text-rose-600 mt-1">{errors.email}</p>
+                          <p id="course-inquiry-email-error" role="alert" className="text-xs text-rose-600 mt-1">{errors.email}</p>
                         )}
                       </div>
 
@@ -357,7 +357,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                           } focus:outline-hidden focus:ring-2 focus:ring-navy/20 focus:border-navy`}
                         />
                         {errors.phone && (
-                          <p id="course-inquiry-phone-error" role="alert" className="text-[11px] text-rose-600 mt-1">{errors.phone}</p>
+                          <p id="course-inquiry-phone-error" role="alert" className="text-xs text-rose-600 mt-1">{errors.phone}</p>
                         )}
                       </div>
                     </div>
@@ -385,7 +385,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                         <label htmlFor="message" className="block text-xs font-bold text-ink">
                           Questions or Background (Optional)
                         </label>
-                        <span className="text-[11px] text-ink-faint">
+                        <span className="text-xs text-ink-faint">
                           {formData.message.length} / 1000
                         </span>
                       </div>
@@ -417,7 +417,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                         </span>
                       </label>
                       {errors.privacyConsent && (
-                        <p id="course-inquiry-privacy-error" role="alert" className="text-[11px] text-rose-600 mt-1">{errors.privacyConsent}</p>
+                        <p id="course-inquiry-privacy-error" role="alert" className="text-xs text-rose-600 mt-1">{errors.privacyConsent}</p>
                       )}
                     </div>
 
@@ -440,7 +440,7 @@ export const CourseInquiryForm: React.FC<CourseInquiryFormProps> = ({ course }) 
                       </Button>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-ink-faint pt-1">
+                    <div className="flex items-center justify-between text-xs text-ink-faint pt-1">
                       <span className="flex items-center gap-1">
                         <ShieldCheck className="w-3.5 h-3.5 text-sage-ink" />
                         <span>Protected by anti-spam verification</span>

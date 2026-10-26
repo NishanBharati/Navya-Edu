@@ -180,7 +180,7 @@ export const Programs: React.FC = () => {
                 variants={prefersReducedMotion ? undefined : heroCardItem}
                 className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1 hover:border-navy/30 transition-colors"
               >
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint block">Format</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-ink-faint block">Format</span>
                 <strong className="text-xs sm:text-sm font-bold text-ink block">
                   {isKidsActive ? 'Lab & Weekend' : 'Classroom & Live'}
                 </strong>
@@ -189,7 +189,7 @@ export const Programs: React.FC = () => {
                 variants={prefersReducedMotion ? undefined : heroCardItem}
                 className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1 hover:border-navy/30 transition-colors"
               >
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint block">Mentorship</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-ink-faint block">Mentorship</span>
                 <strong className="text-xs sm:text-sm font-bold text-sage-ink block">
                   {isKidsActive ? '1 : 8 Cohort Max' : '1 : 12 Cohort Max'}
                 </strong>
@@ -198,7 +198,7 @@ export const Programs: React.FC = () => {
                 variants={prefersReducedMotion ? undefined : heroCardItem}
                 className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1 hover:border-navy/30 transition-colors"
               >
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint block">
+                <span className="text-xs font-semibold uppercase tracking-wider text-ink-faint block">
                   {isKidsActive ? 'Outcomes' : 'Capstone'}
                 </span>
                 <strong className="text-xs sm:text-sm font-bold text-navy block">
@@ -209,7 +209,7 @@ export const Programs: React.FC = () => {
                 variants={prefersReducedMotion ? undefined : heroCardItem}
                 className="p-3.5 bg-white rounded-2xl border border-border shadow-xs space-y-1 hover:border-navy/30 transition-colors"
               >
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint block">
+                <span className="text-xs font-semibold uppercase tracking-wider text-ink-faint block">
                   {isKidsActive ? 'Path' : 'Pipeline'}
                 </span>
                 <strong className="text-xs sm:text-sm font-bold text-blue block">
@@ -242,7 +242,7 @@ export const Programs: React.FC = () => {
                     <p className="text-xs font-bold text-ink">
                       {isKidsActive ? 'Creative Coding & Logic' : 'Multi-Track Curriculums'}
                     </p>
-                    <p className="text-[11px] text-ink-soft">
+                    <p className="text-xs text-ink-soft">
                       {isKidsActive
                         ? 'MIT Scratch to Python Pathway (Ages 8–14)'
                         : 'From fundamentals to scalable system design'}
@@ -329,10 +329,10 @@ export const Programs: React.FC = () => {
 
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-navy/10 text-navy">
+                        <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-navy/10 text-navy">
                           {program.category.split(' ')[0]}
                         </span>
-                        <span className="text-[11px] font-semibold text-ink-faint">
+                        <span className="text-xs font-semibold text-ink-faint">
                           {program.duration.split(' ')[0]} {program.duration.split(' ')[1]}
                         </span>
                       </div>
@@ -348,7 +348,7 @@ export const Programs: React.FC = () => {
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-border-faint flex items-center justify-between text-[11px]">
+                    <div className="pt-2 border-t border-border-faint flex items-center justify-between text-xs">
                       <span className="font-semibold text-blue">
                         {isSelected ? 'Currently Viewing' : 'Click to View Syllabus'}
                       </span>
@@ -471,7 +471,7 @@ export const Programs: React.FC = () => {
                       ))}
                     </ul>
 
-                    <div className="pt-2 border-t border-border-soft text-[11px] text-ink-soft">
+                    <div className="pt-2 border-t border-border-soft text-xs text-ink-soft">
                       <strong className="text-ink block">Prerequisite check:</strong>
                       <span>{activeProgram.eligibility}</span>
                     </div>
@@ -497,14 +497,14 @@ export const Programs: React.FC = () => {
 
                     {activeProgram.coursesIncluded && activeProgram.coursesIncluded.length > 0 && (
                       <div className="pt-2 border-t border-border-soft">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-ink-faint block mb-1">
+                        <span className="text-xs font-mono uppercase tracking-wider text-ink-faint block mb-1">
                           Integrated Courses:
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {activeProgram.coursesIncluded.map((c, cIdx) => (
                             <span
                               key={cIdx}
-                              className="text-[10px] px-2 py-0.5 rounded bg-paper-alt text-navy font-mono border border-border-warm"
+                              className="text-xs px-2 py-0.5 rounded bg-paper-alt text-navy font-mono border border-border-warm"
                             >
                               {c}
                             </span>
@@ -532,7 +532,7 @@ export const Programs: React.FC = () => {
                       ))}
                     </ul>
 
-                    <div className="pt-2 border-t border-sage/20 text-[11px] text-sage-ink">
+                    <div className="pt-2 border-t border-sage/20 text-xs text-sage-ink">
                       <strong className="block font-bold">
                         {activeProgram.category === 'Kids & School Programs' ? 'Mentorship & Support:' : 'Career Support:'}
                       </strong>
@@ -595,7 +595,7 @@ export const Programs: React.FC = () => {
                   <th className="p-4 sm:p-5 bg-navy/5 text-navy border-x border-navy/20 w-5/12 relative">
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-extrabold text-sm sm:text-base">Comprehensive Career Programs</span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-navy text-white tracking-normal">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-navy text-white tracking-normal">
                         RECOMMENDED
                       </span>
                     </div>
@@ -614,7 +614,7 @@ export const Programs: React.FC = () => {
                   <td className="p-4 sm:p-5 text-navy font-semibold bg-navy/[0.02] border-x border-navy/15">
                     <div className="space-y-1">
                       <p>Fresh graduates, career switchers, aspiring full-stack engineers</p>
-                      <span className="text-[11px] text-blue font-medium block">→ Built for total career transition</span>
+                      <span className="text-xs text-blue font-medium block">→ Built for total career transition</span>
                     </div>
                   </td>
                   <td className="p-4 sm:p-5 text-ink-soft">

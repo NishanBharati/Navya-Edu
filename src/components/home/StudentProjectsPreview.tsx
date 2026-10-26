@@ -131,7 +131,7 @@ export const StudentProjectsPreview: React.FC = () => {
                           <span>{featuredProject.category}</span>
                         </Badge>
                         {featuredProject.featuredBadge && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/90 text-navy-dark text-[10px] font-mono font-bold tracking-wide shadow-xs backdrop-blur-md">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/90 text-navy-dark text-xs font-mono font-bold tracking-wide shadow-xs backdrop-blur-md">
                             <Sparkles className="w-3 h-3" />
                             {featuredProject.featuredBadge}
                           </span>
@@ -139,7 +139,7 @@ export const StudentProjectsPreview: React.FC = () => {
                       </div>
 
                       {featuredProject.stats && (
-                        <div className="absolute bottom-3.5 right-3.5 z-10 px-3 py-1 rounded-xl bg-navy-dark/85 backdrop-blur-md text-white border border-white/15 text-[11px] font-mono font-bold shadow-md">
+                        <div className="absolute bottom-3.5 right-3.5 z-10 px-3 py-1 rounded-xl bg-navy-dark/85 backdrop-blur-md text-white border border-white/15 text-xs font-mono font-bold shadow-md">
                           <span className="text-white/70 mr-1.5">{featuredProject.stats.label}:</span>
                           <span className="text-emerald-400">{featuredProject.stats.value}</span>
                         </div>
@@ -151,7 +151,7 @@ export const StudentProjectsPreview: React.FC = () => {
 
                   <div className="p-6 sm:p-7 space-y-4">
                     <div>
-                      <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block mb-1">
+                      <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block mb-1">
                         {featuredProject.completionContext}
                       </span>
                       <h3 className="text-xl sm:text-2xl font-bold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -164,7 +164,7 @@ export const StudentProjectsPreview: React.FC = () => {
                     </p>
 
                     <div className="space-y-2 pt-3 border-t border-border-faint">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-ink-faint block font-semibold">
+                      <span className="text-xs font-mono uppercase tracking-wider text-ink-faint block font-semibold">
                         Key Architecture Benchmarks:
                       </span>
                       <ul className="space-y-2 text-xs text-ink">
@@ -192,7 +192,7 @@ export const StudentProjectsPreview: React.FC = () => {
                       <motion.span
                         key={tIdx}
                         variants={prefersReducedMotion ? undefined : chipItem}
-                        className="text-[11px] px-2.5 py-1 rounded-lg bg-white text-navy font-mono font-medium border border-border-warm shadow-2xs hover:border-navy/30 transition-colors"
+                        className="text-xs px-2.5 py-1 rounded-lg bg-white text-navy font-mono font-medium border border-border-warm shadow-2xs hover:border-navy/30 transition-colors"
                       >
                         {tech}
                       </motion.span>
@@ -251,7 +251,7 @@ export const StudentProjectsPreview: React.FC = () => {
                     </div>
 
                     <div className="p-5 sm:p-6 space-y-2.5">
-                      <span className="text-[10px] font-mono font-bold text-blue tracking-wider uppercase block">
+                      <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block">
                         {project.completionContext}
                       </span>
                       <h3 className="text-base sm:text-lg font-bold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -275,13 +275,13 @@ export const StudentProjectsPreview: React.FC = () => {
                         <motion.span
                           key={idx}
                           variants={prefersReducedMotion ? undefined : chipItem}
-                          className="text-[10px] px-2 py-0.5 rounded bg-white text-navy font-mono border border-border-warm"
+                          className="text-xs px-2 py-0.5 rounded bg-white text-navy font-mono border border-border-warm"
                         >
                           {tech}
                         </motion.span>
                       ))}
                       {project.technologies.length > 3 && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded text-ink-soft font-mono">
+                        <span className="text-xs px-1.5 py-0.5 rounded text-ink-soft font-mono">
                           +{project.technologies.length - 3}
                         </span>
                       )}
@@ -321,11 +321,11 @@ export const StudentProjectsPreview: React.FC = () => {
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-border">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono font-bold text-blue uppercase tracking-wider">
+                  <span className="text-xs font-mono font-bold text-blue uppercase tracking-wider">
                     {inspectingProject.completionContext}
                   </span>
                   {inspectingProject.featuredBadge && (
-                    <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-[#966324] text-[10px] font-mono font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-[#966324] text-xs font-mono font-bold">
                       {inspectingProject.featuredBadge}
                     </span>
                   )}

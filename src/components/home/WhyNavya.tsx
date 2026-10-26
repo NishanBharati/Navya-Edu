@@ -177,7 +177,7 @@ export const WhyNavya: React.FC = () => {
 
                   {/* Tech Stack Chips */}
                   <div className="space-y-2">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-navy-mist block">
+                    <span className="text-xs font-mono uppercase tracking-wider text-navy-mist block">
                       Production Stack & Tools:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -198,7 +198,7 @@ export const WhyNavya: React.FC = () => {
                       <span className="text-lg sm:text-xl font-extrabold text-white block">
                         {activeCap.metric.value}
                       </span>
-                      <span className="text-[11px] text-navy-mist">
+                      <span className="text-xs text-navy-mist">
                         {activeCap.metric.label}
                       </span>
                     </div>
@@ -293,7 +293,7 @@ export const WhyNavya: React.FC = () => {
                       </h3>
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-[11px] font-semibold px-2 py-0.5 rounded-full transition-colors ${
+                          className={`text-xs font-semibold px-2 py-0.5 rounded-full transition-colors ${
                             isActive
                               ? 'bg-navy/10 text-navy font-bold'
                               : 'text-ink-faint bg-paper-alt'

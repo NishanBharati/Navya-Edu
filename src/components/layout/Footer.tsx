@@ -105,7 +105,7 @@ export const Footer: React.FC = () => {
                 <Clock className="w-3.5 h-3.5 text-navy-mist shrink-0 mt-0.5" />
                 <span>Sun – Fri: 7:00 AM – 7:00 PM</span>
               </div>
-              <p className="pt-1 text-[11px] text-navy-mist leading-normal">
+              <p className="pt-1 text-xs text-navy-mist leading-normal">
                 Putalisadak, Kathmandu, Nepal
               </p>
               <div className="pt-2">
@@ -126,7 +126,7 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <span>© {new Date().getFullYear()} Navya Ed Tech Pvt. Ltd. All rights reserved.</span>
             <span className="hidden sm:inline">•</span>
-            <span className="text-[11px] text-mist">Kathmandu, Bagmati Province, Nepal</span>
+            <span className="text-xs text-mist">Kathmandu, Bagmati Province, Nepal</span>
           </div>
           <nav aria-label="Legal and institutional policies" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <Link to="/terms" className="hover:text-white transition-colors">

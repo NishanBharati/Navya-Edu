@@ -89,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
       <nav className="flex-1 overflow-y-auto px-3.5 py-5 space-y-6">
         {sections.map((section) => (
           <div key={section.label}>
-            <p className="px-2.5 mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#7690A8]">
+            <p className="px-2.5 mb-2 text-xs font-semibold uppercase tracking-wider text-[#7690A8]">
               {section.label}
             </p>
             <div className="space-y-0.5">
@@ -110,7 +110,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
                     {item.label}
                   </span>
                   {!!item.badge && (
-                    <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-amber text-white text-[10px] font-bold flex items-center justify-center">
+                    <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-amber text-white text-xs font-bold flex items-center justify-center">
                       {item.badge}
                     </span>
                   )}

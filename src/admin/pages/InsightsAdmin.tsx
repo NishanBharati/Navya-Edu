@@ -215,7 +215,7 @@ export const InsightsAdmin: React.FC = () => {
                 }`}
               >
                 <span>{label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${statusFilter === status ? 'bg-white/20 text-white' : 'bg-paper-alt text-ink-faint'}`}>
+                <span className={`text-xs px-1.5 py-0.2 rounded-full ${statusFilter === status ? 'bg-white/20 text-white' : 'bg-paper-alt text-ink-faint'}`}>
                   {count}
                 </span>
               </button>
@@ -247,7 +247,7 @@ export const InsightsAdmin: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
+                <tr className="text-left text-xs uppercase tracking-wider text-ink-faint border-b border-border-soft">
                   <th className="px-5 py-2.5 font-semibold">Article</th>
                   <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Category</th>
                   <th className="px-5 py-2.5 font-semibold">Status</th>

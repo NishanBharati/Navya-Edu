@@ -72,7 +72,7 @@ export const InsightsPreview: React.FC = () => {
                       />
                       {/* Floating read preview badge on hover */}
                       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-navy-dark/90 text-white text-[11px] font-mono font-semibold backdrop-blur-md shadow-sm">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-navy-dark/90 text-white text-xs font-mono font-semibold backdrop-blur-md shadow-sm">
                           <BookOpen className="w-3.5 h-3.5 text-blue-light" />
                           <span>Read Article</span>
                         </span>
@@ -85,7 +85,7 @@ export const InsightsPreview: React.FC = () => {
                         <Badge variant="blue" size="sm" className="shadow-2xs">
                           {article.category}
                         </Badge>
-                        <div className="flex items-center gap-1 text-[11px] text-ink-muted font-mono">
+                        <div className="flex items-center gap-1 text-xs text-ink-muted font-mono">
                           <Clock className="w-3 h-3 text-blue" />
                           <span>{article.readTime}</span>
                         </div>

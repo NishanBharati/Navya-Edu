@@ -104,7 +104,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     <div className="space-y-2">
       {/* Mode Switcher */}
       <div className="flex items-center justify-between">
-        <span className="text-[11px] text-ink-faint">{hint}</span>
+        <span className="text-xs text-ink-faint">{hint}</span>
         <div className="flex items-center gap-1 bg-paper-alt p-0.5 rounded-lg text-xs">
           <button
             type="button"
@@ -151,7 +151,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             <p className="text-xs font-semibold text-ink truncate" title={value}>
               {value.split('/').pop() || 'Image Asset'}
             </p>
-            <p className="text-[11px] text-ink-faint truncate max-w-sm" title={value}>
+            <p className="text-xs text-ink-faint truncate max-w-sm" title={value}>
               {value}
             </p>
 
@@ -222,7 +222,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                   </>
                 )}
               </p>
-              <p className="text-[11px] text-ink-faint mt-0.5">
+              <p className="text-xs text-ink-faint mt-0.5">
                 PNG, JPG, WebP, GIF, or SVG (max. 5MB)
               </p>
             </div>

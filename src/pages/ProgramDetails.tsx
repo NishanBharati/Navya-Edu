@@ -135,7 +135,7 @@ export const ProgramDetails: React.FC = () => {
               {/* Telemetry Metric Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 rounded-2xl bg-white border border-border shadow-xs">
                 <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-wider block">
+                  <span className="text-xs font-bold text-ink-faint uppercase tracking-wider block">
                     Duration
                   </span>
                   <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
@@ -145,7 +145,7 @@ export const ProgramDetails: React.FC = () => {
                 </div>
 
                 <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-wider block">
+                  <span className="text-xs font-bold text-ink-faint uppercase tracking-wider block">
                     Format
                   </span>
                   <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
@@ -155,7 +155,7 @@ export const ProgramDetails: React.FC = () => {
                 </div>
 
                 <div className="space-y-0.5 col-span-2 sm:col-span-1">
-                  <span className="text-[10px] font-bold text-ink-faint uppercase tracking-wider block">
+                  <span className="text-xs font-bold text-ink-faint uppercase tracking-wider block">
                     Batches
                   </span>
                   <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
@@ -198,7 +198,7 @@ export const ProgramDetails: React.FC = () => {
             {/* Right Meta Card */}
             <div className="lg:col-span-5 bg-white rounded-3xl border border-border p-6 sm:p-8 shadow-xs space-y-6">
               <div className="border-b border-border-faint pb-4">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-blue block mb-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue block mb-1">
                   Admissions Status
                 </span>
                 <div className="flex items-center justify-between">
@@ -237,7 +237,7 @@ export const ProgramDetails: React.FC = () => {
                 >
                   Start Enrollment Application
                 </Button>
-                <p className="text-center text-[11px] text-ink-faint mt-2">
+                <p className="text-center text-xs text-ink-faint mt-2">
                   No tuition charged until diagnostic consultation is complete.
                 </p>
               </div>
@@ -321,7 +321,7 @@ export const ProgramDetails: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               {program.whatItIncludes.map((point, idx) => (
                 <div key={idx} className="p-4 rounded-2xl bg-paper-alt border border-border space-y-1">
-                  <div className="text-[11px] font-bold font-mono text-navy">
+                  <div className="text-xs font-bold font-mono text-navy">
                     Phase 0{idx + 1}
                   </div>
                   <p className="text-xs sm:text-sm font-medium text-ink leading-relaxed">
@@ -350,7 +350,7 @@ export const ProgramDetails: React.FC = () => {
                     to={`/courses/${c.slug}`}
                     className="p-4 rounded-2xl bg-white border border-border hover:border-navy/30 transition-all space-y-2 group shadow-2xs"
                   >
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue block">
+                    <span className="text-xs font-bold uppercase tracking-wider text-blue block">
                       {c.duration} • {c.level}
                     </span>
                     <h4 className="text-sm font-bold text-ink group-hover:text-navy transition-colors">

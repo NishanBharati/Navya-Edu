@@ -142,7 +142,7 @@ export const PdfUpload: React.FC<PdfUploadProps> = ({
     <div className="space-y-2.5">
       {/* Mode Switcher */}
       <div className="flex items-center justify-between">
-        <span className="text-[11px] text-ink-faint">{hint}</span>
+        <span className="text-xs text-ink-faint">{hint}</span>
         <div className="flex items-center gap-1 bg-paper-alt p-0.5 rounded-lg text-xs">
           <button
             type="button"
@@ -181,11 +181,11 @@ export const PdfUpload: React.FC<PdfUploadProps> = ({
               <p className="text-xs font-bold text-ink truncate" title={value.startsWith('data:') ? 'Embedded PDF Document' : value}>
                 {getFileNameFromUrl(value)}
               </p>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 shrink-0">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 shrink-0">
                 <CheckCircle2 className="w-3 h-3" /> Attached
               </span>
             </div>
-            <p className="text-[11px] text-ink-soft truncate max-w-md font-mono" title={value.startsWith('data:') ? 'Embedded PDF Data' : value}>
+            <p className="text-xs text-ink-soft truncate max-w-md font-mono" title={value.startsWith('data:') ? 'Embedded PDF Data' : value}>
               {value.startsWith('data:') ? 'data:application/pdf;base64 [Embedded Document]' : value}
             </p>
 
@@ -257,7 +257,7 @@ export const PdfUpload: React.FC<PdfUploadProps> = ({
                   </>
                 )}
               </p>
-              <p className="text-[11px] text-ink-faint mt-0.5">
+              <p className="text-xs text-ink-faint mt-0.5">
                 Official PDF Document (up to 25MB)
               </p>
             </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { fadeUp, staggerContainer } from '../../lib/motion';
+import { motion, animate, useInView, useReducedMotion } from 'framer-motion';
+import { fadeUp, staggerContainer, EASING } from '../../lib/motion';
 
 export interface AnimatedCounterProps {
   from?: number;
@@ -11,6 +11,11 @@ export interface AnimatedCounterProps {
   className?: string;
 }
 
+/**
+ * Counts up to `to` the first time it scrolls into view.
+ * Server render and above-the-fold instances show the final value straight
+ * away, so crawlers and the first paint never see a placeholder number.
+ */
 export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   from = 0,
   to,
@@ -20,43 +25,36 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   className = '',
 }) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.6 });
   const prefersReducedMotion = useReducedMotion();
-  const [count, setCount] = useState(from);
+  const [count, setCount] = useState(to);
+  const shouldAnimate = useRef(false);
+
+  // Only counters that start off-screen get reset and animated.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReducedMotion) return;
+    if (el.getBoundingClientRect().top > window.innerHeight) {
+      shouldAnimate.current = true;
+      setCount(from);
+    }
+  }, [from, prefersReducedMotion]);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setCount(to);
-      return;
-    }
-
-    if (isInView) {
-      const startTime = performance.now();
-
-      const tick = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Canonical ease [0.22, 1, 0.36, 1] cubic approximation
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentVal = Math.floor(from + (to - from) * easeOut);
-        setCount(currentVal);
-
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          setCount(to);
-        }
-      };
-
-      const frame = requestAnimationFrame(tick);
-      return () => cancelAnimationFrame(frame);
-    }
-  }, [isInView, from, to, duration, prefersReducedMotion]);
+    if (!isInView || !shouldAnimate.current) return;
+    shouldAnimate.current = false;
+    const controls = animate(from, to, {
+      duration: duration / 1000,
+      ease: EASING,
+      onUpdate: (v) => setCount(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [isInView, from, to, duration]);
 
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} className={`tabular-nums ${className}`}>
       {prefix}
-      {prefersReducedMotion ? to : count}
+      {count}
       {suffix}
     </span>
   );
@@ -79,54 +77,13 @@ interface StatCounterRowProps {
 }
 
 function CounterNumber({ item }: { item: StatItem }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const prefersReducedMotion = useReducedMotion();
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    if (!item.numericValue || prefersReducedMotion) {
-      if (item.numericValue) setCurrent(item.numericValue);
-      return;
-    }
-
-    if (isInView) {
-      let start = 0;
-      const end = item.numericValue;
-      const duration = 1200; // ms
-      const startTime = performance.now();
-
-      const updateCount = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Ease out cubic [0.22, 1, 0.36, 1]
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const nextVal = Math.floor(start + (end - start) * easeOut);
-        setCurrent(nextVal);
-
-        if (progress < 1) {
-          requestAnimationFrame(updateCount);
-        } else {
-          setCurrent(end);
-        }
-      };
-
-      const frameId = requestAnimationFrame(updateCount);
-      return () => cancelAnimationFrame(frameId);
-    }
-  }, [isInView, item.numericValue, prefersReducedMotion]);
-
   if (item.rawDisplay) {
-    return <span ref={ref}>{item.rawDisplay}</span>;
+    return <span>{item.rawDisplay}</span>;
   }
 
   if (item.numericValue !== undefined) {
     return (
-      <span ref={ref}>
-        {item.prefix || ''}
-        {prefersReducedMotion ? item.numericValue : current}
-        {item.suffix || ''}
-      </span>
+      <AnimatedCounter to={item.numericValue} prefix={item.prefix} suffix={item.suffix} duration={1200} />
     );
   }
 
@@ -164,7 +121,7 @@ export const StatCounterRow: React.FC<StatCounterRowProps> = ({ stats, className
               <span className="text-xs font-bold text-ink tracking-tight">{stat.label}</span>
             </div>
             {stat.badge && (
-              <span className="px-2 py-0.5 rounded-md bg-sage/10 text-sage-ink text-[10px] font-mono font-bold">
+              <span className="px-2 py-0.5 rounded-md bg-sage/10 text-sage-ink text-xs font-mono font-bold">
                 {stat.badge}
               </span>
             )}

@@ -249,7 +249,7 @@ export const Navbar: React.FC = () => {
                                   {child.label}
                                 </div>
                                 {child.description && (
-                                  <p className="text-[11px] text-ink-soft font-normal mt-0.5 leading-snug">
+                                  <p className="text-xs text-ink-soft font-normal mt-0.5 leading-snug">
                                     {child.description}
                                   </p>
                                 )}
@@ -410,7 +410,7 @@ export const Navbar: React.FC = () => {
                 {/* Admissions & Programs */}
                 <motion.div variants={prefersReducedMotion ? undefined : fadeUp}>
                   <div className="pb-1 mb-2 border-b border-border">
-                    <span className="text-[10px] font-bold text-ink-faint uppercase tracking-wider px-3">
+                    <span className="text-xs font-bold text-ink-faint uppercase tracking-wider px-3">
                       Courses & Admissions
                     </span>
                   </div>
@@ -461,7 +461,7 @@ export const Navbar: React.FC = () => {
                 {/* Explore & Resources */}
                 <motion.div variants={prefersReducedMotion ? undefined : fadeUp}>
                   <div className="pb-1 mb-2 border-b border-border">
-                    <span className="text-[10px] font-bold text-ink-faint uppercase tracking-wider px-3">
+                    <span className="text-xs font-bold text-ink-faint uppercase tracking-wider px-3">
                       Explore & Resources
                     </span>
                   </div>

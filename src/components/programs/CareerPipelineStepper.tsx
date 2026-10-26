@@ -136,7 +136,7 @@ export const CareerPipelineStepper: React.FC = () => {
                     </div>
                   </div>
 
-                  <span className={`inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${stage.tagColor}`}>
+                  <span className={`inline-block px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider border ${stage.tagColor}`}>
                     {stage.phase}
                   </span>
 
@@ -150,7 +150,7 @@ export const CareerPipelineStepper: React.FC = () => {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-border-faint">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-faint block">Key Deliverable:</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-ink-faint block">Key Deliverable:</span>
                   <div className="flex items-center gap-1.5 text-xs font-bold text-ink mt-0.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-sage shrink-0" />
                     <span className="truncate" title={stage.deliverable}>{stage.deliverable}</span>
@@ -203,7 +203,7 @@ export const CareerPipelineStepper: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between gap-2">
-                <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${stage.tagColor}`}>
+                <span className={`px-2.5 py-0.5 rounded-md text-xs font-bold uppercase tracking-wider border ${stage.tagColor}`}>
                   {stage.phase}
                 </span>
                 <Icon className="w-4 h-4 text-ink-soft" />

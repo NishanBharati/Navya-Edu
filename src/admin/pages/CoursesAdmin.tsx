@@ -268,7 +268,7 @@ export const CoursesAdmin: React.FC = () => {
                 }`}
               >
                 <span>{label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${statusFilter === status ? 'bg-white/20 text-white' : 'bg-paper-alt text-ink-faint'}`}>
+                <span className={`text-xs px-1.5 py-0.2 rounded-full ${statusFilter === status ? 'bg-white/20 text-white' : 'bg-paper-alt text-ink-faint'}`}>
                   {count}
                 </span>
               </button>
@@ -310,7 +310,7 @@ export const CoursesAdmin: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
+                <tr className="text-left text-xs uppercase tracking-wider text-ink-faint border-b border-border-soft">
                   <th className="px-5 py-2.5 font-semibold">Course</th>
                   <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Category</th>
                   <th className="px-5 py-2.5 font-semibold hidden md:table-cell">Duration</th>
@@ -330,7 +330,7 @@ export const CoursesAdmin: React.FC = () => {
                             <div className="flex items-center gap-2">
                               <p className="font-medium text-ink truncate max-w-[240px]">{course.title}</p>
                               {course.syllabusPdfUrl && (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-50 text-navy border border-blue-200 shrink-0" title="Custom syllabus PDF attached">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-mono font-semibold bg-blue-50 text-navy border border-blue-200 shrink-0" title="Custom syllabus PDF attached">
                                   <FileText className="w-3 h-3 text-blue" /> PDF
                                 </span>
                               )}
@@ -808,15 +808,15 @@ export const CoursesAdmin: React.FC = () => {
 
               <div className="pt-2 border-t border-white/15 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                 <div>
-                  <span className="text-[10px] uppercase text-navy-mist block">Duration</span>
+                  <span className="text-xs uppercase text-navy-mist block">Duration</span>
                   <span className="font-semibold text-white">{viewTarget.duration || 'N/A'}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase text-navy-mist block">Fee Structure</span>
+                  <span className="text-xs uppercase text-navy-mist block">Fee Structure</span>
                   <span className="font-semibold text-white">{viewTarget.fee || 'Contact Admissions'}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase text-navy-mist block">Cohort Status</span>
+                  <span className="text-xs uppercase text-navy-mist block">Cohort Status</span>
                   <span className="font-semibold text-white">{viewTarget.upcomingBatch?.seatsStatus || 'Open'}</span>
                 </div>
               </div>
@@ -861,7 +861,7 @@ export const CoursesAdmin: React.FC = () => {
                       <strong className="text-xs font-bold text-ink">
                         {mod.moduleNumber || `Module ${idx + 1}`}: {mod.title}
                       </strong>
-                      {mod.duration && <span className="text-[10px] text-ink-faint font-mono">{mod.duration}</span>}
+                      {mod.duration && <span className="text-xs text-ink-faint font-mono">{mod.duration}</span>}
                     </div>
                     {mod.topics && mod.topics.length > 0 && (
                       <ul className="text-xs text-ink-soft space-y-1 pl-3">

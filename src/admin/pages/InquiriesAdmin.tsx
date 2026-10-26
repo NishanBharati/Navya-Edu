@@ -283,7 +283,7 @@ export const InquiriesAdmin: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[10px] uppercase tracking-wider text-ink-faint border-b border-border-soft">
+                <tr className="text-left text-xs uppercase tracking-wider text-ink-faint border-b border-border-soft">
                   <th className="px-5 py-2.5 font-semibold">Contact</th>
                   <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Interested Course</th>
                   <th className="px-5 py-2.5 font-semibold hidden lg:table-cell">Source</th>
@@ -310,7 +310,7 @@ export const InquiriesAdmin: React.FC = () => {
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <span>{inquiry.source}</span>
                         {inquiry.id.startsWith('inq_loc_') && (
-                          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                          <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
                             Local Queue
                           </span>
                         )}

@@ -302,7 +302,7 @@ export const StudentWork: React.FC = () => {
                 <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-ink">Commercial Architecture</p>
-                    <p className="text-[11px] text-ink-soft">Production cloud deployments</p>
+                    <p className="text-xs text-ink-soft">Production cloud deployments</p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
                     Live Demos
@@ -421,7 +421,7 @@ export const StudentWork: React.FC = () => {
                               <span>{project.category}</span>
                             </Badge>
                             {project.featuredBadge && (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/90 text-navy-dark text-[10px] font-mono font-bold tracking-wide shadow-xs backdrop-blur-md">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/90 text-navy-dark text-xs font-mono font-bold tracking-wide shadow-xs backdrop-blur-md">
                                 <Sparkles className="w-3 h-3" />
                                 {project.featuredBadge}
                               </span>
@@ -430,7 +430,7 @@ export const StudentWork: React.FC = () => {
 
                           {/* Stat pill overlay if present */}
                           {project.stats && (
-                            <div className="absolute bottom-3.5 right-3.5 z-10 px-3 py-1 rounded-xl bg-navy-dark/85 backdrop-blur-md text-white border border-white/15 text-[11px] font-mono font-bold shadow-md">
+                            <div className="absolute bottom-3.5 right-3.5 z-10 px-3 py-1 rounded-xl bg-navy-dark/85 backdrop-blur-md text-white border border-white/15 text-xs font-mono font-bold shadow-md">
                               <span className="text-white/70 mr-1.5">{project.stats.label}:</span>
                               <span className="text-emerald-400">{project.stats.value}</span>
                             </div>
@@ -444,7 +444,7 @@ export const StudentWork: React.FC = () => {
                       {/* Content Section */}
                       <div className="p-6 sm:p-7 space-y-4">
                         <div>
-                          <span className="text-[11px] font-mono font-bold text-blue tracking-wider uppercase block mb-1">
+                          <span className="text-xs font-mono font-bold text-blue tracking-wider uppercase block mb-1">
                             {project.completionContext}
                           </span>
                           <h2 className="text-lg sm:text-xl font-bold text-ink leading-snug group-hover:text-navy transition-colors">
@@ -458,7 +458,7 @@ export const StudentWork: React.FC = () => {
 
                         {/* Engineering Architecture Highlights */}
                         <div className="space-y-2 pt-3 border-t border-border-faint">
-                          <span className="text-[10px] font-mono uppercase tracking-wider text-ink-faint block font-semibold">
+                          <span className="text-xs font-mono uppercase tracking-wider text-ink-faint block font-semibold">
                             Key Architecture Benchmarks:
                           </span>
                           <ul className="space-y-2 text-xs text-ink">
@@ -487,7 +487,7 @@ export const StudentWork: React.FC = () => {
                           <motion.span
                             key={tIdx}
                             variants={prefersReducedMotion ? undefined : chipItem}
-                            className="text-[11px] px-2.5 py-1 rounded-lg bg-white text-navy font-mono font-medium border border-border-warm shadow-2xs hover:border-navy/30 transition-colors"
+                            className="text-xs px-2.5 py-1 rounded-lg bg-white text-navy font-mono font-medium border border-border-warm shadow-2xs hover:border-navy/30 transition-colors"
                           >
                             {tech}
                           </motion.span>
@@ -601,11 +601,11 @@ export const StudentWork: React.FC = () => {
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-border">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono font-bold text-blue uppercase tracking-wider">
+                  <span className="text-xs font-mono font-bold text-blue uppercase tracking-wider">
                     {inspectingProject.completionContext}
                   </span>
                   {inspectingProject.featuredBadge && (
-                    <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-[#966324] text-[10px] font-mono font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-[#966324] text-xs font-mono font-bold">
                       {inspectingProject.featuredBadge}
                     </span>
                   )}

@@ -169,12 +169,12 @@ export const StudentWorkAdmin: React.FC = () => {
                 <p className="text-xs text-ink-faint mt-1 line-clamp-2">{project.completionContext}</p>
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   {project.technologies.slice(0, 3).map((tech) => (
-                    <span key={tech} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-paper-alt text-ink-soft">
+                    <span key={tech} className="text-xs font-medium px-2 py-0.5 rounded-md bg-paper-alt text-ink-soft">
                       {tech}
                     </span>
                   ))}
                   {project.technologies.length > 3 && (
-                    <span className="text-[10px] font-medium px-2 py-0.5 text-ink-faint">
+                    <span className="text-xs font-medium px-2 py-0.5 text-ink-faint">
                       +{project.technologies.length - 3}
                     </span>
                   )}

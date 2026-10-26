@@ -125,7 +125,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                 Curriculum & Practical Syllabus
               </span>
               {course.syllabusPdfUrl && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-navy/10 text-navy border border-navy/20">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-navy/10 text-navy border border-navy/20">
                   <FileText className="w-3 h-3 text-blue" /> Official PDF Available
                 </span>
               )}
@@ -438,7 +438,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-1">
                         {course.technologies.slice(0, 6).map((tech, tIdx) => (
-                          <span key={tIdx} className="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium bg-white text-navy border border-input-border">
+                          <span key={tIdx} className="px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-white text-navy border border-input-border">
                             {tech}
                           </span>
                         ))}
@@ -549,7 +549,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                       {course.title} — Official Curriculum
                     </h3>
                     {course.syllabusPdfUrl && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
                         Official PDF
                       </span>
                     )}
@@ -652,7 +652,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                         {/* Topics */}
                         {mod.topics && mod.topics.length > 0 && (
                           <div className="space-y-1.5 pl-3">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-ink-soft block">
+                            <span className="text-xs font-bold uppercase tracking-wider text-ink-soft block">
                               Topics Covered:
                             </span>
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#4A5568]">
@@ -721,7 +721,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                         {proj.technologies && proj.technologies.length > 0 && (
                           <div className="flex flex-wrap gap-1 pt-1">
                             {proj.technologies.map((tech, tIdx) => (
-                              <span key={tIdx} className="px-2 py-0.5 rounded text-[10px] font-mono bg-white border border-input-border text-navy">
+                              <span key={tIdx} className="px-2 py-0.5 rounded text-xs font-mono bg-white border border-input-border text-navy">
                                 {tech}
                               </span>
                             ))}

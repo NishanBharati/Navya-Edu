@@ -255,7 +255,7 @@ export const Login: React.FC = () => {
             </Button>
           </form>
 
-          <p className="mt-8 text-[11px] text-ink-faint text-center leading-relaxed">
+          <p className="mt-8 text-xs text-ink-faint text-center leading-relaxed">
             Changes made here are saved directly to the live database and reflect on the site immediately.
           </p>
         </div>

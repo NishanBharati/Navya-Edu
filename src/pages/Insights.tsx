@@ -89,7 +89,7 @@ const SpotlightArticle: React.FC<{ article: InsightArticle }> = ({ article }) =>
             <Badge variant="navy" size="md" className="shadow-md bg-navy/90 text-white backdrop-blur-md">
               {article.category}
             </Badge>
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/90 text-navy-dark text-[10px] font-mono font-bold tracking-wide shadow-xs backdrop-blur-md">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/90 text-navy-dark text-xs font-mono font-bold tracking-wide shadow-xs backdrop-blur-md">
               <Sparkles className="w-3 h-3" />
               Featured Read
             </span>
@@ -127,7 +127,7 @@ const SpotlightArticle: React.FC<{ article: InsightArticle }> = ({ article }) =>
             {/* Magazine-Style Takeaway Quote Block */}
             {article.keyTakeaways && article.keyTakeaways.length > 0 && (
               <div className="p-4 rounded-2xl bg-white border border-border-warm text-xs text-ink space-y-1.5 shadow-2xs">
-                <span className="font-mono font-bold text-navy uppercase text-[10px] tracking-wider block">
+                <span className="font-mono font-bold text-navy uppercase text-xs tracking-wider block">
                   Core Engineering Takeaway:
                 </span>
                 <p className="line-clamp-2 text-ink-soft leading-relaxed italic">
@@ -154,7 +154,7 @@ const SpotlightArticle: React.FC<{ article: InsightArticle }> = ({ article }) =>
                 <span className="text-xs font-bold text-ink block leading-tight">
                   {article.author.name}
                 </span>
-                <span className="text-[11px] text-ink-faint block">
+                <span className="text-xs text-ink-faint block">
                   {article.author.role}
                 </span>
               </div>
@@ -391,7 +391,7 @@ export const Insights: React.FC = () => {
                 <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-ink">Engineering Guides</p>
-                    <p className="text-[11px] text-ink-soft">Authored by Software Engineers</p>
+                    <p className="text-xs text-ink-soft">Authored by Software Engineers</p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
                     Verified Notes
@@ -531,7 +531,7 @@ export const Insights: React.FC = () => {
 
                     {/* Body Content */}
                     <div className="p-6 space-y-3.5">
-                      <div className="flex items-center justify-between text-[11px] text-ink-faint font-mono">
+                      <div className="flex items-center justify-between text-xs text-ink-faint font-mono">
                         <span className="flex items-center gap-1.5">
                           <Clock className="w-3.5 h-3.5 text-blue" />
                           <span>{article.readTime}</span>
@@ -555,7 +555,7 @@ export const Insights: React.FC = () => {
                           {article.tags.slice(0, 3).map((tag, idx) => (
                             <span
                               key={idx}
-                              className="text-[10px] px-2 py-0.5 rounded-md bg-paper text-ink-soft border border-border font-mono"
+                              className="text-xs px-2 py-0.5 rounded-md bg-paper text-ink-soft border border-border font-mono"
                             >
                               #{tag}
                             </span>
@@ -575,7 +575,7 @@ export const Insights: React.FC = () => {
                           className="w-7 h-7 rounded-full object-cover border border-border"
                         />
                       ) : (
-                        <div className="w-7 h-7 rounded-full bg-navy text-white flex items-center justify-center text-[10px] font-bold">
+                        <div className="w-7 h-7 rounded-full bg-navy text-white flex items-center justify-center text-xs font-bold">
                           {article.author.name.charAt(0)}
                         </div>
                       )}
@@ -660,7 +660,7 @@ export const Insights: React.FC = () => {
                       Subscribe
                     </button>
                   </div>
-                  <p className="text-[11px] text-ink-faint">
+                  <p className="text-xs text-ink-faint">
                     Curated by senior engineering mentors. Unsubscribe anytime in 1 click.
                   </p>
                 </form>

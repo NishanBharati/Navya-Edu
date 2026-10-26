@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — single source of truth for the palette already in use
- * across the site. Values are unchanged from what every component already
- * rendered; this only gives them one canonical name (`bg-navy` instead of
- * `bg-[#17324D]` repeated ~450 times) so future work references one place
- * instead of re-typing hex literals.
+ * Design tokens: single source of truth for colour, type, radius, shadow
+ * and motion. Tailwind utilities (`bg-navy`, `rounded-2xl`, `shadow-md`,
+ * `ease-out`, `font-mono`) all resolve to these values, so changing a
+ * token here restyles every page and the admin dashboard at once.
  */
 @theme {
+  /* Brand */
   --color-navy: #17324D;
   --color-navy-deep: #12283E;
+  --color-navy-dark: #0E1F30;
   --color-navy-light: #24466B;
   --color-blue: #1E5B8E;
   --color-blue-electric: #2563EB;
@@ -22,15 +23,15 @@
   --color-amber-dark: #78350F;
   --color-amber-light: #FEF3C7;
 
-  /* Accessible Neutral Typography Tokens (WCAG AA 4.5:1 compliant) */
+  /* Text (all pairs checked for WCAG AA 4.5:1 on paper, paper-alt and white) */
   --color-ink: #171A1F;
   --color-ink-soft: #383F4A;
   --color-ink-muted: #545D6B;
-  --color-ink-faint: #647082;
+  --color-ink-faint: #5E6A7B;
   --color-navy-mist: #9BBAD4;
   --color-mist: #CBD5E1;
 
-  /* Surfaces & Paper Backgrounds */
+  /* Surfaces */
   --color-paper: #FAFAF8;
   --color-paper-alt: #F4F1EA;
   --color-surface-white: #FFFFFF;
@@ -39,9 +40,10 @@
   --color-border-warm: #DFD7C8;
   --color-border-soft: #EFECE5;
   --color-border-faint: #F5F2EA;
-  --color-input-border: #D1C9BC;
+  /* Form control outline: 3.8:1 against white (WCAG 1.4.11 non-text contrast) */
+  --color-input-border: #8A8173;
 
-  /* Semantic Feedback & Status Tokens */
+  /* Feedback */
   --color-success: #15803D;
   --color-success-bg: #F0FDF4;
   --color-success-border: #BBF7D0;
@@ -54,19 +56,88 @@
   --color-info: #1D4ED8;
   --color-info-bg: #EFF6FF;
   --color-info-border: #BFDBFE;
+
+  /* Typography */
+  --font-sans: 'Geist Variable', 'Geist Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+
+  /* Radius: 8 (controls, chips) / 12 (buttons, small cards) / 16 (cards) / 20 (media, bands) */
+  --radius-md: 0.5rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
+
+  /* Elevation: navy-tinted, soft, layered */
+  --shadow-2xs: 0 1px 0 rgb(23 50 77 / 0.04);
+  --shadow-xs: 0 1px 2px rgb(23 50 77 / 0.06);
+  --shadow-sm: 0 1px 2px rgb(23 50 77 / 0.05), 0 2px 8px -2px rgb(23 50 77 / 0.08);
+  --shadow-md: 0 2px 4px -1px rgb(23 50 77 / 0.06), 0 8px 20px -6px rgb(23 50 77 / 0.12);
+  --shadow-lg: 0 4px 8px -2px rgb(23 50 77 / 0.06), 0 16px 36px -10px rgb(23 50 77 / 0.18);
+  --shadow-xl: 0 8px 16px -4px rgb(23 50 77 / 0.08), 0 28px 56px -16px rgb(23 50 77 / 0.24);
+  --shadow-2xl: 0 12px 24px -6px rgb(23 50 77 / 0.10), 0 40px 80px -24px rgb(23 50 77 / 0.30);
+
+  /* Motion: mirrored in src/lib/motion.ts for Framer Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-instant: 120ms;
+  --duration-fast: 180ms;
+  --duration-base: 240ms;
+  --duration-reveal: 560ms;
+  --duration-slow: 720ms;
+
+  --animate-rise: rise var(--duration-reveal) var(--ease-out) both;
+  --animate-fade-in: fade-in 200ms var(--ease-out);
+  --animate-slide-in: slide-in-right 280ms var(--ease-drawer);
+  --animate-slide-in-left: slide-in-left 260ms var(--ease-drawer);
+
+  @keyframes rise {
+    from { opacity: 0; transform: translate3d(0, 16px, 0); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes slide-in-left {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+}
+
+/*
+ * Metric-matched local fallback so the swap to Geist does not shift layout.
+ * Values measured against Arial in Chromium (see docs/DESIGN_SYSTEM.md).
+ */
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial');
+  ascent-override: 94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 104%;
 }
 
 @layer base {
-  :root {
-    --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  html {
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     color: var(--color-ink);
     background-color: var(--color-paper);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   /* Accessible keyboard-focus ring across all interactive controls */
@@ -77,7 +148,7 @@
   textarea:focus-visible,
   [role="button"]:focus-visible,
   [tabindex]:focus-visible {
-    outline: 2px solid var(--color-navy);
+    outline: 2px solid var(--color-blue);
     outline-offset: 2px;
     border-radius: 6px;
   }
@@ -86,70 +157,182 @@
     font-family: var(--font-heading);
     letter-spacing: -0.025em;
     color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-navy);
+    color: #fff;
   }
 }
 
-/* Custom utility styles */
-.font-heading {
-  font-family: var(--font-heading);
+@layer components {
+  /* ---------- Layout & type utilities ---------- */
+
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  /* Fluid vertical rhythm shared by every marketing section */
+  .section-y {
+    padding-block: clamp(4rem, 3rem + 5vw, 7rem);
+  }
+
+  .text-display {
+    font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+  }
+
+  .text-title {
+    font-size: clamp(1.875rem, 1.35rem + 1.9vw, 2.875rem);
+    line-height: 1.1;
+    letter-spacing: -0.032em;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-blue);
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 1.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* Signature background: faint blueprint grid that fades out toward the edges */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(to right, rgb(23 50 77 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(23 50 77 / 0.055) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
+  }
+
+  .bg-blueprint-dark {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 75% 80% at 50% 40%, #000 20%, transparent 80%);
+  }
+
+  /* ---------- Motion utilities ---------- */
+
+  /* Link underline that draws from the left on hover / focus */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size var(--duration-base) var(--ease-out), color var(--duration-fast) ease;
+  }
+
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Page-load entrance that runs before JavaScript hydrates (keeps LCP fast) */
+  .rise {
+    animation: var(--animate-rise);
+    animation-delay: var(--rise-delay, 0ms);
+  }
+
+  /* SVG stroke that draws itself once on load */
+  .draw-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw-line 900ms var(--ease-in-out) 520ms forwards;
+  }
+
+  @keyframes draw-line {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Slow ambient drift for hero and CTA glows (transform + opacity only) */
+  .ambient-drift {
+    animation: ambient-drift 22s var(--ease-in-out) infinite alternate;
+  }
+
+  @keyframes ambient-drift {
+    0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+    50% { transform: translate3d(4%, -3%, 0) scale(1.06); opacity: 1; }
+    100% { transform: translate3d(-3%, 2%, 0) scale(0.98); opacity: 0.8; }
+  }
+
+  /* Skeleton shimmer for loading placeholders */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-paper-alt);
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent);
+    animation: shimmer 1.2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    to { transform: translateX(100%); }
+  }
 }
 
-.font-body {
-  font-family: var(--font-body);
+/* Hide scrollbars on horizontally scrolling chip rows */
+.scrollbar-none {
+  scrollbar-width: none;
 }
 
-/* Smooth scrolling without jarring effects */
-html {
-  scroll-behavior: smooth;
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F4F1EA;
+  background: var(--color-paper-alt);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
-  border-radius: 4px;
+  background: #CBC3B5;
+  border-radius: 999px;
+  border: 2px solid var(--color-paper-alt);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: #9C9384;
 }
 
-/* Shared entrance animations (menus, modals, drawers) */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.2s ease-out;
-}
-
-@keyframes slide-in-right {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-.animate-slide-in {
-  animation: slide-in-right 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slide-in-left {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
-}
-
-.animate-slide-in-left {
-  animation: slide-in-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
+/*
+ * Reduced motion: no movement, no loops. Opacity changes stay (and are
+ * near-instant) so state changes are still perceivable.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -159,5 +342,8 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
 
+  .draw-line {
+    stroke-dashoffset: 0;
+  }
+}

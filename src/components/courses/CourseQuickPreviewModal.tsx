@@ -158,7 +158,7 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
                         {mod.moduleNumber}
                       </span>
                       {mod.duration && (
-                        <span className="text-[11px] text-ink-faint font-medium">
+                        <span className="text-xs text-ink-faint font-medium">
                           {mod.duration}
                         </span>
                       )}
@@ -207,7 +207,7 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
                         {proj.title}
                       </h4>
                       {proj.type && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-navy text-white">
+                        <span className="text-xs font-bold px-2 py-0.5 rounded bg-navy text-white">
                           {proj.type}
                         </span>
                       )}
@@ -219,7 +219,7 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
                       {proj.technologies?.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-ink border border-input-border"
+                          className="px-2 py-0.5 rounded text-xs font-medium bg-white text-ink border border-input-border"
                         >
                           {tech}
                         </span>

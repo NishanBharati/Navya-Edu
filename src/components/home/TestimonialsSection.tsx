@@ -65,7 +65,7 @@ export const TestimonialsSection: React.FC = () => {
                           <Star key={i} className="w-3.5 h-3.5 fill-current" />
                         ))}
                       </div>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
                         <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
                         Consent Verified
                       </span>
@@ -84,7 +84,7 @@ export const TestimonialsSection: React.FC = () => {
                     </span>
                     <div className="min-w-0">
                       <p className="text-xs font-bold text-ink truncate">{testimonial.studentName}</p>
-                      <p className="text-[11px] text-ink-muted truncate">
+                      <p className="text-xs text-ink-muted truncate">
                         {testimonial.role ? `${testimonial.role}${testimonial.company ? ` at ${testimonial.company}` : ''}` : testimonial.cohortOrCourse}
                       </p>
                     </div>
@@ -104,10 +104,10 @@ export const TestimonialsSection: React.FC = () => {
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between gap-2 border-b border-border-faint pb-3">
-                  <span className="text-[11px] font-bold text-navy uppercase tracking-wider px-2.5 py-1 rounded-md bg-navy/10">
+                  <span className="text-xs font-bold text-navy uppercase tracking-wider px-2.5 py-1 rounded-md bg-navy/10">
                     {capstone.deliverableType}
                   </span>
-                  <div className="flex items-center gap-1 text-[11px] font-medium text-sage-ink bg-sage/10 px-2 py-0.5 rounded">
+                  <div className="flex items-center gap-1 text-xs font-medium text-sage-ink bg-sage/10 px-2 py-0.5 rounded">
                     <Cloud className="w-3 h-3" />
                     <span>{capstone.demoHost}</span>
                   </div>
@@ -127,7 +127,7 @@ export const TestimonialsSection: React.FC = () => {
                 </p>
 
                 <div className="space-y-2 pt-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-ink-faint block">
+                  <span className="text-xs font-bold uppercase tracking-wider text-ink-faint block">
                     Demonstrated Competencies:
                   </span>
                   <ul className="space-y-1.5 text-xs text-ink-soft">
@@ -146,7 +146,7 @@ export const TestimonialsSection: React.FC = () => {
                   {capstone.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-0.5 rounded-md bg-paper text-navy text-[11px] font-mono font-medium border border-border"
+                      className="px-2 py-0.5 rounded-md bg-paper text-navy text-xs font-mono font-medium border border-border"
                     >
                       {tech}
                     </span>
@@ -163,7 +163,7 @@ export const TestimonialsSection: React.FC = () => {
                   </Link>
                   <Link
                     to="/student-work"
-                    className="text-ink-faint hover:text-ink transition-colors flex items-center gap-1 text-[11px]"
+                    className="text-ink-faint hover:text-ink transition-colors flex items-center gap-1 text-xs"
                   >
                     <span>Full Showcase</span>
                     <ExternalLink className="w-3 h-3" />
@@ -192,10 +192,10 @@ export const TestimonialsSection: React.FC = () => {
             {TESTIMONIAL_POLICY.statement}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-[11px] text-ink-soft">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs text-ink-soft">
             {TESTIMONIAL_POLICY.verificationProcess.map((item, i) => (
               <div key={i} className="p-2.5 rounded-xl bg-paper border border-border-soft flex items-start gap-2">
-                <span className="w-4 h-4 rounded-full bg-navy text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-4 h-4 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                   {i + 1}
                 </span>
                 <span className="leading-snug">{item}</span>

@@ -262,7 +262,7 @@ export const Pricing: React.FC = () => {
               Fee Schedule Update in Progress
             </p>
             <p className="text-amber-800 text-xs leading-relaxed">
-              Specific NPR numbers are being calibrated for the upcoming admissions cohort. Rows marked with <span className="inline-block px-1.5 py-0.5 rounded bg-amber-200/80 font-mono text-[11px] font-bold text-amber-900">[PLACEHOLDER] Contact for pricing</span> will be updated with exact figures once confirmed by the administration. You can contact our admissions desk today for the current cohort fee voucher and early-seat incentives.
+              Specific NPR numbers are being calibrated for the upcoming admissions cohort. Rows marked with <span className="inline-block px-1.5 py-0.5 rounded bg-amber-200/80 font-mono text-xs font-bold text-amber-900">[PLACEHOLDER] Contact for pricing</span> will be updated with exact figures once confirmed by the administration. You can contact our admissions desk today for the current cohort fee voucher and early-seat incentives.
             </p>
           </div>
         </div>
@@ -309,7 +309,7 @@ export const Pricing: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-paper-alt border-b border-border text-[11px] font-bold uppercase tracking-wider text-ink-soft">
+                <tr className="bg-paper-alt border-b border-border text-xs font-bold uppercase tracking-wider text-ink-soft">
                   <th className="py-4 px-6">Course / Track</th>
                   <th className="py-4 px-4">Duration</th>
                   <th className="py-4 px-4">Format</th>
@@ -332,7 +332,7 @@ export const Pricing: React.FC = () => {
                             {item.name}
                           </Link>
                           {item.type === 'program' && (
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                            <span className="px-2 py-0.5 rounded text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
                               Career Track
                             </span>
                           )}
@@ -353,7 +353,7 @@ export const Pricing: React.FC = () => {
 
                     {/* Format */}
                     <td className="py-5 px-4 text-xs text-ink-soft">
-                      <span className="inline-block px-2 py-1 rounded-md bg-paper-alt border border-border text-[11px] font-medium">
+                      <span className="inline-block px-2 py-1 rounded-md bg-paper-alt border border-border text-xs font-medium">
                         {item.format}
                       </span>
                     </td>
@@ -363,10 +363,10 @@ export const Pricing: React.FC = () => {
                       {item.isPlaceholder ? (
                         <div className="space-y-1">
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-900 border border-amber-200 font-medium text-xs">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700">[PLACEHOLDER]</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-amber-700">[PLACEHOLDER]</span>
                             <span>{item.startingPrice}</span>
                           </span>
-                          <span className="block text-[10px] text-ink-faint">Inquire for current intake fee</span>
+                          <span className="block text-xs text-ink-faint">Inquire for current intake fee</span>
                         </div>
                       ) : (
                         <span className="font-extrabold text-navy text-base">
@@ -380,7 +380,7 @@ export const Pricing: React.FC = () => {
                       <span className="font-semibold text-ink block mb-0.5">
                         {item.installments}
                       </span>
-                      <span className="text-[11px] text-ink-faint leading-normal block">
+                      <span className="text-xs text-ink-faint leading-normal block">
                         {item.installmentDetails}
                       </span>
                     </td>
@@ -415,11 +415,11 @@ export const Pricing: React.FC = () => {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-blue">
+                    <span className="text-xs font-bold uppercase tracking-wider text-blue">
                       {item.category}
                     </span>
                     {item.type === 'program' && (
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                      <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
                         Career Program
                       </span>
                     )}
@@ -452,7 +452,7 @@ export const Pricing: React.FC = () => {
                   <div className="text-right">
                     {item.isPlaceholder ? (
                       <span className="inline-block px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200 font-medium text-xs">
-                        <span className="text-[9px] font-bold uppercase tracking-wider text-amber-700 mr-1">[PLACEHOLDER]</span>
+                        <span className="text-xs font-bold uppercase tracking-wider text-amber-700 mr-1">[PLACEHOLDER]</span>
                         {item.startingPrice}
                       </span>
                     ) : (

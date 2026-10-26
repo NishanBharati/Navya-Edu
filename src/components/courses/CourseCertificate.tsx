@@ -38,16 +38,16 @@ export const CourseCertificate: React.FC<CourseCertificateProps> = ({ course }) 
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-ink uppercase tracking-wider">Navya Ed Tech</h3>
-                    <p className="text-[10px] text-ink-faint">Kathmandu, Nepal • Registered Division</p>
+                    <p className="text-xs text-ink-faint">Kathmandu, Nepal • Registered Division</p>
                   </div>
                 </div>
-                <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-sage/15 text-sage-ink border border-sage/25">
+                <span className="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sage/15 text-sage-ink border border-sage/25">
                   Verified Credential
                 </span>
               </div>
 
               <div className="space-y-2 py-4 text-center">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-ink-faint">
+                <span className="text-xs uppercase font-bold tracking-widest text-ink-faint">
                   Certificate of Technical Competence
                 </span>
                 <p className="text-sm font-semibold text-ink-soft">Awarded for successfully mastering</p>
@@ -61,28 +61,28 @@ export const CourseCertificate: React.FC<CourseCertificateProps> = ({ course }) 
 
               <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
                 <div className="p-2.5 rounded-xl bg-white border border-border-soft space-y-1">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-ink">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
                     <QrCode className="w-3.5 h-3.5 text-blue" />
                     <span>Verifiable ID</span>
                   </div>
-                  <p className="text-[10px] font-mono text-ink-faint">Unique Serial Hash & QR Code</p>
+                  <p className="text-xs font-mono text-ink-faint">Unique Serial Hash & QR Code</p>
                 </div>
                 <div className="p-2.5 rounded-xl bg-white border border-border-soft space-y-1">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-ink">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-ink">
                     <FileCheck className="w-3.5 h-3.5 text-sage-ink" />
                     <span>Defense Score</span>
                   </div>
-                  <p className="text-[10px] font-mono text-ink-faint">Capstone Panel Evaluated</p>
+                  <p className="text-xs font-mono text-ink-faint">Capstone Panel Evaluated</p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-border-faint flex items-center justify-between text-[11px] text-ink-soft relative z-10">
+            <div className="mt-6 pt-4 border-t border-border-faint flex items-center justify-between text-xs text-ink-soft relative z-10">
               <span className="flex items-center gap-1 font-medium">
                 <ShieldCheck className="w-3.5 h-3.5 text-blue" />
                 <span>Issuing Authority: Navya Ed Tech Pvt. Ltd.</span>
               </span>
-              <span className="font-mono text-[10px] text-ink-faint">NAV-CERT-2026</span>
+              <span className="font-mono text-xs text-ink-faint">NAV-CERT-2026</span>
             </div>
           </div>
 
@@ -150,7 +150,7 @@ export const CourseCertificate: React.FC<CourseCertificateProps> = ({ course }) 
                   <strong className="font-bold text-amber-900 block">
                     Transparent Credential Notice:
                   </strong>
-                  <p className="leading-relaxed text-amber-900/90 text-[11.5px]">
+                  <p className="leading-relaxed text-amber-900/90 text-xs">
                     This certificate is an industry technical competence credential issued directly by Navya Ed Tech Pvt. Ltd. to validate practical software development proficiency. It is <strong>not</strong> an accredited academic university degree, Tribhuvan University affiliation, CTEVT diploma, or government charter. Employers value it for verified GitHub code, architecture defense scores, and practical skills.
                   </p>
                 </div>

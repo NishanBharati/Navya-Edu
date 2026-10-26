@@ -67,7 +67,7 @@ export const CourseInstructor: React.FC<CourseInstructorProps> = ({ course, onOp
                 <p className="text-xs font-semibold text-blue">
                   {instructor.role}
                 </p>
-                <p className="text-[11px] font-mono text-ink-soft">
+                <p className="text-xs font-mono text-ink-soft">
                   {instructor.experience || 'Min. 5+ years commercial software engineering experience'}
                 </p>
                 <div className="pt-2">
@@ -82,7 +82,7 @@ export const CourseInstructor: React.FC<CourseInstructorProps> = ({ course, onOp
               </div>
 
               {/* Faculty Assignment & Vetting Policy */}
-              <div className="p-3.5 rounded-xl bg-paper border border-border text-left space-y-1 text-[11px] text-ink-soft">
+              <div className="p-3.5 rounded-xl bg-paper border border-border text-left space-y-1 text-xs text-ink-soft">
                 <div className="flex items-center gap-1.5 font-bold text-navy">
                   <Users className="w-3.5 h-3.5 text-blue" />
                   <span>Cohort Mentorship Policy:</span>

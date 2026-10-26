@@ -71,7 +71,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
             {/* Telemetry Metric Bar */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-white border border-border shadow-xs">
               <div className="space-y-0.5">
-                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                <span className="text-xs font-semibold text-ink-faint block uppercase tracking-wider">
                   Duration
                 </span>
                 <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
@@ -81,7 +81,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
               </div>
 
               <div className="space-y-0.5">
-                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                <span className="text-xs font-semibold text-ink-faint block uppercase tracking-wider">
                   Delivery Mode
                 </span>
                 <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
@@ -91,7 +91,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
               </div>
 
               <div className="space-y-0.5">
-                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                <span className="text-xs font-semibold text-ink-faint block uppercase tracking-wider">
                   Curriculum
                 </span>
                 <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
@@ -101,7 +101,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
               </div>
 
               <div className="space-y-0.5">
-                <span className="text-[11px] font-semibold text-ink-faint block uppercase tracking-wider">
+                <span className="text-xs font-semibold text-ink-faint block uppercase tracking-wider">
                   Mentorship
                 </span>
                 <strong className="text-sm sm:text-base font-bold text-sage-ink flex items-center gap-1.5">
@@ -113,7 +113,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
 
             {/* Core Tech Pill Cloud */}
             <div className="space-y-2 pt-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-ink-soft block">
+              <span className="text-xs font-bold uppercase tracking-wider text-ink-soft block">
                 Primary Technologies & Tools Covered:
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
@@ -191,7 +191,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                     <h2 className="text-xs font-bold uppercase tracking-wider text-ink">
                       Upcoming Cohort Details
                     </h2>
-                    <p className="text-[11px] text-ink-soft">Next scheduled batch start</p>
+                    <p className="text-xs text-ink-soft">Next scheduled batch start</p>
                   </div>
                 </div>
                 <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-sage/10 text-sage-ink border border-sage/25">
@@ -234,12 +234,12 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
               </div>
 
               {/* Verified Payment & Installment Instructions */}
-              <div className="p-3 rounded-xl bg-paper border border-border-soft space-y-1.5 text-[11px] text-ink-soft">
+              <div className="p-3 rounded-xl bg-paper border border-border-soft space-y-1.5 text-xs text-ink-soft">
                 <div className="flex items-center gap-1.5 font-bold text-navy">
                   <CreditCard className="w-3.5 h-3.5 text-blue" />
                   <span>Payment & Installment Instructions:</span>
                 </div>
-                <ul className="space-y-1 text-ink-soft list-disc list-inside text-[10.5px] leading-relaxed">
+                <ul className="space-y-1 text-ink-soft list-disc list-inside text-xs leading-relaxed">
                   <li>Accepted: Fonepay QR, ConnectIPS, Bank Transfer, or Putalisadak campus desk.</li>
                   <li>Milestone installment facility available (50% upon enrollment, 50% at mid-term).</li>
                   <li>Zero admission fees or hidden laboratory equipment surcharges.</li>

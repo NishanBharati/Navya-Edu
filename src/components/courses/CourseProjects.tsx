@@ -33,10 +33,10 @@ export const CourseProjects: React.FC<CourseProjectsProps> = ({ course }) => {
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-navy uppercase tracking-wider px-2.5 py-1 rounded-md bg-navy/10">
+                  <span className="text-xs font-bold text-navy uppercase tracking-wider px-2.5 py-1 rounded-md bg-navy/10">
                     {project.type || `Capstone 0${idx + 1}`}
                   </span>
-                  <div className="flex items-center gap-1 text-[11px] font-medium text-sage-ink bg-sage/10 px-2 py-0.5 rounded">
+                  <div className="flex items-center gap-1 text-xs font-medium text-sage-ink bg-sage/10 px-2 py-0.5 rounded">
                     <Cloud className="w-3 h-3" />
                     <span>Cloud Deployed</span>
                   </div>
@@ -53,14 +53,14 @@ export const CourseProjects: React.FC<CourseProjectsProps> = ({ course }) => {
 
               <div className="pt-4 border-t border-[#EAE5DA] space-y-3">
                 <div>
-                  <span className="text-[11px] font-bold uppercase text-ink-faint tracking-wider block mb-2">
+                  <span className="text-xs font-bold uppercase text-ink-faint tracking-wider block mb-2">
                     Architectural Stack:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {project.technologies.map((tech, tIdx) => (
                       <span
                         key={tIdx}
-                        className="text-[11px] px-2.5 py-1 rounded-md bg-white text-navy font-mono font-medium border border-input-border"
+                        className="text-xs px-2.5 py-1 rounded-md bg-white text-navy font-mono font-medium border border-input-border"
                       >
                         {tech}
                       </span>

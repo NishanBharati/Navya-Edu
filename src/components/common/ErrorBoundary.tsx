@@ -85,7 +85,7 @@ export class ErrorBoundary extends ReactComponentBase {
             </div>
 
             {this.state.errorId && (
-              <p className="text-[11px] font-mono text-ink-faint bg-paper-alt px-3 py-1.5 rounded-lg border border-border">
+              <p className="text-xs font-mono text-ink-faint bg-paper-alt px-3 py-1.5 rounded-lg border border-border">
                 Diagnostic ID: {this.state.errorId}
               </p>
             )}

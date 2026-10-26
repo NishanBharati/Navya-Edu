@@ -171,7 +171,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                     className="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-start justify-between gap-4 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-navy rounded-2xl"
                   >
                     <div className="space-y-1 pr-2">
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue">
                         {faq.category}
                       </span>
                       <h3 className="text-sm sm:text-base font-bold text-ink leading-snug">

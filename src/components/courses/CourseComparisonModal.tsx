@@ -92,7 +92,7 @@ export const CourseComparisonModal: React.FC<CourseComparisonModalProps> = ({
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-navy text-white">
+                  <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-navy text-white">
                     {course.category}
                   </span>
                   <h3 className="text-sm font-bold text-ink leading-snug pr-4">
@@ -161,7 +161,7 @@ export const CourseComparisonModal: React.FC<CourseComparisonModalProps> = ({
                   {c.technologies?.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-0.5 rounded text-[11px] bg-paper-alt text-[#4A5059] border border-border"
+                      className="px-2 py-0.5 rounded text-xs bg-paper-alt text-[#4A5059] border border-border"
                     >
                       {tech}
                     </span>
@@ -197,7 +197,7 @@ export const CourseComparisonModal: React.FC<CourseComparisonModalProps> = ({
               {selectedCourses.map((c) => (
                 <div key={c.id} className="space-y-1">
                   {c.careerPaths?.map((path, pIdx) => (
-                    <div key={pIdx} className="text-[11px] font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
+                    <div key={pIdx} className="text-xs font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
                       {path}
                     </div>
                   ))}
@@ -212,7 +212,7 @@ export const CourseComparisonModal: React.FC<CourseComparisonModalProps> = ({
             <div className="grid grid-cols-4 gap-4 py-3.5 items-start text-xs">
               <div className="font-bold text-ink-soft">Prerequisites</div>
               {selectedCourses.map((c) => (
-                <ul key={c.id} className="space-y-1 text-ink-soft list-disc pl-3 text-[11px]">
+                <ul key={c.id} className="space-y-1 text-ink-soft list-disc pl-3 text-xs">
                   {c.prerequisites?.map((pr, prIdx) => (
                     <li key={prIdx}>{pr}</li>
                   ))}
@@ -282,7 +282,7 @@ export const ComparisonFloatingDock: React.FC<ComparisonFloatingDockProps> = ({
           <div className="font-bold text-white">
             {selectedCourses.length} course{selectedCourses.length > 1 ? 's' : ''} selected
           </div>
-          <div className="text-white/70 hidden sm:block text-[11px] truncate max-w-[220px]">
+          <div className="text-white/70 hidden sm:block text-xs truncate max-w-[220px]">
             {selectedCourses.map((c) => c.title.split(' ')[0]).join(', ')}
           </div>
         </div>

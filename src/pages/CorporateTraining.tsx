@@ -195,7 +195,7 @@ Requirements/Notes: ${notes || 'None specified'}`,
             </div>
 
             <div className="pt-4 border-t border-border-faint">
-              <span className="text-[11px] text-ink-faint block">
+              <span className="text-xs text-ink-faint block">
                 Tailored for software teams, fintechs, digital agencies, and outsourced engineering centers in Nepal.
               </span>
             </div>
@@ -255,7 +255,7 @@ Requirements/Notes: ${notes || 'None specified'}`,
             </div>
 
             <div className="pt-4 border-t border-border-faint">
-              <span className="text-[11px] text-ink-faint block">
+              <span className="text-xs text-ink-faint block">
                 Partnership models available for Tribhuvan University (TU), Pokhara University (PU), Kathmandu University (KU), and Purbanchal University affiliated colleges.
               </span>
             </div>
@@ -592,7 +592,7 @@ Requirements/Notes: ${notes || 'None specified'}`,
                       </>
                     )}
                   </button>
-                  <p className="text-center text-[11px] text-ink-faint mt-2">
+                  <p className="text-center text-xs text-ink-faint mt-2">
                     Official enterprise agreements are backed by Navya Ed Tech Pvt. Ltd. with standard VAT invoicing.
                   </p>
                 </div>

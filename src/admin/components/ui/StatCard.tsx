@@ -32,7 +32,7 @@ export const StatCard: React.FC<StatCardProps> = ({ label, value, icon: Icon, to
       <div className="mt-4">
         <p className="text-2xl font-heading font-bold text-ink tabular-nums">{value}</p>
         <p className="text-xs font-medium text-ink-soft mt-1">{label}</p>
-        {hint && <p className="text-[11px] text-ink-faint mt-1.5">{hint}</p>}
+        {hint && <p className="text-xs text-ink-faint mt-1.5">{hint}</p>}
       </div>
     </>
   );

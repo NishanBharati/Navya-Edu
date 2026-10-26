@@ -532,7 +532,7 @@ export const Courses: React.FC = () => {
                     <p className="text-xs font-bold text-ink">
                       {audience === 'kids' ? 'Interactive Games & Stories' : 'Verifiable Capstones'}
                     </p>
-                    <p className="text-[11px] text-ink-soft">
+                    <p className="text-xs text-ink-soft">
                       {audience === 'kids' ? 'MIT Scratch to Python Pathway' : '100% student-owned codebases'}
                     </p>
                   </div>
@@ -583,7 +583,7 @@ export const Courses: React.FC = () => {
                   >
                     <span>{cat}</span>
                     <span
-                      className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      className={`text-xs px-1.5 py-0.2 rounded-full ${
                         isActive ? 'bg-white/20 text-white' : 'bg-white text-ink-soft'
                       }`}
                     >
@@ -695,7 +695,7 @@ export const Courses: React.FC = () => {
           {/* Active Filter Chips Bar */}
           {hasActiveFilters && (
             <div className="pt-2 flex flex-wrap items-center gap-2 border-t border-border-faint text-xs">
-              <span className="text-[11px] font-semibold text-ink-faint">Active:</span>
+              <span className="text-xs font-semibold text-ink-faint">Active:</span>
 
               {selectedCategory !== 'All' && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-navy/5 border border-navy/15 text-navy text-xs font-medium">

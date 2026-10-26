@@ -174,7 +174,7 @@ Acknowledged Terms: Yes`,
                   Select your desired course or career track, preferred format (In-Person lab or live online), and batch timing.
                 </p>
               </div>
-              <div className="pt-4 text-[11px] font-semibold text-blue flex items-center gap-1">
+              <div className="pt-4 text-xs font-semibold text-blue flex items-center gap-1">
                 <span>Takes ~2 minutes</span>
               </div>
             </div>
@@ -190,7 +190,7 @@ Acknowledged Terms: Yes`,
                   A 15-minute consultation with an admissions advisor to confirm cohort availability, discuss goals, and calibrate lab workstation readiness.
                 </p>
               </div>
-              <div className="pt-4 text-[11px] font-semibold text-ink-soft flex items-center gap-1">
+              <div className="pt-4 text-xs font-semibold text-ink-soft flex items-center gap-1">
                 <Clock className="w-3 h-3 text-ink-faint" />
                 <span>Within 24 business hours</span>
               </div>
@@ -207,7 +207,7 @@ Acknowledged Terms: Yes`,
                   Secure your seat with Milestone 1 deposit via ConnectIPS, Fonepay QR, Bank Transfer, or Putalisadak desk. Receive your official tax invoice.
                 </p>
               </div>
-              <div className="pt-4 text-[11px] font-semibold text-sage flex items-center gap-1">
+              <div className="pt-4 text-xs font-semibold text-sage flex items-center gap-1">
                 <span>Official PAN/VAT Receipt</span>
               </div>
             </div>
@@ -223,7 +223,7 @@ Acknowledged Terms: Yes`,
                   Gain access to the batch GitHub organization, Slack channels, and developer tooling setup guide before your first live laboratory session.
                 </p>
               </div>
-              <div className="pt-4 text-[11px] font-semibold text-purple-700 flex items-center gap-1">
+              <div className="pt-4 text-xs font-semibold text-purple-700 flex items-center gap-1">
                 <span>Cohort Begins</span>
               </div>
             </div>
@@ -585,7 +585,7 @@ Acknowledged Terms: Yes`,
                       </>
                     )}
                   </button>
-                  <p className="text-center text-[11px] text-ink-faint mt-2">
+                  <p className="text-center text-xs text-ink-faint mt-2">
                     Submitting this form does not charge your card. Official milestone payment is arranged directly after diagnostic consultation.
                   </p>
                 </div>
