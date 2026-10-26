@@ -114,15 +114,15 @@
 
 /*
  * Metric-matched local fallback so the swap to Geist does not shift layout.
- * Values measured against Arial in Chromium (see docs/DESIGN_SYSTEM.md).
+ * Values measured against Arial in Chromium (see docs/DESIGN_SYSTEM.md, "Fonts").
  */
 @font-face {
   font-family: 'Geist Fallback';
   src: local('Arial');
-  ascent-override: 94%;
-  descent-override: 24%;
+  ascent-override: 98%;
+  descent-override: 29%;
   line-gap-override: 0%;
-  size-adjust: 104%;
+  size-adjust: 102.9%;
 }
 
 @layer base {

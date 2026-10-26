@@ -10,6 +10,8 @@ export interface SectionHeaderProps {
   headingTag?: 'h1' | 'h2' | 'h3';
   /** Light text for use on navy backgrounds */
   tone?: 'default' | 'inverse';
+  /** 'md' for headers nested inside a larger section */
+  size?: 'md' | 'lg';
   className?: string;
 }
 
@@ -21,6 +23,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   align = 'left',
   headingTag = 'h2',
   tone = 'default',
+  size = 'lg',
   className = '',
 }) => {
   const HeadingComponent = headingTag;
@@ -34,7 +37,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <p className={`eyebrow mb-4 ${isInverse ? 'text-blue-light' : ''}`}>{eyebrow}</p>
       )}
       <HeadingComponent
-        className={`text-title font-semibold ${isInverse ? 'text-white' : 'text-ink'}`}
+        className={`${size === 'lg' ? 'text-title' : 'text-2xl sm:text-[1.75rem] leading-tight tracking-[-0.025em]'} font-semibold ${isInverse ? 'text-white' : 'text-ink'}`}
       >
         {title}
       </HeadingComponent>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Search } from 'lucide-react';
 import { Course, CourseCategory } from '../../types';
 import { COURSE_CATEGORIES, COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
@@ -8,7 +8,8 @@ import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { CourseCard } from '../courses/CourseCard';
 import { Button } from '../common/Button';
-import { fadeUp, staggerContainer } from '../../lib/motion';
+import { DURATION, EASING, EASE_IN_OUT } from '../../lib/motion';
+import { Reveal } from '../motion/Reveal';
 
 interface CourseDiscoveryProps {
   onOpenAdvisor: (courseSlug: string) => void;
@@ -44,124 +45,127 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
     });
   }, [allCourses, selectedCategory, searchQuery]);
 
+  const visibleCourses = filteredCourses.slice(0, 6);
+
   return (
-    <section id="courses-section" className="py-16 sm:py-24 bg-paper border-b border-border-soft">
+    <section id="courses-section" className="section-y bg-paper">
       <Container>
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12">
           <SectionHeader
             eyebrow="Industry-Standard Syllabi"
             title="Explore Our Core Engineering Tracks"
             description="Choose a specialized learning path designed around modern technologies, live code sprints, and production deployment."
           />
-          <div className="shrink-0">
-            <Button
-              variant="outline"
-              size="md"
-              href="/courses"
-              rightIcon={<ArrowRight className="w-4 h-4" />}
-            >
+          <Reveal className="shrink-0">
+            <Button variant="outline" size="md" href="/courses" rightIcon={<ArrowRight className="w-4 h-4" />}>
               View Full Course Catalog ({allCourses.length})
             </Button>
-          </div>
+          </Reveal>
         </div>
 
         {/* Filter Navigation Bar & Search */}
-        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pb-4 border-b border-border min-w-0 max-w-full">
-          {/* Category Tabs */}
-          <div
-            role="tablist"
-            aria-label="Filter course tracks by discipline"
-            className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none min-w-0 max-w-full"
-          >
-            {COURSE_CATEGORIES.map((cat) => {
-              const isActive = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setSelectedCategory(cat as CourseCategory)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
-                    isActive
-                      ? 'bg-navy text-white shadow-sm'
-                      : 'bg-paper-alt text-ink-soft hover:text-ink hover:bg-[#EAE5DA] border border-border-warm'
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
+        <Reveal className="mb-10 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between min-w-0 max-w-full">
+          <LayoutGroup id="course-discovery-tabs">
+            <div
+              role="tablist"
+              aria-label="Filter course tracks by discipline"
+              className="flex items-center gap-1 p-1 rounded-2xl bg-paper-alt border border-border overflow-x-auto scrollbar-none min-w-0 max-w-full"
+            >
+              {COURSE_CATEGORIES.map((cat) => {
+                const isActive = selectedCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setSelectedCategory(cat as CourseCategory)}
+                    className={`relative h-9 px-4 rounded-xl text-[13px] font-semibold whitespace-nowrap transition-colors duration-180 cursor-pointer ${
+                      isActive ? 'text-ink' : 'text-ink-muted hover:text-ink'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="course-tab-indicator"
+                        className="absolute inset-0 rounded-xl bg-white shadow-sm border border-border/70"
+                        transition={prefersReducedMotion ? { duration: 0 } : { duration: DURATION.base, ease: EASE_IN_OUT }}
+                      />
+                    )}
+                    <span className="relative">{cat}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
 
           {/* Quick Filter Search */}
-          <div className="relative min-w-[240px] shrink-0">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none" />
+          <div className="relative sm:w-72 shrink-0">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint pointer-events-none" />
             <input
               type="text"
               aria-label="Search courses by technology or topic"
               placeholder="Search by stack, e.g. JavaScript, Python..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-input-border bg-white text-ink focus:outline-none focus:ring-2 focus:ring-navy"
+              className="w-full h-11 pl-10 pr-3 text-sm rounded-xl border border-input-border bg-white text-ink placeholder:text-ink-faint transition-[border-color,box-shadow] duration-150 focus:outline-none focus:border-blue focus:ring-4 focus:ring-blue/15"
             />
           </div>
-        </div>
+        </Reveal>
 
-        {/* Course Cards Grid with Staggered Viewport Reveal */}
-        {filteredCourses.length > 0 ? (
-          <motion.div
-            variants={prefersReducedMotion ? undefined : staggerContainer(0.08, 0.04)}
-            initial={prefersReducedMotion ? false : 'hidden'}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.12 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-          >
-            {filteredCourses.slice(0, 6).map((course) => (
-              <motion.div
-                key={course.id}
-                variants={prefersReducedMotion ? undefined : fadeUp}
-                className="h-full"
-              >
-                <CourseCard
-                  course={course}
-                  onOpenAdvisor={onOpenAdvisor}
-                />
-              </motion.div>
-            ))}
+        {/* Course grid: cards re-flow with layout animation when the filter changes */}
+        {visibleCourses.length > 0 ? (
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {visibleCourses.map((course, i) => (
+                <motion.div
+                  key={course.id}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+                  exit={{ opacity: 0, scale: 0.97, transition: { duration: DURATION.fast } }}
+                  transition={{
+                    layout: { duration: 0.3, ease: EASE_IN_OUT },
+                    default: { duration: 0.48, ease: EASING, delay: Math.min(i, 5) * 0.06 },
+                  }}
+                  className="h-full"
+                >
+                  <CourseCard course={course} onOpenAdvisor={onOpenAdvisor} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </motion.div>
         ) : (
-          <div className="text-center py-16 bg-white rounded-2xl border border-border p-8 space-y-3">
-            <p className="text-sm font-bold text-ink">
-              No courses matching your filter criteria.
-            </p>
-            <p className="text-xs text-ink-soft">
-              Try selecting "All" or resetting your search term.
-            </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16 bg-white rounded-2xl border border-dashed border-border-warm p-8"
+          >
+            <span className="mx-auto w-11 h-11 rounded-full bg-paper-alt grid place-items-center text-ink-faint">
+              <Search className="w-5 h-5" />
+            </span>
+            <p className="mt-4 text-base font-semibold text-ink">No courses matching your filter criteria.</p>
+            <p className="mt-1 text-sm text-ink-muted">Try selecting "All" or resetting your search term.</p>
             <button
+              type="button"
               onClick={() => {
                 setSelectedCategory('All');
                 setSearchQuery('');
               }}
-              className="text-xs font-bold text-blue hover:underline"
+              className="mt-5 inline-flex h-9 items-center px-4 rounded-lg text-[13px] font-semibold text-navy bg-navy/[0.06] hover:bg-navy/10 transition-colors duration-180 cursor-pointer"
             >
               Reset Filters
             </button>
-          </div>
+          </motion.div>
         )}
 
         {/* Bottom Explorer Action */}
-        <div className="mt-12 text-center">
-          <Button
-            variant="secondary"
-            size="lg"
-            href="/courses"
-            rightIcon={<ArrowRight className="w-4 h-4 text-navy" />}
-          >
+        <Reveal className="mt-14 text-center">
+          <Button variant="secondary" size="lg" href="/courses" rightIcon={<ArrowRight className="w-4 h-4 text-navy" />}>
             Browse All {allCourses.length} Courses & Batch Timelines
           </Button>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

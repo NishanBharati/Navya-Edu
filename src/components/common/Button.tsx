@@ -28,7 +28,7 @@ export const Button: React.FC<ButtonProps> = ({
   // Press feedback is a 0.97 scale on :active; hover changes colour and elevation only.
   const baseStyles =
     'group relative inline-flex items-center justify-center font-semibold tracking-[-0.01em] rounded-xl select-none cursor-pointer ' +
-    'transition-[background-color,border-color,color,box-shadow,transform] duration-180 ease-out active:scale-[0.97] ' +
+    'transition-[background-color,border-color,color,box-shadow,translate,scale,rotate] duration-180 ease-out active:scale-[0.97] ' +
     'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper ' +
     'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100';
 

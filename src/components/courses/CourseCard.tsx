@@ -48,8 +48,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({
     return (
       <article
         id={`course-card-${course.slug}`}
-        className={`group relative bg-white border border-border rounded-2xl p-4 sm:p-6 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:border-navy/40 hover:shadow-xl hover:shadow-navy/8 flex flex-col md:flex-row gap-5 lg:gap-6 ${
-          isComparing ? 'ring-2 ring-blue bg-[#F8FAFC]' : ''
+        className={`group relative bg-white border border-border rounded-2xl p-4 sm:p-5 transition-[border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-0.5 hover:border-navy/25 hover:shadow-lg flex flex-col md:flex-row gap-5 lg:gap-6 ${
+          isComparing ? 'ring-2 ring-blue bg-info-bg' : ''
         } ${className}`}
       >
         {/* Left Thumbnail with overlays */}
@@ -59,7 +59,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             alt={course.title}
             aspectRatio="video"
             className="md:h-full md:aspect-auto"
-            imgClassName="group-hover:scale-105 transition-transform duration-500 ease-out"
+            imgClassName="group-hover:scale-[1.04] transition-transform duration-700 ease-out"
           >
             <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 md:hidden pointer-events-none" />
@@ -69,7 +69,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                 {course.category}
               </span>
               {course.featured && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-[#D48B38] text-white shadow-sm">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-amber text-white shadow-sm">
                   <Sparkles className="w-3 h-3" />
                   Featured
                 </span>
@@ -173,7 +173,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           {/* Bottom Bar: Schedule info + Actions */}
           <div className="pt-3 border-t border-border-faint flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-xs text-ink-soft">
-              <span className="w-2 h-2 rounded-full bg-sage animate-pulse shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-sage shrink-0" aria-hidden="true" />
               <span className="font-medium text-ink">
                 {batchStatus}
               </span>
@@ -188,7 +188,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                 <button
                   type="button"
                   onClick={() => onQuickPreview(course)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-ink bg-paper-alt hover:bg-[#EAE5DA] transition-colors cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-ink bg-paper-alt hover:bg-border-soft transition-colors cursor-pointer"
                 >
                   Quick Outline
                 </button>
@@ -220,8 +220,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     <article
       id={`course-card-${course.slug}`}
-      className={`group flex flex-col bg-white border border-border rounded-2xl overflow-hidden transform-gpu transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02] hover:border-navy/40 hover:shadow-2xl hover:shadow-navy/10 relative justify-between ${
-        isComparing ? 'ring-2 ring-blue bg-[#F8FAFC]' : ''
+      className={`group flex flex-col bg-white border border-border rounded-2xl overflow-hidden transition-[border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-0.5 hover:border-navy/25 hover:shadow-lg relative justify-between h-full ${
+        isComparing ? 'ring-2 ring-blue bg-info-bg' : ''
       } ${className}`}
     >
       <div>
@@ -230,14 +230,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           src={course.heroImage || course.thumbnail}
           alt={course.title}
           aspectRatio="cinema"
-          imgClassName="group-hover:scale-105 transition-transform duration-500 ease-out"
+          imgClassName="group-hover:scale-[1.04] transition-transform duration-700 ease-out"
         >
           <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
 
           {/* Top Badges */}
           <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 z-10">
-            <Badge variant="navy" size="sm">
+            <Badge variant="overlay" size="sm">
               {course.category}
             </Badge>
             {course.featured && (
@@ -280,12 +280,12 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
           {/* Bottom Mode Pill on Image */}
           <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-xs text-white font-medium z-10">
-            <span className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
+            <span className="inline-flex items-center gap-1 bg-navy-dark/70 backdrop-blur-sm px-2 py-1 rounded-md">
               <Laptop className="w-3 h-3 text-blue-light" />
               {courseMode}
             </span>
-            <span className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
-              <Clock className="w-3 h-3 text-[#D9A662]" />
+            <span className="inline-flex items-center gap-1 bg-navy-dark/70 backdrop-blur-sm px-2 py-1 rounded-md">
+              <Clock className="w-3 h-3 text-amber-light" />
               {course.duration}
             </span>
           </div>
@@ -307,13 +307,13 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
           {/* Title */}
           <Link to={`/courses/${course.slug}`} className="block group">
-            <h3 className="text-lg font-bold tracking-tight text-ink group-hover:text-navy transition-colors leading-snug break-words">
+            <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-ink group-hover:text-navy transition-colors duration-180 leading-snug break-words">
               {course.title}
             </h3>
           </Link>
 
           {/* Description */}
-          <p className="text-xs sm:text-sm text-ink-soft line-clamp-2 leading-relaxed">
+          <p className="text-sm text-ink-muted line-clamp-2 leading-relaxed">
             {courseSummary}
           </p>
 
@@ -341,7 +341,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <div className="pt-3 border-t border-border-faint space-y-2.5">
           {/* Tuition & Pricing Notice */}
           <div className="flex items-center gap-1.5 text-xs text-navy font-semibold">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue/5 border border-blue/15 w-full text-xs sm:text-xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue/5 border border-blue/15 w-full text-xs">
               <Tag className="w-3.5 h-3.5 text-blue shrink-0" />
               <span className="truncate">{feeLabel}</span>
             </span>
@@ -349,7 +349,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
           <div className="flex items-center justify-between text-xs text-ink-soft">
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-sage" aria-hidden="true" />
               <span className="font-semibold text-ink">
                 {batchStatus}
               </span>
@@ -373,7 +373,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                 <button
                   type="button"
                   onClick={() => onQuickPreview(course)}
-                  className="text-xs font-semibold text-ink-soft hover:text-ink px-2.5 py-1.5 rounded-lg bg-paper-alt hover:bg-[#EAE5DA] transition-colors cursor-pointer"
+                  className="text-xs font-semibold text-ink-soft hover:text-ink px-2.5 py-1.5 rounded-lg bg-paper-alt hover:bg-border-soft transition-colors cursor-pointer"
                   aria-label={`Preview ${course.title} outline`}
                 >
                   Outline

@@ -75,7 +75,7 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
   return (
     <div className={`relative overflow-hidden bg-paper-alt ${aspectClasses[aspectRatio]} ${className}`}>
       {img && sources ? (
-        <picture>
+        <picture className="block w-full h-full">
           <source type="image/avif" srcSet={sources.avif} sizes={sizes} />
           <source type="image/webp" srcSet={sources.webp} sizes={sizes} />
           {img}

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ChevronDown, HelpCircle, ArrowRight, MessageSquare, CheckCircle2 } from 'lucide-react';
+import { Plus, HelpCircle, ArrowRight, MessageSquare, CheckCircle2 } from 'lucide-react';
 import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { Button } from '../common/Button';
-import { EASING } from '../../lib/motion';
+import { DURATION, EASING } from '../../lib/motion';
+import { Reveal } from '../motion/Reveal';
 
 interface FAQEntry {
   question: string;
@@ -94,11 +95,11 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
   };
 
   return (
-    <section id="faq-section" className="py-16 sm:py-24 bg-paper-alt border-b border-border">
+    <section id="faq-section" className="section-y bg-paper">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           {/* Left Column: Context & Support Card */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-28">
             <SectionHeader
               eyebrow="Clear & Transparent Information"
               title="Frequently Asked Questions"
@@ -106,7 +107,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
             />
 
             {/* Direct Counseling Callout */}
-            <div className="p-6 bg-white rounded-2xl border border-border-warm space-y-4 shadow-xs">
+            <Reveal delay={0.06} className="p-6 bg-paper-alt rounded-2xl border border-border space-y-4">
               <div className="flex items-center gap-2 text-xs font-bold text-navy uppercase tracking-wider">
                 <HelpCircle className="w-4 h-4 text-blue" />
                 <span>Have a specific question about your background?</span>
@@ -120,7 +121,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                   <button
                     type="button"
                     onClick={onOpenAdvisor}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep active:scale-[0.98] transition-all cursor-pointer shadow-xs"
+                    className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-xl bg-navy text-white text-[13px] font-semibold hover:bg-navy-light active:scale-[0.97] transition-[background-color,scale] duration-180 ease-out cursor-pointer shadow-xs"
                   >
                     <MessageSquare className="w-3.5 h-3.5 text-navy-mist" />
                     <span>Talk to an Academic Advisor</span>
@@ -128,7 +129,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                 ) : (
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep active:scale-[0.98] transition-all shadow-xs"
+                    className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-xl bg-navy text-white text-[13px] font-semibold hover:bg-navy-light active:scale-[0.97] transition-[background-color,scale] duration-180 ease-out shadow-xs"
                   >
                     <MessageSquare className="w-3.5 h-3.5 text-navy-mist" />
                     <span>Inquire with Admissions</span>
@@ -137,57 +138,51 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
 
                 <Link
                   to="/faq"
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold text-ink-soft hover:text-navy transition-colors"
+                  className="group inline-flex items-center justify-center gap-1.5 h-10 px-3 text-[13px] font-semibold text-ink-muted hover:text-navy transition-colors duration-180"
                 >
                   <span>View All 16 FAQs</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-            </div>
+            </Reveal>
           </div>
 
           {/* Right Column: Accordion */}
-          <div className="lg:col-span-7 space-y-3">
+          <Reveal delay={0.08} className="lg:col-span-7 border-t border-border">
             {HOMEPAGE_FAQS.map((faq, index) => {
               const isOpen = openIndex === index;
               const itemId = `home-faq-${index}`;
               const buttonId = `home-faq-trigger-${index}`;
 
               return (
-                <div
-                  key={index}
-                  className={`bg-white rounded-2xl border transition-all duration-200 overflow-hidden ${
-                    isOpen
-                      ? 'border-navy/40 shadow-sm ring-1 ring-navy/10'
-                      : 'border-border hover:border-border-warm'
-                  }`}
-                >
+                <div key={index} className="border-b border-border">
                   <button
                     id={buttonId}
                     type="button"
                     onClick={() => toggleFAQ(index)}
                     aria-expanded={isOpen}
                     aria-controls={itemId}
-                    className="w-full px-5 sm:px-6 py-4 sm:py-5 flex items-start justify-between gap-4 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-navy rounded-2xl"
+                    className="group w-full py-5 sm:py-6 flex items-start justify-between gap-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue rounded-lg"
                   >
-                    <div className="space-y-1 pr-2">
-                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue">
+                    <div className="space-y-1.5 pr-2">
+                      <span className="font-mono text-xs uppercase tracking-[0.08em] text-blue">
                         {faq.category}
                       </span>
-                      <h3 className="text-sm sm:text-base font-bold text-ink leading-snug">
+                      <h3 className={`text-base sm:text-[17px] font-semibold tracking-[-0.015em] leading-snug transition-colors duration-180 ${isOpen ? 'text-navy' : 'text-ink group-hover:text-navy'}`}>
                         {faq.question}
                       </h3>
                     </div>
 
-                    <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    <span
+                      className={`mt-0.5 w-8 h-8 rounded-full grid place-items-center shrink-0 border transition-[background-color,border-color,color,rotate] duration-240 ease-out ${
                         isOpen
-                          ? 'bg-navy text-white rotate-180'
-                          : 'bg-paper text-ink-soft'
+                          ? 'bg-navy border-navy text-white rotate-45'
+                          : 'bg-white border-border text-ink-muted group-hover:border-navy/40'
                       }`}
+                      aria-hidden="true"
                     >
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
+                      <Plus className="w-4 h-4" />
+                    </span>
                   </button>
 
                   <AnimatePresence initial={false}>
@@ -199,14 +194,14 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                         initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
-                        transition={{ duration: 0.28, ease: EASING }}
+                        transition={{ duration: DURATION.base, ease: EASING }}
                         className="overflow-hidden"
                       >
-                        <div className="px-5 sm:px-6 pb-5 pt-1 space-y-3 border-t border-border-faint text-ink-soft text-xs sm:text-sm leading-relaxed">
+                        <div className="pb-6 pr-14 space-y-4 text-ink-muted text-[15px] leading-relaxed">
                           <p>{faq.answer}</p>
 
                           {faq.highlight && (
-                            <div className="flex items-start gap-2 p-2.5 rounded-xl bg-paper-alt border border-border-soft text-ink text-xs font-medium">
+                            <div className="flex items-start gap-2 p-3 rounded-xl bg-sage-light/60 border border-sage/15 text-sage-ink text-sm font-medium">
                               <CheckCircle2 className="w-3.5 h-3.5 text-sage shrink-0 mt-0.5" />
                               <span>{faq.highlight}</span>
                             </div>
@@ -216,7 +211,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                             <div className="pt-1">
                               <Link
                                 to={faq.link.href}
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-navy hover:text-blue transition-colors"
+                                className="group inline-flex items-center gap-1.5 text-sm font-semibold text-navy"
                               >
                                 <span>{faq.link.label}</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
@@ -230,7 +225,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                 </div>
               );
             })}
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

@@ -10,6 +10,7 @@ export interface LogoProps {
   className?: string;
   imgClassName?: string;
   textClassName?: string;
+  subtitleClassName?: string;
 }
 
 export const Logo: React.FC<LogoProps> = ({
@@ -21,6 +22,7 @@ export const Logo: React.FC<LogoProps> = ({
   className = '',
   imgClassName = '',
   textClassName = '',
+  subtitleClassName = '',
 }) => {
   const isDark = variant === 'dark';
 
@@ -109,7 +111,7 @@ export const Logo: React.FC<LogoProps> = ({
             <span
               className={`tracking-wide font-normal -mt-0.5 ${sizeClasses.subtitle} ${
                 isDark ? 'text-navy-mist' : 'text-ink-soft'
-              }`}
+              } ${subtitleClassName}`}
             >
               {subtitle}
             </span>

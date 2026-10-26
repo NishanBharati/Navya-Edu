@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'default' | 'navy' | 'blue' | 'sage' | 'amber' | 'neutral' | 'success' | 'warning' | 'error';
+  variant?: 'default' | 'overlay' | 'navy' | 'blue' | 'sage' | 'amber' | 'neutral' | 'success' | 'warning' | 'error';
   size?: 'sm' | 'md' | 'lg';
   dot?: boolean;
   icon?: React.ReactNode;
@@ -25,6 +25,8 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const variantStyles = {
     default: 'bg-paper-alt text-navy border border-border',
+    // Legible on top of photography
+    overlay: 'bg-white/92 text-navy border border-white/60 shadow-xs backdrop-blur-sm',
     navy: 'bg-navy/10 text-navy border border-navy/25',
     blue: 'bg-blue/10 text-blue border border-blue/25',
     sage: 'bg-sage-light text-sage-ink border border-sage/30',
@@ -37,6 +39,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   const dotColors = {
     default: 'bg-navy',
+    overlay: 'bg-navy',
     navy: 'bg-navy',
     blue: 'bg-blue',
     sage: 'bg-sage',

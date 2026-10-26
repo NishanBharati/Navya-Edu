@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   ArrowUpRight,
@@ -18,7 +19,8 @@ import {
 } from 'lucide-react';
 import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
-import { EASING } from '../../lib/motion';
+import { DURATION, EASING, EASE_IN_OUT } from '../../lib/motion';
+import { Reveal } from '../motion/Reveal';
 
 interface Capability {
   id: string;
@@ -114,10 +116,10 @@ export const WhyNavya: React.FC = () => {
   const activeCap = CAPABILITIES[activeIndex];
 
   return (
-    <section className="py-16 sm:py-24 bg-paper-alt border-b border-border">
+    <section className="section-y bg-paper">
       <Container>
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 space-y-4">
+        <div className="max-w-3xl mb-14">
           <SectionHeader
             eyebrow="Practical Engineering Stack"
             title="Learn the exact technologies used to engineer real digital products."
@@ -127,9 +129,10 @@ export const WhyNavya: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Interactive Supporting Visual / Stat Cross-Fade Panel */}
-          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+          <Reveal className="lg:col-span-5 space-y-5 lg:sticky lg:top-28">
             {/* Dynamic Visual Box Driven by Active Row */}
-            <div className="relative min-h-[340px] rounded-3xl bg-[#0F1E2E] text-white p-6 sm:p-7 border border-[#233547] shadow-xl overflow-hidden flex flex-col justify-between">
+            <div className="relative min-h-90 rounded-3xl bg-navy-dark text-white p-6 sm:p-8 border border-white/10 shadow-2xl overflow-hidden flex flex-col justify-between">
+              <div className="absolute inset-0 bg-blueprint-dark opacity-70 pointer-events-none" aria-hidden="true" />
               {/* Subtle ambient lighting */}
               <div
                 className="absolute -top-24 -right-24 w-56 h-56 rounded-full bg-blue/20 blur-3xl pointer-events-none"
@@ -143,16 +146,16 @@ export const WhyNavya: React.FC = () => {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeCap.id}
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: -12 }}
-                  transition={{ duration: 0.25, ease: EASING }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 8, filter: 'blur(2px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={prefersReducedMotion ? undefined : { opacity: 0, y: -6, filter: 'blur(2px)', transition: { duration: DURATION.instant } }}
+                  transition={{ duration: DURATION.base, ease: EASING }}
                   className="space-y-5 relative z-10"
                 >
                   {/* Active Header with Live Badge */}
                   <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-4">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-white tracking-wide">
-                      <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-sage" aria-hidden="true" />
                       <span>{activeCap.tag}</span>
                     </div>
                     <span className="text-xs font-mono text-navy-mist">
@@ -209,13 +212,13 @@ export const WhyNavya: React.FC = () => {
 
                   {/* Track CTA */}
                   <div className="pt-2">
-                    <a
-                      href={activeCap.coursePath}
-                      className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-blue-light transition-colors group"
+                    <Link
+                      to={activeCap.coursePath}
+                      className="group inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-blue-light transition-colors duration-180"
                     >
-                      <span>Explore {activeCap.title} Syllabus</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                    </a>
+                      <span className="link-underline">Explore {activeCap.title} Syllabus</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
+                    </Link>
                   </div>
                 </motion.div>
               </AnimatePresence>
@@ -246,10 +249,10 @@ export const WhyNavya: React.FC = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Right Column: Interactive Technology Rows (Hover / Tap to Switch) */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-border-warm shadow-xs overflow-hidden divide-y divide-border-faint">
+          <Reveal delay={0.08} className="lg:col-span-7 bg-white rounded-3xl border border-border shadow-sm overflow-hidden divide-y divide-border-soft">
             {CAPABILITIES.map((cap, i) => {
               const isActive = activeIndex === i;
               return (
@@ -266,12 +269,18 @@ export const WhyNavya: React.FC = () => {
                       setActiveIndex(i);
                     }
                   }}
-                  className={`flex items-start gap-4 p-5 sm:p-6 transition-all duration-200 cursor-pointer text-left relative ${
-                    isActive
-                      ? 'bg-navy/5 shadow-xs border-l-4 border-l-navy'
-                      : 'hover:bg-paper-alt/80 border-l-4 border-l-transparent'
+                  className={`flex items-start gap-4 p-5 sm:p-6 transition-colors duration-180 cursor-pointer text-left relative ${
+                    isActive ? 'bg-navy/[0.035]' : 'hover:bg-paper-alt/60'
                   }`}
                 >
+                  {isActive && (
+                    <motion.span
+                      layoutId="why-navya-active-bar"
+                      className="absolute left-0 top-0 bottom-0 w-0.75 bg-navy"
+                      transition={prefersReducedMotion ? { duration: 0 } : { duration: DURATION.base, ease: EASE_IN_OUT }}
+                      aria-hidden="true"
+                    />
+                  )}
                   {/* Icon */}
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200 ${
@@ -285,8 +294,8 @@ export const WhyNavya: React.FC = () => {
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                       <h3
-                        className={`font-bold transition-colors ${
-                          isActive ? 'text-navy text-base sm:text-lg' : 'text-ink text-sm sm:text-base'
+                        className={`text-base sm:text-[17px] font-semibold tracking-[-0.015em] transition-colors duration-180 ${
+                          isActive ? 'text-navy' : 'text-ink'
                         }`}
                       >
                         {cap.title}
@@ -314,14 +323,14 @@ export const WhyNavya: React.FC = () => {
                     {isActive && (
                       <div className="mt-2.5 flex items-center gap-2 text-xs font-semibold text-blue">
                         <span>Viewing active curriculum specification</span>
-                        <ArrowRight className="w-3.5 h-3.5 animate-pulse" />
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </div>
                     )}
                   </div>
                 </div>
               );
             })}
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

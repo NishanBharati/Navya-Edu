@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Clock, Loader2, BookOpen } from 'lucide-react';
+import { ArrowRight, Clock, BookOpen } from 'lucide-react';
 import type { InsightArticle } from '../../types';
 import { INSIGHTS } from '../../data/insights';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
@@ -9,10 +8,9 @@ import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 import { ImagePlaceholder } from '../common/ImagePlaceholder';
-import { fadeUp, staggerContainer } from '../../lib/motion';
+import { Reveal, Stagger, StaggerItem } from '../motion/Reveal';
 
 export const InsightsPreview: React.FC = () => {
-  const prefersReducedMotion = useReducedMotion();
   const { items: dbInsights, isLoading } = useSupabaseTable<InsightArticle>('insights', { orderBy: 'createdAt' });
   const allArticles = useMemo(() => {
     if (dbInsights && dbInsights.length > 0) return dbInsights;
@@ -21,46 +19,43 @@ export const InsightsPreview: React.FC = () => {
   const latestInsights = allArticles.slice(0, 3);
 
   return (
-    <section className="py-16 sm:py-24 bg-paper border-b border-border-soft">
+    <section className="section-y bg-paper-alt border-y border-border-soft">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12">
           <SectionHeader
             eyebrow="Editorial & Analysis"
             title="Latest Technical Insights"
             description="Observations on the Nepali IT ecosystem, software architecture paradigms, and practical advice for modern developers."
           />
-          <div className="shrink-0">
-            <Link
-              to="/insights"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-blue transition-colors group"
-            >
-              <span>Browse All Articles</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          <Reveal className="shrink-0">
+            <Link to="/insights" className="group inline-flex items-center gap-1.5 text-sm font-semibold text-navy">
+              <span className="link-underline">Browse All Articles</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
             </Link>
-          </div>
+          </Reveal>
         </div>
 
         {isLoading ? (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-ink-soft">
-            <Loader2 className="w-4 h-4 animate-spin" /> Loading insights…
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" aria-busy="true" aria-label="Loading insights">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="rounded-2xl border border-border bg-white overflow-hidden">
+                <div className="skeleton aspect-video" />
+                <div className="p-6 space-y-3">
+                  <div className="skeleton h-4 w-24 rounded-md" />
+                  <div className="skeleton h-5 w-11/12 rounded-md" />
+                  <div className="skeleton h-4 w-full rounded-md" />
+                  <div className="skeleton h-4 w-2/3 rounded-md" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
-          <motion.div
-            variants={prefersReducedMotion ? undefined : staggerContainer(0.08, 0.04)}
-            initial={prefersReducedMotion ? false : 'hidden'}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
-          >
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {latestInsights.map((article) => (
-              <motion.div
-                key={article.id}
-                variants={prefersReducedMotion ? undefined : fadeUp}
-                className="h-full"
-              >
+              <StaggerItem key={article.id} className="h-full">
                 <Link
                   to={`/insights/${article.slug}`}
-                  className="group flex flex-col justify-between bg-white border border-border rounded-2xl overflow-hidden hover:border-navy/40 hover:shadow-2xl hover:shadow-navy/10 transform-gpu hover:-translate-y-1.5 transition-all duration-300 h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy"
+                  className="group flex flex-col justify-between bg-white border border-border rounded-2xl overflow-hidden hover:border-navy/25 hover:shadow-lg hover:-translate-y-0.5 transition-[border-color,box-shadow,translate] duration-300 ease-out h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue"
                 >
                   <div>
                     <div className="relative overflow-hidden bg-paper-alt border-b border-border">
@@ -68,10 +63,11 @@ export const InsightsPreview: React.FC = () => {
                         src={article.coverImage}
                         alt={article.title}
                         aspectRatio="cinema"
-                        imgClassName="group-hover:scale-106 transition-transform duration-500 ease-out"
+                        imgClassName="group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                        sizes="(min-width: 768px) 33vw, 100vw"
                       />
                       {/* Floating read preview badge on hover */}
-                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                      <div className="absolute top-3 right-3 z-10 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,translate] duration-240 ease-out">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-navy-dark/90 text-white text-xs font-mono font-semibold backdrop-blur-md shadow-sm">
                           <BookOpen className="w-3.5 h-3.5 text-blue-light" />
                           <span>Read Article</span>
@@ -91,29 +87,27 @@ export const InsightsPreview: React.FC = () => {
                         </div>
                       </div>
 
-                      <h3 className="text-base sm:text-lg font-bold text-ink group-hover:text-navy transition-colors leading-snug">
+                      <h3 className="text-lg font-semibold tracking-[-0.02em] text-ink group-hover:text-navy transition-colors duration-180 leading-snug">
                         {article.title}
                       </h3>
 
-                      <p className="text-xs sm:text-sm text-ink-soft leading-relaxed line-clamp-3">
+                      <p className="text-sm text-ink-muted leading-relaxed line-clamp-3">
                         {article.excerpt}
                       </p>
                     </div>
                   </div>
 
-                  <div className="px-6 pb-5 pt-3.5 border-t border-border-faint flex items-center justify-between bg-paper-alt/40 group-hover:bg-paper-alt/80 transition-colors">
+                  <div className="px-6 py-4 border-t border-border-soft flex items-center justify-between">
                     <span className="text-xs font-mono text-ink-muted">{article.date}</span>
-                    <span
-                      className="text-xs font-bold text-navy group-hover:text-blue inline-flex items-center gap-1.5 transition-colors group/link"
-                    >
+                    <span className="text-[13px] font-semibold text-navy inline-flex items-center gap-1.5">
                       <span>Read Full Insight</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1.5" />
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
                     </span>
                   </div>
                 </Link>
-              </motion.div>
+              </StaggerItem>
             ))}
-          </motion.div>
+          </Stagger>
         )}
       </Container>
     </section>

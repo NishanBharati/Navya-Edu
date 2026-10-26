@@ -9,8 +9,7 @@ import { WhyNavya } from '../components/home/WhyNavya';
 import { LearningExperience } from '../components/home/LearningExperience';
 import { StudentProjectsPreview } from '../components/home/StudentProjectsPreview';
 import { CareerPathway } from '../components/home/CareerPathway';
-import { FacultyMentorshipStandard } from '../components/home/FacultyMentorshipStandard';
-import { GraduateQualityStandard } from '../components/home/GraduateQualityStandard';
+import { QualityStandards } from '../components/home/QualityStandards';
 import { HomeFAQ, HOMEPAGE_FAQS } from '../components/home/HomeFAQ';
 import { InsightsPreview } from '../components/home/InsightsPreview';
 import { AdvisorCTA } from '../components/home/AdvisorCTA';
@@ -57,11 +56,8 @@ export const Home: React.FC = () => {
       <StudentProjectsPreview />
       <CareerPathway onOpenAdvisor={() => handleOpenAdvisor()} />
 
-      {/* 7. Instructors & Mentorship Model (1:12 Ratio Standard) */}
-      <FacultyMentorshipStandard onOpenAdvisor={() => handleOpenAdvisor()} />
-
-      {/* 8. Graduate Quality & Proof-of-Work Standard */}
-      <GraduateQualityStandard />
+      {/* 7. Faculty & mentorship standard + graduate proof-of-work standard (tabbed) */}
+      <QualityStandards onOpenAdvisor={() => handleOpenAdvisor()} />
 
       {/* 9. Authentic Student FAQ (Enrollment, Fees, Prerequisites, Certification) */}
       <HomeFAQ onOpenAdvisor={() => handleOpenAdvisor()} />
