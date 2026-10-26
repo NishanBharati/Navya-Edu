@@ -46,7 +46,7 @@ export const HOMEPAGE_FAQS: FAQEntry[] = [
     category: 'Prerequisites & Background',
     question: 'Do I need a Computer Science (CS/IT) degree to join?',
     answer:
-      'No. Our foundational courses—including Web Development (45 Days) and Python Foundations (40 Days)—start from first principles with zero prior coding required. The curriculum is tailored for career transitioners from non-CS backgrounds—including business, engineering, and humanities—building technical fluency through deliberate hands-on practice.',
+      'No. Our foundational courses, including Web Development (45 Days) and Python Foundations (40 Days), start from first principles with zero prior coding required. The curriculum is tailored for career transitioners from non-CS backgrounds, including business, engineering, and humanities, building technical fluency through deliberate hands-on practice.',
     highlight: 'No prior computer science degree required for foundation tracks',
     link: { label: 'View Beginner Tracks', href: '/courses?level=Beginner' },
   },
