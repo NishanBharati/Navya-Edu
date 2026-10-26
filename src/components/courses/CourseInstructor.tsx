@@ -3,6 +3,7 @@ import { Award, UserCheck, Sparkles, Shield, Code, Terminal, Users } from 'lucid
 import { Course } from '../../types';
 import { Container } from '../common/Container';
 import { Button } from '../common/Button';
+import { isRealPhoto } from '../../lib/media';
 
 interface CourseInstructorProps {
   course: Course;
@@ -38,7 +39,7 @@ export const CourseInstructor: React.FC<CourseInstructorProps> = ({ course, onOp
             <div className="lg:col-span-4 flex flex-col items-center text-center space-y-4">
               <div className="relative">
                 <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl bg-gradient-to-br from-navy via-[#162D4A] to-blue text-white flex items-center justify-center shadow-md border-2 border-white/60 overflow-hidden relative">
-                  {instructor.avatarUrl ? (
+                  {isRealPhoto(instructor.avatarUrl) ? (
                     <img
                       src={instructor.avatarUrl}
                       alt={instructor.name}
@@ -51,7 +52,7 @@ export const CourseInstructor: React.FC<CourseInstructorProps> = ({ course, onOp
                       }}
                     />
                   ) : null}
-                  <span className={`instructor-initials text-3xl sm:text-4xl font-mono font-extrabold text-white/90 ${instructor.avatarUrl ? 'hidden' : 'flex'}`}>
+                  <span className={`instructor-initials text-3xl sm:text-4xl font-mono font-extrabold text-white/90 ${isRealPhoto(instructor.avatarUrl) ? 'hidden' : 'flex'}`}>
                     {initials}
                   </span>
                 </div>

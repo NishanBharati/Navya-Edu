@@ -14,10 +14,9 @@ export const INSIGHTS: InsightArticle[] = [
     author: {
       name: 'Engineering Advisory Guild',
       role: 'Senior Software Practitioners & Educators',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
       bio: 'The Engineering Advisory Guild at Navya Ed Tech brings together veteran engineers from product studios and offshore development centers across Nepal.'
     },
-    coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '',
     tags: ['Career Growth', 'Hiring Trends', 'Software Engineering', 'Nepal Tech', 'Portfolio Review'],
     relatedCourseSlug: 'web-development',
     keyTakeaways: [
@@ -50,10 +49,9 @@ export const INSIGHTS: InsightArticle[] = [
     author: {
       name: 'Technical Education Team',
       role: 'Curriculum & Pedagogy Specialists',
-      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
       bio: 'Leading curriculum design and project evaluation standards at Navya Ed Tech.'
     },
-    coverImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '',
     tags: ['Learning Methodology', 'Code Reviews', 'Productivity', 'Engineering Habits'],
     relatedCourseSlug: 'web-development',
     keyTakeaways: [
@@ -85,10 +83,9 @@ export const INSIGHTS: InsightArticle[] = [
     author: {
       name: 'Frontend Engineering Guild',
       role: 'Navya EdTech Practitioners',
-      avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
       bio: 'Practitioners specializing in React, Next.js, and large-scale TypeScript architecture.'
     },
-    coverImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '',
     tags: ['TypeScript', 'React', 'Frontend', 'Best Practices', 'Code Quality'],
     relatedCourseSlug: 'web-development',
     keyTakeaways: [
@@ -121,10 +118,9 @@ export const INSIGHTS: InsightArticle[] = [
     author: {
       name: 'Data & AI Research Group',
       role: 'Machine Learning Engineers',
-      avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
       bio: 'Focusing on practical applied AI, vector embeddings, predictive analytics, and Python engineering.'
     },
-    coverImage: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '',
     tags: ['Python', 'Machine Learning', 'Artificial Intelligence', 'Data Science', 'LLMs'],
     relatedCourseSlug: 'data-science',
     keyTakeaways: [
@@ -157,10 +153,9 @@ export const INSIGHTS: InsightArticle[] = [
     author: {
       name: 'Cloud & Systems Guild',
       role: 'DevOps & Backend Engineers',
-      avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
       bio: 'Specialists in container orchestration, cloud infrastructure, and backend scalability.'
     },
-    coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '',
     tags: ['Architecture', 'Cloud', 'PostgreSQL', 'Docker', 'DevOps'],
     relatedCourseSlug: 'python-advance',
     keyTakeaways: [
@@ -192,10 +187,9 @@ export const INSIGHTS: InsightArticle[] = [
     author: {
       name: 'Product Design Practice',
       role: 'UI/UX Designers & UX Researchers',
-      avatarUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=200&q=80',
       bio: 'Focusing on frontend user experience, accessibility, and modern design system implementations at Navya Ed Tech.'
     },
-    coverImage: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1200&q=80',
+    coverImage: '',
     tags: ['UI/UX Design', 'Design Systems', 'Figma', 'Accessibility', 'Product Strategy'],
     relatedCourseSlug: 'web-development',
     keyTakeaways: [

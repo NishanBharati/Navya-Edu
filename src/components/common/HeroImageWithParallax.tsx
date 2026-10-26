@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { heroVisual, EASING } from '../../lib/motion';
+import { isRealPhoto } from '../../lib/media';
+import { CoverArt, coverKindFor } from '../blocks/CoverArt';
 
 interface HeroImageWithParallaxProps {
   src: string;
@@ -49,17 +51,22 @@ export const HeroImageWithParallax: React.FC<HeroImageWithParallaxProps> = ({
 
       {/* Main Image Frame */}
       <div className="relative rounded-3xl overflow-hidden border border-blue-mist shadow-xl bg-white group">
-        <img
-          src={src}
-          alt={alt}
-          width="600"
-          height="380"
-          className={`w-full ${heightClass} object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]`}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          // @ts-ignore
-          fetchPriority={priority ? 'high' : 'auto'}
-        />
+        {isRealPhoto(src) ? (
+          <img
+            src={src}
+            alt={alt}
+            width="600"
+            height="380"
+            className={`w-full ${heightClass} object-cover group-hover:scale-105 transition-transform duration-700 ease-out`}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchPriority={priority ? 'high' : 'auto'}
+          />
+        ) : (
+          <div role="img" aria-label={alt} className={`relative w-full ${heightClass}`}>
+            <CoverArt kind={coverKindFor(alt)} label={alt} />
+          </div>
+        )}
 
         {/* Ambient vignette gradient */}
         <div

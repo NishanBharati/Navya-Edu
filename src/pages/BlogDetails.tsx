@@ -31,6 +31,7 @@ import { getArticleSchema, getBreadcrumbSchema } from '../utils/structuredData';
 import { AdvisorModal } from '../components/common/AdvisorModal';
 import { ImagePlaceholder } from '../components/common/ImagePlaceholder';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { isRealPhoto } from '../lib/media';
 
 export const BlogDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -360,7 +361,7 @@ export const BlogDetails: React.FC = () => {
             {/* Author Profile Strip */}
             <div className="flex items-center justify-between py-4 border-y border-border bg-white px-4 sm:px-6 rounded-2xl">
               <div className="flex items-center gap-3">
-                {article.author.avatarUrl ? (
+                {isRealPhoto(article.author.avatarUrl) ? (
                   <img
                     src={article.author.avatarUrl}
                     alt={article.author.name}
@@ -538,7 +539,7 @@ export const BlogDetails: React.FC = () => {
             {/* Author Bio Box */}
             {article.author.bio && (
               <div className="mt-8 pt-6 border-t border-border-faint flex items-start gap-4">
-                {article.author.avatarUrl ? (
+                {isRealPhoto(article.author.avatarUrl) ? (
                   <img
                     src={article.author.avatarUrl}
                     alt={article.author.name}

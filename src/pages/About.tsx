@@ -50,6 +50,7 @@ import {
 } from '../lib/motion';
 import { SITE_CONFIG } from '../config/site';
 import type { FAQItem } from '../types';
+import { ImagePlaceholder } from '../components/common/ImagePlaceholder';
 
 // Departmental Faculty & Mentorship Council Structure (Zero Placeholders)
 interface FacultyDepartment {
@@ -934,15 +935,7 @@ export const About: React.FC = () => {
 
                 <div className="lg:col-span-6 space-y-4">
                   <div className="rounded-2xl overflow-hidden border border-border shadow-xs">
-                    <img
-                      src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80"
-                      alt="Navya Kathmandu Innovation Lab Workstations"
-                      width="800"
-                      height="320"
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-72 sm:h-80 object-cover hover:scale-105 transition-transform duration-500"
-                    />
+                    <ImagePlaceholder alt="Navya Kathmandu Innovation Lab Workstations" aspectRatio="auto" art="python" className="w-full h-72 sm:h-80" />
                   </div>
                   <div className="p-4 rounded-xl bg-paper border border-border-soft text-xs text-ink-soft flex items-center justify-between">
                     <span>Campus: Putalisadak, Kathmandu, Nepal</span>
@@ -993,15 +986,7 @@ export const About: React.FC = () => {
 
                 <div className="lg:col-span-6 space-y-4">
                   <div className="rounded-2xl overflow-hidden border border-border shadow-xs">
-                    <img
-                      src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80"
-                      alt="Digital campus live programming and online code sprints"
-                      width="800"
-                      height="320"
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-72 sm:h-80 object-cover hover:scale-105 transition-transform duration-500"
-                    />
+                    <ImagePlaceholder alt="Digital campus live programming and online code sprints" aspectRatio="auto" art="web" className="w-full h-72 sm:h-80" />
                   </div>
                   <div className="p-4 rounded-xl bg-paper border border-border-soft text-xs text-ink-soft flex items-center justify-between">
                     <span>Platform: Interactive Live Cohorts</span>

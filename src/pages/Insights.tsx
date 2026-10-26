@@ -26,6 +26,7 @@ import { AdvisorModal } from '../components/common/AdvisorModal';
 import { ImagePlaceholder } from '../components/common/ImagePlaceholder';
 import { HeroImageWithParallax } from '../components/common/HeroImageWithParallax';
 import { HeroLiveIndicator } from '../components/common/HeroLiveIndicator';
+import { isRealPhoto } from '../lib/media';
 import {
   heroStaggerContainer,
   heroEyebrow,
@@ -139,7 +140,7 @@ const SpotlightArticle: React.FC<{ article: InsightArticle }> = ({ article }) =>
 
           <div className="pt-4 border-t border-border-faint flex items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              {article.author.avatarUrl ? (
+              {isRealPhoto(article.author.avatarUrl) ? (
                 <img
                   src={article.author.avatarUrl}
                   alt={article.author.name}
@@ -568,7 +569,7 @@ export const Insights: React.FC = () => {
                   {/* Footer Bar with Author & Animated Read Link */}
                   <div className="px-6 py-4 bg-paper-alt/50 border-t border-border-faint flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                      {article.author.avatarUrl ? (
+                      {isRealPhoto(article.author.avatarUrl) ? (
                         <img
                           src={article.author.avatarUrl}
                           alt={article.author.name}
