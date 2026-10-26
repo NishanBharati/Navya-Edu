@@ -5,41 +5,28 @@ import { FOOTER_LINKS } from '../../data/navigation';
 import { Container } from '../common/Container';
 import { Logo } from '../common/Logo';
 
-const columnHeading = 'font-mono text-xs font-medium uppercase tracking-[0.08em] text-navy-mist mb-5';
-const footerLink = 'link-underline text-[14px] text-mist hover:text-white';
+const columnHeading = 'font-display text-base font-bold text-white mb-5';
+const footerLink = 'link-underline text-[15px] text-mist hover:text-white';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative overflow-hidden bg-navy-dark text-mist">
-      <div className="absolute inset-0 bg-blueprint-dark opacity-60 pointer-events-none" aria-hidden="true" />
-      <div
-        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[60rem] h-80 rounded-full bg-blue/20 blur-[120px] pointer-events-none"
-        aria-hidden="true"
-      />
+    <footer className="relative overflow-hidden bg-ink text-mist">
+      <div className="absolute inset-0 bg-dots-light opacity-50 pointer-events-none" aria-hidden="true" />
 
       <Container className="relative">
         <h2 className="sr-only">Footer Directory and Institutional Links</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-12 pt-20 pb-14 border-b border-white/10">
-          {/* Brand & Parent Company */}
+          {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-4 space-y-6">
-            <Link to="/" className="block w-fit rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-navy-dark">
-              <Logo variant="dark" size="md" subtitle="Technology Education Division" />
+            <Link to="/" className="block w-fit rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-ink">
+              <Logo variant="dark" size="md" subtitle="Coding classes in Kathmandu" />
             </Link>
 
             <p className="text-[15px] leading-relaxed text-mist max-w-sm">
-              Learn technology from a company that actually builds technology. Practical, project-driven IT training bridging academic theory and modern commercial software engineering in Nepal.
+              Hands-on coding classes for ages 8 to 16, and Python, web development and data science courses for older
+              students. Small groups, real projects, in our lab in Putalisadak, Kathmandu.
             </p>
-
-            <a
-              href="https://navyaedtech.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-white/[0.06] hover:bg-white/10 border border-white/10 text-white text-[13px] font-medium transition-colors duration-180"
-            >
-              <span>Official Parent Company: navyaedtech.com</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-navy-mist transition-transform duration-240 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
           </div>
 
           {/* Popular Courses */}
@@ -97,7 +84,7 @@ export const Footer: React.FC = () => {
             </ul>
             <Link
               to="/contact"
-              className="group mt-6 inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-white text-navy text-[13px] font-semibold hover:bg-blue-mist active:scale-[0.97] transition-[background-color,scale] duration-180 ease-out"
+              className="group mt-6 inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-block-yellow text-ink font-display text-[15px] font-bold shadow-[inset_0_-7px_9px_-6px_rgb(15_22_64/0.32)] hover:-translate-y-0.5 active:scale-[0.97] transition-[translate,scale] duration-180 ease-out"
             >
               <span>Inquire / Visit Campus</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-240 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

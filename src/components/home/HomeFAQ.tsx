@@ -108,7 +108,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
 
             {/* Direct Counseling Callout */}
             <Reveal delay={0.06} className="p-6 bg-paper-alt rounded-2xl border border-border space-y-4">
-              <div className="flex items-center gap-2 text-xs font-bold text-navy uppercase tracking-wider">
+              <div className="flex items-center gap-2 font-display text-lg font-bold text-ink">
                 <HelpCircle className="w-4 h-4 text-blue" />
                 <span>Have a specific question about your background?</span>
               </div>
@@ -164,11 +164,8 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                     aria-controls={itemId}
                     className="group w-full py-5 sm:py-6 flex items-start justify-between gap-6 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue rounded-lg"
                   >
-                    <div className="space-y-1.5 pr-2">
-                      <span className="font-mono text-xs uppercase tracking-[0.08em] text-blue">
-                        {faq.category}
-                      </span>
-                      <h3 className={`text-base sm:text-[17px] font-semibold tracking-[-0.015em] leading-snug transition-colors duration-180 ${isOpen ? 'text-navy' : 'text-ink group-hover:text-navy'}`}>
+                    <div className="pr-2">
+                      <h3 className={`font-display text-lg sm:text-xl font-bold tracking-[-0.02em] leading-snug transition-colors duration-180 ${isOpen ? 'text-block-blue' : 'text-ink group-hover:text-block-blue'}`}>
                         {faq.question}
                       </h3>
                     </div>
@@ -176,7 +173,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                     <span
                       className={`mt-0.5 w-8 h-8 rounded-full grid place-items-center shrink-0 border transition-[background-color,border-color,color,rotate] duration-240 ease-out ${
                         isOpen
-                          ? 'bg-navy border-navy text-white rotate-45'
+                          ? 'bg-block-blue border-block-blue text-white rotate-45'
                           : 'bg-white border-border text-ink-muted group-hover:border-navy/40'
                       }`}
                       aria-hidden="true"

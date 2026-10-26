@@ -1,0 +1,462 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T05:56:44.493Z",
+  "title": "Design System: Navya Ed Tech",
+  "extensions": {
+    "colorMeta": {
+      "editor-blue": {
+        "role": "primary",
+        "displayName": "Editor Blue",
+        "canonical": "#2B47E0",
+        "tonalRamp": [
+          "#15226D",
+          "#1B2C8C",
+          "#2238B2",
+          "#2B47E0",
+          "#6B7EE9",
+          "#A0ACF1",
+          "#CAD1F7",
+          "#EAEDFC"
+        ]
+      },
+      "editor-blue-deep": {
+        "role": "primary",
+        "displayName": "Editor Blue Deep",
+        "canonical": "#1E34B8",
+        "tonalRamp": [
+          "#101B5D",
+          "#142276",
+          "#192A94",
+          "#1E34B8",
+          "#6271CD",
+          "#9AA4DF",
+          "#C7CCED",
+          "#E9EBF8"
+        ]
+      },
+      "control-orange": {
+        "role": "secondary",
+        "displayName": "Control Orange",
+        "canonical": "#FF7A1A",
+        "tonalRamp": [
+          "#663621",
+          "#90491F",
+          "#C15F1D",
+          "#FF7A1A",
+          "#FFA25F",
+          "#FFC398",
+          "#FFDEC6",
+          "#FFF2E8"
+        ]
+      },
+      "event-yellow": {
+        "role": "secondary",
+        "displayName": "Event Yellow",
+        "canonical": "#FFC21A",
+        "tonalRamp": [
+          "#665121",
+          "#90701F",
+          "#C1951D",
+          "#FFC21A",
+          "#FFD45F",
+          "#FFE498",
+          "#FFF0C6",
+          "#FFF9E8"
+        ]
+      },
+      "looks-violet": {
+        "role": "tertiary",
+        "displayName": "Looks Violet",
+        "canonical": "#6D3FF0",
+        "tonalRamp": [
+          "#2E1F73",
+          "#402895",
+          "#5432BE",
+          "#6D3FF0",
+          "#9979F5",
+          "#BDA9F8",
+          "#DBCFFB",
+          "#F0ECFE"
+        ]
+      },
+      "operator-green": {
+        "role": "tertiary",
+        "displayName": "Operator Green",
+        "canonical": "#14A862",
+        "tonalRamp": [
+          "#0D473D",
+          "#0F6247",
+          "#118153",
+          "#14A862",
+          "#5BC291",
+          "#95D8B8",
+          "#C4E9D8",
+          "#E8F6EF"
+        ]
+      },
+      "sound-pink": {
+        "role": "tertiary",
+        "displayName": "Sound Pink",
+        "canonical": "#F0518F",
+        "tonalRamp": [
+          "#60264E",
+          "#883260",
+          "#B64075",
+          "#F0518F",
+          "#F585B1",
+          "#F8B1CD",
+          "#FBD4E3",
+          "#FEEEF4"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0F1640",
+        "tonalRamp": [
+          "#0B1030",
+          "#0C1234",
+          "#0D143A",
+          "#0F1640",
+          "#575C79",
+          "#9396A9",
+          "#C3C5CF",
+          "#E7E8EC"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#2E3563",
+        "tonalRamp": [
+          "#161C3D",
+          "#1D2348",
+          "#252B54",
+          "#2E3563",
+          "#6D7292",
+          "#A1A4B9",
+          "#CBCDD8",
+          "#EAEBEF"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "#4E5585",
+        "tonalRamp": [
+          "#23284A",
+          "#2F345A",
+          "#3D436D",
+          "#4E5585",
+          "#8388AA",
+          "#AFB3C8",
+          "#D3D5E1",
+          "#EDEEF3"
+        ]
+      },
+      "success-text": {
+        "role": "neutral",
+        "displayName": "Success Text",
+        "canonical": "#0A7A48",
+        "tonalRamp": [
+          "#093633",
+          "#094939",
+          "#0A5F40",
+          "#0A7A48",
+          "#54A27F",
+          "#91C3AD",
+          "#C2DED1",
+          "#E7F2ED"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "canonical": "#F3F5FF",
+        "tonalRamp": [
+          "#616578",
+          "#898C9D",
+          "#B8BBC9",
+          "#F3F5FF",
+          "#F7F8FF",
+          "#FAFBFF",
+          "#FCFDFF",
+          "#FEFEFF"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#FAFBFF",
+        "tonalRamp": [
+          "#646778",
+          "#8D8F9D",
+          "#BEBFC9",
+          "#FAFBFF",
+          "#FCFCFF",
+          "#FDFDFF",
+          "#FEFEFF",
+          "#FFFFFF"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#666878",
+          "#90929D",
+          "#C1C2C9",
+          "#FFFFFF",
+          "#FFFFFF",
+          "#FFFFFF",
+          "#FFFFFF",
+          "#FFFFFF"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#E2E6F6",
+        "tonalRamp": [
+          "#5B5F75",
+          "#808498",
+          "#ACB0C2",
+          "#E2E6F6",
+          "#EBEEF9",
+          "#F2F4FB",
+          "#F8F9FD",
+          "#FCFDFE"
+        ]
+      },
+      "input-outline": {
+        "role": "neutral",
+        "displayName": "Input Outline",
+        "canonical": "#7D84AD",
+        "tonalRamp": [
+          "#343A59",
+          "#484E70",
+          "#60668B",
+          "#7D84AD",
+          "#A4A9C6",
+          "#C5C8DA",
+          "#DFE0EB",
+          "#F2F3F7"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero and closing headlines only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and project titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs, max about 60ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Block text, buttons, navigation."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Real code only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "block-bevel",
+        "value": "inset 0 -7px 9px -6px rgb(15 22 64 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.28)",
+        "purpose": "Every block and block-style button."
+      },
+      {
+        "name": "stack-depth",
+        "value": "drop-shadow(0 10px 18px rgb(15 22 64 / 0.18))",
+        "purpose": "Filter around a whole stack of masked blocks."
+      },
+      {
+        "name": "card-lift",
+        "value": "0 4px 8px -2px rgb(15 22 64 / 0.06), 0 16px 36px -10px rgb(15 22 64 / 0.18)",
+        "purpose": "Cards on hover."
+      },
+      {
+        "name": "editor-float",
+        "value": "0 30px 80px -30px rgb(8 12 38 / 0.55)",
+        "purpose": "Hero editor over the blue field."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Entrances and UI responses."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "Indicators and layout moving on screen."
+      },
+      {
+        "name": "block-snap",
+        "value": "spring(duration 0.45s, bounce 0.2), 70ms stagger",
+        "purpose": "Blocks landing in a script."
+      },
+      {
+        "name": "duration-fast",
+        "value": "180ms",
+        "purpose": "Hover, press, colour."
+      },
+      {
+        "name": "duration-base",
+        "value": "240ms",
+        "purpose": "Tabs, menus, indicators."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "560ms",
+        "purpose": "Scroll reveals."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action: book a free demo class.",
+      "html": "<button class=\"ds-btn-primary\">Book a free demo class</button>",
+      "css": ".ds-btn-primary{background:#FF7A1A;color:#0F1640;font-family:var(--font-display, 'Bricolage Grotesque Variable', sans-serif);font-weight:700;font-size:15px;height:48px;padding:0 20px;border:0;border-radius:12px;box-shadow:inset 0 -7px 9px -6px rgb(15 22 64 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.28);cursor:pointer;transition:translate 180ms cubic-bezier(.22,1,.36,1),scale 180ms cubic-bezier(.22,1,.36,1),background-color 180ms}.ds-btn-primary:hover{background:#FF8B33;translate:0 -2px}.ds-btn-primary:active{scale:.97;translate:0 0}.ds-btn-primary:focus-visible{outline:3px solid #2B47E0;outline-offset:2px}"
+    },
+    {
+      "name": "Blue Button",
+      "kind": "button",
+      "refersTo": "button-blue",
+      "description": "Action on orange fields.",
+      "html": "<button class=\"ds-btn-blue\">Book a free demo class</button>",
+      "css": ".ds-btn-blue{background:#2B47E0;color:#fff;font-family:var(--font-display, 'Bricolage Grotesque Variable', sans-serif);font-weight:700;font-size:15px;height:48px;padding:0 20px;border:0;border-radius:12px;box-shadow:inset 0 -7px 9px -6px rgb(15 22 64 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.28);cursor:pointer;transition:translate 180ms,background-color 180ms}.ds-btn-blue:hover{background:#1E34B8;translate:0 -2px}.ds-btn-blue:focus-visible{outline:3px solid #0F1640;outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary actions on light grounds.",
+      "html": "<button class=\"ds-btn-secondary\">Visit the lab</button>",
+      "css": ".ds-btn-secondary{background:#fff;color:#0F1640;font-family:var(--font-display, 'Bricolage Grotesque Variable', sans-serif);font-weight:700;font-size:15px;height:48px;padding:0 20px;border:2px solid rgb(15 22 64 / .12);border-radius:12px;cursor:pointer;transition:border-color 180ms,translate 180ms}.ds-btn-secondary:hover{border-color:rgb(15 22 64 / .3);translate:0 -2px}.ds-btn-secondary:focus-visible{outline:3px solid #2B47E0;outline-offset:2px}"
+    },
+    {
+      "name": "Snap Block Stack",
+      "kind": "custom",
+      "refersTo": "snap-block",
+      "description": "Signature: a hat block followed by interlocking blocks with value slots.",
+      "html": "<div class=\"ds-stack\"><span class=\"ds-block ds-hat\" style=\"--b:#FFC21A;color:#0F1640\">when class starts</span><span class=\"ds-tab\" style=\"--b:#2B47E0\"><span class=\"ds-block\">learn <span class=\"ds-slot\">Scratch</span></span></span><span class=\"ds-block\" style=\"--b:#14A862;color:#0F1640\">build <span class=\"ds-slot\">a game</span></span></div>",
+      "css": ".ds-stack{display:flex;flex-direction:column;align-items:flex-start;gap:4px;filter:drop-shadow(0 10px 18px rgb(15 22 64 / .18));font-family:var(--font-display, 'Bricolage Grotesque Variable', sans-serif);font-size:16px}.ds-block{display:inline-flex;align-items:center;gap:.55em;min-height:2.75em;padding:.6em 1em;border-radius:.7em;background:var(--b,#2B47E0);color:#fff;font-weight:680;box-shadow:inset 0 -7px 9px -6px rgb(15 22 64 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.28);-webkit-mask:linear-gradient(#000 0 0) 0 0/100% 100% no-repeat,linear-gradient(#000 0 0) 1.1em 0/2em .45em no-repeat;-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) 0 0/100% 100% no-repeat,linear-gradient(#000 0 0) 1.1em 0/2em .45em no-repeat;mask-composite:exclude}.ds-hat{border-radius:1.5em 1.5em .7em .7em;-webkit-mask:none;mask:none}.ds-tab{position:relative;display:inline-flex}.ds-tab::after{content:'';position:absolute;left:1.1em;bottom:-.45em;width:2em;height:.45em;border-radius:0 0 .4em .4em;background:var(--b)}.ds-slot{display:inline-flex;align-items:center;height:1.75em;padding:0 .65em;border-radius:999px;background:#fff;color:#0F1640;font-size:.9em;font-weight:600;white-space:nowrap}"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Text and search fields.",
+      "html": "<input class=\"ds-input\" placeholder=\"Search by stack, e.g. Python\">",
+      "css": ".ds-input{height:48px;width:280px;padding:0 14px;border:2px solid rgb(125 132 173 / .6);border-radius:12px;background:#fff;color:#0F1640;font-size:15px;transition:border-color 150ms,box-shadow 150ms}.ds-input::placeholder{color:#5C6390}.ds-input:focus{outline:none;border-color:#2B47E0;box-shadow:0 0 0 4px rgb(43 71 224 / .15)}"
+    },
+    {
+      "name": "Status Block",
+      "kind": "chip",
+      "refersTo": "hat-block",
+      "description": "Course state drawn on a block.",
+      "html": "<span class=\"ds-status\">Admissions Open</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;padding:.3em .7em;border-radius:.55em;background:#14A862;color:#0F1640;font-family:var(--font-display, 'Bricolage Grotesque Variable', sans-serif);font-weight:680;font-size:13px;box-shadow:inset 0 -7px 9px -6px rgb(15 22 64 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.28)}"
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "refersTo": "snap-block",
+      "description": "Top navigation links with active underline.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-active\" href=\"#\">Courses</a><a class=\"ds-nav-link\" href=\"#\">Programs</a><a class=\"ds-nav-link\" href=\"#\">Pricing</a></nav>",
+      "css": ".ds-nav{display:flex;gap:2px;font-family:var(--font-display, 'Bricolage Grotesque Variable', sans-serif)}.ds-nav-link{position:relative;display:flex;align-items:center;height:40px;padding:0 14px;border-radius:12px;color:#4E5585;font-weight:600;font-size:15px;text-decoration:none;transition:background-color 180ms,color 180ms}.ds-nav-link:hover{background:#F3F5FF;color:#0F1640}.ds-nav-link.ds-active{color:#0F1640}.ds-nav-link.ds-active::after{content:'';position:absolute;left:14px;right:14px;bottom:4px;height:3px;border-radius:3px;background:#2B47E0}.ds-nav-link:focus-visible{outline:3px solid #2B47E0;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Snap Lab",
+    "overview": "The site is built the way a child builds their first program: out of chunky, saturated blocks that snap together, with a socket on top and a tab underneath. Blocks are not decoration on a neutral template; they are the component language. Course paths, class steps, the primary action, status tags and the closing visit details are all blocks, and the same idea is shown turning into real Python, which is the product's promise.\n\nColour commits at page scale. Whole sections are owned by one block colour (editor-blue hero, event-yellow class section, looks-violet older-learners band, control-orange close, ink footer) on a white and canvas ground, so the page scrolls like a stack of differently coloured blocks. Type is loud and friendly at display sizes and plainly legible at reading sizes, because the primary reader is a parent deciding on a phone in the evening.\n\nImagery is drawn, never stocked. There are no photos of children, staff or classrooms until real ones exist; covers are code-drawn scenes of the subject at work (a block script with its game stage, a Python editor, a website being laid out, a chart drawn from data).",
+    "keyCharacteristics": [
+      "Interlocking blocks as the single component language.",
+      "Page-scale colour fields, one block colour per section.",
+      "Bricolage Grotesque display, Atkinson Hyperlegible Next for reading.",
+      "Code-drawn cover art in place of any stock or AI imagery.",
+      "Motion as assembly: blocks land one after another, like a script being built."
+    ],
+    "rules": [
+      {
+        "name": "The Fixed Pairing Rule",
+        "body": "Every block colour has exactly one text colour: white on blue, deep blue and violet; ink on yellow, orange, green and pink. Never put white text on yellow, orange, green or pink.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Field Rule",
+        "body": "A section is owned by one block colour; blocks of other colours sit on it, but the ground never mixes two fields.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Action Colour Rule",
+        "body": "Control Orange is reserved for the primary action. Secondary actions use white, blue or an outline.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heading Speaks Rule",
+        "body": "No eyebrow or kicker labels above headings; metadata (course name, level, date) sits below the title.",
+        "section": "typography"
+      },
+      {
+        "name": "The Real Code Rule",
+        "body": "Monospace appears only for actual code, never as a \"technical\" costume.",
+        "section": "typography"
+      },
+      {
+        "name": "The Three Steps Rule",
+        "body": "Interactive blocks have three depth states: rest, hover (lift 2px) and pressed (scale 0.97). Nothing else moves on hover.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** build new UI from blocks, hat blocks and slots before reaching for generic cards.",
+      "**Do** give each section one block-colour field and keep the fixed text pairings.",
+      "**Do** put metadata below titles.",
+      "**Do** draw illustrative scenes in code and label them as illustrations; show real photos only once they exist.",
+      "**Do** honour reduced motion: blocks appear without travel, loops stop."
+    ],
+    "donts": [
+      "**Don't** add stock photos, AI images or video of people, classrooms or staff.",
+      "**Don't** add eyebrow labels above headings or rows of identical icon cards.",
+      "**Don't** use hard offset shadows, gradient text, or monospace outside code.",
+      "**Don't** put white text on yellow, orange, green or pink.",
+      "**Don't** invent testimonials, ratings, enrolment numbers or placement claims."
+    ]
+  }
+}

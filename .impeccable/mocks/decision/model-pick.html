@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Build Manual sketch</title>
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{width:1440px;height:900px;overflow:hidden;font-family:"Segoe UI",system-ui,sans-serif;background:#F6F3EC;color:#111827}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 72px;border-bottom:3px solid #111827}
+  .logo{font-weight:900;font-size:26px}
+  .links{display:flex;gap:30px;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.06em}
+  .btn{background:#E3342F;color:#fff;font-weight:800;padding:16px 26px;border-radius:6px;font-size:18px}
+  main{display:grid;grid-template-columns:1fr 1fr;height:calc(900px - 92px)}
+  .cover{padding:60px 72px;border-right:3px solid #111827;position:relative}
+  .age{display:inline-block;border:3px solid #111827;padding:8px 16px;font-weight:900;font-size:22px;border-radius:6px}
+  h1{font-size:96px;line-height:.95;font-weight:900;letter-spacing:-.04em;margin:28px 0}
+  .parts{display:flex;gap:16px;margin-top:30px}
+  .parts div{border:3px solid #111827;border-radius:8px;padding:14px 18px;font-weight:800;font-size:20px;background:#fff}
+  .steps{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+  .step{border-bottom:3px solid #111827;border-right:3px solid #111827;padding:30px;position:relative}
+  .num{font-size:84px;font-weight:900;line-height:1;color:#2F5DA8}
+  .step p{font-size:22px;font-weight:700;margin-top:12px;max-width:260px}
+  .iso{position:absolute;right:30px;bottom:30px;width:120px;height:90px;border:3px solid #111827;transform:skewY(-12deg);background:#F7C948}
+</style></head><body>
+<nav><div class="logo">NAVYA ED TECH</div><div class="links"><span>Courses</span><span>Parents</span><span>Fees</span><span>Visit</span></div><span class="btn">Book a trial class</span></nav>
+<main>
+  <section class="cover"><span class="age">AGES 8 TO 12</span>
+    <h1>Build your own game in 30 days.</h1>
+    <p style="font-size:24px;line-height:1.45;max-width:560px">Every Navya course comes with its build plan. You see exactly what your child makes, class by class.</p>
+    <div class="parts"><div>30 classes</div><div>12 kids</div><div>1 mentor</div><div>3 projects</div></div>
+  </section>
+  <section class="steps">
+    <div class="step"><div class="num">1</div><p>Make a sprite move and talk</p><div class="iso"></div></div>
+    <div class="step"><div class="num">2</div><p>Add score, levels and sound</p><div class="iso" style="background:#E3342F"></div></div>
+    <div class="step"><div class="num">3</div><p>Design your own game world</p><div class="iso" style="background:#2F5DA8"></div></div>
+    <div class="step"><div class="num">4</div><p>Show it to the family on demo day</p><div class="iso" style="background:#fff"></div></div>
+  </section>
+</main></body></html>

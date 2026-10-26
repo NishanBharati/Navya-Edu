@@ -45,17 +45,19 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
     });
   }, [allCourses, selectedCategory, searchQuery]);
 
-  const visibleCourses = filteredCourses.slice(0, 6);
+  // Families come first on the home page: kids' courses lead, then the rest in catalogue order.
+  const visibleCourses = [...filteredCourses]
+    .sort((a, b) => Number(b.category === 'Kids Coding') - Number(a.category === 'Kids Coding'))
+    .slice(0, 6);
 
   return (
-    <section id="courses-section" className="section-y bg-paper">
+    <section id="courses-section" className="section-y bg-white">
       <Container>
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12">
           <SectionHeader
-            eyebrow="Industry-Standard Syllabi"
-            title="Explore Our Core Engineering Tracks"
-            description="Choose a specialized learning path designed around modern technologies, live code sprints, and production deployment."
+            title="Six courses, one path that grows with your child"
+            description="Start with blocks, move to Python and websites when ready. Fees and batch times are shared by an advisor."
           />
           <Reveal className="shrink-0">
             <Button variant="outline" size="md" href="/courses" rightIcon={<ArrowRight className="w-4 h-4" />}>
@@ -70,7 +72,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
             <div
               role="tablist"
               aria-label="Filter course tracks by discipline"
-              className="flex items-center gap-1 p-1 rounded-2xl bg-paper-alt border border-border overflow-x-auto scrollbar-none min-w-0 max-w-full"
+              className="flex items-center gap-1 p-1.5 rounded-2xl bg-canvas border border-border overflow-x-auto scrollbar-none min-w-0 max-w-full"
             >
               {COURSE_CATEGORIES.map((cat) => {
                 const isActive = selectedCategory === cat;
@@ -81,14 +83,14 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
                     role="tab"
                     aria-selected={isActive}
                     onClick={() => setSelectedCategory(cat as CourseCategory)}
-                    className={`relative h-9 px-4 rounded-xl text-[13px] font-semibold whitespace-nowrap transition-colors duration-180 cursor-pointer ${
-                      isActive ? 'text-ink' : 'text-ink-muted hover:text-ink'
+                    className={`relative h-10 px-4 rounded-xl font-display text-sm font-bold whitespace-nowrap transition-colors duration-180 cursor-pointer ${
+                      isActive ? 'text-white' : 'text-ink-muted hover:text-ink'
                     }`}
                   >
                     {isActive && (
                       <motion.span
                         layoutId="course-tab-indicator"
-                        className="absolute inset-0 rounded-xl bg-white shadow-sm border border-border/70"
+                        className="absolute inset-0 rounded-xl bg-ink shadow-[inset_0_-7px_9px_-6px_rgb(0_0_0/0.35)]"
                         transition={prefersReducedMotion ? { duration: 0 } : { duration: DURATION.base, ease: EASE_IN_OUT }}
                       />
                     )}
@@ -108,7 +110,7 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
               placeholder="Search by stack, e.g. JavaScript, Python..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-11 pl-10 pr-3 text-sm rounded-xl border border-input-border bg-white text-ink placeholder:text-ink-faint transition-[border-color,box-shadow] duration-150 focus:outline-none focus:border-blue focus:ring-4 focus:ring-blue/15"
+              className="w-full h-12 pl-10 pr-3 text-[15px] rounded-xl border-2 border-input-border/60 bg-white text-ink placeholder:text-ink-faint transition-[border-color,box-shadow] duration-150 focus:outline-none focus:border-block-blue focus:ring-4 focus:ring-block-blue/15"
             />
           </div>
         </Reveal>

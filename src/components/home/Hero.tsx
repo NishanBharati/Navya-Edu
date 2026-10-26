@@ -1,211 +1,254 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { ArrowRight, MessageSquare, Code2, ShieldCheck, Volume2, VolumeX, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence, LayoutGroup, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Blocks, Code2 } from 'lucide-react';
 import { Container } from '../common/Container';
-import { Button } from '../common/Button';
-
-const heroVideo = '/videos/1.mp4';
+import { Block, BlockSlot, blockStyle } from '../blocks/Block';
+import { CoverArt, coverKindFor } from '../blocks/CoverArt';
+import { AGE_BANDS, PATH_STEPS } from '../../data/learningPath';
+import { DURATION, EASING, EASE_IN_OUT } from '../../lib/motion';
 
 interface HeroProps {
-  onOpenAdvisor: () => void;
+  onOpenAdvisor: (courseSlug?: string) => void;
 }
 
-// Staggered page-load entrance. Runs in CSS so it plays from the server-rendered HTML.
-const riseDelay = (delayMs: number) => ({ '--rise-delay': `${delayMs}ms` }) as React.CSSProperties;
+const riseDelay = (ms: number) => ({ '--rise-delay': `${ms}ms` }) as React.CSSProperties;
 
-const HERO_STATS = [
-  { value: '1:12', label: 'Cohort ratio' },
-  { value: '100%', label: 'GitHub PR reviews' },
-  { value: 'Kathmandu', label: 'Physical lab' },
-];
+// Blocks land one after another with a small settle, like a block clicking into place.
+const snapIn = {
+  hidden: { opacity: 0, y: -14, x: 10 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    x: 0,
+    transition: { type: 'spring' as const, duration: 0.45, bounce: 0.2, delay: 0.06 + i * 0.07 },
+  }),
+  exit: { opacity: 0, x: -8, transition: { duration: DURATION.instant } },
+};
 
 export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [bandId, setBandId] = useState(AGE_BANDS[0].id);
+  const [view, setView] = useState<'blocks' | 'python'>('blocks');
+  // The pre-rendered script must be visible at once; blocks only snap in after a choice.
+  const [touched, setTouched] = useState(false);
+  const chooseBand = (id: string) => {
+    setTouched(true);
+    setBandId(id);
+  };
   const prefersReducedMotion = useReducedMotion();
 
-  // Gentle depth: the media drifts slower than the page while the hero scrolls away.
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-  const mediaY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 48]);
+  const band = AGE_BANDS.find((b) => b.id === bandId) ?? AGE_BANDS[0];
+  const steps = band.path.map((slug) => PATH_STEPS[slug]);
+  const first = steps[0];
+  const indicator = prefersReducedMotion ? { duration: 0 } : { duration: DURATION.base, ease: EASE_IN_OUT };
 
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      videoRef.current?.pause();
-      return;
-    }
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {
-        // Autoplay may be restricted until user interaction
-      });
-    }
-  }, []);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      const nextMuted = !videoRef.current.muted;
-      videoRef.current.muted = nextMuted;
-      setIsMuted(nextMuted);
-    }
+  const onAgeKey = (e: React.KeyboardEvent) => {
+    if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(e.key)) return;
+    e.preventDefault();
+    const idx = AGE_BANDS.findIndex((b) => b.id === bandId);
+    const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : AGE_BANDS.length - 1;
+    const next = AGE_BANDS[(idx + step) % AGE_BANDS.length];
+    chooseBand(next.id);
+    document.getElementById(`age-${next.id}`)?.focus();
   };
 
+  let blockIndex = 0;
+
   return (
-    <section ref={sectionRef} className="relative overflow-hidden -mt-16 lg:-mt-18 pt-28 lg:pt-36 pb-20 lg:pb-28">
-      {/* Background: blueprint grid + slow ambient glow */}
-      <div className="absolute inset-0 bg-blueprint pointer-events-none" aria-hidden="true" />
-      <div
-        className="ambient-drift absolute -top-32 right-[-10%] w-[44rem] h-[44rem] rounded-full bg-[radial-gradient(closest-side,rgb(121_183_237/0.28),transparent)] pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 left-[-12%] w-[36rem] h-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(82_112_92/0.12),transparent)] pointer-events-none"
-        aria-hidden="true"
-      />
+    <section className="relative overflow-hidden bg-block-blue text-white">
+      <div className="absolute inset-0 bg-dots-light pointer-events-none" aria-hidden="true" />
 
-      <Container className="relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 xl:gap-16 items-center">
-          {/* Copy */}
-          <div className="lg:col-span-6 xl:col-span-6">
-            <p style={riseDelay(0)} className="rise inline-flex items-center gap-2.5 text-[13px] font-medium text-ink-muted">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-white border border-border shadow-xs">
-                <Users className="w-3.5 h-3.5 text-blue" />
+      <Container className="relative pt-14 sm:pt-20 pb-16 sm:pb-24">
+        <div className="max-w-5xl">
+          <h1 style={riseDelay(0)} className="rise text-display text-white">
+            Your child snaps ideas together. <span className="text-block-yellow">Then writes real code.</span>
+          </h1>
+          <p style={riseDelay(90)} className="rise mt-6 max-w-[60ch] text-lg sm:text-xl leading-relaxed text-white/90">
+            Small, hands-on coding classes for ages 8 to 16 in Putalisadak, Kathmandu. Every class builds a real
+            project, from first Scratch blocks to Python and websites.
+          </p>
+        </div>
+
+        {/* The editor: palette, script, stage */}
+        <div
+          style={riseDelay(180)}
+          className="rise mt-10 sm:mt-14 rounded-3xl bg-white text-ink shadow-[0_30px_80px_-30px_rgb(8_12_38/0.55)] overflow-hidden"
+        >
+          {/* Editor bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3 border-b border-border bg-canvas">
+            <div className="flex items-center gap-2 text-sm font-semibold text-ink-muted">
+              <span className="flex gap-1.5" aria-hidden="true">
+                <span className="w-3 h-3 rounded-full bg-block-pink" />
+                <span className="w-3 h-3 rounded-full bg-block-yellow" />
+                <span className="w-3 h-3 rounded-full bg-block-green" />
               </span>
-              For University Students, Career Switchers & Aspiring Developers
-            </p>
+              <span className="ml-2">Suggested path</span>
+            </div>
+            <LayoutGroup id="hero-view">
+              <div role="tablist" aria-label="Show the path as" className="inline-flex p-1 rounded-xl bg-white border border-border">
+                {(['blocks', 'python'] as const).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    role="tab"
+                    aria-selected={view === v}
+                    onClick={() => setView(v)}
+                    className={`relative inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-display font-bold transition-colors duration-180 cursor-pointer ${
+                      view === v ? 'text-white' : 'text-ink-muted hover:text-ink'
+                    }`}
+                  >
+                    {view === v && (
+                      <motion.span layoutId="hero-view-indicator" className="absolute inset-0 rounded-lg bg-ink" transition={indicator} />
+                    )}
+                    <span className="relative inline-flex items-center gap-1.5">
+                      {v === 'blocks' ? <Blocks className="w-4 h-4" /> : <Code2 className="w-4 h-4" />}
+                      {v === 'blocks' ? 'Blocks' : 'Python'}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </LayoutGroup>
+          </div>
 
-            <h1 style={riseDelay(80)} className="rise mt-6 text-display font-semibold text-ink">
-              Learn technology from the enterprise that{' '}
-              <span className="relative inline-block text-navy whitespace-nowrap">
-                actually builds it.
-                <svg
-                  className="absolute left-0 -bottom-2 w-full h-3 text-blue-light overflow-visible"
-                  viewBox="0 0 300 12"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    className="draw-line"
-                    pathLength={1}
-                    d="M2 8.5C60 3.5 140 2.5 298 6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                </svg>
-              </span>
-            </h1>
-
-            <p style={riseDelay(160)} className="rise mt-7 text-lg sm:text-xl text-ink-muted leading-relaxed max-w-[56ch]">
-              Practical, project-driven IT education designed around modern technologies and industry engineering standards in Nepal. Learn directly from working architects, write production code daily, and build verifiable proof-of-work portfolios.
-            </p>
-
-            <div style={riseDelay(240)} className="rise mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-3">
-              <Button variant="primary" size="lg" href="/courses" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                Explore Courses & Syllabus
-              </Button>
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={onOpenAdvisor}
-                leftIcon={<MessageSquare className="w-4 h-4 text-blue" />}
+          <div className="grid grid-cols-1 lg:grid-cols-[15rem_minmax(0,1fr)_22rem]">
+            {/* Palette: the action starts here */}
+            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-border bg-canvas/60">
+              <p id="age-label" className="font-display font-bold text-lg text-ink">How old is your child?</p>
+              <div
+                role="radiogroup"
+                aria-labelledby="age-label"
+                onKeyDown={onAgeKey}
+                className="mt-4 flex lg:flex-col flex-wrap gap-x-2 gap-y-3"
               >
-                Talk to an Academic Advisor
-              </Button>
+                {AGE_BANDS.map((b) => {
+                  const checked = b.id === bandId;
+                  return (
+                    <button
+                      key={b.id}
+                      id={`age-${b.id}`}
+                      type="button"
+                      role="radio"
+                      aria-checked={checked}
+                      tabIndex={checked ? 0 : -1}
+                      onClick={() => chooseBand(b.id)}
+                      style={blockStyle(checked ? 'violet' : 'white')}
+                      className={`snap-block snap-hat !min-h-11 justify-between lg:w-full cursor-pointer transition-[translate,scale] duration-180 ease-out hover:-translate-y-0.5 active:scale-[0.97] ${
+                        checked ? 'text-white' : 'snap-ink ring-2 ring-inset ring-ink/10'
+                      }`}
+                    >
+                      <span>Ages {b.label}</span>
+                      {checked && <span aria-hidden="true" className="w-2 h-2 rounded-full bg-block-yellow" />}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-5 text-sm leading-relaxed text-ink-muted" aria-live="polite">
+                {band.note}
+              </p>
             </div>
 
-            <dl style={riseDelay(320)} className="rise mt-14 grid grid-cols-3 max-w-lg divide-x divide-border">
-              {HERO_STATS.map((stat) => (
-                <div key={stat.label} className="px-4 first:pl-0">
-                  <dt className="text-[13px] text-ink-muted">{stat.label}</dt>
-                  <dd className="mt-1 text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-ink tabular-nums">
-                    {stat.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          {/* Media */}
-          <div style={riseDelay(200)} className="rise lg:col-span-6 xl:col-span-6 relative">
-            <motion.div style={{ y: mediaY }} className="relative">
-              <div className="relative rounded-3xl p-1.5 bg-white/70 border border-border shadow-2xl backdrop-blur-sm">
-                <div className="relative rounded-[1rem] overflow-hidden bg-navy-dark aspect-[4/3.4] sm:aspect-[4/3]">
-                  <video
-                    ref={videoRef}
-                    src={heroVideo}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    disablePictureInPicture
-                    controlsList="nodownload nofullscreen noremoteplayback"
-                    aria-label="Students working in the Navya Ed Tech Kathmandu lab"
-                    className="absolute inset-0 w-full h-full object-cover"
+            {/* Script area */}
+            <div className="relative min-h-[22rem] p-5 sm:p-8 bg-dots overflow-hidden">
+              <AnimatePresence mode="wait" initial={false}>
+                {view === 'blocks' ? (
+                  <motion.div
+                    key={`blocks-${band.id}`}
+                    initial={{ opacity: 0, filter: 'blur(2px)' }}
+                    animate={{ opacity: 1, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, filter: 'blur(2px)', transition: { duration: DURATION.instant } }}
+                    transition={{ duration: DURATION.base, ease: EASING }}
+                    className="flex flex-col items-start gap-1 stack-depth text-[15px] sm:text-base"
+                    aria-label={`Suggested path for ages ${band.label}: ${steps.map((s) => s.course).join(', then ')}`}
                   >
-                    <source src={heroVideo} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                    <motion.div custom={blockIndex} variants={snapIn} initial={false} animate="show" className={touched ? '' : 'snap-in'} style={{ '--snap-delay': `${300 + blockIndex++ * 70}ms` } as React.CSSProperties}>
+                      <Block color="yellow" hat>when my child joins Navya</Block>
+                    </motion.div>
+                    {steps.map((step) => (
+                      <React.Fragment key={step.slug}>
+                        <motion.div custom={blockIndex} variants={snapIn} initial={touched ? 'hidden' : false} animate="show" className={touched ? '' : 'snap-in'} style={{ '--snap-delay': `${300 + blockIndex++ * 70}ms` } as React.CSSProperties}>
+                          <Block color={step.color}>
+                            learn <BlockSlot>{step.course}</BlockSlot> for <BlockSlot>{step.duration}</BlockSlot>
+                          </Block>
+                        </motion.div>
+                        {step.blocks.map((b) => (
+                          <motion.div key={b.text} custom={blockIndex} variants={snapIn} initial={touched ? 'hidden' : false} animate="show" className={`ml-6 sm:ml-8 ${touched ? '' : 'snap-in'}`} style={{ '--snap-delay': `${300 + blockIndex++ * 70}ms` } as React.CSSProperties}>
+                            <Block color={step.color === 'blue' || step.color === 'violet' ? 'blueDeep' : 'green'}>
+                              {b.text} {b.slot && <BlockSlot>{b.slot}</BlockSlot>}
+                            </Block>
+                          </motion.div>
+                        ))}
+                      </React.Fragment>
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.pre
+                    key={`python-${band.id}`}
+                    initial={{ opacity: 0, filter: 'blur(2px)' }}
+                    animate={{ opacity: 1, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, filter: 'blur(2px)', transition: { duration: DURATION.instant } }}
+                    transition={{ duration: DURATION.base, ease: EASING }}
+                    className="rounded-2xl bg-ink text-[#E6E9FF] p-5 sm:p-6 font-mono text-[13px] sm:text-sm leading-7 overflow-x-auto"
+                    aria-label="The same path written as Python"
+                  >
+                    {steps.map((step) => (
+                      <span key={step.slug} className="block mb-3 last:mb-0">
+                        <span className="text-white/55"># {step.course}, {step.duration}</span>
+                        {'\n'}
+                        {step.python.join('\n')}
+                        {'\n'}
+                      </span>
+                    ))}
+                  </motion.pre>
+                )}
+              </AnimatePresence>
+            </div>
 
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent pointer-events-none"
-                    aria-hidden="true"
-                  />
-
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                    <span className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-navy-dark/60 backdrop-blur-md border border-white/10 font-mono text-xs tracking-[0.06em] uppercase text-white/90">
-                      <span className="w-1.5 h-1.5 rounded-full bg-sage" aria-hidden="true" />
-                      Live lab experience
-                    </span>
-                    <button
-                      type="button"
-                      onClick={toggleMute}
-                      aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-                      className="w-9 h-9 grid place-items-center rounded-full bg-navy-dark/60 hover:bg-navy-dark backdrop-blur-md border border-white/15 text-white/85 hover:text-white active:scale-[0.94] transition-[background-color,color,scale] duration-180 cursor-pointer"
-                    >
-                      {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                    </button>
-                  </div>
-
-                  <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 text-white">
-                    <p className="font-mono text-xs tracking-[0.08em] uppercase text-navy-mist">Kathmandu Innovation Lab</p>
-                    <p className="mt-2 text-lg sm:text-xl font-semibold leading-snug max-w-md">
-                      Hands-on laboratory sessions, code sprints & peer architecture reviews.
-                    </p>
-                    <p className="mt-1.5 text-sm text-mist">
-                      Dual-monitor developer desks, gigabit fiber, and 1-on-1 mentor guidance.
-                    </p>
-                  </div>
-                </div>
+            {/* Stage: what they build, and the action */}
+            <div className="p-5 sm:p-6 border-t lg:border-t-0 lg:border-l border-border flex flex-col gap-5">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden" role="img" aria-label={`Illustration of ${first.project}`}>
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={first.slug}
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: DURATION.base, ease: EASING }}
+                    className="absolute inset-0"
+                  >
+                    <CoverArt kind={coverKindFor(first.course + ' ' + first.project)} label={first.project} />
+                  </motion.div>
+                </AnimatePresence>
               </div>
-
-              {/* Supporting proof, anchored to the frame */}
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-border shadow-sm">
-                  <span className="w-9 h-9 rounded-xl bg-navy/[0.06] text-navy grid place-items-center shrink-0">
-                    <Code2 className="w-4 h-4" />
-                  </span>
-                  <span className="text-[13px] leading-snug">
-                    <span className="block font-semibold text-ink">Production Workflows</span>
-                    <span className="text-ink-muted">Python, JavaScript, Git & Vercel</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-border shadow-sm">
-                  <span className="w-9 h-9 rounded-xl bg-sage-light text-sage-ink grid place-items-center shrink-0">
-                    <ShieldCheck className="w-4 h-4" />
-                  </span>
-                  <span className="text-[13px] leading-snug">
-                    <span className="block font-semibold text-ink">Industry-Backed Training</span>
-                    <span className="text-ink-muted">Navya EdTech Software Studio Lineage</span>
-                  </span>
-                </div>
+              <div>
+                <p className="text-sm font-semibold text-ink-muted">First project</p>
+                <p className="mt-1 font-display text-xl font-bold leading-snug text-ink">{first.project}</p>
+                <p className="mt-1 text-sm text-ink-muted">from {first.course}</p>
               </div>
-            </motion.div>
+              <div className="mt-auto flex flex-col gap-2.5">
+                {/* The primary action is the script's hat block: it starts everything */}
+                <button
+                  type="button"
+                  onClick={() => onOpenAdvisor(first.slug)}
+                  style={blockStyle('orange')}
+                  className="group snap-block snap-hat snap-ink w-full justify-center !min-h-14 text-[17px] cursor-pointer transition-[translate,scale,filter] duration-180 ease-out hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:scale-[0.97] focus:outline-none focus-visible:ring-[3px] focus-visible:ring-block-blue focus-visible:ring-offset-2"
+                >
+                  Book a free demo class
+                  <ArrowRight className="w-5 h-5 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
+                </button>
+                <Link
+                  to={`/courses/${first.slug}`}
+                  className="inline-flex items-center justify-center gap-1.5 h-11 text-[15px] font-semibold text-ink"
+                >
+                  <span className="link-underline">See the {first.course} course</span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
+
+        <p style={riseDelay(260)} className="rise mt-6 text-[15px] text-white/85">
+          Up to 12 children per mentor, in our lab in Putalisadak. An advisor confirms the right level in the free demo class.
+        </p>
       </Container>
     </section>
   );

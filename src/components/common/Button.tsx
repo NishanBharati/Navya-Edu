@@ -25,36 +25,29 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  // Press feedback is a 0.97 scale on :active; hover changes colour and elevation only.
+  // Buttons are blocks: bevelled bottom edge as material, lift on hover, 0.97 press.
+  const bevel = 'shadow-[inset_0_-7px_9px_-6px_rgb(15_22_64/0.32),inset_0_1px_0_rgb(255_255_255/0.28)]';
   const baseStyles =
-    'group relative inline-flex items-center justify-center font-semibold tracking-[-0.01em] rounded-xl select-none cursor-pointer ' +
-    'transition-[background-color,border-color,color,box-shadow,translate,scale,rotate] duration-180 ease-out active:scale-[0.97] ' +
-    'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper ' +
-    'disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100';
+    'group relative inline-flex items-center justify-center font-display font-bold tracking-[-0.01em] rounded-xl select-none cursor-pointer ' +
+    'transition-[background-color,border-color,color,box-shadow,translate,scale] duration-180 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] ' +
+    'focus:outline-none focus-visible:ring-[3px] focus-visible:ring-block-blue focus-visible:ring-offset-2 focus-visible:ring-offset-white ' +
+    'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:active:scale-100';
 
   const sizeStyles = {
-    sm: 'h-9 text-[13px] px-3.5 gap-1.5',
-    md: 'h-11 text-sm px-5 gap-2',
-    lg: 'h-12 sm:h-13 text-[15px] px-6 gap-2.5',
+    sm: 'h-10 text-sm px-4 gap-1.5',
+    md: 'h-12 text-[15px] px-5 gap-2',
+    lg: 'h-14 text-base sm:text-[17px] px-7 gap-2.5',
   };
 
   const variantStyles = {
-    primary:
-      'bg-navy text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(23_50_77/0.2)] hover:bg-navy-light hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.14),0_6px_16px_-4px_rgb(23_50_77/0.35)]',
-    secondary:
-      'bg-white text-ink border border-border-warm shadow-xs hover:border-navy/35 hover:shadow-sm',
-    outline:
-      'bg-transparent text-navy border border-navy/25 hover:border-navy/60 hover:bg-navy/[0.04]',
-    'outline-white':
-      'bg-white/[0.06] text-white border border-white/25 hover:border-white/60 hover:bg-white/10',
-    blue:
-      'bg-blue text-white shadow-xs hover:bg-[#184972] hover:shadow-md',
-    ghost:
-      'bg-transparent text-ink-soft hover:text-ink hover:bg-ink/5',
-    amber:
-      'bg-amber text-white shadow-xs hover:bg-amber-dark hover:shadow-md',
-    danger:
-      'bg-error text-white shadow-xs hover:bg-red-800 hover:shadow-md',
+    primary: `bg-block-orange text-ink ${bevel} hover:bg-[#FF8B33]`,
+    blue: `bg-block-blue text-white ${bevel} hover:bg-block-blue-deep`,
+    secondary: 'bg-white text-ink border-2 border-ink/12 hover:border-ink/30 shadow-xs',
+    outline: 'bg-transparent text-ink border-2 border-ink/20 hover:border-ink/45 hover:bg-ink/[0.03]',
+    'outline-white': 'bg-transparent text-white border-2 border-white/45 hover:border-white hover:bg-white/10',
+    ghost: 'bg-transparent text-ink-soft hover:text-ink hover:bg-ink/5 hover:translate-y-0',
+    amber: `bg-block-yellow text-ink ${bevel} hover:bg-[#FFCB3D]`,
+    danger: `bg-error text-white ${bevel} hover:bg-[#A3122F]`,
   };
 
   const combinedClasses = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;

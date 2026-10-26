@@ -2,13 +2,14 @@ import React from 'react';
 import { Reveal } from '../motion/Reveal';
 
 export interface SectionHeaderProps {
+  /** Accepted for compatibility; not rendered. Headings carry their own weight. */
   eyebrow?: string;
   badge?: React.ReactNode;
   title: string;
   description?: string;
   align?: 'left' | 'center';
   headingTag?: 'h1' | 'h2' | 'h3';
-  /** Light text for use on navy backgrounds */
+  /** Light text for use on blue / violet / ink fields */
   tone?: 'default' | 'inverse';
   /** 'md' for headers nested inside a larger section */
   size?: 'md' | 'lg';
@@ -16,7 +17,6 @@ export interface SectionHeaderProps {
 }
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
-  eyebrow,
   badge,
   title,
   description,
@@ -32,19 +32,18 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 
   return (
     <Reveal className={`max-w-3xl ${isCenter ? 'mx-auto text-center' : 'text-left'} ${className}`}>
-      {badge && <div className={`mb-4 ${isCenter ? 'flex justify-center' : ''}`}>{badge}</div>}
-      {!badge && eyebrow && (
-        <p className={`eyebrow mb-4 ${isInverse ? 'text-blue-light' : ''}`}>{eyebrow}</p>
-      )}
+      {badge && <div className={`mb-5 ${isCenter ? 'flex justify-center' : ''}`}>{badge}</div>}
       <HeadingComponent
-        className={`${size === 'lg' ? 'text-title' : 'text-2xl sm:text-[1.75rem] leading-tight tracking-[-0.025em]'} font-semibold ${isInverse ? 'text-white' : 'text-ink'}`}
+        className={`${size === 'lg' ? 'text-title' : 'font-display text-2xl sm:text-3xl leading-tight tracking-[-0.03em] font-bold'} ${
+          isInverse ? 'text-white' : 'text-ink'
+        }`}
       >
         {title}
       </HeadingComponent>
       {description && (
         <p
-          className={`mt-4 text-base sm:text-lg leading-relaxed max-w-[62ch] ${isCenter ? 'mx-auto' : ''} ${
-            isInverse ? 'text-mist' : 'text-ink-muted'
+          className={`mt-5 text-lg sm:text-xl leading-relaxed max-w-[58ch] ${isCenter ? 'mx-auto' : ''} ${
+            isInverse ? 'text-white/85' : 'text-ink-muted'
           }`}
         >
           {description}

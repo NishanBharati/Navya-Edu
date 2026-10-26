@@ -1,70 +1,53 @@
 import React from 'react';
-import { ArrowRight, MessageSquare, Mail, MapPin, Clock } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Clock } from 'lucide-react';
 import { Container } from '../common/Container';
 import { Button } from '../common/Button';
+import { Block } from '../blocks/Block';
 import { Reveal } from '../motion/Reveal';
 
 interface AdvisorCTAProps {
   onOpenAdvisor: () => void;
 }
 
-// The page's single dark band: closing call to action with an ambient glow.
-export const AdvisorCTA: React.FC<AdvisorCTAProps> = ({ onOpenAdvisor }) => {
-  return (
-    <section id="final-cta-section" className="section-y bg-paper">
-      <Container>
-        <Reveal className="relative overflow-hidden rounded-3xl bg-navy text-white px-6 py-16 sm:px-12 sm:py-20 lg:py-24 text-center shadow-2xl">
-          <div className="absolute inset-0 bg-blueprint-dark pointer-events-none" aria-hidden="true" />
-          <div
-            className="ambient-drift absolute -top-1/2 left-1/2 -ml-[28rem] w-[56rem] h-[36rem] rounded-full bg-[radial-gradient(closest-side,rgb(121_183_237/0.32),transparent)] pointer-events-none"
-            aria-hidden="true"
-          />
-
-          <div className="relative max-w-2xl mx-auto">
-            <p className="eyebrow text-blue-light justify-center">Admissions & Academic Counseling</p>
-
-            <h2 className="mt-6 text-title font-semibold text-white">
-              Ready to Build Production Software Engineering Skills?
-            </h2>
-
-            <p className="mt-5 text-base sm:text-lg text-mist leading-relaxed">
-              Schedule a personalized academic counseling session or visit our Kathmandu Innovation Lab to review our curriculum modules, inspect student capstones, and discuss upcoming cohort schedules.
-            </p>
-
-            <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={onOpenAdvisor}
-                leftIcon={<MessageSquare className="w-4 h-4 text-navy" />}
-                className="border-transparent"
-              >
-                Talk to an Academic Advisor
-              </Button>
-              <Button variant="outline-white" size="lg" href="/contact" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                Visit Kathmandu Campus
-              </Button>
-            </div>
-
-            <ul className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-mist">
-              <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-light" />
-                Putalisadak, Kathmandu, Nepal
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-blue-light" />
-                <a href="mailto:info@navyaedtech.com" className="link-underline hover:text-white">
-                  info@navyaedtech.com
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-blue-light" />
-                Sun to Fri: 7:00 AM to 7:00 PM
-              </li>
-            </ul>
+// The page's closing field: one action, the visit details beside it.
+export const AdvisorCTA: React.FC<AdvisorCTAProps> = ({ onOpenAdvisor }) => (
+  <section id="final-cta-section" className="relative overflow-hidden bg-block-orange text-ink">
+    <div className="absolute inset-0 bg-dots pointer-events-none opacity-60" aria-hidden="true" />
+    <Container className="relative section-y">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] gap-12 lg:gap-16 items-end">
+        <Reveal>
+          <h2 className="text-display text-ink max-w-[14ch]">Come and see a class.</h2>
+          <p className="mt-6 text-lg sm:text-xl leading-relaxed text-ink/85 max-w-[52ch]">
+            Book a free demo class to see the lab, look through the course plan and meet the mentors. An advisor then
+            suggests the right course and batch for your child.
+          </p>
+          <div className="mt-9 flex flex-col sm:flex-row gap-3">
+            <Button variant="blue" size="lg" onClick={onOpenAdvisor} rightIcon={<ArrowRight className="w-5 h-5" />}>
+              Book a free demo class
+            </Button>
+            <Button variant="secondary" size="lg" href="/contact">
+              Visit the lab
+            </Button>
           </div>
         </Reveal>
-      </Container>
-    </section>
-  );
-};
+
+        <Reveal delay={0.1} className="flex flex-col items-start gap-1 stack-depth text-[15px] sm:text-base">
+          <Block color="ink" hat>
+            <MapPin className="w-4 h-4" aria-hidden="true" />
+            Putalisadak, Kathmandu
+          </Block>
+          <Block color="white">
+            <Clock className="w-4 h-4" aria-hidden="true" />
+            Sunday to Friday, 7 AM to 7 PM
+          </Block>
+          <Block color="white" tab={false}>
+            <Mail className="w-4 h-4" aria-hidden="true" />
+            <a href="mailto:info@navyaedtech.com" className="underline decoration-2 underline-offset-4 hover:decoration-block-blue">
+              info@navyaedtech.com
+            </a>
+          </Block>
+        </Reveal>
+      </div>
+    </Container>
+  </section>
+);

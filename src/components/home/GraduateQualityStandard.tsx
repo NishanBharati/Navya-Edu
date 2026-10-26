@@ -5,6 +5,9 @@ import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { Button } from '../common/Button';
 import { Stagger, StaggerItem } from '../motion/Reveal';
+import { Block, BlockColor } from '../blocks/Block';
+
+const STANDARD_COLORS: BlockColor[] = ['blue', 'yellow', 'green', 'pink'];
 
 interface GraduateQualityStandardProps {
   /** Render only the panel content (used inside the Home "Standards" tabs) */
@@ -56,16 +59,29 @@ export const GraduateQualityStandard: React.FC<GraduateQualityStandardProps> = (
         </div>
       </div>
 
-      <Stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border rounded-3xl overflow-hidden">
-        {qualityPillars.map((pillar) => (
-          <StaggerItem key={pillar.title} className="bg-white p-6 sm:p-7 flex flex-col">
-            <span className="w-11 h-11 rounded-xl bg-navy/[0.06] text-navy grid place-items-center">{pillar.icon}</span>
-            <h4 className="mt-6 text-[17px] font-semibold tracking-[-0.015em] text-ink leading-snug">{pillar.title}</h4>
-            <p className="mt-3 text-sm text-ink-muted leading-relaxed flex-1">{pillar.description}</p>
-            <p className="mt-5 pt-4 border-t border-border-soft flex items-center gap-2 text-[13px] font-medium text-sage-ink">
-              <CheckCircle2 className="w-4 h-4 text-sage shrink-0" />
-              {pillar.proof}
-            </p>
+      <Stagger as="ul" className="flex flex-col gap-3">
+        {qualityPillars.map((item, i) => (
+          <StaggerItem
+            as="li"
+            key={item.title}
+            className="list-none grid grid-cols-1 md:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] gap-x-8 gap-y-3 items-center rounded-2xl bg-white border border-border p-4 sm:p-5"
+          >
+            <span className="stack-depth">
+              <Block color={STANDARD_COLORS[i % STANDARD_COLORS.length]} tab={false} className="text-base sm:text-[17px] !flex-nowrap">
+                <span aria-hidden="true" className="inline-flex shrink-0 [&>svg]:w-[1.1em] [&>svg]:h-[1.1em]">{item.icon}</span>
+                <h4 className="font-display font-bold leading-snug">{item.title}</h4>
+              </Block>
+            </span>
+            <span className="flex items-start gap-3">
+              <span aria-hidden="true" className="hidden md:block mt-3 h-0.5 w-6 shrink-0 bg-ink/25 rounded-full" />
+              <span>
+                <span className="block text-[15px] leading-relaxed text-ink-muted">{item.description}</span>
+                <span className="mt-2 flex items-center gap-2 text-sm font-semibold text-sage-ink">
+                  <CheckCircle2 className="w-4 h-4 text-sage shrink-0" />
+                  {item.proof}
+                </span>
+              </span>
+            </span>
           </StaggerItem>
         ))}
       </Stagger>

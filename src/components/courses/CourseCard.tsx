@@ -14,6 +14,7 @@ import {
 import { Course } from '../../types';
 import { Badge } from '../common/Badge';
 import { ImagePlaceholder } from '../common/ImagePlaceholder';
+import { Block } from '../blocks/Block';
 
 export interface CourseCardProps {
   course: Course;
@@ -59,7 +60,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             alt={course.title}
             aspectRatio="video"
             className="md:h-full md:aspect-auto"
-            imgClassName="group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+            imgClassName="group-hover:scale-[1.03] transition-transform duration-700 ease-out"
           >
             <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 md:hidden pointer-events-none" />
@@ -135,7 +136,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             </div>
 
             <Link to={`/courses/${course.slug}`} className="block group">
-              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-ink group-hover:text-navy transition-colors leading-snug break-words">
+              <h3 className="font-display text-xl sm:text-[22px] font-bold tracking-[-0.025em] text-ink group-hover:text-block-blue transition-colors duration-180 leading-tight break-words">
                 {course.title}
               </h3>
             </Link>
@@ -220,7 +221,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     <article
       id={`course-card-${course.slug}`}
-      className={`group flex flex-col bg-white border border-border rounded-2xl overflow-hidden transition-[border-color,box-shadow,translate] duration-300 ease-out hover:-translate-y-0.5 hover:border-navy/25 hover:shadow-lg relative justify-between h-full ${
+      className={`group flex flex-col bg-white border border-border rounded-3xl overflow-hidden transition-[border-color,box-shadow,translate] duration-240 ease-out hover:-translate-y-1 hover:border-ink/15 hover:shadow-lg relative justify-between h-full ${
         isComparing ? 'ring-2 ring-blue bg-info-bg' : ''
       } ${className}`}
     >
@@ -230,7 +231,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           src={course.heroImage || course.thumbnail}
           alt={course.title}
           aspectRatio="cinema"
-          imgClassName="group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+          imgClassName="group-hover:scale-[1.03] transition-transform duration-700 ease-out"
         >
           <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
@@ -293,8 +294,15 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
         {/* Card Content */}
         <div className="p-5 sm:p-6 space-y-3.5">
+          {/* Title */}
+          <Link to={`/courses/${course.slug}`} className="block group">
+            <h3 className="font-display text-[22px] font-bold tracking-[-0.025em] text-ink group-hover:text-block-blue transition-colors duration-180 leading-tight break-words">
+              {course.title}
+            </h3>
+          </Link>
+
           {/* Level & Module Count */}
-          <div className="flex items-center justify-between text-xs text-ink-soft">
+          <div className="flex items-center justify-between text-xs text-ink-soft -mt-1.5">
             <div className="flex items-center gap-1 font-semibold text-navy">
               <BarChart2 className="w-3.5 h-3.5 text-blue" />
               <span>{course.level}</span>
@@ -304,13 +312,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               <span>{course.curriculum?.length || 4} Modules</span>
             </div>
           </div>
-
-          {/* Title */}
-          <Link to={`/courses/${course.slug}`} className="block group">
-            <h3 className="text-[19px] font-semibold tracking-[-0.02em] text-ink group-hover:text-navy transition-colors duration-180 leading-snug break-words">
-              {course.title}
-            </h3>
-          </Link>
 
           {/* Description */}
           <p className="text-sm text-ink-muted line-clamp-2 leading-relaxed">
@@ -348,12 +349,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           </div>
 
           <div className="flex items-center justify-between text-xs text-ink-soft">
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-sage" aria-hidden="true" />
-              <span className="font-semibold text-ink">
-                {batchStatus}
-              </span>
-            </div>
+            <span className="text-[13px]">
+              <Block color="green" hat tab={false} className="!min-h-0 !py-[0.3em] !px-[0.7em] !rounded-[0.55em]">{batchStatus}</Block>
+            </span>
             <span className="text-xs text-ink-soft">
               {course.projects?.length ? `${course.projects.length} Real Projects` : 'Capstone Defense'}
             </span>

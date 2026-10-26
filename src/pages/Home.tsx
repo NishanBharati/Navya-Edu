@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { SEOHead } from '../components/common/SEOHead';
 import { getEducationalOrganizationSchema, getFAQSchema } from '../utils/structuredData';
 import { Hero } from '../components/home/Hero';
-import { TrustIntro } from '../components/home/TrustIntro';
+import { ClassFormat } from '../components/home/ClassFormat';
 import { CourseDiscovery } from '../components/home/CourseDiscovery';
-import { FeaturedProgram } from '../components/home/FeaturedProgram';
-import { WhyNavya } from '../components/home/WhyNavya';
-import { LearningExperience } from '../components/home/LearningExperience';
-import { StudentProjectsPreview } from '../components/home/StudentProjectsPreview';
-import { CareerPathway } from '../components/home/CareerPathway';
+import { ProjectsShelf } from '../components/home/ProjectsShelf';
+import { OlderLearners } from '../components/home/OlderLearners';
 import { QualityStandards } from '../components/home/QualityStandards';
 import { HomeFAQ, HOMEPAGE_FAQS } from '../components/home/HomeFAQ';
 import { InsightsPreview } from '../components/home/InsightsPreview';
@@ -36,36 +33,24 @@ export const Home: React.FC = () => {
         ]}
       />
 
-      {/* 1. Hero Section */}
-      <Hero onOpenAdvisor={() => handleOpenAdvisor()} />
+      {/* Working block editor: pick an age, see the path, book a demo class */}
+      <Hero onOpenAdvisor={handleOpenAdvisor} />
 
-      {/* 2. Trust Section (Verified Institutional Lineage) */}
-      <TrustIntro />
+      <ClassFormat />
 
-      {/* 3. Featured Courses & Catalog Filter */}
       <CourseDiscovery onOpenAdvisor={handleOpenAdvisor} />
 
-      {/* 4. Flagship Practical Tracks Roadmap */}
-      <FeaturedProgram onOpenAdvisor={(slug) => handleOpenAdvisor(slug || 'web-development')} />
+      <ProjectsShelf />
 
-      {/* 5. Learning Experience & Parent Enterprise Synergies */}
-      <WhyNavya />
-      <LearningExperience />
+      <OlderLearners />
 
-      {/* 6. Student Projects & Career Pathways */}
-      <StudentProjectsPreview />
-      <CareerPathway onOpenAdvisor={() => handleOpenAdvisor()} />
-
-      {/* 7. Faculty & mentorship standard + graduate proof-of-work standard (tabbed) */}
+      {/* Faculty & mentorship standard + graduate proof-of-work standard (tabbed) */}
       <QualityStandards onOpenAdvisor={() => handleOpenAdvisor()} />
 
-      {/* 9. Authentic Student FAQ (Enrollment, Fees, Prerequisites, Certification) */}
       <HomeFAQ onOpenAdvisor={() => handleOpenAdvisor()} />
 
-      {/* Educational Insights & Industry Guides */}
       <InsightsPreview />
 
-      {/* 10. Final Admissions & Advisory CTA */}
       <AdvisorCTA onOpenAdvisor={() => handleOpenAdvisor()} />
 
       {/* Global Advisor & Inquiry Modal */}

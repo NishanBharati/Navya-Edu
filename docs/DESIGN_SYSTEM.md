@@ -1,48 +1,28 @@
-# Navya Ed Tech Design System
+# Design system: engineering notes
 
-Reference for anyone building or changing UI on the public site or the admin dashboard.
+The design system itself (tokens, rules, components) is recorded in [`DESIGN.md`](../DESIGN.md) at the project root, with a machine-readable sidecar in `.impeccable/design.json`. Product truth lives in [`PRODUCT.md`](../PRODUCT.md). This file covers where things live in code.
 
 ## Where things live
 
 | Concern | File |
 | --- | --- |
-| Colour, type, radius, shadow and motion tokens | `src/index.css` (`@theme`) |
+| Tokens (colour, type, radius, shadow, motion) | `src/index.css` (`@theme`) |
+| Block material (`.snap-block`, `.snap-tab`, `.snap-hat`) | `src/index.css` (`@layer components`) |
+| Block components (`Block`, `BlockSlot`) | `src/components/blocks/Block.tsx` |
+| Code-drawn covers (`CoverArt`) | `src/components/blocks/CoverArt.tsx` |
+| Real-photo rule (`isRealPhoto`) | `src/lib/media.ts` |
 | Motion tokens for Framer Motion | `src/lib/motion.ts` |
-| Scroll reveal primitives (`Reveal`, `Stagger`, `StaggerItem`) | `src/components/motion/Reveal.tsx` |
-| Buttons, section headers, images, counters | `src/components/common/` |
+| Scroll reveals (`Reveal`, `Stagger`, `StaggerItem`) | `src/components/motion/Reveal.tsx` |
+| Home learning path data | `src/data/learningPath.ts` |
+| Social share card source | `scripts/og-card.html` (rendered to `public/og-image.jpg`) |
 
-## Tokens
+## Rules for code
 
-- **Type:** Geist (UI and headings) and Geist Mono (eyebrows, code, data), self-hosted via Fontsource. Nothing below 12px. Fluid classes: `text-display` (hero), `text-title` (section titles).
-- **Colour:** navy is the brand, blue is links and interaction, sage means success or "kids track", amber is for "featured" only. Every text token passes WCAG AA on `paper`, `paper-alt` and white. `input-border` meets the 3:1 non-text contrast rule.
-- **Radius:** 8px (`rounded-md`, `rounded-lg`) for controls and chips, 12px (`rounded-xl`) for buttons, 16px (`rounded-2xl`) for cards, 20px (`rounded-3xl`) for media and bands.
-- **Elevation:** `shadow-xs` to `shadow-2xl`, all navy-tinted. Cards rest at `shadow-xs` and lift to `shadow-lg` on hover.
-- **Spacing:** sections use `section-y` (fluid 64px to 112px). Containers use `Container`.
-- **Backgrounds:** `bg-blueprint` (light) and `bg-blueprint-dark` (navy) are the signature grid. Use at most one dark band per page.
-
-## Motion
-
-| Token | Value | Use |
-| --- | --- | --- |
-| `--ease-out` / `EASING` | `cubic-bezier(0.22, 1, 0.36, 1)` | Entrances, UI responses |
-| `--ease-in-out` / `EASE_IN_OUT` | `cubic-bezier(0.65, 0, 0.35, 1)` | Indicators and layout moving on screen |
-| `duration-120` to `duration-240` | 120 to 240ms | Hover, press, focus, tabs, menus |
-| `DURATION.reveal` | 560ms | Scroll reveals (16px rise, once) |
-
-Rules:
-
-1. Animate `transform` (`translate`, `scale`) and `opacity` only. In Tailwind v4, `scale-*` and `translate-*` set the individual `scale` / `translate` properties, so list those (not `transform`) in arbitrary `transition-[...]` utilities.
-2. Buttons and pressables: `active:scale-[0.97]`. No hover scale.
-3. Hover effects are automatically limited to pointer devices by Tailwind v4.
-4. Scroll reveals: wrap content in `<Reveal>` or `<Stagger>` / `<StaggerItem>`. Do not hand-write `whileInView`.
-5. Above-the-fold entrances use the CSS `rise` class with `--rise-delay`, so they play from the pre-rendered HTML before hydration.
-6. Reduced motion: `<MotionConfig reducedMotion="user">` in `App.tsx` removes Framer transforms globally, and the CSS media query collapses CSS animations. Nothing else is needed per component.
-7. Admin dashboard: hover, focus, modal, drawer and toast transitions only. No scroll effects.
-
-## Images
-
-Every `public/images/**/*.jpg` has `-640`, `-1024` and `-1376` AVIF and WebP siblings. `ImagePlaceholder` serves them automatically through `<picture>` for any local `/images/...jpg` source, so new images need the same variants. They were generated with `sharp` (WebP quality 74, AVIF quality 52).
-
-## Fonts and layout shift
-
-`Geist Fallback` in `index.css` is Arial with metric overrides (`size-adjust: 102.9%`, `ascent-override: 98%`, `descent-override: 29%`). These were measured in Chromium with canvas `measureText` against the loaded Geist Variable font. Re-measure if the font changes.
+1. **Tailwind v4 transitions:** `scale-*` and `translate-*` write the individual `scale` / `translate` properties, so list those (not `transform`) in arbitrary `transition-[...]` utilities.
+2. **Reveals:** wrap content in `<Reveal>` or `<Stagger>` / `<StaggerItem>`; do not hand-write `whileInView`. Above-the-fold entrances use the CSS `rise` / `snap-in` classes so they play from the pre-rendered HTML.
+3. **Reduced motion:** `<MotionConfig reducedMotion="user">` in `App.tsx` and `entry-server.tsx` removes Framer transforms globally; the CSS media query collapses CSS animations.
+4. **Images:** the site ships no stock or AI imagery. `ImagePlaceholder`, `HeroImageWithParallax` and avatars render a photo only when `isRealPhoto(src)` is true (an uploaded file, for example Supabase Storage). Bundled `/images/` paths and stock hosts fall back to `CoverArt`.
+5. **Fonts:** Bricolage Grotesque (display), Atkinson Hyperlegible Next (body), Geist Mono (code), all self-hosted through Fontsource. `Body Fallback` in `index.css` is Arial with measured overrides (`size-adjust: 99.8%`, `ascent-override: 98%`, `descent-override: 32%`); re-measure if the body face changes.
+6. **Design checks:** after UI edits, run the Impeccable detector:
+   `~/.claude/plugins/cache/impeccable/impeccable/<version>/skills/impeccable/scripts/impeccable detect --json <changed files>`
+   (or `/impeccable audit` in a new Claude Code session, where the plugin's hook also runs it automatically).

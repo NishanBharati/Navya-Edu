@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Departure Board sketch</title>
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{width:1440px;height:900px;overflow:hidden;font-family:"Arial Narrow",Arial,sans-serif;background:#2A2E33;color:#F5F5F5}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:26px 72px;background:#16181B}
+  .logo{font-weight:800;font-size:26px;letter-spacing:.08em}
+  .btn{background:#FFB000;color:#111;font-weight:800;padding:16px 26px;border-radius:4px;font-size:18px}
+  h1{font-size:76px;font-weight:800;letter-spacing:-.02em;padding:48px 72px 10px;text-transform:uppercase}
+  p{padding:0 72px;font-size:24px;color:#C9CED4;max-width:900px}
+  table{margin:36px 72px;border-collapse:separate;border-spacing:0 8px;width:calc(100% - 144px)}
+  th{text-align:left;color:#9AA3AD;font-size:18px;letter-spacing:.12em;padding:0 16px}
+  td{background:#111;padding:18px 16px;font-size:30px;font-weight:700;letter-spacing:.08em;font-family:Consolas,monospace;border-right:2px solid #2A2E33}
+  .amber{color:#FFB000}
+</style></head><body>
+<nav><div class="logo">NAVYA ED TECH</div><span class="btn">Reserve a seat</span></nav>
+<h1>Next batches departing</h1>
+<p>Every course is a departure: pick your child's age, a time slot and board the next batch.</p>
+<table><tr><th>COURSE</th><th>AGES</th><th>STARTS</th><th>TIME</th><th>STATUS</th></tr>
+<tr><td>SCRATCH BEGINNER</td><td>8-12</td><td>SUN</td><td>16:00</td><td class="amber">OPEN</td></tr>
+<tr><td>SCRATCH ADVANCED</td><td>10-14</td><td>MON</td><td>17:00</td><td class="amber">OPEN</td></tr>
+<tr><td>PYTHON BEGINNER</td><td>12-16</td><td>SAT</td><td>10:00</td><td class="amber">OPEN</td></tr>
+<tr><td>WEB DEVELOPMENT</td><td>14+</td><td>SUN</td><td>07:00</td><td class="amber">OPEN</td></tr></table>
+</body></html>

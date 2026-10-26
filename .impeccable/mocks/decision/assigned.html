@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Snap Lab sketch</title>
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{width:1440px;height:900px;overflow:hidden;font-family:"Segoe UI",system-ui,sans-serif;color:#1B1F3B;
+    background:#FBF8F2;background-image:radial-gradient(#1B1F3B14 1.2px,transparent 1.2px);background-size:28px 28px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:28px 72px}
+  .logo{font-weight:800;font-size:26px;letter-spacing:-.02em}
+  .links{display:flex;gap:34px;font-size:17px;font-weight:600}
+  .blk{--c:#3D7BF5;position:relative;display:inline-flex;align-items:center;gap:12px;background:var(--c);color:#fff;
+    font-weight:800;border-radius:14px;padding:18px 26px;box-shadow:0 5px 0 color-mix(in srgb,var(--c) 70%,#000)}
+  .blk::before{content:"";position:absolute;top:-9px;left:34px;width:40px;height:12px;background:var(--c);border-radius:8px 8px 0 0}
+  .hat{border-radius:40px 40px 14px 14px}
+  .hat::before{display:none}
+  main{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;padding:30px 72px 0}
+  h1{font-size:88px;line-height:.98;letter-spacing:-.045em;font-weight:900;margin:22px 0 26px}
+  h1 em{font-style:normal;background:#FFC93C;padding:0 10px;border-radius:12px}
+  p.lede{font-size:24px;line-height:1.45;max-width:600px;color:#3A3F5C}
+  .cta{margin-top:36px;display:flex;gap:18px;align-items:center}
+  .stack{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin-top:20px}
+  .code{font-family:Consolas,monospace;font-size:24px;background:#1B1F3B;color:#E7EAF6;border-radius:18px;padding:26px 30px;margin-top:22px;line-height:1.6;width:520px}
+  .code b{color:#FFC93C;font-weight:400}.code i{color:#7EE2B0;font-style:normal}
+  .pin{position:absolute;font-size:16px;font-weight:600;color:#3A3F5C;border-left:2px solid #1B1F3B55;padding-left:10px}
+  .ages{display:flex;gap:10px;margin-top:30px;font-size:17px;font-weight:700}
+  .ages span{border:2px solid #1B1F3B;border-radius:999px;padding:8px 16px}
+</style></head><body>
+<nav><div class="logo">navya<span style="color:#3D7BF5">.</span>lab</div>
+  <div class="links"><span>Courses</span><span>For parents</span><span>How a class works</span><span>Fees</span><span>Visit the lab</span></div>
+  <span class="blk hat" style="--c:#FF8A3D;padding:14px 22px;font-size:17px">Book a free trial class</span></nav>
+<main>
+  <section>
+    <span class="blk hat" style="--c:#FFC93C;color:#1B1F3B;font-size:20px">when your child is curious</span>
+    <h1>Kids snap ideas together. <em>Then they write real code.</em></h1>
+    <p class="lede">Small hands-on coding classes in Putalisadak, Kathmandu for ages 8 to 16. From first Scratch blocks to Python and websites, one project at a time.</p>
+    <div class="cta"><span class="blk hat" style="--c:#FF8A3D;font-size:21px">Book a free trial class</span><span style="font-size:19px;font-weight:700;text-decoration:underline">See the learning path</span></div>
+    <div class="ages"><span>Ages 8 to 12: Scratch</span><span>Ages 12 to 16: Python &amp; Web</span><span>12 kids per class</span></div>
+  </section>
+  <section style="position:relative;padding-top:10px">
+    <div class="stack">
+      <span class="blk hat" style="--c:#FFC93C;color:#1B1F3B;font-size:22px">when green flag clicked</span>
+      <span class="blk" style="--c:#3D7BF5;font-size:22px;margin-left:26px">move hero 10 steps</span>
+      <span class="blk" style="--c:#8B5CF6;font-size:22px;margin-left:26px">say "I built this!"</span>
+      <span class="blk" style="--c:#FF8A3D;font-size:22px;margin-left:26px">repeat until score = 100</span>
+    </div>
+    <div class="code"><b>def</b> on_start():<br>&nbsp;&nbsp;hero.move(<i>10</i>)<br>&nbsp;&nbsp;say(<i>"I built this!"</i>)</div>
+    <div class="pin" style="top:30px;right:20px">Week 1: events &amp; motion</div>
+    <div class="pin" style="top:300px;right:0">Same idea, written as Python by age 12</div>
+  </section>
+</main>
+</body></html>

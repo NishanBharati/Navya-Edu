@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useReducedMotion } from 'framer-motion';
-import { Menu, X, ArrowUpRight, ArrowRight, ChevronDown, Phone } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronDown, Phone } from 'lucide-react';
 import { MAIN_NAV_ITEMS } from '../../data/navigation';
 import { AdvisorModal } from '../common/AdvisorModal';
 import { Logo } from '../common/Logo';
@@ -177,7 +177,7 @@ export const Navbar: React.FC = () => {
       <Link
         to={href}
         aria-current={isActive ? 'page' : undefined}
-        className={`flex items-center justify-between px-3 h-11 rounded-xl text-[15px] transition-colors duration-180 ${
+        className={`flex items-center justify-between px-3 h-12 rounded-xl font-display text-base font-semibold transition-colors duration-180 ${
           isActive ? 'text-navy bg-navy/[0.06] font-semibold' : 'text-ink hover:bg-ink/[0.04]'
         }`}
       >
@@ -195,8 +195,8 @@ export const Navbar: React.FC = () => {
           isHidden ? '-translate-y-full' : 'translate-y-0'
         } ${
           isScrolled || isMobileMenuOpen
-            ? 'bg-paper/85 backdrop-blur-xl backdrop-saturate-150 border-b border-border/70 shadow-[0_1px_0_rgb(23_50_77/0.03),0_8px_24px_-12px_rgb(23_50_77/0.12)]'
-            : 'bg-paper/0 border-b border-transparent'
+            ? 'bg-white/92 backdrop-blur-xl backdrop-saturate-150 border-b border-border shadow-[0_10px_30px_-18px_rgb(15_22_64/0.35)]'
+            : 'bg-white border-b border-border'
         }`}
       >
         <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8 h-16 lg:h-18 flex items-center justify-between gap-6">
@@ -209,7 +209,7 @@ export const Navbar: React.FC = () => {
               variant="light"
               size="md"
               subtitle="IT Training & Professional Education"
-              subtitleClassName="hidden sm:block"
+              subtitleClassName="hidden sm:block lg:hidden xl:block"
             />
           </Link>
 
@@ -234,14 +234,14 @@ export const Navbar: React.FC = () => {
                       onMouseEnter={() => setHoveredNav(item.label)}
                       aria-expanded={isMoreOpen}
                       aria-haspopup="true"
-                      className={`relative inline-flex items-center gap-1 px-3.5 h-10 rounded-xl text-[14px] font-medium transition-colors duration-180 cursor-pointer ${
+                      className={`relative inline-flex items-center gap-1 px-3.5 h-10 rounded-xl font-display text-[15px] font-semibold transition-colors duration-180 cursor-pointer ${
                         isSelected || isChildActive ? 'text-ink' : 'text-ink-muted hover:text-ink'
                       }`}
                     >
                       {isSelected && (
                         <motion.span
                           layoutId="nav-indicator"
-                          className="absolute inset-0 rounded-xl bg-ink/[0.045] -z-10"
+                          className="absolute inset-0 rounded-xl bg-canvas -z-10"
                           transition={indicatorTransition}
                         />
                       )}
@@ -306,20 +306,20 @@ export const Navbar: React.FC = () => {
                     to={item.href}
                     onMouseEnter={() => setHoveredNav(item.href)}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`relative flex items-center px-3.5 h-10 rounded-xl text-[14px] font-medium transition-colors duration-180 ${
+                    className={`relative flex items-center px-3.5 h-10 rounded-xl font-display text-[15px] font-semibold transition-colors duration-180 ${
                       isSelected || isActive ? 'text-ink' : 'text-ink-muted hover:text-ink'
                     }`}
                   >
                     {isSelected && (
                       <motion.span
                         layoutId="nav-indicator"
-                        className="absolute inset-0 rounded-xl bg-ink/[0.045] -z-10"
+                        className="absolute inset-0 rounded-xl bg-canvas -z-10"
                         transition={indicatorTransition}
                       />
                     )}
                     <span>{item.label}</span>
                     {isActive && (
-                      <span className="absolute left-1/2 -translate-x-1/2 bottom-1 w-1 h-1 rounded-full bg-navy" aria-hidden="true" />
+                      <span className="absolute left-3.5 right-3.5 bottom-1 h-[3px] rounded-full bg-block-blue" aria-hidden="true" />
                     )}
                   </Link>
                 </div>
@@ -340,7 +340,7 @@ export const Navbar: React.FC = () => {
 
             <Link
               to="/apply"
-              className="inline-flex items-center h-10 px-4 rounded-xl border border-border-warm bg-white text-ink text-[13px] font-semibold shadow-xs hover:border-navy/35 hover:shadow-sm active:scale-[0.97] transition-[border-color,box-shadow,translate,scale,rotate] duration-180 ease-out"
+              className="inline-flex items-center h-11 px-4 rounded-xl border-2 border-ink/12 bg-white text-ink font-display text-[15px] font-bold hover:border-ink/30 active:scale-[0.97] transition-[border-color,scale] duration-180 ease-out"
             >
               Apply Now
             </Link>
@@ -348,10 +348,11 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAdvisorModalOpen(true)}
-              className="group inline-flex items-center gap-2 h-10 pl-4 pr-3.5 rounded-xl bg-navy text-white text-[13px] font-semibold shadow-[inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(23_50_77/0.2)] hover:bg-navy-light active:scale-[0.97] transition-[background-color,translate,scale,rotate] duration-180 ease-out cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2"
+              className="group inline-flex items-center gap-2 h-11 pl-4 pr-3.5 rounded-xl bg-block-orange text-ink font-display text-[15px] font-bold shadow-[inset_0_-7px_9px_-6px_rgb(15_22_64/0.32),inset_0_1px_0_rgb(255_255_255/0.28)] hover:bg-[#FF8B33] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] transition-[background-color,translate,scale] duration-180 ease-out cursor-pointer focus:outline-none focus-visible:ring-[3px] focus-visible:ring-block-blue focus-visible:ring-offset-2"
             >
-              <span>Talk to an Advisor</span>
-              <ArrowRight className="w-3.5 h-3.5 text-white/70 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
+              <span className="hidden xl:inline">Book a free demo class</span>
+              <span className="xl:hidden">Book a demo</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
             </button>
           </div>
 
@@ -366,9 +367,9 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAdvisorModalOpen(true)}
-              className="inline-flex items-center h-9 px-3 rounded-lg bg-navy text-white text-[13px] font-semibold active:scale-[0.97] transition-transform duration-180 cursor-pointer"
+              className="inline-flex items-center h-10 px-3.5 rounded-xl bg-block-orange text-ink font-display text-sm font-bold shadow-[inset_0_-7px_9px_-6px_rgb(15_22_64/0.32)] active:scale-[0.97] transition-transform duration-180 cursor-pointer"
             >
-              Advisor
+              Book demo
             </button>
             <button
               ref={mobileMenuTriggerRef}
@@ -439,7 +440,7 @@ export const Navbar: React.FC = () => {
                   className="px-4 sm:px-6 pt-4 pb-6 space-y-6"
                 >
                   <motion.div variants={fadeUp}>
-                    <p className="eyebrow px-3 mb-2">Courses & Admissions</p>
+                    <p className="px-3 mb-2 font-display text-sm font-bold text-ink-muted">Courses & Admissions</p>
                     <div className="space-y-0.5">
                       {mobileLink('/courses', 'Courses Catalog')}
                       {mobileLink('/programs', 'Career Programs')}
@@ -450,7 +451,7 @@ export const Navbar: React.FC = () => {
                   </motion.div>
 
                   <motion.div variants={fadeUp}>
-                    <p className="eyebrow px-3 mb-2">Explore & Resources</p>
+                    <p className="px-3 mb-2 font-display text-sm font-bold text-ink-muted">Explore & Resources</p>
                     <div className="space-y-0.5">
                       {mobileLink('/student-work', 'Student Work & Capstones')}
                       {mobileLink('/about', 'About Navya Ed Tech')}
@@ -463,14 +464,14 @@ export const Navbar: React.FC = () => {
                   <motion.div variants={fadeUp} className="pt-5 border-t border-border space-y-2.5">
                     <button
                       type="button"
-                      className="w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-navy text-white text-[15px] font-semibold active:scale-[0.98] transition-transform duration-180 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 h-13 rounded-xl bg-block-orange text-ink font-display text-base font-bold shadow-[inset_0_-7px_9px_-6px_rgb(15_22_64/0.32)] active:scale-[0.98] transition-transform duration-180 cursor-pointer"
                       onClick={() => {
                         setIsMobileMenuOpen(false);
                         setIsAdvisorModalOpen(true);
                       }}
                     >
-                      <span>Talk to an Advisor</span>
-                      <ArrowRight className="w-4 h-4 text-white/70" />
+                      <span>Book a free demo class</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
                     <a
                       href="tel:+9779800000000"
@@ -479,17 +480,7 @@ export const Navbar: React.FC = () => {
                       <Phone className="w-4 h-4 text-navy" />
                       <span className="tabular-nums">Call Admissions: +977 980-0000000</span>
                     </a>
-                    <div className="pt-2 text-center">
-                      <a
-                        href="https://navyaedtech.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[13px] text-ink-muted hover:text-navy"
-                      >
-                        <span>Visit Parent Company (navyaedtech.com)</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </a>
-                    </div>
+
                   </motion.div>
                 </motion.div>
               </motion.div>

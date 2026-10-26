@@ -19,7 +19,7 @@ export const InsightsPreview: React.FC = () => {
   const latestInsights = allArticles.slice(0, 3);
 
   return (
-    <section className="section-y bg-paper-alt border-y border-border-soft">
+    <section className="section-y bg-canvas">
       <Container>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12">
           <SectionHeader
@@ -76,18 +76,8 @@ export const InsightsPreview: React.FC = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     </div>
 
-                    <div className="p-6 space-y-3.5">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="blue" size="sm" className="shadow-2xs">
-                          {article.category}
-                        </Badge>
-                        <div className="flex items-center gap-1 text-xs text-ink-muted font-mono">
-                          <Clock className="w-3 h-3 text-blue" />
-                          <span>{article.readTime}</span>
-                        </div>
-                      </div>
-
-                      <h3 className="text-lg font-semibold tracking-[-0.02em] text-ink group-hover:text-navy transition-colors duration-180 leading-snug">
+                    <div className="p-6 space-y-3">
+                      <h3 className="font-display text-xl font-bold tracking-[-0.025em] text-ink group-hover:text-block-blue transition-colors duration-180 leading-tight">
                         {article.title}
                       </h3>
 
@@ -98,9 +88,9 @@ export const InsightsPreview: React.FC = () => {
                   </div>
 
                   <div className="px-6 py-4 border-t border-border-soft flex items-center justify-between">
-                    <span className="text-xs font-mono text-ink-muted">{article.date}</span>
+                    <span className="text-sm text-ink-muted">{article.date} · {article.readTime}</span>
                     <span className="text-[13px] font-semibold text-navy inline-flex items-center gap-1.5">
-                      <span>Read Full Insight</span>
+                      <span>Read</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform duration-240 ease-out group-hover:translate-x-0.5" />
                     </span>
                   </div>
