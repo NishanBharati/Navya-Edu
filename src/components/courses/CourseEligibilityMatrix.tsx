@@ -137,7 +137,7 @@ export const CourseEligibilityMatrix: React.FC<CourseEligibilityMatrixProps> = (
                 <Award className="w-4 h-4 text-sage-ink shrink-0 mt-0.5" />
                 <div>
                   <strong className="font-bold text-sage-ink block">Navya Verified Credential:</strong>
-                  <span>Includes verifiable certificate ID, capstone defense score report, and portfolio review for partner hiring networks.</span>
+                  <span>Includes verifiable certificate ID, capstone defense score report, and portfolio review for tech employer applications.</span>
                 </div>
               </div>
             </div>

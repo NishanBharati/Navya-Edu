@@ -171,13 +171,15 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search syllabus topics..."
-                className="w-full pl-9 pr-8 py-2 rounded-xl text-xs sm:text-sm text-ink placeholder:text-ink-faint bg-paper border border-transparent focus:border-navy focus:bg-white focus:outline-none transition-colors"
+                aria-label="Search syllabus topics by keyword"
+                className="w-full pl-9 pr-8 py-2 rounded-xl text-xs sm:text-sm text-ink placeholder:text-ink-faint bg-paper border border-transparent focus:border-navy focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-navy/20 transition-colors"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-ink-faint hover:text-ink p-1 cursor-pointer"
+                  aria-label="Clear syllabus search"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-ink-faint hover:text-ink p-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-navy rounded-sm"
                 >
                   &times;
                 </button>
@@ -192,14 +194,14 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
               <button
                 type="button"
                 onClick={expandAll}
-                className="px-2.5 py-1.5 rounded-lg text-blue hover:bg-[#F0F5FA] transition-colors cursor-pointer font-semibold"
+                className="px-2.5 py-1.5 rounded-lg text-blue hover:bg-[#F0F5FA] transition-colors cursor-pointer font-semibold focus-visible:ring-2 focus-visible:ring-navy"
               >
                 Expand All
               </button>
               <button
                 type="button"
                 onClick={collapseAll}
-                className="px-2.5 py-1.5 rounded-lg text-ink-soft hover:bg-paper-alt transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg text-ink-soft hover:bg-paper-alt transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-navy"
               >
                 Collapse All
               </button>
@@ -235,6 +237,8 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                   if (!matches) return null;
 
                   const isModuleOpen = openModuleIndex === -1 || openModuleIndex === originalIndex || (searchQuery.trim() !== '' && matches);
+                  const moduleTriggerId = `curriculum-mod-trigger-${originalIndex}`;
+                  const modulePanelId = `curriculum-mod-panel-${originalIndex}`;
 
                   // Check if subLessons exist, or format topics into structured subLessons
                   const subLessonsList: SubLesson[] =
@@ -253,13 +257,15 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                       {/* Primary Lesson Header */}
                       <button
                         type="button"
+                        id={moduleTriggerId}
                         onClick={() => toggleModule(originalIndex)}
-                        className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-colors cursor-pointer focus:outline-none ${
+                        aria-expanded={isModuleOpen}
+                        aria-controls={modulePanelId}
+                        className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-inset ${
                           isModuleOpen
                             ? 'bg-[#F0F5FA] text-navy'
                             : 'bg-white hover:bg-[#F8FAFC] text-ink'
                         }`}
-                        aria-expanded={isModuleOpen}
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           <span className="px-2.5 py-1 rounded-md bg-navy/10 text-navy font-mono text-xs font-bold shrink-0">
@@ -287,7 +293,12 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
 
                       {/* Lesson Body: Sub-lessons tree */}
                       {isModuleOpen && (
-                        <div className="p-5 sm:p-6 bg-white space-y-4 animate-fade-in">
+                        <div
+                          id={modulePanelId}
+                          role="region"
+                          aria-labelledby={moduleTriggerId}
+                          className="p-5 sm:p-6 bg-white space-y-4 animate-fade-in"
+                        >
                           <div className="space-y-3">
                             {subLessonsList.map((sub, subIdx) => {
                               const subKey = `${originalIndex}-${subIdx}`;

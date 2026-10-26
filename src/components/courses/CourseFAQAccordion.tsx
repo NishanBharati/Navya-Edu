@@ -1,5 +1,5 @@
 import React from 'react';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, ArrowRight } from 'lucide-react';
 import type { FAQItem } from '../../types';
 import { FAQAccordion } from '../common/FAQAccordion';
 
@@ -11,18 +11,6 @@ const FAQS: FAQItem[] = [
   {
     question: 'Can I switch between classroom in-person and live online sessions?',
     answer: 'Absolutely. All our classrooms are equipped with hybrid streaming infrastructure. If you are unable to visit our Kathmandu campus on any day, you can join the live interactive session online and access recorded lab walkthroughs.'
-  },
-  {
-    question: 'What hardware or laptop specifications do I need?',
-    answer: 'A standard laptop with at least 8GB RAM (16GB recommended for Data/AI & DevOps), an Intel i5/Ryzen 5 or Apple M-series processor, and 50GB of free SSD storage is sufficient for all course practical labs.'
-  },
-  {
-    question: 'Do you offer installment payment options and scholarships?',
-    answer: 'Yes. We offer flexible installment plans (2 to 3 milestone-based payments). Merit-based and need-based tuition waivers are also available upon evaluation of entrance aptitude exercises.'
-  },
-  {
-    question: 'How does Navya assist with job placements and internships in Nepal?',
-    answer: 'Upon successful capstone project defense and code audit, our career team provides technical resume polishing, mock system design interviews, and direct portfolio referrals to our hiring network of technology companies in Nepal and remote firms abroad.'
   },
   {
     question: 'What certificate and credentials do I receive upon graduation?',
@@ -47,6 +35,16 @@ export const CourseFAQAccordion: React.FC = () => {
       </div>
 
       <FAQAccordion items={FAQS} />
+
+      <div className="pt-6 mt-6 border-t border-border-faint text-center">
+        <a
+          href="/faq"
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-blue hover:text-navy transition-colors"
+        >
+          <span>Looking for details on installment fees or laptop specs? See all FAQs</span>
+          <ArrowRight className="w-4 h-4" />
+        </a>
+      </div>
     </section>
   );
 };

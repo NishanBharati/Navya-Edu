@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Terminal, Cloud, CheckCircle2, GitBranch } from 'lucide-react';
 import { Course } from '../../types';
 import { Container } from '../common/Container';
@@ -80,6 +81,20 @@ export const CourseProjects: React.FC<CourseProjectsProps> = ({ course }) => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-12 p-6 rounded-3xl bg-paper-alt border border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="space-y-1">
+            <h4 className="text-sm sm:text-base font-bold text-ink">Want to inspect real student code submissions?</h4>
+            <p className="text-xs sm:text-sm text-ink-soft">Review live Vercel deployments, schema architectures, and GitHub repositories built in previous cohorts.</p>
+          </div>
+          <Link
+            to="/student-work"
+            className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-navy text-white text-xs font-semibold hover:bg-navy-deep transition-all shrink-0 shadow-2xs"
+          >
+            <span>Explore Student Showcase</span>
+            <span>→</span>
+          </Link>
         </div>
       </Container>
     </section>

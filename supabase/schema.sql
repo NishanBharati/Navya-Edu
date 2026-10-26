@@ -43,9 +43,13 @@ create table if not exists courses (
   faqs jsonb not null default '[]'::jsonb,
   "seoTitle" text default '',
   "seoDescription" text default '',
+  status text not null default 'published' check (status in ('published', 'draft', 'archived', 'upcoming')),
   "createdAt" timestamptz not null default now(),
   "updatedAt" timestamptz not null default now()
 );
+
+-- Idempotent column migration if table already exists
+alter table courses add column if not exists status text not null default 'published';
 
 drop trigger if exists courses_set_updated_at on courses;
 create trigger courses_set_updated_at before update on courses
@@ -54,7 +58,9 @@ create trigger courses_set_updated_at before update on courses
 alter table courses enable row level security;
 
 drop policy if exists "Public can read courses" on courses;
-create policy "Public can read courses" on courses for select using (true);
+drop policy if exists "Public can read published courses" on courses;
+create policy "Public can read published courses" on courses for select
+  using (status = 'published' or status = 'upcoming' or status is null or auth.role() = 'authenticated');
 
 drop policy if exists "Admins can manage courses" on courses;
 create policy "Admins can manage courses" on courses for all
@@ -142,9 +148,17 @@ create table if not exists insights (
   "coverImage" text default '',
   content text[] not null default '{}',
   tags text[] not null default '{}',
+  status text not null default 'published' check (status in ('published', 'draft', 'archived')),
+  "seoTitle" text default '',
+  "seoDescription" text default '',
   "createdAt" timestamptz not null default now(),
   "updatedAt" timestamptz not null default now()
 );
+
+-- Idempotent column migration if table already exists
+alter table insights add column if not exists status text not null default 'published';
+alter table insights add column if not exists "seoTitle" text default '';
+alter table insights add column if not exists "seoDescription" text default '';
 
 drop trigger if exists insights_set_updated_at on insights;
 create trigger insights_set_updated_at before update on insights
@@ -153,7 +167,9 @@ create trigger insights_set_updated_at before update on insights
 alter table insights enable row level security;
 
 drop policy if exists "Public can read insights" on insights;
-create policy "Public can read insights" on insights for select using (true);
+drop policy if exists "Public can read published insights" on insights;
+create policy "Public can read published insights" on insights for select
+  using (status = 'published' or status is null or auth.role() = 'authenticated');
 
 drop policy if exists "Admins can manage insights" on insights;
 create policy "Admins can manage insights" on insights for all
@@ -203,28 +219,67 @@ create policy "Admins can delete inquiries" on inquiries for delete
   using (auth.role() = 'authenticated');
 
 -- ---------------------------------------------------------------------------
+-- testimonials (authentic student reflections with signed consent record)
+-- ---------------------------------------------------------------------------
+create table if not exists testimonials (
+  id uuid primary key default gen_random_uuid(),
+  "studentName" text not null,
+  "cohortOrCourse" text not null default '',
+  role text default '',
+  company text default '',
+  avatar text default '',
+  quote text not null,
+  rating int default 5,
+  "consentConfirmed" boolean not null default false,
+  "consentDate" text default '',
+  "verificationNotes" text default '',
+  status text not null default 'Pending Approval' check (status in ('Pending Approval', 'Approved', 'Hidden')),
+  featured boolean not null default false,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+
+drop trigger if exists testimonials_set_updated_at on testimonials;
+create trigger testimonials_set_updated_at before update on testimonials
+  for each row execute function set_updated_at();
+
+alter table testimonials enable row level security;
+
+-- Public can ONLY read approved testimonials with verified student consent
+drop policy if exists "Public can read approved testimonials" on testimonials;
+create policy "Public can read approved testimonials" on testimonials for select
+  using ((status = 'Approved' and "consentConfirmed" = true) or auth.role() = 'authenticated');
+
+-- Authenticated admins can manage all testimonials
+drop policy if exists "Admins can manage testimonials" on testimonials;
+create policy "Admins can manage testimonials" on testimonials for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- ---------------------------------------------------------------------------
 -- Helpful indexes
 -- ---------------------------------------------------------------------------
 create index if not exists idx_courses_category on courses (category);
 create index if not exists idx_inquiries_status on inquiries (status);
 create index if not exists idx_inquiries_created_at on inquiries ("createdAt" desc);
+create index if not exists idx_testimonials_status on testimonials (status);
 
 -- ---------------------------------------------------------------------------
 -- Storage bucket for public media (Courses, Student Work, Blogs/Insights)
 -- ---------------------------------------------------------------------------
--- 1. Create or update the 'media' public bucket
+-- 1. Create or update the 'media' public bucket (supports images and official syllabus PDFs)
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'media',
   'media',
   true,
-  5242880, -- 5 MB limit per image
-  array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+  26214400, -- 25 MB limit for comprehensive syllabi and high-res media
+  array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml', 'application/pdf']
 )
 on conflict (id) do update set
   public = true,
-  file_size_limit = 5242880,
-  allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+  file_size_limit = 26214400,
+  allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml', 'application/pdf'];
 
 -- 2. Row Level Security policies for storage.objects
 -- Anyone (public website visitors) can view / download images from the public media bucket

@@ -1,22 +1,76 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { X, CheckCircle, ArrowRight, BookOpen, Clock, MapPin } from 'lucide-react';
+import {
+  X,
+  CheckCircle2,
+  ArrowRight,
+  BookOpen,
+  Clock,
+  MapPin,
+  MessageSquare,
+  Mail,
+  Phone,
+  User,
+  GraduationCap,
+  Target,
+  Building2,
+  Laptop,
+  Compass,
+  ShieldCheck,
+  Sparkles,
+  HelpCircle,
+  Calendar,
+  Send,
+  Loader2,
+  Check
+} from 'lucide-react';
 import { Button } from './Button';
 import { Modal } from './Modal';
-import { supabase } from '../../lib/supabaseClient';
+import { submitInquiry, InquirySubmissionResult } from '../../lib/inquiryService';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import { COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
-import type { Course, Inquiry } from '../../types';
+import type { Course } from '../../types';
 
 interface AdvisorModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultCourseSlug?: string;
+  initialIntent?: 'enroll' | 'demo' | 'inquire';
 }
+
+const QUICK_INQUIRY_TAGS = [
+  'Next batch starting date',
+  'Curriculum & Syllabus PDF',
+  'Fee structure & Installments',
+  'Internship & Placement support',
+  'Weekend / Evening batches',
+];
+
+const PREFERRED_MODES = [
+  {
+    id: 'Classroom (Kathmandu)',
+    label: 'Kathmandu Campus',
+    sublabel: 'In-Person Lab',
+    icon: Building2,
+  },
+  {
+    id: 'Online Live',
+    label: 'Online Live',
+    sublabel: 'Interactive Remote',
+    icon: Laptop,
+  },
+  {
+    id: 'Flexible / Undecided',
+    label: 'Flexible',
+    sublabel: 'Discuss with Advisor',
+    icon: Compass,
+  },
+];
 
 export const AdvisorModal: React.FC<AdvisorModalProps> = ({
   isOpen,
   onClose,
-  defaultCourseSlug = ''
+  defaultCourseSlug = '',
+  initialIntent = 'inquire',
 }) => {
   const { items: courses } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
   const allCourses = useMemo(() => {
@@ -27,248 +81,647 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
     return COURSES;
   }, [courses]);
 
+  const defaultGoal = useMemo(() => {
+    if (initialIntent === 'demo') return 'Schedule a Free Demo Class / Trial Session';
+    if (initialIntent === 'enroll') return 'Cohort Enrollment / Admissions Registration';
+    return 'Job Readiness / Career Transition';
+  }, [initialIntent]);
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
     interestedCourse: defaultCourseSlug,
     preferredMode: 'Classroom (Kathmandu)',
-    learningGoal: 'Career preparation / Job readiness',
-    message: ''
+    learningGoal: defaultGoal,
+    message: '',
+    privacyConsent: true,
+    website_hp: '',
   });
 
-  useEffect(() => {
-    if (!formData.interestedCourse && allCourses.length > 0) {
-      setFormData((prev) => ({ ...prev, interestedCourse: allCourses[0].slug }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allCourses]);
-
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<InquirySubmissionResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData((prev) => ({
+        ...prev,
+        interestedCourse: defaultCourseSlug || prev.interestedCourse || (allCourses[0]?.slug ?? ''),
+        learningGoal: defaultGoal,
+      }));
+    }
+  }, [isOpen, defaultCourseSlug, defaultGoal, allCourses]);
 
   if (!isOpen) return null;
 
+  const handleToggleTag = (tag: string) => {
+    const isPresent = selectedTags.includes(tag);
+    let nextTags: string[];
+    if (isPresent) {
+      nextTags = selectedTags.filter((t) => t !== tag);
+    } else {
+      nextTags = [...selectedTags, tag];
+    }
+    setSelectedTags(nextTags);
+
+    // Update message text cleanly
+    const existingLines = formData.message
+      .split('\n')
+      .map((l) => l.trim())
+      .filter((l) => l.length > 0 && !QUICK_INQUIRY_TAGS.some((q) => l.includes(q)));
+
+    const tagLines = nextTags.map((t) => `• Inquiring about: ${t}`);
+    const combinedMessage = [...existingLines, ...tagLines].join('\n');
+    setFormData((prev) => ({ ...prev, message: combinedMessage }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (isSubmitting) return;
     setSubmitError(null);
 
-    const inquiry: Omit<Inquiry, 'id' | 'createdAt'> = {
-      fullName: formData.fullName,
-      email: formData.email,
-      phone: formData.phone,
-      interestedCourse: formData.interestedCourse,
-      preferredMode: formData.preferredMode,
-      message: [formData.learningGoal, formData.message].filter(Boolean).join(' — '),
-      status: 'New',
-      source: 'Advisor Modal',
-    };
-
-    const { error } = await supabase.from('inquiries').insert(inquiry as never);
-    setIsSubmitting(false);
-
-    if (error) {
-      setSubmitError('Something went wrong sending your inquiry. Please try again.');
+    // Honeypot spam protection
+    if (formData.website_hp) {
+      console.warn('[AdvisorModal] Bot submission dropped.');
+      setIsSubmitted(true);
+      setSubmissionResult({
+        success: true,
+        savedLocally: true,
+        cloudSynced: false,
+        localId: 'inq_hp_blocked',
+        mailtoUrl: '#',
+        whatsappUrl: '#',
+      });
       return;
     }
-    setIsSubmitted(true);
+
+    if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
+      setSubmitError('Please provide your full name (minimum 2 characters).');
+      return;
+    }
+
+    const cleanPhone = formData.phone.replace(/[\s\-()]/g, '');
+    if (!cleanPhone || cleanPhone.length < 7) {
+      setSubmitError('Please provide a valid phone or WhatsApp number (e.g. 98XXXXXXXX).');
+      return;
+    }
+
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      setSubmitError('Please provide a valid email address.');
+      return;
+    }
+
+    if (!formData.privacyConsent) {
+      setSubmitError('Please accept the academic counseling agreement to proceed.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const fullNotes = [
+        `Goal: ${formData.learningGoal}`,
+        formData.message.trim(),
+      ]
+        .filter(Boolean)
+        .join(' | ');
+
+      const result = await submitInquiry({
+        fullName: formData.fullName.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        interestedCourse: formData.interestedCourse,
+        preferredMode: formData.preferredMode,
+        message: fullNotes,
+        source: `Advisor Modal (${initialIntent})`,
+      });
+
+      if (!result.success && result.errorMessage) {
+        setSubmitError(result.errorMessage);
+        return;
+      }
+
+      setSubmissionResult(result);
+      setIsSubmitted(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : 'Unable to complete submission. Please check your connection and try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
+    setSubmissionResult(null);
+    setSelectedTags([]);
     onClose();
   };
 
+  const selectedCourseObj = allCourses.find((c) => c.slug === formData.interestedCourse);
+
+  const getCtaLabel = () => {
+    if (isSubmitting) return 'Submitting Request...';
+    if (initialIntent === 'demo') return 'Request Free Demo Class';
+    if (initialIntent === 'enroll') return 'Reserve Admission Seat';
+    return 'Get Free Counseling & Syllabus';
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} maxWidthClass="max-w-xl" labelledBy="advisor-modal-title">
-        {/* Header */}
-        <div className="bg-navy text-white p-6 sm:p-7 relative">
-          <button
-            onClick={onClose}
-            aria-label="Close Advisor Modal"
-            className="absolute top-5 right-5 p-2 text-stone-300 hover:text-white rounded-lg hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-white"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-navy-mist uppercase mb-1.5">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Admissions & Advisory Desk</span>
+    <Modal isOpen={isOpen} onClose={onClose} maxWidthClass="max-w-2xl" labelledBy="advisor-modal-title">
+      {/* Executive Dark Navy Header */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#0D1D2E] via-[#17324D] to-[#1E436A] text-white p-6 sm:p-7 border-b border-navy-light/40">
+        {/* Subtle Ambient Radial Glow */}
+        <div
+          className="absolute -top-12 -right-12 w-64 h-64 bg-blue-400/15 rounded-full blur-3xl pointer-events-none"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute bottom-0 left-1/4 w-48 h-24 bg-sage/20 rounded-full blur-2xl pointer-events-none"
+          aria-hidden="true"
+        />
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          aria-label="Close Advisor Modal"
+          className="absolute top-5 right-5 w-9 h-9 flex items-center justify-center text-stone-300 hover:text-white rounded-full bg-white/10 hover:bg-white/20 transition-all border border-white/10 focus-visible:ring-2 focus-visible:ring-white z-10 cursor-pointer"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* Header Top Pills */}
+        <div className="flex flex-wrap items-center gap-2 mb-2.5 relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-white/10 text-navy-mist border border-white/10">
+            {initialIntent === 'demo' ? (
+              <>
+                <Sparkles className="w-3 h-3 text-amber-300" />
+                <span>Free Demo Session</span>
+              </>
+            ) : initialIntent === 'enroll' ? (
+              <>
+                <GraduationCap className="w-3.5 h-3.5 text-blue-300" />
+                <span>Cohort Admissions</span>
+              </>
+            ) : (
+              <>
+                <BookOpen className="w-3 h-3 text-navy-mist" />
+                <span>Admissions & Advisory Desk</span>
+              </>
+            )}
           </div>
-          <h3 id="advisor-modal-title" className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-            Talk to an Education Advisor
-          </h3>
-          <p className="text-sm text-stone-300 mt-1.5 leading-relaxed">
-            Connect directly with our training team for upcoming batch schedules, syllabus walk-throughs, and learning path recommendations.
-          </p>
+
+          {/* Active Counselor Tag */}
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-950/70 border border-emerald-500/30 text-emerald-300">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span>Advisors Online • Fast Response</span>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6 sm:p-7">
-          {isSubmitted ? (
-            <div className="text-center py-6">
-              <div className="w-14 h-14 rounded-full bg-sage/20 text-sage-ink mx-auto flex items-center justify-center mb-4">
-                <CheckCircle className="w-8 h-8" />
-              </div>
-              <h4 className="text-xl font-bold text-ink">
-                Inquiry Received
-              </h4>
-              <p className="text-sm text-ink-soft mt-2 max-w-md mx-auto leading-relaxed">
-                Thank you for your interest in Navya Ed Tech. Our education advisor will contact you at <span className="font-semibold text-ink">{formData.phone || formData.email}</span> within 1 business day with batch details and curriculum guides.
-              </p>
+        {/* Main Title & Subtitle */}
+        <div className="relative z-10 max-w-xl">
+          <h3 id="advisor-modal-title" className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+            {initialIntent === 'demo'
+              ? 'Book a Free Interactive Demo Class'
+              : initialIntent === 'enroll'
+              ? 'Enroll Now — Reserve Your Cohort Seat'
+              : 'Talk to an Education Advisor'}
+          </h3>
+          <p className="text-xs sm:text-sm text-stone-300 mt-1.5 leading-relaxed">
+            {initialIntent === 'demo'
+              ? 'Experience our hands-on classroom pedagogy, meet senior engineering faculty mentors, and explore live project architectures before enrolling.'
+              : initialIntent === 'enroll'
+              ? 'Complete priority registration to secure your workstation seat in the upcoming batch at Kathmandu Campus or Live Online.'
+              : 'Get personalized guidance on batch schedules, syllabus walk-throughs, career placement paths, and scholarship eligibility.'}
+          </p>
+        </div>
+      </div>
 
-              <div className="mt-6 p-4 rounded-xl bg-paper-alt border border-[#E8E3D8] text-left text-xs text-ink-soft space-y-2">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-navy shrink-0" />
-                  <span>Advisory Hours: Sunday – Friday, 7:00 AM – 7:00 PM (NPT)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-navy shrink-0" />
-                  <span>Location: Kathmandu, Nepal [Navya Ed Tech Campus]</span>
-                </div>
-              </div>
+      {/* Modal Body Container with Smooth Scroll for Mobile */}
+      <div className="max-h-[calc(88vh-140px)] overflow-y-auto p-5 sm:p-7 bg-paper-alt/30">
+        {isSubmitted ? (
+          /* Confirmation State */
+          <div className="py-4 sm:py-6 text-center" role="status" aria-live="polite">
+            <div className="relative w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center mb-4 border-2 border-emerald-200 shadow-sm">
+              <CheckCircle2 className="w-10 h-10" />
+            </div>
 
-              <div className="mt-6">
-                <Button variant="primary" onClick={handleReset}>
-                  Close Window
-                </Button>
+            <h4 className="text-2xl font-bold text-ink">Inquiry Confirmed!</h4>
+            <p className="text-sm text-ink-soft mt-1.5 max-w-md mx-auto leading-relaxed">
+              Thank you, <span className="font-semibold text-ink">{formData.fullName}</span>. An education advisor has been assigned to your request and will reach out via WhatsApp / Call.
+            </p>
+
+            {/* Selected Snapshot Card */}
+            <div className="mt-5 p-4 rounded-xl bg-white border border-border text-left shadow-xs space-y-2.5 max-w-md mx-auto text-xs">
+              <div className="flex justify-between items-center pb-2 border-b border-border/60">
+                <span className="text-ink-muted">Selected Program</span>
+                <span className="font-semibold text-ink text-right">
+                  {selectedCourseObj ? selectedCourseObj.title : formData.interestedCourse}
+                </span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b border-border/60">
+                <span className="text-ink-muted">Preferred Mode</span>
+                <span className="font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
+                  {formData.preferredMode}
+                </span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b border-border/60">
+                <span className="text-ink-muted">Contact Info</span>
+                <span className="font-medium text-ink">
+                  {formData.phone} • {formData.email}
+                </span>
+              </div>
+              <div className="flex justify-between items-center text-emerald-700 font-medium pt-0.5">
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  Expected Response:
+                </span>
+                <span>Within 2 business hours</span>
               </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* 3-Step What Happens Next */}
+            <div className="mt-6 p-4 rounded-xl bg-white border border-border max-w-md mx-auto text-left">
+              <p className="text-xs font-bold text-ink uppercase tracking-wider mb-3">
+                What happens next?
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 text-xs">
+                  <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    1
+                  </div>
+                  <div>
+                    <span className="font-semibold text-ink block">Inquiry Logged & Queued</span>
+                    <span className="text-ink-muted">Your profile is sent directly to the admissions team in Kathmandu.</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-xs">
+                  <div className="w-5 h-5 rounded-full bg-navy/10 text-navy font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    2
+                  </div>
+                  <div>
+                    <span className="font-semibold text-ink block">Advisor Review</span>
+                    <span className="text-ink-muted">We verify cohort seat availability, batch timing, and prerequisites.</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-xs">
+                  <div className="w-5 h-5 rounded-full bg-navy/10 text-navy font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    3
+                  </div>
+                  <div>
+                    <span className="font-semibold text-ink block">Syllabus & Consultation Dispatch</span>
+                    <span className="text-ink-muted">You receive the full curriculum guide via WhatsApp or email.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Instant Contact Hotline */}
+            {submissionResult && (
+              <div className="mt-5 p-4 rounded-xl bg-paper-alt border border-border-warm max-w-md mx-auto text-left space-y-2.5">
+                <p className="text-xs font-semibold text-ink flex items-center gap-1.5">
+                  <MessageSquare className="w-4 h-4 text-emerald-600" />
+                  Need immediate confirmation or seat reservation?
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <a
+                    href={submissionResult.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>WhatsApp Admissions</span>
+                  </a>
+                  <a
+                    href={submissionResult.mailtoUrl}
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-navy hover:bg-navy-light text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Direct Admissions Email</span>
+                  </a>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-6 flex items-center justify-center">
+              <Button variant="primary" size="md" onClick={handleReset}>
+                Done & Close Window
+              </Button>
+            </div>
+          </div>
+        ) : (
+          /* Form Content */
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Group 1: Contact Information */}
+            <div className="bg-white p-4 sm:p-5 rounded-xl border border-border shadow-xs space-y-4">
+              <div className="flex items-center justify-between pb-2 border-b border-border-soft">
+                <span className="text-xs font-bold text-navy uppercase tracking-wider flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-navy" />
+                  1. Contact Information
+                </span>
+                <span className="text-[11px] text-ink-muted">Fields with <span className="text-red-500">*</span> are required</span>
+              </div>
+
+              {/* Full Name */}
               <div>
-                <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
+                <label htmlFor="advisor-fullname" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
                   Full Name <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Aarav Sharma"
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <input
+                    id="advisor-fullname"
+                    type="text"
+                    required
+                    placeholder="e.g. Aarav Sharma"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all"
+                  />
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Phone & Email 2-column */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
+                  <label htmlFor="advisor-phone" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
                     Phone / WhatsApp <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="98XXXXXXXX"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
-                  />
+                  <div className="relative flex">
+                    <div className="inline-flex items-center px-2.5 rounded-l-lg border border-r-0 border-input-border bg-paper text-ink-soft text-xs font-semibold select-none">
+                      <span>🇳🇵 +977</span>
+                    </div>
+                    <input
+                      id="advisor-phone"
+                      type="tel"
+                      required
+                      placeholder="98XXXXXXXX"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full pl-3 pr-3 py-2.5 rounded-r-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all"
+                    />
+                  </div>
+                  <p className="text-[11px] text-ink-muted mt-1">We send batch guides & PDFs via WhatsApp</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
+                  <label htmlFor="advisor-email" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
                     Email Address <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="aarav@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <input
+                      id="advisor-email"
+                      type="email"
+                      required
+                      placeholder="aarav@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all"
+                    />
+                  </div>
+                  <p className="text-[11px] text-ink-muted mt-1">For admissions notice & syllabus receipt</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Group 2: Course & Learning Format */}
+            <div className="bg-white p-4 sm:p-5 rounded-xl border border-border shadow-xs space-y-4">
+              <div className="flex items-center justify-between pb-2 border-b border-border-soft">
+                <span className="text-xs font-bold text-navy uppercase tracking-wider flex items-center gap-1.5">
+                  <GraduationCap className="w-4 h-4 text-navy" />
+                  2. Course & Learning Format
+                </span>
+                {selectedCourseObj && (
+                  <span className="text-[11px] font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
+                    Duration: {selectedCourseObj.duration}
+                  </span>
+                )}
+              </div>
+
+              {/* Course Dropdown */}
+              <div>
+                <label htmlFor="advisor-course" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
+                  Interested Course / Domain <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
+                  <select
+                    id="advisor-course"
+                    value={formData.interestedCourse}
+                    onChange={(e) => setFormData({ ...formData, interestedCourse: e.target.value })}
+                    className="w-full pl-10 pr-8 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm font-medium focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all appearance-none cursor-pointer"
+                  >
+                    <optgroup label="Standard Career Tracks">
+                      {allCourses.map((course) => (
+                        <option key={course.slug} value={course.slug}>
+                          {course.title} ({course.duration})
+                        </option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Specialized Programs">
+                      <option value="career-program">Full Stack Engineering Career Program (6 Months)</option>
+                      <option value="general-counseling">General IT Career Counseling & Profile Assessment</option>
+                    </optgroup>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-ink-muted text-xs">
+                    ▼
+                  </div>
                 </div>
               </div>
 
+              {/* Preferred Mode: Tactile Segmented Cards */}
               <div>
                 <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                  Interested Course / Domain
+                  Preferred Learning Mode
                 </label>
-                <select
-                  value={formData.interestedCourse}
-                  onChange={(e) => setFormData({ ...formData, interestedCourse: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
-                >
-                  {allCourses.map((course) => (
-                    <option key={course.slug} value={course.slug}>
-                      {course.title} ({course.duration})
-                    </option>
-                  ))}
-                  <option value="career-program">Full Stack Engineering Career Program (6 Months)</option>
-                  <option value="general-counseling">General IT Career Counseling</option>
-                </select>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {PREFERRED_MODES.map((mode) => {
+                    const isSelected = formData.preferredMode === mode.id;
+                    const Icon = mode.icon;
+                    return (
+                      <button
+                        key={mode.id}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, preferredMode: mode.id })}
+                        className={`flex items-center sm:flex-col sm:items-start p-3 rounded-lg border text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-navy bg-navy/5 ring-1 ring-navy text-navy shadow-xs'
+                            : 'border-input-border bg-white hover:border-navy/40 text-ink-soft hover:bg-paper-alt/50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 sm:mb-1 w-full justify-between">
+                          <Icon className={`w-4 h-4 ${isSelected ? 'text-navy' : 'text-ink-muted'}`} />
+                          {isSelected && <Check className="w-3.5 h-3.5 text-navy shrink-0" />}
+                        </div>
+                        <div className="ml-2 sm:ml-0">
+                          <div className="text-xs font-bold text-ink leading-tight">{mode.label}</div>
+                          <div className="text-[11px] text-ink-muted leading-tight mt-0.5">{mode.sublabel}</div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                    Preferred Mode
-                  </label>
+              {/* Learning Goal */}
+              <div>
+                <label htmlFor="advisor-goal" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
+                  Primary Learning Goal
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
+                    <Target className="w-4 h-4" />
+                  </div>
                   <select
-                    value={formData.preferredMode}
-                    onChange={(e) => setFormData({ ...formData, preferredMode: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
-                  >
-                    <option value="Classroom (Kathmandu)">Classroom (Kathmandu Campus)</option>
-                    <option value="Online Live">Online Live (Interactive)</option>
-                    <option value="Flexible / Undecided">Flexible / Discuss with Advisor</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                    Learning Goal
-                  </label>
-                  <select
+                    id="advisor-goal"
                     value={formData.learningGoal}
                     onChange={(e) => setFormData({ ...formData, learningGoal: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all"
+                    className="w-full pl-10 pr-8 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all appearance-none cursor-pointer"
                   >
-                    <option value="Job Readiness / Career Transition">Job Readiness / Career Entry</option>
-                    <option value="Skill Upgrade for Current Job">Skill Upgrade for Current Job</option>
-                    <option value="College Project & Academic Support">College Project & Academic Support</option>
-                    <option value="General Exploration">General Skill Exploration</option>
+                    <option value="Job Readiness / Career Transition">Job Readiness / Career Entry into Tech</option>
+                    <option value="Skill Upgrade for Current Job">Skill Upgrade & Architecture Mastery for Working Pro</option>
+                    <option value="College Project & Academic Support">College Final Year Project & Practical Lab Prep</option>
+                    <option value="Schedule a Free Demo Class / Trial Session">Schedule a Free Demo Class / Trial Session</option>
+                    <option value="Cohort Enrollment / Admissions Registration">Cohort Enrollment / Admissions Registration</option>
+                    <option value="General Exploration">General Exploration / Tech Career Guidance</option>
                   </select>
+                  <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-ink-muted text-xs">
+                    ▼
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                  Questions / Specific Requirements (Optional)
+            {/* Group 3: Quick Questions & Custom Note */}
+            <div className="bg-white p-4 sm:p-5 rounded-xl border border-border shadow-xs space-y-3">
+              <div className="flex items-center justify-between pb-1 border-b border-border-soft">
+                <label htmlFor="advisor-message" className="text-xs font-bold text-navy uppercase tracking-wider flex items-center gap-1.5">
+                  <MessageSquare className="w-3.5 h-3.5 text-navy" />
+                  3. Questions or Specific Inquiries (Optional)
                 </label>
-                <textarea
-                  rows={2}
-                  placeholder="Tell us about your background or any specific questions about batches and timing..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-paper text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-all resize-none"
-                />
+                <span className="text-[11px] text-ink-muted">{formData.message.length}/500</span>
               </div>
 
-              {submitError && (
-                <div className="px-3.5 py-2.5 rounded-lg bg-red-50 border border-red-100 text-xs font-medium text-red-700">
-                  {submitError}
+              {/* Quick Inquiry Chips */}
+              <div>
+                <span className="text-[11px] font-medium text-ink-muted block mb-1.5">
+                  Quick-add common questions with 1 click:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {QUICK_INQUIRY_TAGS.map((tag) => {
+                    const isSelected = selectedTags.includes(tag);
+                    return (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => handleToggleTag(tag)}
+                        className={`text-[11px] px-2.5 py-1 rounded-full border transition-all cursor-pointer flex items-center gap-1 ${
+                          isSelected
+                            ? 'bg-navy text-white border-navy font-semibold shadow-xs'
+                            : 'bg-paper text-ink-soft border-border hover:border-navy/30 hover:bg-paper-alt'
+                        }`}
+                      >
+                        {isSelected ? <Check className="w-3 h-3" /> : <span>+</span>}
+                        <span>{tag}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
+              </div>
 
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <p className="text-xs text-ink-soft">
-                  No spam. Direct academic and batch schedule consultation only.
-                </p>
+              {/* Textarea */}
+              <textarea
+                id="advisor-message"
+                rows={2}
+                maxLength={500}
+                placeholder="Tell us about your background, schedule preferences, or any questions for our advisor..."
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all resize-none"
+              />
+            </div>
+
+            {/* Honeypot field for anti-spam (invisible) */}
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="advisor_website_hp">Leave blank</label>
+              <input
+                type="text"
+                id="advisor_website_hp"
+                name="website_hp"
+                tabIndex={-1}
+                autoComplete="off"
+                value={formData.website_hp}
+                onChange={(e) => setFormData({ ...formData, website_hp: e.target.value })}
+              />
+            </div>
+
+            {/* Privacy Agreement Checkbox */}
+            <div className="p-3 rounded-lg bg-paper border border-border/80">
+              <label htmlFor="advisor-privacy" className="flex items-start gap-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="advisor-privacy"
+                  checked={formData.privacyConsent}
+                  onChange={(e) => setFormData({ ...formData, privacyConsent: e.target.checked })}
+                  className="mt-0.5 w-4 h-4 rounded border-input-border text-navy focus:ring-navy cursor-pointer"
+                />
+                <span className="text-xs text-ink-soft leading-snug">
+                  I agree to receive the syllabus brochure, batch timing options, and academic consultation from Navya Ed Tech. <span className="text-red-500">*</span>
+                </span>
+              </label>
+            </div>
+
+            {/* Submission Error Banner */}
+            {submitError && (
+              <div
+                role="alert"
+                className="px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-xs font-medium text-red-700 flex items-center gap-2"
+              >
+                <span className="w-2 h-2 rounded-full bg-red-600 shrink-0" />
+                <span>{submitError}</span>
+              </div>
+            )}
+
+            {/* Actions Bar with Security Reassurance */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3.5">
+              <div className="flex items-center gap-2 text-xs text-ink-muted">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>100% Confidential • Zero Spam Guarantee</span>
+              </div>
+
+              <div className="w-full sm:w-auto flex items-center gap-2">
                 <Button
                   type="submit"
                   variant="primary"
                   size="md"
                   disabled={isSubmitting}
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
+                  isLoading={isSubmitting}
+                  className="w-full sm:w-auto shadow-md shadow-navy/15 hover:shadow-lg hover:shadow-navy/20"
+                  rightIcon={!isSubmitting ? <ArrowRight className="w-4 h-4" /> : undefined}
                 >
-                  {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
+                  {getCtaLabel()}
                 </Button>
               </div>
-            </form>
-          )}
-        </div>
+            </div>
+          </form>
+        )}
+      </div>
     </Modal>
   );
 };
+

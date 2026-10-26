@@ -6,6 +6,7 @@ import {
   Layers,
   FolderKanban,
   Newspaper,
+  Quote,
   Inbox,
   Settings,
   ArrowUpRight,
@@ -13,7 +14,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
-import type { Inquiry } from '../../types';
+import type { Inquiry, Testimonial } from '../../types';
 import { Logo } from '../../components/common/Logo';
 
 interface NavItem {
@@ -36,7 +37,9 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile }) => {
   const { items: inquiries } = useSupabaseTable<Inquiry>('inquiries');
+  const { items: testimonials } = useSupabaseTable<Testimonial>('testimonials');
   const newInquiryCount = inquiries.filter((inquiry) => inquiry.status === 'New').length;
+  const pendingTestimonialsCount = testimonials.filter((t) => t.status === 'Pending Approval').length;
 
   const sections: NavSection[] = [
     {
@@ -50,6 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onCloseMobile })
         { label: 'Programs', href: '/admin/programs', icon: Layers },
         { label: 'Student Work', href: '/admin/student-work', icon: FolderKanban },
         { label: 'Insights', href: '/admin/insights', icon: Newspaper },
+        { label: 'Testimonials', href: '/admin/testimonials', icon: Quote, badge: pendingTestimonialsCount },
       ],
     },
     {

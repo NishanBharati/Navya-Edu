@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   Search,
   BookOpen,
-  Loader2,
   LayoutGrid,
   List,
   SlidersHorizontal,
@@ -10,9 +11,13 @@ import {
   CheckCircle2,
   Users,
   ShieldCheck,
-  RotateCcw
+  RotateCcw,
+  AlertCircle,
+  MessageSquare,
+  GraduationCap,
+  Gamepad2
 } from 'lucide-react';
-import { COURSE_CATEGORIES, COURSES, LEGACY_COURSE_SLUGS } from '../data/courses';
+import { COURSES, LEGACY_COURSE_SLUGS } from '../data/courses';
 import { Course, CourseCategory } from '../types';
 import { useSupabaseTable } from '../lib/useSupabaseTable';
 import { Container } from '../components/common/Container';
@@ -21,21 +26,46 @@ import { CourseSpotlight } from '../components/courses/CourseSpotlight';
 import { CourseComparisonModal, ComparisonFloatingDock } from '../components/courses/CourseComparisonModal';
 import { CourseQuickPreviewModal } from '../components/courses/CourseQuickPreviewModal';
 import { CoursePedagogyStrip } from '../components/courses/CoursePedagogyStrip';
+import { KidsPedagogyStrip } from '../components/courses/KidsPedagogyStrip';
 import { CourseFAQAccordion } from '../components/courses/CourseFAQAccordion';
+import { KidsFAQAccordion } from '../components/courses/KidsFAQAccordion';
 import { CourseConsultationCTA } from '../components/courses/CourseConsultationCTA';
 import { SEOHead } from '../components/common/SEOHead';
+import { getBreadcrumbSchema, getItemListSchema } from '../utils/structuredData';
 import { AdvisorModal } from '../components/common/AdvisorModal';
+import { HeroImageWithParallax } from '../components/common/HeroImageWithParallax';
+import { HeroLiveIndicator } from '../components/common/HeroLiveIndicator';
+import {
+  heroStaggerContainer,
+  heroEyebrow,
+  heroHeadline,
+  heroParagraph,
+  heroCardsContainer,
+  heroCardItem,
+  EASING,
+} from '../lib/motion';
 
 export const Courses: React.FC = () => {
-  const { items: dbCourses, isLoading } = useSupabaseTable<Course>('courses', {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const prefersReducedMotion = useReducedMotion();
+  const audienceParam = searchParams.get('audience');
+  const audience: 'career' | 'kids' =
+    audienceParam === 'kids' || audienceParam === 'young-coders' ? 'kids' : 'career';
+
+
+  const { items: dbCourses, isLoading: _isLoading, error: dbError } = useSupabaseTable<Course>('courses', {
     orderBy: 'title',
     ascending: true
   });
 
-  // Guarantee fallback to COURSES if database returns empty or contains legacy courses
+  const [dismissError, setDismissError] = useState(false);
+
+  // Guarantee fallback to verified COURSES if database is unreachable or empty
   const allCourses = useMemo(() => {
     if (dbCourses && dbCourses.length > 0) {
-      const active = dbCourses.filter((c) => !LEGACY_COURSE_SLUGS.has(c.slug));
+      const active = dbCourses.filter(
+        (c) => !LEGACY_COURSE_SLUGS.has(c.slug) && c.status !== 'draft' && c.status !== 'archived'
+      );
       if (active.length > 0) {
         return active;
       }
@@ -43,8 +73,20 @@ export const Courses: React.FC = () => {
     return COURSES;
   }, [dbCourses]);
 
+  // Target pool based on active audience segment
+  const audienceCourses = useMemo(() => {
+    if (audience === 'kids') {
+      return allCourses.filter((c) => c.category === 'Kids Coding');
+    }
+    return allCourses.filter((c) => c.category !== 'Kids Coding');
+  }, [allCourses, audience]);
+
+  // Available categories per audience
+  const CAREER_CATEGORIES: CourseCategory[] = ['All', 'Web Development', 'Programming', 'Data & AI'];
+  const KIDS_CATEGORIES = ['All', 'Beginner (Ages 8–11)', 'Advanced (Ages 11–14)'];
+
   // Filter & Search states
-  const [selectedCategory, setSelectedCategory] = useState<CourseCategory>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedLevel, setSelectedLevel] = useState<string>('All');
   const [selectedMode, setSelectedMode] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -62,6 +104,21 @@ export const Courses: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleAudienceChange = (newAudience: 'career' | 'kids') => {
+    if (newAudience === audience) return;
+    const newParams = new URLSearchParams(searchParams);
+    if (newAudience === 'kids') {
+      newParams.set('audience', 'kids');
+    } else {
+      newParams.delete('audience');
+    }
+    setSearchParams(newParams, { replace: true });
+    setSelectedCategory('All');
+    setSelectedLevel('All');
+    setSelectedMode('All');
+    setSearchQuery('');
+  };
 
   const handleOpenAdvisor = (slug?: string) => {
     setSelectedCourseSlug(slug || '');
@@ -90,50 +147,89 @@ export const Courses: React.FC = () => {
     setComparingCourses([]);
   };
 
-  // Popular search keywords
-  const popularKeywords = ['Python', 'Web Development', 'Scratch', 'Data Science', 'Beginner', 'Advance'];
+  // Popular search keywords per audience
+  const popularKeywords = useMemo(() => {
+    if (audience === 'kids') {
+      return ['Scratch Beginner', 'Scratch Advanced', 'Game Physics', 'Animation', 'Young Coders'];
+    }
+    return ['React', 'Python', 'Web Development', 'Data Science', 'JavaScript'];
+  }, [audience]);
 
   // Calculate dynamic category item counts
   const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { All: allCourses.length };
-    COURSE_CATEGORIES.forEach((cat) => {
-      if (cat !== 'All') {
-        counts[cat] = allCourses.filter((c) => c.category === cat).length;
-      }
-    });
+    const counts: Record<string, number> = { All: audienceCourses.length };
+    if (audience === 'career') {
+      CAREER_CATEGORIES.forEach((cat) => {
+        if (cat !== 'All') {
+          counts[cat] = audienceCourses.filter((c) => c.category === cat).length;
+        }
+      });
+    } else {
+      counts['Beginner (Ages 8–11)'] = audienceCourses.filter(
+        (c) => c.slug === 'scratch-beginner' || c.level.toLowerCase().includes('beginner')
+      ).length;
+      counts['Advanced (Ages 11–14)'] = audienceCourses.filter(
+        (c) => c.slug === 'scratch-advanced' || c.level.toLowerCase().includes('intermediate')
+      ).length;
+    }
     return counts;
-  }, [allCourses]);
+  }, [audienceCourses, audience]);
 
-  // Featured course spotlight (top flagship track)
+  // Featured course spotlight
   const spotlightCourse = useMemo(() => {
-    return allCourses.find((c) => c.featured && c.slug === 'web-development') || allCourses.find((c) => c.featured) || allCourses[0];
-  }, [allCourses]);
+    if (audience === 'kids') {
+      return (
+        audienceCourses.find((c) => c.slug === 'scratch-beginner') ||
+        audienceCourses[0]
+      );
+    }
+    return (
+      audienceCourses.find((c) => c.featured && c.slug === 'web-development') ||
+      audienceCourses.find((c) => c.featured && c.slug === 'python-advance') ||
+      audienceCourses.find((c) => c.featured) ||
+      audienceCourses[0]
+    );
+  }, [audienceCourses, audience]);
 
   // Filtered & Sorted courses
   const filteredCourses = useMemo(() => {
-    let result = allCourses.filter((course) => {
+    let result = audienceCourses.filter((course) => {
       // Category filter
-      const matchesCategory = selectedCategory === 'All' || course.category === selectedCategory;
+      let matchesCategory = true;
+      if (audience === 'career') {
+        matchesCategory = selectedCategory === 'All' || course.category === selectedCategory;
+      } else {
+        if (selectedCategory === 'Beginner (Ages 8–11)') {
+          matchesCategory = course.slug === 'scratch-beginner' || course.level.toLowerCase().includes('beginner');
+        } else if (selectedCategory === 'Advanced (Ages 11–14)') {
+          matchesCategory =
+            course.slug === 'scratch-advanced' ||
+            course.level.toLowerCase().includes('intermediate') ||
+            course.level.toLowerCase().includes('advanced');
+        }
+      }
 
       // Level filter
       const matchesLevel =
         selectedLevel === 'All' || course.level.toLowerCase().includes(selectedLevel.toLowerCase());
 
       // Mode filter
+      const courseMode = (course.mode || course.learningMode || '').toLowerCase();
       const matchesMode =
         selectedMode === 'All' ||
-        (selectedMode === 'In-Person' && course.mode.toLowerCase().includes('in-person')) ||
-        (selectedMode === 'Online' && course.mode.toLowerCase().includes('online')) ||
-        (selectedMode === 'Hybrid' && course.mode.toLowerCase().includes('hybrid'));
+        (selectedMode === 'In-Person' && (courseMode.includes('in-person') || courseMode.includes('classroom'))) ||
+        (selectedMode === 'Online' && courseMode.includes('online')) ||
+        (selectedMode === 'Hybrid' && courseMode.includes('hybrid'));
 
       // Search Query
       const q = searchQuery.toLowerCase().trim();
+      const techs = course.technologies || course.skills || [];
       const matchesSearch =
         q === '' ||
         course.title.toLowerCase().includes(q) ||
-        course.shortDescription.toLowerCase().includes(q) ||
+        (course.shortDescription && course.shortDescription.toLowerCase().includes(q)) ||
         course.category.toLowerCase().includes(q) ||
-        course.technologies.some((t) => t.toLowerCase().includes(q)) ||
+        techs.some((t) => t.toLowerCase().includes(q)) ||
         course.careerPaths?.some((p) => p.toLowerCase().includes(q));
 
       return matchesCategory && matchesLevel && matchesMode && matchesSearch;
@@ -160,7 +256,7 @@ export const Courses: React.FC = () => {
     });
 
     return result;
-  }, [allCourses, selectedCategory, selectedLevel, selectedMode, searchQuery, sortBy]);
+  }, [audienceCourses, audience, selectedCategory, selectedLevel, selectedMode, searchQuery, sortBy]);
 
   const hasActiveFilters =
     selectedCategory !== 'All' ||
@@ -178,46 +274,176 @@ export const Courses: React.FC = () => {
   return (
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
-        title="Explore Professional IT Courses & Tech Training | Navya Ed Tech Nepal"
-        description="Browse industry-standard courses in Python, Web Development, Scratch Programming, and Data Science in Kathmandu. Real production projects and career mentorship."
+        title={
+          audience === 'kids'
+            ? 'Kids Coding & Scratch Programming Courses in Kathmandu (Ages 8-14) | Navya Ed Tech'
+            : 'Explore Professional IT Courses & Tech Training | Navya Ed Tech Nepal'
+        }
+        description={
+          audience === 'kids'
+            ? 'Creative block-based coding and game physics courses for children ages 8 to 14 in Kathmandu. Small batches, safe supervised lab, and playful problem solving.'
+            : 'Browse industry-standard courses in Web Development, Python, and Data Science in Kathmandu. Real production projects, small cohorts, and career mentorship.'
+        }
+        keywords={
+          audience === 'kids'
+            ? 'kids coding Nepal, Scratch programming Kathmandu, coding for children Kathmandu, STEM courses Nepal, young coders Nepal'
+            : 'IT courses in Nepal, computer training institute Kathmandu, web development course Nepal, Python programming Kathmandu, data science training Nepal'
+        }
+        structuredData={[
+          getBreadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Courses', path: '/courses' },
+          ]),
+          getItemListSchema(audienceCourses),
+        ]}
       />
 
       <Container>
+        {/* Cloud sync status notification if error exists */}
+        {dbError && !dismissError && (
+          <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-center justify-between gap-3 animate-fade-in">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
+              <span>
+                <strong>Offline verified data active:</strong> Serving verified in-memory curriculum catalog while database reconnects.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDismissError(true)}
+              className="text-amber-800 hover:text-amber-950 p-1 font-bold"
+              aria-label="Dismiss notice"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 0. TOP-LEVEL AUDIENCE SEGMENTATION TOGGLE */}
+        {/* ========================================================================= */}
+        <section aria-label="Course Audience Segment" className="mb-8 pb-6 border-b border-border-warm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-ink-soft block">
+              Audience Focus:
+            </span>
+            <p className="text-xs text-ink-faint">
+              {audience === 'career'
+                ? 'Engineering courses for career switchers, university students & working professionals.'
+                : 'Creative computing & algorithmic logic for school students ages 8 to 14.'}
+            </p>
+          </div>
+
+          <div
+            role="tablist"
+            aria-label="Audience course category switch"
+            className="inline-flex p-1.5 rounded-2xl bg-white border border-border-warm shadow-xs max-w-full overflow-x-auto self-start md:self-auto"
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={audience === 'career'}
+              onClick={() => handleAudienceChange('career')}
+              className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
+                audience === 'career'
+                  ? 'bg-navy text-white shadow-sm'
+                  : 'text-ink-soft hover:text-ink hover:bg-paper-alt'
+              }`}
+            >
+              <GraduationCap className="w-4 h-4" />
+              <span>Career & Professional Courses</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={audience === 'kids'}
+              onClick={() => handleAudienceChange('kids')}
+              className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
+                audience === 'kids'
+                  ? 'bg-navy text-white shadow-sm'
+                  : 'text-ink-soft hover:text-ink hover:bg-paper-alt'
+              }`}
+            >
+              <Gamepad2 className="w-4 h-4 text-amber-500" />
+              <span>Kids & School Programs (Ages 8–14)</span>
+            </button>
+          </div>
+        </section>
+
         {/* ========================================================================= */}
         {/* 1. HERO SECTION & VALUE PROPOSITION */}
         {/* ========================================================================= */}
-        <section className="mb-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-navy/5 border border-navy/15 text-xs font-semibold tracking-wider text-navy uppercase">
-              <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
-              <span>2026 Batch Admissions Open • Kathmandu Campus & Live Online</span>
-            </div>
+        <section className="mb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <motion.div
+            variants={prefersReducedMotion ? undefined : heroStaggerContainer}
+            initial={prefersReducedMotion ? false : 'hidden'}
+            animate="visible"
+            className="lg:col-span-7 space-y-6"
+          >
+            <motion.div
+              variants={prefersReducedMotion ? undefined : heroEyebrow}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-navy/5 border border-navy/15 text-xs font-semibold tracking-wider text-navy uppercase"
+            >
+              <HeroLiveIndicator color={audience === 'kids' ? 'amber' : 'sage'} />
+              <span>
+                {audience === 'kids'
+                  ? 'Young Coders STEM Lab • Kathmandu Campus & Weekend Batches'
+                  : 'Admissions Open • Kathmandu Lab & Live Online'}
+              </span>
+            </motion.div>
 
             <div className="space-y-3">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink leading-[1.12]">
-                Launch Your Tech Career With Production-Grade Engineering Courses.
-              </h1>
-              <p className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl">
-                Every curriculum is built around real-world software architecture, continuous line-by-line code reviews, and live cloud-deployed capstone portfolios.
-              </p>
+              <motion.h1
+                variants={prefersReducedMotion ? undefined : heroHeadline}
+                className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink leading-[1.12]"
+              >
+                {audience === 'kids'
+                  ? 'Empower Your Child With Creative Coding & Problem Solving.'
+                  : 'Explore Practical Software Engineering Syllabi.'}
+              </motion.h1>
+              <motion.p
+                variants={prefersReducedMotion ? undefined : heroParagraph}
+                className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl"
+              >
+                {audience === 'kids'
+                  ? 'Transform passive screen time into active creation. Children ages 8 to 14 master computational sequencing, arcade game physics, and animation in a safe, supervised Kathmandu laboratory.'
+                  : 'Every curriculum is designed around modern technologies, daily laboratory sprints, line-by-line GitHub pull request audits, and production capstone portfolios.'}
+              </motion.p>
             </div>
 
-            {/* Live Search & Quick Keyword Pills */}
-            <div className="pt-2 space-y-3">
+            {/* Live Search & Accessible Input */}
+            <motion.div
+              variants={prefersReducedMotion ? undefined : heroCardItem}
+              className="pt-2 space-y-3"
+              role="search"
+            >
               <div className="relative max-w-2xl">
-                <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft" />
+                <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Search courses, frameworks, or tools (e.g., Python, JavaScript, Scratch, Data Science)..."
+                  aria-label={
+                    audience === 'kids'
+                      ? 'Search kids coding courses by name or game topic'
+                      : 'Search courses by title, framework, or skill'
+                  }
+                  placeholder={
+                    audience === 'kids'
+                      ? 'Search kids courses (e.g., Scratch Beginner, Game Physics, Animation)...'
+                      : 'Search by course name or skill (e.g., Python, JavaScript, React)...'
+                  }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') setSearchQuery('');
+                  }}
                   className="w-full pl-12 pr-10 py-3.5 text-sm sm:text-base rounded-2xl border border-input-border bg-white text-ink shadow-xs placeholder-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:border-transparent"
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink p-1 cursor-pointer"
+                    aria-label="Clear search input"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink p-1.5 cursor-pointer"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -238,63 +464,89 @@ export const Courses: React.FC = () => {
                   </button>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Trust Telemetry Strip */}
-            <div className="pt-2 flex flex-wrap items-center gap-5 text-xs text-ink-soft">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-sage" />
-                <span className="font-medium">1:12 Max Cohort Ratio</span>
-              </div>
-              <span className="text-input-border">•</span>
-              <div className="flex items-center gap-1.5">
-                <Users className="w-4 h-4 text-blue" />
-                <span className="font-medium">Direct Senior Mentorship</span>
-              </div>
-              <span className="text-input-border">•</span>
-              <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-navy" />
-                <span className="font-medium">GitHub Code Reviews</span>
-              </div>
-            </div>
-          </div>
+            <motion.div
+              variants={prefersReducedMotion ? undefined : heroCardsContainer}
+              className="pt-2 flex flex-wrap items-center gap-5 text-xs text-ink-soft"
+            >
+              {audience === 'kids' ? (
+                <>
+                  <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
+                    <Users className="w-4 h-4 text-sage" />
+                    <span className="font-medium">1:8 Mentor Attention</span>
+                  </motion.div>
+                  <span className="text-input-border">•</span>
+                  <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-blue" />
+                    <span className="font-medium">Safe Supervised Lab</span>
+                  </motion.div>
+                  <span className="text-input-border">•</span>
+                  <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
+                    <Gamepad2 className="w-4 h-4 text-amber-600" />
+                    <span className="font-medium">Playable Game Portfolios</span>
+                  </motion.div>
+                </>
+              ) : (
+                <>
+                  <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-sage" />
+                    <span className="font-medium">1:12 Max Cohort Ratio</span>
+                  </motion.div>
+                  <span className="text-input-border">•</span>
+                  <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
+                    <Users className="w-4 h-4 text-blue" />
+                    <span className="font-medium">Direct Senior Mentorship</span>
+                  </motion.div>
+                  <span className="text-input-border">•</span>
+                  <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-navy" />
+                    <span className="font-medium">GitHub PR Code Audits</span>
+                  </motion.div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
 
-          {/* Right Visual Composition with Generated Matching Hero Image */}
+          {/* Right Visual Composition with Parallax Overlaid Card */}
           <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-lg lg:max-w-none">
-              <div className="absolute -inset-2 bg-gradient-to-tr from-navy/20 via-blue/15 to-sage/20 rounded-3xl blur-xl -z-10" />
-              <div className="relative rounded-3xl overflow-hidden border border-blue-mist shadow-xl bg-white group">
-                <img
-                  src="/images/heroes/courses-hero.jpg"
-                  alt="Students and developers learning in Kathmandu tech academy lab"
-                  className="w-full h-[320px] sm:h-[380px] object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  loading="eager"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-black/20" />
-
-                {/* Floating Top Badge */}
-                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/40 shadow-sm text-xs font-bold text-navy">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Kathmandu Innovation Lab</span>
+            <HeroImageWithParallax
+              src={audience === 'kids' ? '/images/courses/scratch-beginner.jpg' : '/images/heroes/courses-hero.jpg'}
+              alt={
+                audience === 'kids'
+                  ? 'Young students learning visual coding and game design at Navya Ed Tech lab'
+                  : 'Students and developers learning in Kathmandu tech academy lab'
+              }
+              heightClass="h-80 sm:h-96"
+              priority={true}
+              overlayBadgeTop={
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/40 shadow-sm text-xs font-bold text-navy">
+                  <HeroLiveIndicator color={audience === 'kids' ? 'amber' : 'emerald'} />
+                  <span>{audience === 'kids' ? 'Young Coders Lab (Ages 8–14)' : 'Putalisadak Kathmandu Lab'}</span>
                 </div>
-
-                {/* Bottom Overlay Card */}
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
+              }
+              overlayCardBottom={
+                <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                   <div className="space-y-0.5">
-                    <p className="text-xs font-bold text-ink">Real Production Codebases</p>
-                    <p className="text-[11px] text-ink-soft">Cloud-deployed capstone portfolios</p>
+                    <p className="text-xs font-bold text-ink">
+                      {audience === 'kids' ? 'Interactive Games & Stories' : 'Verifiable Capstones'}
+                    </p>
+                    <p className="text-[11px] text-ink-soft">
+                      {audience === 'kids' ? 'MIT Scratch to Python Pathway' : '100% student-owned codebases'}
+                    </p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
-                    2026 Batch
+                    {audience === 'kids' ? 'Creative Lab' : 'Kathmandu Campus'}
                   </span>
                 </div>
-              </div>
-            </div>
+              }
+            />
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* 3. FEATURED EDITORIAL SPOTLIGHT */}
+        {/* 2. FEATURED EDITORIAL SPOTLIGHT */}
         {/* ========================================================================= */}
         {spotlightCourse && selectedCategory === 'All' && !searchQuery && (
           <CourseSpotlight
@@ -308,21 +560,21 @@ export const Courses: React.FC = () => {
         <div id="courses-catalog-anchor" className="scroll-mt-24" />
 
         {/* ========================================================================= */}
-        {/* 4. COMPREHENSIVE FILTER & DISCOVERY TOOLBAR */}
+        {/* 3. COMPREHENSIVE FILTER & DISCOVERY TOOLBAR (STICKY ON SCROLL) */}
         {/* ========================================================================= */}
-        <div className="bg-white p-5 sm:p-6 rounded-3xl border border-border shadow-xs mb-8 space-y-4">
+        <div className="sticky top-16 sm:top-20 z-20 bg-white/95 backdrop-blur-md p-5 sm:p-6 rounded-3xl border border-border shadow-md mb-8 space-y-4 transition-all">
           {/* Top Row: Category Pills + View Switcher */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             {/* Category Pills with item counts */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
-              {COURSE_CATEGORIES.map((cat) => {
+              {(audience === 'career' ? CAREER_CATEGORIES : KIDS_CATEGORIES).map((cat) => {
                 const isActive = selectedCategory === cat;
                 const count = categoryCounts[cat] ?? 0;
                 return (
                   <button
                     key={cat}
                     type="button"
-                    onClick={() => setSelectedCategory(cat as CourseCategory)}
+                    onClick={() => setSelectedCategory(cat)}
                     className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer inline-flex items-center gap-1.5 ${
                       isActive
                         ? 'bg-navy text-white shadow-sm'
@@ -354,6 +606,7 @@ export const Courses: React.FC = () => {
                       : 'text-ink-soft hover:text-ink'
                   }`}
                   title="Grid view"
+                  aria-label="Switch to grid layout"
                 >
                   <LayoutGrid className="w-4 h-4" />
                 </button>
@@ -366,6 +619,7 @@ export const Courses: React.FC = () => {
                       : 'text-ink-soft hover:text-ink'
                   }`}
                   title="List view"
+                  aria-label="Switch to list layout"
                 >
                   <List className="w-4 h-4" />
                 </button>
@@ -375,6 +629,7 @@ export const Courses: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'featured' | 'alpha' | 'duration')}
+                aria-label="Sort courses"
                 className="px-3 py-2 text-xs font-semibold rounded-xl border border-input-border bg-paper text-ink focus:outline-none focus:ring-2 focus:ring-navy cursor-pointer"
               >
                 <option value="featured">Sort: Featured First</option>
@@ -396,6 +651,7 @@ export const Courses: React.FC = () => {
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
+                aria-label="Filter by skill level"
                 className="px-3 py-1.5 text-xs font-medium rounded-lg border border-input-border bg-white text-ink focus:outline-none focus:ring-2 focus:ring-navy"
               >
                 <option value="All">All Skill Levels</option>
@@ -408,6 +664,7 @@ export const Courses: React.FC = () => {
               <select
                 value={selectedMode}
                 onChange={(e) => setSelectedMode(e.target.value)}
+                aria-label="Filter by delivery mode"
                 className="px-3 py-1.5 text-xs font-medium rounded-lg border border-input-border bg-white text-ink focus:outline-none focus:ring-2 focus:ring-navy"
               >
                 <option value="All">All Delivery Modes</option>
@@ -431,77 +688,175 @@ export const Courses: React.FC = () => {
 
             {/* Results counter */}
             <div className="text-xs text-ink-soft font-medium">
-              Showing <strong>{filteredCourses.length}</strong> of <strong>{allCourses.length}</strong> available curriculum{allCourses.length === 1 ? '' : 's'}
+              Showing <strong>{filteredCourses.length}</strong> of <strong>{audienceCourses.length}</strong> course{audienceCourses.length === 1 ? '' : 's'}
             </div>
           </div>
+
+          {/* Active Filter Chips Bar */}
+          {hasActiveFilters && (
+            <div className="pt-2 flex flex-wrap items-center gap-2 border-t border-border-faint text-xs">
+              <span className="text-[11px] font-semibold text-ink-faint">Active:</span>
+
+              {selectedCategory !== 'All' && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-navy/5 border border-navy/15 text-navy text-xs font-medium">
+                  <span>Category: {selectedCategory}</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategory('All')}
+                    aria-label={`Remove category filter ${selectedCategory}`}
+                    className="hover:text-ink cursor-pointer ml-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              {selectedLevel !== 'All' && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-navy/5 border border-navy/15 text-navy text-xs font-medium">
+                  <span>Level: {selectedLevel}</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedLevel('All')}
+                    aria-label={`Remove level filter ${selectedLevel}`}
+                    className="hover:text-ink cursor-pointer ml-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              {selectedMode !== 'All' && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-navy/5 border border-navy/15 text-navy text-xs font-medium">
+                  <span>Format: {selectedMode}</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedMode('All')}
+                    aria-label={`Remove mode filter ${selectedMode}`}
+                    className="hover:text-ink cursor-pointer ml-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              {searchQuery && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-navy/5 border border-navy/15 text-navy text-xs font-medium">
+                  <span>Search: &ldquo;{searchQuery}&rdquo;</span>
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    aria-label="Remove search query filter"
+                    className="hover:text-ink cursor-pointer ml-0.5"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                className="text-xs text-ink-faint hover:text-ink underline ml-auto cursor-pointer"
+              >
+                Clear all filters
+              </button>
+            </div>
+          )}
         </div>
 
         {/* ========================================================================= */}
-        {/* 5. COURSES GRID / LIST */}
+        {/* 4. COURSES GRID / LIST (FLUID LAYOUT RE-FLOW & ANIMATE PRESENCE) */}
         {/* ========================================================================= */}
-        {isLoading && !allCourses.length ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-24 text-sm text-ink-soft">
-            <Loader2 className="w-6 h-6 animate-spin text-navy" />
-            <span>Loading courses catalog…</span>
-          </div>
-        ) : filteredCourses.length > 0 ? (
-          <div
+        {filteredCourses.length > 0 ? (
+          <motion.div
+            layout={!prefersReducedMotion}
             className={
               viewMode === 'grid'
                 ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8'
                 : 'space-y-4'
             }
           >
-            {filteredCourses.map((course) => (
-              <CourseCard
-                key={course.id}
-                course={course}
-                viewMode={viewMode}
-                onOpenAdvisor={handleOpenAdvisor}
-                onQuickPreview={(c) => setQuickPreviewCourse(c)}
-                isComparing={comparingCourses.some((c) => c.id === course.id)}
-                onToggleCompare={handleToggleCompare}
-              />
-            ))}
-          </div>
+            <AnimatePresence mode="popLayout">
+              {filteredCourses.map((course) => (
+                <motion.div
+                  key={course.id}
+                  layout={!prefersReducedMotion}
+                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={
+                    prefersReducedMotion
+                      ? undefined
+                      : { opacity: 0, scale: 0.96, transition: { duration: 0.2 } }
+                  }
+                  transition={{ duration: 0.35, ease: EASING }}
+                  className="h-full"
+                >
+                  <CourseCard
+                    course={course}
+                    viewMode={viewMode}
+                    onOpenAdvisor={handleOpenAdvisor}
+                    onQuickPreview={(c) => setQuickPreviewCourse(c)}
+                    isComparing={comparingCourses.some((c) => c.id === course.id)}
+                    onToggleCompare={handleToggleCompare}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         ) : (
-          /* Empty state */
-          <div className="text-center py-20 bg-white rounded-3xl border border-border p-8 max-w-lg mx-auto space-y-4 shadow-xs">
+          /* Empty state with guidance */
+          <div className="text-center py-16 sm:py-20 bg-white rounded-3xl border border-border p-8 max-w-lg mx-auto space-y-5 shadow-xs">
             <div className="w-14 h-14 rounded-2xl bg-paper-alt text-ink-soft flex items-center justify-center mx-auto">
               <BookOpen className="w-7 h-7 text-ink-faint" />
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <h3 className="text-lg font-bold text-ink">
                 No courses match your filter criteria
               </h3>
-              <p className="text-xs text-ink-soft leading-relaxed">
-                Try resetting your keywords or selecting "All" across skill levels and categories.
+              <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
+                {searchQuery
+                  ? `No course matches "${searchQuery}" in ${selectedCategory === 'All' ? 'the catalog' : selectedCategory}.`
+                  : 'No course currently matches the selected combination of skill level and delivery mode.'}
+              </p>
+              <p className="text-xs text-ink-faint">
+                Try clearing your search terms or resetting filters to see all {audienceCourses.length} available tracks.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={handleResetFilters}
-              className="px-5 py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep transition-colors cursor-pointer"
-            >
-              Reset All Filters
-            </button>
+
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                className="px-5 py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-deep transition-colors cursor-pointer shadow-xs"
+              >
+                Reset All Filters
+              </button>
+              <button
+                type="button"
+                onClick={() => handleOpenAdvisor()}
+                className="px-4 py-2.5 rounded-xl bg-paper-alt hover:bg-[#EAE5DA] text-ink text-xs font-semibold transition-colors cursor-pointer border border-border-warm inline-flex items-center gap-1.5"
+              >
+                <MessageSquare className="w-3.5 h-3.5 text-blue" />
+                <span>{audience === 'kids' ? 'Ask a Young Coders Counselor' : 'Ask an Academic Advisor'}</span>
+              </button>
+            </div>
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* 6. PEDAGOGICAL EXCELLENCE (4 PILLARS) */}
+        {/* 5. PEDAGOGICAL EXCELLENCE */}
         {/* ========================================================================= */}
-        <CoursePedagogyStrip />
+        {audience === 'kids' ? <KidsPedagogyStrip /> : <CoursePedagogyStrip />}
 
         {/* ========================================================================= */}
-        {/* 7. FREQUENTLY ASKED QUESTIONS */}
+        {/* 6. FREQUENTLY ASKED QUESTIONS */}
         {/* ========================================================================= */}
-        <CourseFAQAccordion />
+        {audience === 'kids' ? <KidsFAQAccordion /> : <CourseFAQAccordion />}
 
         {/* ========================================================================= */}
-        {/* 8. ADMISSIONS & ADVISOR CONSULTATION CTA */}
+        {/* 7. ADMISSIONS & ADVISOR CONSULTATION CTA */}
         {/* ========================================================================= */}
-        <CourseConsultationCTA onOpenAdvisor={() => handleOpenAdvisor()} />
+        <CourseConsultationCTA mode={audience} onOpenAdvisor={() => handleOpenAdvisor()} />
       </Container>
 
       {/* Floating Bottom Comparison Dock (When >= 1 course is selected) */}

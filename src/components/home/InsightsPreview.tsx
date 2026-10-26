@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, Loader2 } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Clock, Loader2, BookOpen } from 'lucide-react';
 import type { InsightArticle } from '../../types';
 import { INSIGHTS } from '../../data/insights';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
@@ -8,8 +9,10 @@ import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { Badge } from '../common/Badge';
 import { ImagePlaceholder } from '../common/ImagePlaceholder';
+import { fadeUp, staggerContainer } from '../../lib/motion';
 
 export const InsightsPreview: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const { items: dbInsights, isLoading } = useSupabaseTable<InsightArticle>('insights', { orderBy: 'createdAt' });
   const allArticles = useMemo(() => {
     if (dbInsights && dbInsights.length > 0) return dbInsights;
@@ -29,10 +32,10 @@ export const InsightsPreview: React.FC = () => {
           <div className="shrink-0">
             <Link
               to="/insights"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-blue transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-blue transition-colors group"
             >
               <span>Browse All Articles</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
@@ -42,58 +45,75 @@ export const InsightsPreview: React.FC = () => {
             <Loader2 className="w-4 h-4 animate-spin" /> Loading insights…
           </div>
         ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {latestInsights.map((article) => (
-            <article
-              key={article.id}
-              className="group flex flex-col justify-between bg-white border border-border rounded-xl overflow-hidden hover:border-navy/40 transition-colors"
-            >
-              <div>
-                <Link to={`/insights/${article.slug}`} className="block">
-                  <ImagePlaceholder
-                    src={article.coverImage}
-                    alt={article.title}
-                    aspectRatio="cinema"
-                    imgClassName="group-hover:scale-102 transition-transform duration-300"
-                  />
-                </Link>
+          <motion.div
+            variants={prefersReducedMotion ? undefined : staggerContainer(0.08, 0.04)}
+            initial={prefersReducedMotion ? false : 'hidden'}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+          >
+            {latestInsights.map((article) => (
+              <motion.div
+                key={article.id}
+                variants={prefersReducedMotion ? undefined : fadeUp}
+                className="h-full"
+              >
+                <Link
+                  to={`/insights/${article.slug}`}
+                  className="group flex flex-col justify-between bg-white border border-border rounded-2xl overflow-hidden hover:border-navy/40 hover:shadow-2xl hover:shadow-navy/10 transform-gpu hover:-translate-y-1.5 transition-all duration-300 h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy"
+                >
+                  <div>
+                    <div className="relative overflow-hidden bg-paper-alt border-b border-border">
+                      <ImagePlaceholder
+                        src={article.coverImage}
+                        alt={article.title}
+                        aspectRatio="cinema"
+                        imgClassName="group-hover:scale-106 transition-transform duration-500 ease-out"
+                      />
+                      {/* Floating read preview badge on hover */}
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-navy-dark/90 text-white text-[11px] font-mono font-semibold backdrop-blur-md shadow-sm">
+                          <BookOpen className="w-3.5 h-3.5 text-blue-light" />
+                          <span>Read Article</span>
+                        </span>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    </div>
 
-                <div className="p-5 sm:p-6 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="blue" size="sm">
-                      {article.category}
-                    </Badge>
-                    <div className="flex items-center gap-1 text-[11px] text-ink-faint">
-                      <Clock className="w-3 h-3" />
-                      <span>{article.readTime}</span>
+                    <div className="p-6 space-y-3.5">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="blue" size="sm" className="shadow-2xs">
+                          {article.category}
+                        </Badge>
+                        <div className="flex items-center gap-1 text-[11px] text-ink-muted font-mono">
+                          <Clock className="w-3 h-3 text-blue" />
+                          <span>{article.readTime}</span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-base sm:text-lg font-bold text-ink group-hover:text-navy transition-colors leading-snug">
+                        {article.title}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm text-ink-soft leading-relaxed line-clamp-3">
+                        {article.excerpt}
+                      </p>
                     </div>
                   </div>
 
-                  <Link to={`/insights/${article.slug}`}>
-                    <h3 className="text-base sm:text-lg font-bold text-ink group-hover:text-navy transition-colors leading-snug">
-                      {article.title}
-                    </h3>
-                  </Link>
-
-                  <p className="text-xs sm:text-sm text-ink-soft leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                </div>
-              </div>
-
-              <div className="px-5 sm:px-6 pb-5 pt-2 border-t border-border-faint flex items-center justify-between">
-                <span className="text-xs text-ink-faint">{article.date}</span>
-                <Link
-                  to={`/insights/${article.slug}`}
-                  className="text-xs font-semibold text-navy group-hover:text-blue inline-flex items-center gap-1"
-                >
-                  <span>Read Article</span>
-                  <ArrowRight className="w-3 h-3" />
+                  <div className="px-6 pb-5 pt-3.5 border-t border-border-faint flex items-center justify-between bg-paper-alt/40 group-hover:bg-paper-alt/80 transition-colors">
+                    <span className="text-xs font-mono text-ink-muted">{article.date}</span>
+                    <span
+                      className="text-xs font-bold text-navy group-hover:text-blue inline-flex items-center gap-1.5 transition-colors group/link"
+                    >
+                      <span>Read Full Insight</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1.5" />
+                    </span>
+                  </div>
                 </Link>
-              </div>
-            </article>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </motion.div>
         )}
       </Container>
     </section>

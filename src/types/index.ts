@@ -94,6 +94,13 @@ export interface Course {
   faqs: FAQItem[];
   featured?: boolean;
   syllabusPdfUrl?: string;
+  status?: 'published' | 'draft' | 'archived' | 'upcoming';
+  skills?: string[]; // Semantic alias for technologies
+  learningOutcomes?: string[]; // Semantic alias for outcomes
+  learningMode?: Course['mode']; // Semantic alias for mode
+  thumbnail?: string; // Semantic alias for heroImage
+  createdAt?: string;
+  updatedAt?: string;
   seoTitle: string;
   seoDescription: string;
 }
@@ -125,6 +132,9 @@ export interface StudentProject {
   completionContext: string;
   highlights: string[];
   isPlaceholder?: boolean;
+  isFeatured?: boolean;
+  featuredBadge?: string;
+  stats?: { label: string; value: string };
 }
 
 export interface InsightArticle {
@@ -148,6 +158,11 @@ export interface InsightArticle {
   keyTakeaways?: string[];
   relatedCourseSlug?: string;
   featured?: boolean;
+  status?: 'published' | 'draft' | 'archived';
+  seoTitle?: string;
+  seoDescription?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type InquiryStatus = 'New' | 'Contacted' | 'Enrolled' | 'Closed';
@@ -165,3 +180,24 @@ export interface Inquiry {
   createdAt: string;
   notes?: string;
 }
+
+export type TestimonialStatus = 'Pending Approval' | 'Approved' | 'Hidden';
+
+export interface Testimonial {
+  id: string;
+  studentName: string;
+  cohortOrCourse: string;
+  role?: string;
+  company?: string;
+  avatar?: string;
+  quote: string;
+  rating?: number;
+  consentConfirmed: boolean;
+  consentDate?: string;
+  verificationNotes?: string;
+  status: TestimonialStatus;
+  featured?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+

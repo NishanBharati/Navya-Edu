@@ -1,5 +1,5 @@
 import React from 'react';
-import logoSrc from '../../assets/logo.webp';
+const logoSrc = '/logo.webp';
 
 export interface LogoProps {
   variant?: 'light' | 'dark';
@@ -70,6 +70,8 @@ export const Logo: React.FC<LogoProps> = ({
         <img
           src={logoSrc}
           alt="Navya Ed Tech Logo"
+          width="48"
+          height="48"
           className={`w-full h-full object-contain ${
             isDark ? 'drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]' : 'brightness-110 contrast-115'
           } ${imgClassName}`}

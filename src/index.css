@@ -10,26 +10,50 @@
 @theme {
   --color-navy: #17324D;
   --color-navy-deep: #12283E;
-  --color-blue: #356A9A;
+  --color-navy-light: #24466B;
+  --color-blue: #1E5B8E;
+  --color-blue-electric: #2563EB;
   --color-blue-light: #79B7ED;
   --color-blue-mist: #D1DCE8;
-  --color-sage: #718C7A;
-  --color-sage-ink: #3D5644;
-  --color-amber: #C88A3D;
+  --color-sage: #52705C;
+  --color-sage-ink: #2C4233;
+  --color-sage-light: #EBF2EC;
+  --color-amber: #9E5D18;
+  --color-amber-dark: #78350F;
+  --color-amber-light: #FEF3C7;
 
+  /* Accessible Neutral Typography Tokens (WCAG AA 4.5:1 compliant) */
   --color-ink: #171A1F;
-  --color-ink-soft: #5F6670;
-  --color-ink-faint: #8C939E;
+  --color-ink-soft: #383F4A;
+  --color-ink-muted: #545D6B;
+  --color-ink-faint: #647082;
   --color-navy-mist: #9BBAD4;
-  --color-mist: #C4CDD5;
+  --color-mist: #CBD5E1;
 
+  /* Surfaces & Paper Backgrounds */
   --color-paper: #FAFAF8;
   --color-paper-alt: #F4F1EA;
-  --color-border: #E8E4DA;
-  --color-border-warm: #E5DFD4;
+  --color-surface-white: #FFFFFF;
+  --color-surface-hover: #F9F8F5;
+  --color-border: #E5DFD4;
+  --color-border-warm: #DFD7C8;
   --color-border-soft: #EFECE5;
-  --color-border-faint: #F0ECE1;
-  --color-input-border: #D8D2C6;
+  --color-border-faint: #F5F2EA;
+  --color-input-border: #D1C9BC;
+
+  /* Semantic Feedback & Status Tokens */
+  --color-success: #15803D;
+  --color-success-bg: #F0FDF4;
+  --color-success-border: #BBF7D0;
+  --color-warning: #B45309;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-border: #FDE68A;
+  --color-error: #B91C1C;
+  --color-error-bg: #FEF2F2;
+  --color-error-border: #FECACA;
+  --color-info: #1D4ED8;
+  --color-info-bg: #EFF6FF;
+  --color-info-border: #BFDBFE;
 }
 
 @layer base {
@@ -45,9 +69,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Baseline keyboard-focus ring for bespoke interactive elements
-     (filter pills, tabs, accordion headers, modal close buttons, etc.)
-     that don't go through the shared Button component. */
+  /* Accessible keyboard-focus ring across all interactive controls */
   button:focus-visible,
   a:focus-visible,
   input:focus-visible,
@@ -57,12 +79,13 @@
   [tabindex]:focus-visible {
     outline: 2px solid var(--color-navy);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    color: var(--color-ink);
   }
 }
 
@@ -128,9 +151,13 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-in,
-  .animate-slide-in,
-  .animate-slide-in-left {
-    animation: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
+

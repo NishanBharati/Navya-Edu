@@ -20,8 +20,8 @@ export const CoursePedagogyStrip: React.FC = () => {
     },
     {
       icon: <Briefcase className="w-5 h-5 text-amber" />,
-      title: 'Placement & Career Defense',
-      description: 'Benefit from live project presentations, technical mock interviews, resume refinement, and direct hiring partner referrals.'
+      title: 'Capstone Defense & Career Prep',
+      description: 'Benefit from live architecture presentations, technical mock interviews, resume refinement, and GitHub portfolio audits.'
     }
   ];
 

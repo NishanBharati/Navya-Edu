@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Search } from 'lucide-react';
 import { Course, CourseCategory } from '../../types';
 import { COURSE_CATEGORIES, COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
@@ -7,12 +8,14 @@ import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { CourseCard } from '../courses/CourseCard';
 import { Button } from '../common/Button';
+import { fadeUp, staggerContainer } from '../../lib/motion';
 
 interface CourseDiscoveryProps {
   onOpenAdvisor: (courseSlug: string) => void;
 }
 
 export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor }) => {
+  const prefersReducedMotion = useReducedMotion();
   const { items: dbCourses } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
   const [selectedCategory, setSelectedCategory] = useState<CourseCategory>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -64,15 +67,21 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
         </div>
 
         {/* Filter Navigation Bar & Search */}
-        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pb-4 border-b border-border">
+        <div className="mb-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between pb-4 border-b border-border min-w-0 max-w-full">
           {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
+          <div
+            role="tablist"
+            aria-label="Filter course tracks by discipline"
+            className="flex items-center gap-1.5 overflow-x-auto pb-2 sm:pb-0 scrollbar-none min-w-0 max-w-full"
+          >
             {COURSE_CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat;
               return (
                 <button
                   key={cat}
                   type="button"
+                  role="tab"
+                  aria-selected={isActive}
                   onClick={() => setSelectedCategory(cat as CourseCategory)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     isActive
@@ -87,10 +96,11 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
           </div>
 
           {/* Quick Filter Search */}
-          <div className="relative min-w-[240px]">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft" />
+          <div className="relative min-w-[240px] shrink-0">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none" />
             <input
               type="text"
+              aria-label="Search courses by technology or topic"
               placeholder="Search by stack, e.g. JavaScript, Python..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -99,17 +109,28 @@ export const CourseDiscovery: React.FC<CourseDiscoveryProps> = ({ onOpenAdvisor 
           </div>
         </div>
 
-        {/* Course Cards Grid */}
+        {/* Course Cards Grid with Staggered Viewport Reveal */}
         {filteredCourses.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <motion.div
+            variants={prefersReducedMotion ? undefined : staggerContainer(0.08, 0.04)}
+            initial={prefersReducedMotion ? false : 'hidden'}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          >
             {filteredCourses.slice(0, 6).map((course) => (
-              <CourseCard
+              <motion.div
                 key={course.id}
-                course={course}
-                onOpenAdvisor={onOpenAdvisor}
-              />
+                variants={prefersReducedMotion ? undefined : fadeUp}
+                className="h-full"
+              >
+                <CourseCard
+                  course={course}
+                  onOpenAdvisor={onOpenAdvisor}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <div className="text-center py-16 bg-white rounded-2xl border border-border p-8 space-y-3">
             <p className="text-sm font-bold text-ink">

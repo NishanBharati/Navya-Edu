@@ -1,50 +1,55 @@
 import React from 'react';
-import { Briefcase, Compass, ShieldCheck } from 'lucide-react';
+import { Briefcase, Compass, ShieldCheck, CheckCircle2, MessageSquare } from 'lucide-react';
 import { Container } from '../common/Container';
 import { SectionHeader } from '../common/SectionHeader';
 import { Button } from '../common/Button';
 
-export const CareerPathway: React.FC = () => {
+interface CareerPathwayProps {
+  onOpenAdvisor?: () => void;
+}
+
+export const CareerPathway: React.FC<CareerPathwayProps> = ({ onOpenAdvisor }) => {
   const pathways = [
     {
       role: 'Modern Web & Frontend Developer',
       description: 'Crafting responsive websites, interactive JavaScript-driven interfaces, and connecting RESTful APIs.',
       technologies: 'HTML5, CSS3, Tailwind CSS, JavaScript ES6+, Vercel',
       salaryRange: 'NPR 40,000 – 105,000 / mo',
-      demand: 'High Demand'
+      demand: 'High Demand',
     },
     {
       role: 'Python & Backend Software Engineer',
       description: 'Building high-throughput asynchronous REST microservices, database ORMs, automation tools, and modular systems.',
       technologies: 'Python 3.12, FastAPI, SQLAlchemy, AsyncIO, Pydantic, Git',
       salaryRange: 'NPR 45,000 – 115,000 / mo',
-      demand: 'Rapidly Growing'
+      demand: 'Rapidly Growing',
     },
     {
       role: 'Data Analyst & Machine Learning Practitioner',
       description: 'Extracting data intelligence, performing statistical modeling, and deploying predictive machine learning models.',
       technologies: 'Python, Pandas, NumPy, SQL, Scikit-Learn, Matplotlib',
       salaryRange: 'NPR 45,000 – 120,000 / mo',
-      demand: 'High Demand'
+      demand: 'High Demand',
     },
     {
       role: 'Junior Programmer & Automation Developer',
       description: 'Writing clean idiomatic scripts, building CLI utilities, handling structured files, and automating repetitive tasks.',
       technologies: 'Python, Git, GitHub, JSON/CSV Parsing, OOP Fundamentals',
       salaryRange: 'NPR 30,000 – 65,000 / mo',
-      demand: 'Steady Demand'
-    }
+      demand: 'Steady Demand',
+    },
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-paper-alt border-b border-border">
+    <section id="career-pathway-section" className="py-16 sm:py-24 bg-paper-alt border-b border-border">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           {/* Left Column */}
           <div className="lg:col-span-5 space-y-6">
             <SectionHeader
+              eyebrow="Realistic Career Pathways"
               title="Where practical technical competence leads."
-              description="Rather than offering hollow placement promises, we focus on engineering rigor, clean code portfolios, and interview preparedness that employers respect."
+              description="Rather than offering hollow placement guarantees, we focus on engineering rigor, clean code portfolios, and technical interview preparedness that hiring managers respect."
             />
 
             <div className="p-6 bg-white rounded-2xl border border-border-warm space-y-4 shadow-xs">
@@ -53,21 +58,40 @@ export const CareerPathway: React.FC = () => {
                 <span>Our Career Transition Philosophy</span>
               </div>
               <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
-                Hiring managers in Nepal and international remote companies evaluate verifiable
-                proof-of-work: your ability to explain database indexing, resolve Git merge
-                conflicts, write unit-testable code, and present deployed applications.
+                Hiring managers in Nepal and international remote companies evaluate verifiable proof-of-work: your ability to explain database indexing, resolve Git merge conflicts, write testable code, and present deployed web applications.
               </p>
 
-              <div className="pt-2 border-t border-border-faint flex items-center gap-2 text-xs text-ink font-semibold">
-                <ShieldCheck className="w-4 h-4 text-sage" />
-                <span>Placement Support & Partner Tech Employer Network</span>
+              <div className="pt-2 border-t border-border-faint space-y-2 text-xs text-ink font-medium">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-sage shrink-0" />
+                  <span>Technical resume & GitHub portfolio auditing</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-sage shrink-0" />
+                  <span>Mock system design & live coding interview prep</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-3.5 h-3.5 text-sage shrink-0" />
+                  <span>Direct referrals to Navya EdTech engineering & tech network</span>
+                </div>
               </div>
             </div>
 
             <div className="pt-1">
-              <Button variant="primary" size="md" href="/contact">
-                Talk to a Career Transition Coach
-              </Button>
+              {onOpenAdvisor ? (
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={onOpenAdvisor}
+                  leftIcon={<MessageSquare className="w-4 h-4" />}
+                >
+                  Talk to a Career Transition Coach
+                </Button>
+              ) : (
+                <Button variant="primary" size="md" href="/contact">
+                  Talk to a Career Transition Coach
+                </Button>
+              )}
             </div>
           </div>
 

@@ -87,11 +87,15 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
         </div>
 
         {/* Modal Navigation Tabs */}
-        <div className="flex items-center border-b border-border bg-paper px-6 shrink-0">
+        <div role="tablist" aria-label="Course preview sections" className="flex items-center border-b border-border bg-paper px-6 shrink-0">
           <button
             type="button"
+            role="tab"
+            id="preview-tab-modules"
+            aria-selected={activeTab === 'modules'}
+            aria-controls="preview-panel-modules"
             onClick={() => setActiveTab('modules')}
-            className={`px-4 py-3 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer ${
+            className={`px-4 py-3 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-navy ${
               activeTab === 'modules'
                 ? 'border-navy text-navy'
                 : 'border-transparent text-ink-soft hover:text-ink'
@@ -101,8 +105,12 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
           </button>
           <button
             type="button"
+            role="tab"
+            id="preview-tab-projects"
+            aria-selected={activeTab === 'projects'}
+            aria-controls="preview-panel-projects"
             onClick={() => setActiveTab('projects')}
-            className={`px-4 py-3 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer ${
+            className={`px-4 py-3 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-navy ${
               activeTab === 'projects'
                 ? 'border-navy text-navy'
                 : 'border-transparent text-ink-soft hover:text-ink'
@@ -112,8 +120,12 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
           </button>
           <button
             type="button"
+            role="tab"
+            id="preview-tab-outcomes"
+            aria-selected={activeTab === 'outcomes'}
+            aria-controls="preview-panel-outcomes"
             onClick={() => setActiveTab('outcomes')}
-            className={`px-4 py-3 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer ${
+            className={`px-4 py-3 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-navy ${
               activeTab === 'outcomes'
                 ? 'border-navy text-navy'
                 : 'border-transparent text-ink-soft hover:text-ink'
@@ -126,7 +138,12 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
         {/* Scrollable Body */}
         <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-6">
           {activeTab === 'modules' && (
-            <div className="space-y-4">
+            <div
+              id="preview-panel-modules"
+              role="tabpanel"
+              aria-labelledby="preview-tab-modules"
+              className="space-y-4"
+            >
               <div className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
                 Module Breakdown & Laboratory Exercises
               </div>
@@ -170,7 +187,12 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
           )}
 
           {activeTab === 'projects' && (
-            <div className="space-y-4">
+            <div
+              id="preview-panel-projects"
+              role="tabpanel"
+              aria-labelledby="preview-tab-projects"
+              className="space-y-4"
+            >
               <div className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
                 Production Capstone Projects Built During Training
               </div>
@@ -210,7 +232,12 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
           )}
 
           {activeTab === 'outcomes' && (
-            <div className="space-y-6">
+            <div
+              id="preview-panel-outcomes"
+              role="tabpanel"
+              aria-labelledby="preview-tab-outcomes"
+              className="space-y-6"
+            >
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-ink-soft mb-3">
                   Key Learning Outcomes

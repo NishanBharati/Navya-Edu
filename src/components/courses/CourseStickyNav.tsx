@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Layers, Terminal, UserCheck, HelpCircle, MessageSquareCode, Download } from 'lucide-react';
+import { Layers, Terminal, UserCheck, HelpCircle, MessageSquareCode, Download, Award, MessageSquare } from 'lucide-react';
 import { Container } from '../common/Container';
 
 interface CourseStickyNavProps {
-  onOpenAdvisor: () => void;
+  onOpenAdvisor: (intent?: 'enroll' | 'demo') => void;
   onDownloadSyllabus?: () => void;
   courseTitle?: string;
   hasProjects?: boolean;
@@ -21,15 +21,18 @@ export const CourseStickyNav: React.FC<CourseStickyNavProps> = ({
 
   const navItems = useMemo(() => {
     const items = [
-      { id: 'curriculum', label: 'Syllabus & Modules', icon: <Layers className="w-3.5 h-3.5" /> },
+      { id: 'curriculum', label: 'Curriculum', icon: <Layers className="w-3.5 h-3.5" /> },
     ];
     if (hasProjects) {
-      items.push({ id: 'projects', label: 'Capstone Projects', icon: <Terminal className="w-3.5 h-3.5" /> });
+      items.push({ id: 'projects', label: 'Capstones', icon: <Terminal className="w-3.5 h-3.5" /> });
     }
-    items.push({ id: 'eligibility', label: 'Eligibility & Careers', icon: <UserCheck className="w-3.5 h-3.5" /> });
+    items.push({ id: 'instructor', label: 'Faculty', icon: <UserCheck className="w-3.5 h-3.5" /> });
+    items.push({ id: 'eligibility', label: 'Eligibility', icon: <UserCheck className="w-3.5 h-3.5" /> });
+    items.push({ id: 'certificate', label: 'Certificate', icon: <Award className="w-3.5 h-3.5" /> });
     if (hasFaqs) {
       items.push({ id: 'faqs', label: 'FAQs', icon: <HelpCircle className="w-3.5 h-3.5" /> });
     }
+    items.push({ id: 'inquiry', label: 'Inquiry', icon: <MessageSquare className="w-3.5 h-3.5" /> });
     return items;
   }, [hasProjects, hasFaqs]);
 
@@ -108,25 +111,32 @@ export const CourseStickyNav: React.FC<CourseStickyNavProps> = ({
             })}
           </nav>
 
-          {/* Quick CTA */}
+          {/* Quick CTAs */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
             {onDownloadSyllabus && (
               <button
                 type="button"
                 onClick={onDownloadSyllabus}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-navy hover:bg-paper-alt px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-navy hover:bg-paper-alt px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5 text-blue" />
-                <span>Download PDF</span>
+                <span>PDF</span>
               </button>
             )}
             <button
               type="button"
-              onClick={onOpenAdvisor}
+              onClick={() => onOpenAdvisor('demo')}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-navy bg-paper-alt hover:bg-[#EAE5DA] border border-border-warm transition-colors shadow-xs cursor-pointer"
+            >
+              <span>Book Demo</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onOpenAdvisor('enroll')}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-navy hover:bg-navy-deep transition-colors shadow-xs cursor-pointer"
             >
               <MessageSquareCode className="w-3.5 h-3.5" />
-              <span>Talk to an Advisor</span>
+              <span>Enroll Now</span>
             </button>
           </div>
         </div>

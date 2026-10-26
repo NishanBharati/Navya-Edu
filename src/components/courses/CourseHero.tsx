@@ -8,16 +8,19 @@ import {
   Download,
   MapPin,
   Users,
-  Layers
+  Layers,
+  Sparkles,
+  CreditCard
 } from 'lucide-react';
 import { Course } from '../../types';
 import { Container } from '../common/Container';
 import { Button } from '../common/Button';
 import { ImagePlaceholder } from '../common/ImagePlaceholder';
+import { Breadcrumbs } from '../common/Breadcrumbs';
 
 interface CourseHeroProps {
   course: Course;
-  onOpenAdvisor: () => void;
+  onOpenAdvisor: (intent?: 'enroll' | 'demo') => void;
   onDownloadSyllabus: () => void;
 }
 
@@ -29,22 +32,15 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
   return (
     <section className="pt-6 pb-12 sm:pb-16 bg-paper border-b border-border-soft">
       <Container>
-        {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-2 text-xs text-ink-soft mb-5">
-          <Link to="/" className="hover:text-navy transition-colors">
-            Home
-          </Link>
-          <span>/</span>
-          <Link to="/courses" className="hover:text-navy transition-colors">
-            Courses
-          </Link>
-          <span>/</span>
-          <span className="text-blue font-semibold">{course.category}</span>
-          <span>/</span>
-          <span className="text-ink font-bold truncate max-w-[200px] sm:max-w-none">
-            {course.title}
-          </span>
-        </div>
+        {/* Standardized Breadcrumb Navigation */}
+        <Breadcrumbs
+          className="mb-6"
+          items={[
+            { label: 'Courses', href: '/courses' },
+            { label: course.category, href: '/courses' },
+            { label: course.title },
+          ]}
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Left Column: Heading, Value Prop, Telemetry */}
@@ -137,10 +133,19 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
               <Button
                 variant="primary"
                 size="lg"
-                onClick={onOpenAdvisor}
+                href={`/apply?track=${course.slug}`}
                 leftIcon={<MessageSquare className="w-4 h-4 text-navy-mist" />}
               >
-                Enquire / Reserve Seat
+                Enroll Now
+              </Button>
+
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => onOpenAdvisor('demo')}
+                leftIcon={<Sparkles className="w-4 h-4 text-blue" />}
+              >
+                Book a Free Demo Class
               </Button>
 
               <Button
@@ -183,9 +188,9 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                     <Calendar className="w-4 h-4 text-blue" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-ink">
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-ink">
                       Upcoming Cohort Details
-                    </h3>
+                    </h2>
                     <p className="text-[11px] text-ink-soft">Next scheduled batch start</p>
                   </div>
                 </div>
@@ -221,20 +226,51 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                   </span>
                 </div>
                 <div className="flex items-start justify-between pt-2.5 border-t border-border-faint">
-                  <span className="text-ink-soft">Tuition & Fee Structure:</span>
+                  <span className="text-ink-soft">Tuition & Fee:</span>
                   <span className="font-bold text-navy text-right">
                     {course.fee}
                   </span>
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={onOpenAdvisor}
-                className="w-full py-2.5 rounded-xl bg-navy hover:bg-navy-deep text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
-              >
-                Inquire for Fee & Seat Availability
-              </button>
+              {/* Verified Payment & Installment Instructions */}
+              <div className="p-3 rounded-xl bg-paper border border-border-soft space-y-1.5 text-[11px] text-ink-soft">
+                <div className="flex items-center gap-1.5 font-bold text-navy">
+                  <CreditCard className="w-3.5 h-3.5 text-blue" />
+                  <span>Payment & Installment Instructions:</span>
+                </div>
+                <ul className="space-y-1 text-ink-soft list-disc list-inside text-[10.5px] leading-relaxed">
+                  <li>Accepted: Fonepay QR, ConnectIPS, Bank Transfer, or Putalisadak campus desk.</li>
+                  <li>Milestone installment facility available (50% upon enrollment, 50% at mid-term).</li>
+                  <li>Zero admission fees or hidden laboratory equipment surcharges.</li>
+                </ul>
+              </div>
+
+              <div className="pt-1 flex flex-col gap-2">
+                <button
+                  type="button"
+                  onClick={() => onOpenAdvisor('enroll')}
+                  className="w-full py-2.5 rounded-xl bg-navy hover:bg-navy-deep text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+                >
+                  Enroll in Upcoming Cohort
+                </button>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onOpenAdvisor('demo')}
+                    className="py-2 rounded-xl bg-paper-alt hover:bg-[#EAE5DA] text-navy text-xs font-semibold border border-border-warm transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-blue" />
+                    <span>Free Demo</span>
+                  </button>
+                  <a
+                    href="#inquiry"
+                    className="py-2 rounded-xl bg-white hover:bg-paper-alt text-ink-soft hover:text-ink text-xs font-semibold border border-border transition-colors cursor-pointer flex items-center justify-center gap-1.5 text-center"
+                  >
+                    <span>Inquire / Questions</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

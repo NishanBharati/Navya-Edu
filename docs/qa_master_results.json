@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "totalTests": 52,
+    "passed": 52,
+    "failed": 0,
+    "categories": {
+      "Build & Quality": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "Route Testing": {
+        "total": 20,
+        "passed": 20,
+        "failed": 0
+      },
+      "Navigation": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      },
+      "Forms": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      },
+      "Responsive": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0
+      },
+      "Accessibility": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0
+      },
+      "SEO": {
+        "total": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "Performance": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      "Security": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      }
+    }
+  },
+  "defects": [],
+  "details": {}
+}

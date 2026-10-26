@@ -12,6 +12,11 @@ const FEATURES = [
   { icon: Inbox, text: 'Track and follow up on admissions inquiries' },
 ];
 
+const MAX_FAILED_ATTEMPTS = 5;
+const LOCKOUT_SECONDS = 60;
+const STORAGE_KEY_ATTEMPTS = 'navya_admin_login_attempts';
+const STORAGE_KEY_LOCKOUT = 'navya_admin_login_lockout';
+
 export const Login: React.FC = () => {
   const { isAuthenticated, isLoading, login } = useAdminAuth();
   const navigate = useNavigate();
@@ -24,6 +29,41 @@ export const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Rate-limiting and lockout protection
+  const [failedAttempts, setFailedAttempts] = useState<number>(() => {
+    try {
+      return parseInt(sessionStorage.getItem(STORAGE_KEY_ATTEMPTS) || '0', 10) || 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  const [lockoutTime, setLockoutTime] = useState<number>(() => {
+    try {
+      return parseInt(sessionStorage.getItem(STORAGE_KEY_LOCKOUT) || '0', 10) || 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  const [remainingLockoutSeconds, setRemainingLockoutSeconds] = useState<number>(0);
+
+  // Lockout countdown timer
+  React.useEffect(() => {
+    const updateCountdown = () => {
+      const now = Date.now();
+      if (lockoutTime > now) {
+        setRemainingLockoutSeconds(Math.ceil((lockoutTime - now) / 1000));
+      } else {
+        setRemainingLockoutSeconds(0);
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [lockoutTime]);
+
   if (isLoading) {
     return null;
   }
@@ -32,19 +72,54 @@ export const Login: React.FC = () => {
     return <Navigate to={redirectTo} replace />;
   }
 
+  const isLockedOut = remainingLockoutSeconds > 0;
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (isLockedOut) {
+      setError(`Login temporarily restricted. Please wait ${remainingLockoutSeconds}s before retrying.`);
+      return;
+    }
 
     if (!email || !password) return setError('Please enter your email and password.');
 
     setIsSubmitting(true);
     try {
-      const result = await login(email, password);
+      const result = await login(email.trim(), password);
       if (!result.ok) {
-        setError(result.error || 'Unable to sign in.');
+        const nextAttempts = failedAttempts + 1;
+        setFailedAttempts(nextAttempts);
+        try {
+          sessionStorage.setItem(STORAGE_KEY_ATTEMPTS, nextAttempts.toString());
+        } catch {
+          // sessionStorage may be blocked in strict private browsing
+        }
+
+        setPassword(''); // Clear password field on failed attempt
+
+        if (nextAttempts >= MAX_FAILED_ATTEMPTS) {
+          const until = Date.now() + LOCKOUT_SECONDS * 1000;
+          setLockoutTime(until);
+          try {
+            sessionStorage.setItem(STORAGE_KEY_LOCKOUT, until.toString());
+          } catch {}
+          setError(`Security alert: Too many failed attempts. Login locked for ${LOCKOUT_SECONDS} seconds.`);
+        } else {
+          const remaining = MAX_FAILED_ATTEMPTS - nextAttempts;
+          setError(`${result.error || 'Invalid credentials.'} (${remaining} attempt${remaining === 1 ? '' : 's'} remaining before lockout)`);
+        }
         return;
       }
+
+      // Successful login: reset failed counters
+      setFailedAttempts(0);
+      try {
+        sessionStorage.removeItem(STORAGE_KEY_ATTEMPTS);
+        sessionStorage.removeItem(STORAGE_KEY_LOCKOUT);
+      } catch {}
+
       navigate(redirectTo, { replace: true });
     } finally {
       setIsSubmitting(false);
@@ -163,8 +238,20 @@ export const Login: React.FC = () => {
               </div>
             </Field>
 
-            <Button type="submit" variant="primary" size="md" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Sign In'}
+            <Button
+              type="submit"
+              variant="primary"
+              size="md"
+              className="w-full"
+              disabled={isSubmitting || isLockedOut}
+            >
+              {isLockedOut ? (
+                `Console Locked (${remainingLockoutSeconds}s)`
+              ) : isSubmitting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </form>
 

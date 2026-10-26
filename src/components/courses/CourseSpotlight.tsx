@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   Sparkles,
   Clock,
@@ -21,16 +22,53 @@ export const CourseSpotlight: React.FC<CourseSpotlightProps> = ({
   onOpenAdvisor,
   onQuickPreview
 }) => {
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+  const gridParallax = useTransform(scrollY, [0, 800], [0, -25]);
+
   return (
-    <section className="mb-14 relative rounded-3xl bg-gradient-to-br from-navy via-[#102438] to-[#0A1624] text-white p-6 sm:p-8 lg:p-10 overflow-hidden shadow-2xl border border-white/10">
-      {/* Decorative backdrop elements */}
-      <div className="absolute -right-24 -top-24 w-96 h-96 bg-blue/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-sage/10 rounded-full blur-3xl pointer-events-none" />
+    <section className="mb-14 relative rounded-3xl bg-gradient-to-br from-navy via-[#102438] to-[#0A1624] text-white p-6 sm:p-8 lg:p-10 overflow-hidden shadow-2xl border border-white/15">
+      {/* 1. Slow-moving animated gradient mesh orbs */}
+      <motion.div
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                x: [0, 25, -20, 0],
+                y: [0, -20, 15, 0],
+                scale: [1, 1.1, 0.95, 1],
+              }
+        }
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -right-24 -top-24 w-96 h-96 bg-blue-electric/20 rounded-full blur-3xl pointer-events-none"
+        aria-hidden="true"
+      />
+      <motion.div
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                x: [0, -30, 20, 0],
+                y: [0, 25, -15, 0],
+                scale: [1, 0.9, 1.08, 1],
+              }
+        }
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -left-20 -bottom-20 w-80 h-80 bg-sage/20 rounded-full blur-3xl pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* 2. Faint technical blueprint grid pattern with parallax drift */}
+      <motion.div
+        style={{ y: prefersReducedMotion ? 0 : gridParallax }}
+        className="absolute inset-0 opacity-[0.06] pointer-events-none bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:32px_32px]"
+        aria-hidden="true"
+      />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
         {/* Left Column: Flagship Details */}
         <div className="lg:col-span-7 space-y-5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold tracking-wider text-blue-light uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-wider text-white uppercase">
             <Sparkles className="w-3.5 h-3.5 text-[#D9A662]" />
             <span>Featured Specialization • 2026 Batch</span>
           </div>

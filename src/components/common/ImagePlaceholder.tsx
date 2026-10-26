@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface ImagePlaceholderProps {
   src?: string;
@@ -31,6 +31,15 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
 }) => {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      if (imgRef.current.naturalWidth > 0) {
+        setIsLoading(false);
+      }
+    }
+  }, [src]);
 
   const aspectClasses = {
     video: 'aspect-[16/10]',
@@ -49,6 +58,12 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
     >
       {src && !hasError && (
         <img
+          ref={(node) => {
+            imgRef.current = node;
+            if (node && node.complete && node.naturalWidth > 0) {
+              setIsLoading(false);
+            }
+          }}
           src={src}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}

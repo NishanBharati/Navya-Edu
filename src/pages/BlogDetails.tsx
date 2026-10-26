@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 import {
   ArrowLeft,
   Clock,
@@ -15,7 +15,8 @@ import {
   GraduationCap,
   MessageSquare,
   ShieldCheck,
-  ChevronLeft
+  ChevronLeft,
+  Eye,
 } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 import type { InsightArticle } from '../types';
@@ -23,16 +24,22 @@ import { INSIGHTS } from '../data/insights';
 import { COURSES } from '../data/courses';
 import { Container } from '../components/common/Container';
 import { Badge } from '../components/common/Badge';
+import { SITE_URL } from '../config/site';
 import { Button } from '../components/common/Button';
 import { SEOHead } from '../components/common/SEOHead';
+import { getArticleSchema, getBreadcrumbSchema } from '../utils/structuredData';
 import { AdvisorModal } from '../components/common/AdvisorModal';
 import { ImagePlaceholder } from '../components/common/ImagePlaceholder';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 
 export const BlogDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [searchParams] = useSearchParams();
+  const isPreview = searchParams.get('preview') === 'true';
 
-  const [article, setArticle] = useState<InsightArticle | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const initialArticle = slug ? (INSIGHTS.find((item) => item.slug === slug) ?? null) : null;
+  const [article, setArticle] = useState<InsightArticle | null>(initialArticle);
+  const [isLoading, setIsLoading] = useState(!initialArticle);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isCopied, setIsCopied] = useState(false);
   const [isAdvisorOpen, setIsAdvisorOpen] = useState(false);
@@ -40,7 +47,6 @@ export const BlogDetails: React.FC = () => {
   // Load article from Supabase with fallback to local INSIGHTS
   useEffect(() => {
     let isActive = true;
-    setIsLoading(true);
 
     async function loadArticle() {
       try {
@@ -145,24 +151,73 @@ export const BlogDetails: React.FC = () => {
 
   if (!article) {
     return (
-      <main className="min-h-screen py-24 bg-paper flex items-center justify-center">
-        <Container size="narrow" className="text-center space-y-5 bg-white p-8 sm:p-12 rounded-3xl border border-border shadow-sm">
-          <div className="w-14 h-14 rounded-full bg-navy/5 text-navy mx-auto flex items-center justify-center">
-            <BookOpen className="w-6 h-6" />
+      <main className="min-h-screen py-16 sm:py-24 bg-paper">
+        <SEOHead
+          title="Article Not Found | Navya Ed Tech"
+          description="The requested publication could not be located in our insights archive."
+          noindex={true}
+        />
+        <Container size="narrow">
+          <Breadcrumbs
+            className="mb-6"
+            items={[
+              { label: 'Insights', href: '/insights' },
+              { label: 'Article Not Found' },
+            ]}
+          />
+          <div className="text-center space-y-5 bg-white p-8 sm:p-12 rounded-2xl border border-border shadow-xs">
+            <div className="w-14 h-14 rounded-full bg-navy/5 text-navy mx-auto flex items-center justify-center">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-ink">
+              Article Not Found
+            </h1>
+            <p className="text-sm text-ink-muted max-w-md mx-auto leading-relaxed">
+              The article "{slug}" could not be located. It may have been updated, renamed, or archived.
+            </p>
+            <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+              <Button variant="primary" href="/insights">
+                Browse All Insights
+              </Button>
+              <Button variant="secondary" href="/courses">
+                Explore Courses
+              </Button>
+            </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-ink">
-            Publication Not Found
-          </h1>
-          <p className="text-sm text-ink-soft max-w-md mx-auto leading-relaxed">
-            The article you requested could not be located. It may have been renamed, updated, or archived.
-          </p>
-          <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
-            <Button variant="outline" href="/insights">
-              Browse All Insights
-            </Button>
-            <Button variant="primary" href="/courses">
-              Explore Courses
-            </Button>
+        </Container>
+      </main>
+    );
+  }
+
+  if (article.status === 'draft' && !isPreview) {
+    return (
+      <main className="min-h-screen py-16 sm:py-24 bg-paper">
+        <Container size="narrow">
+          <Breadcrumbs
+            className="mb-6"
+            items={[
+              { label: 'Insights', href: '/insights' },
+              { label: 'Draft Publication' },
+            ]}
+          />
+          <div className="text-center space-y-5 bg-white p-8 sm:p-12 rounded-2xl border border-border shadow-xs">
+            <div className="w-14 h-14 rounded-full bg-amber-50 text-amber-600 mx-auto flex items-center justify-center">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-ink">
+              Draft Publication
+            </h1>
+            <p className="text-sm text-ink-muted max-w-md mx-auto leading-relaxed">
+              "{article.title}" is currently saved as an editorial draft and has not been published yet.
+            </p>
+            <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
+              <Button variant="primary" href="/insights">
+                Browse Published Insights
+              </Button>
+              <Button variant="outline" href="/admin/insights">
+                Admin Console
+              </Button>
+            </div>
           </div>
         </Container>
       </main>
@@ -170,17 +225,55 @@ export const BlogDetails: React.FC = () => {
   }
 
   const shareTitle = encodeURIComponent(article.title);
-  const shareUrl = encodeURIComponent(window.location.href);
+  const shareUrl = encodeURIComponent(typeof window !== 'undefined' ? window.location.href : `${SITE_URL}/insights/${slug}`);
+
+  const breadcrumbs = [
+    { name: 'Home', path: '/' },
+    { name: 'Insights', path: '/insights' },
+    { name: article.title, path: `/insights/${article.slug}` },
+  ];
 
   return (
     <main className="min-h-screen pb-20 bg-paper text-ink">
+      {isPreview && (
+        <div className="bg-amber-500 text-white px-4 py-2.5 text-xs font-semibold flex items-center justify-between shadow-md sticky top-0 z-50">
+          <div className="flex items-center gap-2 max-w-7xl mx-auto w-full">
+            <Eye className="w-4 h-4 shrink-0" />
+            <span>
+              <strong>Editorial Preview Mode:</strong> You are previewing an unreleased article draft ({article.status || 'draft'}). This is not accessible to public readers.
+            </span>
+            <Link
+              to="/admin/insights"
+              className="ml-auto underline font-bold hover:text-amber-100 shrink-0"
+            >
+              Back to Admin
+            </Link>
+          </div>
+        </div>
+      )}
       <SEOHead
-        title={`${article.title} | Navya Ed Tech Insights`}
-        description={article.excerpt}
+        title={article.seoTitle ? `${article.seoTitle} | Navya Ed Tech` : `${article.title} | Navya Ed Tech Insights`}
+        description={article.seoDescription || article.excerpt}
+        keywords={`${article.category}, IT insights Nepal, ${article.tags?.join(', ') || 'software engineering Kathmandu'}`}
+        ogType="article"
+        ogImage={article.coverImage}
+        canonicalUrl={`${SITE_URL}/insights/${article.slug}`}
+        noindex={isPreview}
+        structuredData={[
+          getArticleSchema(article),
+          getBreadcrumbSchema(breadcrumbs),
+        ]}
       />
 
       {/* Reading Progress Indicator Bar */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-transparent z-50 pointer-events-none">
+      <div
+        role="progressbar"
+        aria-valuenow={Math.round(scrollProgress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Article reading progress"
+        className="fixed top-0 left-0 w-full h-1 bg-transparent z-50 pointer-events-none"
+      >
         <div
           className="h-full bg-blue transition-all duration-150 ease-out"
           style={{ width: `${scrollProgress}%` }}
@@ -190,27 +283,25 @@ export const BlogDetails: React.FC = () => {
       {/* ========================================================================= */}
       {/* 1. BREADCRUMBS & TOP NAV */}
       {/* ========================================================================= */}
-      <div className="border-b border-border bg-white/80 backdrop-blur-sm sticky top-20 z-30">
-        <Container className="py-3">
-          <div className="flex items-center justify-between gap-4 text-xs text-ink-soft">
-            <div className="flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
-              <Link to="/insights" className="hover:text-navy font-medium flex items-center gap-1">
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Insights</span>
-              </Link>
-              <ChevronRight className="w-3 h-3 text-mist shrink-0" />
-              <span className="text-ink-faint">{article.category}</span>
-              <ChevronRight className="w-3 h-3 text-mist shrink-0 hidden sm:inline" />
-              <span className="text-ink font-semibold truncate hidden sm:inline max-w-[280px]">
-                {article.title}
-              </span>
+      <div className="border-b border-border bg-white/90 backdrop-blur-sm sticky top-20 z-30">
+        <Container className="py-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4 min-w-0 max-w-full">
+            <div className="min-w-0 max-w-full overflow-hidden">
+              <Breadcrumbs
+                items={[
+                  { label: 'Insights', href: '/insights' },
+                  { label: article.category, href: '/insights' },
+                  { label: article.title },
+                ]}
+              />
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={handleCopyLink}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-input-border bg-white text-xs font-semibold text-ink hover:bg-paper-alt transition-colors"
+                aria-label="Copy article link to clipboard"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-input-border bg-white text-xs font-semibold text-ink hover:bg-paper-alt transition-colors cursor-pointer"
                 title="Copy article link"
               >
                 {isCopied ? (
@@ -220,7 +311,7 @@ export const BlogDetails: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5 text-ink-soft" />
+                    <Copy className="w-3.5 h-3.5 text-ink-muted" />
                     <span>Copy Link</span>
                   </>
                 )}
@@ -273,6 +364,10 @@ export const BlogDetails: React.FC = () => {
                   <img
                     src={article.author.avatarUrl}
                     alt={article.author.name}
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                    decoding="async"
                     className="w-10 h-10 rounded-full object-cover border border-border"
                   />
                 ) : (
@@ -344,20 +439,76 @@ export const BlogDetails: React.FC = () => {
           )}
 
           {/* ========================================================================= */}
+          {/* 4.5 TABLE OF CONTENTS (When multiple section headings exist) */}
+          {/* ========================================================================= */}
+          {(() => {
+            const headings = article.content
+              .filter((b) => b.startsWith('## '))
+              .map((b) => b.replace('## ', ''));
+
+            if (headings.length < 2) return null;
+
+            return (
+              <nav aria-label="Table of contents" className="p-5 sm:p-6 rounded-2xl bg-paper-alt border border-border-warm space-y-3">
+                <div className="flex items-center gap-2 text-xs font-bold text-navy uppercase tracking-wider">
+                  <BookOpen className="w-4 h-4 text-blue" />
+                  <span>Table of Contents</span>
+                </div>
+                <ul className="space-y-2 text-xs sm:text-sm">
+                  {headings.map((heading, hIdx) => {
+                    const anchor = heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    return (
+                      <li key={hIdx} className="flex items-center gap-2">
+                        <ChevronRight className="w-3.5 h-3.5 text-blue shrink-0" />
+                        <a
+                          href={`#${anchor}`}
+                          className="text-navy hover:text-blue hover:underline font-medium transition-colors"
+                        >
+                          {heading}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+            );
+          })()}
+
+          {/* ========================================================================= */}
           {/* 5. ARTICLE BODY CONTENT */}
           {/* ========================================================================= */}
           <div className="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-3xl border border-border shadow-sm space-y-6">
             {article.content.map((block, idx) => {
-              // Section Subheadings
+              // Section Subheadings with Anchors
               if (block.startsWith('## ')) {
                 const headingText = block.replace('## ', '');
+                const anchor = headingText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                 return (
                   <h2
+                    id={anchor}
                     key={idx}
-                    className="text-xl sm:text-2xl font-extrabold tracking-tight text-ink pt-4 pb-1 border-b border-border-faint first:pt-0"
+                    className="text-xl sm:text-2xl font-extrabold tracking-tight text-ink pt-6 pb-2 border-b border-border-faint scroll-mt-28 first:pt-0"
                   >
                     {headingText}
                   </h2>
+                );
+              }
+
+              // Code Blocks (```lang ... ```)
+              if (block.startsWith('```') && block.endsWith('```')) {
+                const lines = block.split('\n');
+                const lang = lines[0].replace('```', '').trim() || 'code';
+                const codeContent = lines.slice(1, -1).join('\n');
+                return (
+                  <div key={idx} className="my-4 rounded-xl overflow-hidden border border-navy/20 bg-[#0F172A] text-slate-100 font-mono text-xs shadow-sm">
+                    <div className="px-4 py-2 bg-slate-900 border-b border-slate-800 text-[11px] text-slate-400 uppercase tracking-wider flex justify-between items-center">
+                      <span>{lang}</span>
+                      <span className="text-[10px] text-slate-500">Source Snippet</span>
+                    </div>
+                    <pre className="p-4 overflow-x-auto leading-relaxed">
+                      <code>{codeContent}</code>
+                    </pre>
+                  </div>
                 );
               }
 
@@ -391,6 +542,10 @@ export const BlogDetails: React.FC = () => {
                   <img
                     src={article.author.avatarUrl}
                     alt={article.author.name}
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-12 rounded-full object-cover border border-border shrink-0"
                   />
                 ) : (
@@ -444,9 +599,9 @@ export const BlogDetails: React.FC = () => {
                 <GraduationCap className="w-4 h-4" />
                 <span>Associated Project Track & Curriculum</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                 Learn {relatedCourse.title} through Hands-On Engineering Sprints
-              </h3>
+              </h2>
               <p className="text-xs sm:text-sm text-mist leading-relaxed max-w-2xl">
                 Master the practical architectures discussed in this article. Build verified full-stack applications with senior code reviews and live mentorship in Kathmandu.
               </p>
@@ -513,9 +668,9 @@ export const BlogDetails: React.FC = () => {
           {/* ========================================================================= */}
           <section className="pt-10 space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg sm:text-xl font-extrabold text-ink">
+              <h2 className="text-lg sm:text-xl font-extrabold text-ink">
                 More Technical Insights
-              </h3>
+              </h2>
               <Link
                 to="/insights"
                 className="text-xs font-bold text-navy hover:text-blue inline-flex items-center gap-1"
@@ -545,9 +700,9 @@ export const BlogDetails: React.FC = () => {
                       </Badge>
                       <span>{rel.readTime}</span>
                     </div>
-                    <h4 className="text-xs sm:text-sm font-bold text-ink group-hover:text-navy line-clamp-2 leading-snug">
+                    <h3 className="text-xs sm:text-sm font-bold text-ink group-hover:text-navy line-clamp-2 leading-snug">
                       {rel.title}
-                    </h4>
+                    </h3>
                   </div>
                 </Link>
               ))}

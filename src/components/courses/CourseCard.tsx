@@ -8,7 +8,8 @@ import {
   Eye,
   Layers,
   Sparkles,
-  Scale
+  Scale,
+  Tag
 } from 'lucide-react';
 import { Course } from '../../types';
 import { Badge } from '../common/Badge';
@@ -35,26 +36,32 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   showCompareOption = true,
   viewMode = 'grid'
 }) => {
-  const visibleTechs = course.technologies.slice(0, 4);
-  const remainingTechCount = course.technologies.length - visibleTechs.length;
+  const techs = course.technologies || course.skills || [];
+  const visibleTechs = techs.slice(0, 4);
+  const remainingTechCount = techs.length - visibleTechs.length;
+  const courseMode = course.mode || course.learningMode || 'Classroom / In-Person';
+  const courseSummary = course.shortDescription || course.description || '';
+  const batchStatus = course.upcomingBatch?.seatsStatus || 'Admissions Open';
+  const feeLabel = course.fee || 'Inquire for batch fee (NPR)';
 
   if (viewMode === 'list') {
     return (
       <article
         id={`course-card-${course.slug}`}
-        className={`group relative bg-white border border-border rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:border-navy/40 hover:shadow-lg hover:shadow-navy/5 flex flex-col md:flex-row gap-5 lg:gap-6 ${
+        className={`group relative bg-white border border-border rounded-2xl p-4 sm:p-6 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:border-navy/40 hover:shadow-xl hover:shadow-navy/8 flex flex-col md:flex-row gap-5 lg:gap-6 ${
           isComparing ? 'ring-2 ring-blue bg-[#F8FAFC]' : ''
         } ${className}`}
       >
         {/* Left Thumbnail with overlays */}
         <div className="relative md:w-64 lg:w-72 rounded-xl overflow-hidden shrink-0">
           <ImagePlaceholder
-            src={course.heroImage}
+            src={course.heroImage || course.thumbnail}
             alt={course.title}
             aspectRatio="video"
             className="md:h-full md:aspect-auto"
-            imgClassName="group-hover:scale-105 transition-transform duration-500"
+            imgClassName="group-hover:scale-105 transition-transform duration-500 ease-out"
           >
+            <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 md:hidden pointer-events-none" />
 
             <div className="absolute top-2.5 left-2.5 flex flex-wrap items-center gap-1.5 z-10">
@@ -77,8 +84,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                   e.preventDefault();
                   onQuickPreview(course);
                 }}
-                className="absolute bottom-2.5 right-2.5 hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/75 hover:bg-black text-white text-xs font-semibold backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100 z-10 cursor-pointer"
-                title="Quick preview course"
+                className="absolute bottom-2.5 right-2.5 hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/75 hover:bg-black text-white text-xs font-semibold backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-white z-10 cursor-pointer"
+                title="Quick preview course syllabus"
+                aria-label={`Quick outline for ${course.title}`}
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>Preview</span>
@@ -91,10 +99,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <div className="flex-1 flex flex-col justify-between space-y-4">
           <div className="space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2 text-xs font-semibold text-ink-soft">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-ink-soft">
                 <span className="inline-flex items-center gap-1 text-blue bg-blue/10 px-2 py-0.5 rounded-md">
                   <Laptop className="w-3 h-3" />
-                  {course.mode}
+                  {courseMode}
                 </span>
                 <span>•</span>
                 <span className="inline-flex items-center gap-1">
@@ -113,6 +121,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                 <button
                   type="button"
                   onClick={() => onToggleCompare(course)}
+                  aria-pressed={isComparing}
                   className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
                     isComparing
                       ? 'bg-blue text-white'
@@ -125,14 +134,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               )}
             </div>
 
-            <Link to={`/courses/${course.slug}`}>
-              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-ink group-hover:text-navy transition-colors leading-snug">
+            <Link to={`/courses/${course.slug}`} className="block group">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-ink group-hover:text-navy transition-colors leading-snug break-words">
                 {course.title}
               </h3>
             </Link>
 
             <p className="text-xs sm:text-sm text-ink-soft leading-relaxed line-clamp-2">
-              {course.shortDescription}
+              {courseSummary}
             </p>
 
             {/* Tech Stack Chips */}
@@ -140,16 +149,24 @@ export const CourseCard: React.FC<CourseCardProps> = ({
               {visibleTechs.map((tech) => (
                 <span
                   key={tech}
-                  className="px-2 py-0.5 rounded text-[11px] font-medium bg-paper-alt text-[#4A5059] border border-border"
+                  className="px-2 py-0.5 rounded text-[11px] font-medium bg-paper-alt text-ink-muted border border-border"
                 >
                   {tech}
                 </span>
               ))}
               {remainingTechCount > 0 && (
-                <span className="px-1.5 py-0.5 rounded text-[11px] font-semibold text-ink-soft bg-border-soft">
+                <span className="px-1.5 py-0.5 rounded text-[11px] font-semibold text-ink-muted bg-border-soft">
                   +{remainingTechCount} more
                 </span>
               )}
+            </div>
+
+            {/* Pricing Notice */}
+            <div className="pt-1 flex items-center gap-1.5 text-xs text-navy font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue/5 border border-blue/15 text-navy max-w-full">
+                <Tag className="w-3.5 h-3.5 text-blue shrink-0" />
+                <span className="truncate">{feeLabel}</span>
+              </span>
             </div>
           </div>
 
@@ -158,11 +175,11 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             <div className="flex items-center gap-2 text-xs text-ink-soft">
               <span className="w-2 h-2 rounded-full bg-sage animate-pulse shrink-0" />
               <span className="font-medium text-ink">
-                {course.upcomingBatch?.seatsStatus || 'Admissions Open'}
+                {batchStatus}
               </span>
               <span className="hidden sm:inline text-ink-faint">|</span>
               <span className="hidden sm:inline truncate max-w-[200px]">
-                {course.upcomingBatch?.classTime || 'Morning & Evening batches'}
+                {course.upcomingBatch?.classTime || 'Morning & Evening sessions'}
               </span>
             </div>
 
@@ -203,76 +220,79 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     <article
       id={`course-card-${course.slug}`}
-      className={`group flex flex-col bg-white border border-border rounded-2xl overflow-hidden hover:border-navy/40 hover:shadow-xl hover:shadow-navy/5 transition-all duration-300 relative ${
+      className={`group flex flex-col bg-white border border-border rounded-2xl overflow-hidden transform-gpu transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02] hover:border-navy/40 hover:shadow-2xl hover:shadow-navy/10 relative justify-between ${
         isComparing ? 'ring-2 ring-blue bg-[#F8FAFC]' : ''
       } ${className}`}
     >
-      {/* Course Image Header with Overlays */}
-      <ImagePlaceholder
-        src={course.heroImage}
-        alt={course.title}
-        aspectRatio="cinema"
-        imgClassName="group-hover:scale-105 transition-transform duration-500"
-      >
-        <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
+      <div>
+        {/* Course Image Header with Overlays */}
+        <ImagePlaceholder
+          src={course.heroImage || course.thumbnail}
+          alt={course.title}
+          aspectRatio="cinema"
+          imgClassName="group-hover:scale-105 transition-transform duration-500 ease-out"
+        >
+          <Link to={`/courses/${course.slug}`} className="absolute inset-0 z-0" aria-label={course.title} />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none" />
 
-        {/* Top Badges */}
-        <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 z-10">
-          <Badge variant="navy" size="sm">
-            {course.category}
-          </Badge>
-          {course.featured && (
-            <Badge variant="amber" size="sm">
-              Featured
+          {/* Top Badges */}
+          <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 z-10">
+            <Badge variant="navy" size="sm">
+              {course.category}
             </Badge>
-          )}
-        </div>
+            {course.featured && (
+              <Badge variant="amber" size="sm">
+                Featured
+              </Badge>
+            )}
+          </div>
 
-        {/* Top Right Quick Actions */}
-        <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-          {showCompareOption && onToggleCompare && (
-            <button
-              type="button"
-              onClick={() => onToggleCompare(course)}
-              className={`p-1.5 rounded-lg backdrop-blur-md transition-all cursor-pointer ${
-                isComparing
-                  ? 'bg-blue text-white shadow-sm'
-                  : 'bg-black/60 hover:bg-black/80 text-white/90'
-              }`}
-              title={isComparing ? 'Remove from comparison' : 'Compare with other courses'}
-            >
-              <Scale className="w-3.5 h-3.5" />
-            </button>
-          )}
-          {onQuickPreview && (
-            <button
-              type="button"
-              onClick={() => onQuickPreview(course)}
-              className="p-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white/90 backdrop-blur-md transition-all cursor-pointer"
-              title="Quick preview syllabus"
-            >
-              <Eye className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
+          {/* Top Right Quick Actions */}
+          <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+            {showCompareOption && onToggleCompare && (
+              <button
+                type="button"
+                onClick={() => onToggleCompare(course)}
+                aria-pressed={isComparing}
+                className={`p-1.5 rounded-lg backdrop-blur-md transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-white ${
+                  isComparing
+                    ? 'bg-blue text-white shadow-xs'
+                    : 'bg-black/60 hover:bg-black/80 text-white/90'
+                }`}
+                title={isComparing ? 'Remove from comparison' : 'Compare with other courses'}
+                aria-label={isComparing ? `Remove ${course.title} from comparison` : `Compare ${course.title}`}
+              >
+                <Scale className="w-3.5 h-3.5" />
+              </button>
+            )}
+            {onQuickPreview && (
+              <button
+                type="button"
+                onClick={() => onQuickPreview(course)}
+                className="p-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white/90 backdrop-blur-md transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-white"
+                title="Quick preview syllabus"
+                aria-label={`Preview outline for ${course.title}`}
+              >
+                <Eye className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
 
-        {/* Bottom Mode Pill on Image */}
-        <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] text-white font-medium z-10">
-          <span className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
-            <Laptop className="w-3 h-3 text-blue-light" />
-            {course.mode}
-          </span>
-          <span className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
-            <Clock className="w-3 h-3 text-[#D9A662]" />
-            {course.duration}
-          </span>
-        </div>
-      </ImagePlaceholder>
+          {/* Bottom Mode Pill on Image */}
+          <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] text-white font-medium z-10">
+            <span className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
+              <Laptop className="w-3 h-3 text-blue-light" />
+              {courseMode}
+            </span>
+            <span className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md">
+              <Clock className="w-3 h-3 text-[#D9A662]" />
+              {course.duration}
+            </span>
+          </div>
+        </ImagePlaceholder>
 
-      {/* Card Content */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-        <div className="space-y-3">
+        {/* Card Content */}
+        <div className="p-5 sm:p-6 space-y-3.5">
           {/* Level & Module Count */}
           <div className="flex items-center justify-between text-xs text-ink-soft">
             <div className="flex items-center gap-1 font-semibold text-navy">
@@ -286,15 +306,15 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           </div>
 
           {/* Title */}
-          <Link to={`/courses/${course.slug}`}>
-            <h3 className="text-lg font-bold tracking-tight text-ink group-hover:text-navy transition-colors leading-snug">
+          <Link to={`/courses/${course.slug}`} className="block group">
+            <h3 className="text-lg font-bold tracking-tight text-ink group-hover:text-navy transition-colors leading-snug break-words">
               {course.title}
             </h3>
           </Link>
 
           {/* Description */}
           <p className="text-xs sm:text-sm text-ink-soft line-clamp-2 leading-relaxed">
-            {course.shortDescription}
+            {courseSummary}
           </p>
 
           {/* Technologies Chips */}
@@ -302,26 +322,36 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             {visibleTechs.map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-0.5 rounded text-[11px] font-medium bg-paper-alt text-[#4A5059] border border-border"
+                className="px-2 py-0.5 rounded text-[11px] font-medium bg-paper-alt text-ink-muted border border-border"
               >
                 {tech}
               </span>
             ))}
             {remainingTechCount > 0 && (
-              <span className="px-1.5 py-0.5 rounded text-[11px] font-semibold text-ink-soft bg-border-soft">
+              <span className="px-1.5 py-0.5 rounded text-[11px] font-semibold text-ink-muted bg-border-soft">
                 +{remainingTechCount}
               </span>
             )}
           </div>
         </div>
+      </div>
 
-        {/* Card Footer & Batch Status */}
-        <div className="pt-3 border-t border-border-faint space-y-3">
+      {/* Card Footer & Batch Status */}
+      <div className="p-5 sm:p-6 pt-0 space-y-2.5">
+        <div className="pt-3 border-t border-border-faint space-y-2.5">
+          {/* Tuition & Pricing Notice */}
+          <div className="flex items-center gap-1.5 text-xs text-navy font-semibold">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue/5 border border-blue/15 w-full text-[11px] sm:text-xs">
+              <Tag className="w-3.5 h-3.5 text-blue shrink-0" />
+              <span className="truncate">{feeLabel}</span>
+            </span>
+          </div>
+
           <div className="flex items-center justify-between text-xs text-ink-soft">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
               <span className="font-semibold text-ink">
-                {course.upcomingBatch?.seatsStatus || 'Admissions Open'}
+                {batchStatus}
               </span>
             </div>
             <span className="text-[11px] text-ink-soft">
@@ -344,6 +374,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
                   type="button"
                   onClick={() => onQuickPreview(course)}
                   className="text-xs font-semibold text-ink-soft hover:text-ink px-2.5 py-1.5 rounded-lg bg-paper-alt hover:bg-[#EAE5DA] transition-colors cursor-pointer"
+                  aria-label={`Preview ${course.title} outline`}
                 >
                   Outline
                 </button>

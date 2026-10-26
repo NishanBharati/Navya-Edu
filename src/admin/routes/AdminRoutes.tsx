@@ -9,6 +9,7 @@ import { CoursesAdmin } from '../pages/CoursesAdmin';
 import { ProgramsAdmin } from '../pages/ProgramsAdmin';
 import { StudentWorkAdmin } from '../pages/StudentWorkAdmin';
 import { InsightsAdmin } from '../pages/InsightsAdmin';
+import { TestimonialsAdmin } from '../pages/TestimonialsAdmin';
 import { InquiriesAdmin } from '../pages/InquiriesAdmin';
 import { SettingsAdmin } from '../pages/SettingsAdmin';
 
@@ -30,6 +31,7 @@ export const AdminRoutes: React.FC = () => {
           <Route path="programs" element={<ProgramsAdmin />} />
           <Route path="student-work" element={<StudentWorkAdmin />} />
           <Route path="insights" element={<InsightsAdmin />} />
+          <Route path="testimonials" element={<TestimonialsAdmin />} />
           <Route path="inquiries" element={<InquiriesAdmin />} />
           <Route path="settings" element={<SettingsAdmin />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />

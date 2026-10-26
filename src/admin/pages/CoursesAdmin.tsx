@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Plus, Search, Pencil, Trash2, GraduationCap, Star, Loader2, FileText, Eye, RotateCcw } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, GraduationCap, Star, Loader2, FileText, Eye, RotateCcw, ExternalLink, CheckCircle2, AlertCircle, Archive } from 'lucide-react';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import { COURSES, LEGACY_COURSE_SLUGS } from '../../data/courses';
 import { slugify } from '../../lib/storage';
@@ -22,7 +22,7 @@ const MODES: Course['mode'][] = ['Classroom / In-Person', 'Online Live', 'Hybrid
 type TabId = 'overview' | 'batch' | 'curriculum' | 'content' | 'instructor' | 'seo';
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: 'overview', label: 'Overview' },
+  { id: 'overview', label: 'Overview & Status' },
   { id: 'batch', label: 'Batch & Fee' },
   { id: 'curriculum', label: 'Curriculum & PDF' },
   { id: 'content', label: 'Audience & Outcomes' },
@@ -42,6 +42,7 @@ const emptyCourse = (): Course => ({
   level: 'Beginner to Intermediate',
   mode: 'Classroom / In-Person',
   featured: false,
+  status: 'published',
   syllabusPdfUrl: '',
   upcomingBatch: {
     startDate: 'Next batch starting soon [Inquire for exact schedule]',
@@ -78,6 +79,7 @@ export const CoursesAdmin: React.FC = () => {
   const { items: courses, isLoading, error, add, update, remove, replaceAll } = useSupabaseTable<Course>('courses', { orderBy: 'title', ascending: true });
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
+  const [statusFilter, setStatusFilter] = useState<'All' | 'published' | 'draft' | 'upcoming' | 'archived'>('All');
   const [drawerState, setDrawerState] = useState<{ mode: 'create' | 'edit'; draft: Course; tab: TabId } | null>(null);
   const [viewTarget, setViewTarget] = useState<Course | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Course | null>(null);
@@ -107,11 +109,22 @@ export const CoursesAdmin: React.FC = () => {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return courses.filter((c) => {
-      const matchesQuery = !q || c.title.toLowerCase().includes(q);
+      const matchesQuery = !q || c.title.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q);
       const matchesCategory = categoryFilter === 'All' || c.category === categoryFilter;
-      return matchesQuery && matchesCategory;
+      const cStatus = c.status || 'published';
+      const matchesStatus = statusFilter === 'All' || cStatus === statusFilter;
+      return matchesQuery && matchesCategory && matchesStatus;
     });
-  }, [courses, search, categoryFilter]);
+  }, [courses, search, categoryFilter, statusFilter]);
+
+  const handleToggleStatus = async (course: Course, newStatus: Course['status']) => {
+    try {
+      await update(course.id, { status: newStatus });
+      showToast(`Updated "${course.title}" status to ${newStatus}.`);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Failed to update course status.');
+    }
+  };
 
   const openCreate = () => {
     setSaveError(null);
@@ -133,11 +146,26 @@ export const CoursesAdmin: React.FC = () => {
   const handleSave = async () => {
     if (!drawerState) return;
     const draft = drawerState.draft;
-    if (!draft.title.trim()) return;
+    
+    // Strict field validation
+    if (!draft.title.trim()) {
+      setSaveError('Course Title is required.');
+      return;
+    }
+    if (!draft.duration.trim()) {
+      setSaveError('Course Duration is required (e.g. "4 Months").');
+      return;
+    }
+    if (!draft.category) {
+      setSaveError('Please select a course category.');
+      return;
+    }
 
     const cleaned: Course = {
       ...draft,
-      slug: draft.slug || slugify(draft.title),
+      title: draft.title.trim(),
+      slug: draft.slug.trim() || slugify(draft.title),
+      status: draft.status || 'published',
       targetAudience: draft.targetAudience.filter((s) => s.trim()),
       prerequisites: draft.prerequisites.filter((s) => s.trim()),
       outcomes: draft.outcomes.filter((s) => s.trim()),
@@ -151,8 +179,10 @@ export const CoursesAdmin: React.FC = () => {
       if (drawerState.mode === 'create') {
         const { id: _omit, ...payload } = cleaned;
         await add(payload);
+        showToast(`Course "${cleaned.title}" created successfully.`);
       } else {
         await update(draft.id, cleaned);
+        showToast(`Course "${cleaned.title}" saved successfully.`);
       }
       setDrawerState(null);
     } catch (err) {
@@ -166,6 +196,7 @@ export const CoursesAdmin: React.FC = () => {
     if (!deleteTarget) return;
     try {
       await remove(deleteTarget.id);
+      showToast(`Course deleted successfully.`);
     } catch (err) {
       showToast(err instanceof Error ? err.message : 'Failed to delete course.');
     } finally {
@@ -218,13 +249,40 @@ export const CoursesAdmin: React.FC = () => {
       )}
 
       <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+        {/* Status Tabs */}
+        <div className="flex items-center gap-2 px-4 pt-3 pb-1 border-b border-border-soft overflow-x-auto text-xs">
+          {(['All', 'published', 'draft', 'upcoming', 'archived'] as const).map((status) => {
+            const count = status === 'All'
+              ? courses.length
+              : courses.filter((c) => (c.status || 'published') === status).length;
+            const label = status === 'All' ? 'All Courses' : status.charAt(0).toUpperCase() + status.slice(1);
+            return (
+              <button
+                key={status}
+                type="button"
+                onClick={() => setStatusFilter(status)}
+                className={`px-3 py-1.5 rounded-lg font-semibold transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer ${
+                  statusFilter === status
+                    ? 'bg-navy text-white shadow-xs'
+                    : 'text-ink-soft hover:bg-paper-alt hover:text-ink'
+                }`}
+              >
+                <span>{label}</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${statusFilter === status ? 'bg-white/20 text-white' : 'bg-paper-alt text-ink-faint'}`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
         <div className="p-4 border-b border-border-soft flex flex-col sm:flex-row gap-3">
           <div className="relative max-w-xs flex-1">
             <Search className="w-4 h-4 text-ink-faint absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search courses…"
+              placeholder="Search courses or slug…"
               className="w-full pl-9 pr-3 py-2 rounded-lg bg-paper-alt text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy focus:bg-white transition-colors"
             />
           </div>
@@ -256,67 +314,114 @@ export const CoursesAdmin: React.FC = () => {
                   <th className="px-5 py-2.5 font-semibold">Course</th>
                   <th className="px-5 py-2.5 font-semibold hidden sm:table-cell">Category</th>
                   <th className="px-5 py-2.5 font-semibold hidden md:table-cell">Duration</th>
-                  <th className="px-5 py-2.5 font-semibold hidden lg:table-cell">Level</th>
+                  <th className="px-5 py-2.5 font-semibold">Status</th>
                   <th className="px-5 py-2.5 font-semibold text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((course) => (
-                  <tr key={course.id} className="border-b border-paper-alt last:border-0 hover:bg-paper transition-colors">
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center gap-2">
-                        {course.featured && <Star className="w-3.5 h-3.5 text-amber fill-amber shrink-0" />}
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-medium text-ink truncate max-w-[260px]">{course.title}</p>
-                            {course.syllabusPdfUrl && (
-                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-50 text-navy border border-blue-200 shrink-0" title="Custom syllabus PDF attached">
-                                <FileText className="w-3 h-3 text-blue" /> PDF
-                              </span>
-                            )}
+                {filtered.map((course) => {
+                  const courseStatus = course.status || 'published';
+                  return (
+                    <tr key={course.id} className="border-b border-paper-alt last:border-0 hover:bg-paper transition-colors">
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center gap-2">
+                          {course.featured && <Star className="w-3.5 h-3.5 text-amber fill-amber shrink-0" />}
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium text-ink truncate max-w-[240px]">{course.title}</p>
+                              {course.syllabusPdfUrl && (
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-50 text-navy border border-blue-200 shrink-0" title="Custom syllabus PDF attached">
+                                  <FileText className="w-3 h-3 text-blue" /> PDF
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-ink-faint truncate max-w-[240px]">{course.shortDescription}</p>
                           </div>
-                          <p className="text-xs text-ink-faint truncate max-w-[260px]">{course.shortDescription}</p>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3.5 hidden sm:table-cell">
-                      <Badge variant="navy" size="sm">{course.category}</Badge>
-                    </td>
-                    <td className="px-5 py-3.5 hidden md:table-cell text-ink-soft">{course.duration}</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell text-ink-soft">{course.level}</td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => setViewTarget(course)}
-                          aria-label={`View details for ${course.title}`}
-                          title="View course details"
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => openEdit(course)}
-                          aria-label={`Edit ${course.title}`}
-                          title="Edit course"
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-navy transition-colors cursor-pointer"
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setDeleteTarget(course)}
-                          aria-label={`Delete ${course.title}`}
-                          title="Delete course"
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-5 py-3.5 hidden sm:table-cell">
+                        <Badge variant="navy" size="sm">{course.category}</Badge>
+                      </td>
+                      <td className="px-5 py-3.5 hidden md:table-cell text-ink-soft">{course.duration}</td>
+                      <td className="px-5 py-3.5">
+                        {courseStatus === 'published' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Published
+                          </span>
+                        )}
+                        {courseStatus === 'draft' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> Draft
+                          </span>
+                        )}
+                        {courseStatus === 'upcoming' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                            Upcoming
+                          </span>
+                        )}
+                        {courseStatus === 'archived' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
+                            Archived
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center justify-end gap-1.5">
+                          {/* Quick Publish / Unpublish Toggle */}
+                          {courseStatus === 'draft' ? (
+                            <button
+                              type="button"
+                              onClick={() => handleToggleStatus(course, 'published')}
+                              aria-label={`Publish ${course.title}`}
+                              title="Publish this course to live site"
+                              className="px-2 py-1 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors cursor-pointer flex items-center gap-1"
+                            >
+                              <CheckCircle2 className="w-3 h-3" /> Publish
+                            </button>
+                          ) : courseStatus === 'published' ? (
+                            <button
+                              type="button"
+                              onClick={() => handleToggleStatus(course, 'draft')}
+                              aria-label={`Unpublish ${course.title}`}
+                              title="Unpublish (move to draft)"
+                              className="px-2 py-1 rounded text-xs font-medium text-ink-faint hover:text-amber-700 hover:bg-amber-50 transition-colors cursor-pointer"
+                            >
+                              Unpublish
+                            </button>
+                          ) : null}
+
+                          <button
+                            type="button"
+                            onClick={() => setViewTarget(course)}
+                            aria-label={`Preview ${course.title}`}
+                            title="Preview course & syllabus"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => openEdit(course)}
+                            aria-label={`Edit ${course.title}`}
+                            title="Edit course"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-navy transition-colors cursor-pointer"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDeleteTarget(course)}
+                            aria-label={`Delete ${course.title}`}
+                            title="Delete course"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -406,13 +511,35 @@ export const CoursesAdmin: React.FC = () => {
                   </Field>
                 </div>
 
-                <Field label="Duration">
+                <Field label="Duration" required>
                   <TextInput
                     value={drawerState.draft.duration}
                     onChange={(e) => setDraft((d) => ({ ...d, duration: e.target.value }))}
                     placeholder="e.g. 4 Months"
                   />
                 </Field>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-paper-alt border border-border">
+                  <Field label="Publishing Status" hint="Only Published courses are displayed to public visitors.">
+                    <Select
+                      value={drawerState.draft.status || 'published'}
+                      onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value as Course['status'] }))}
+                    >
+                      <option value="published">Published (Live to Public)</option>
+                      <option value="draft">Draft (Admin Only)</option>
+                      <option value="upcoming">Upcoming (Admissions Soon)</option>
+                      <option value="archived">Archived (Unlisted)</option>
+                    </Select>
+                  </Field>
+                  <div className="pt-2">
+                    <Toggle
+                      checked={drawerState.draft.featured ?? false}
+                      onChange={(checked) => setDraft((d) => ({ ...d, featured: checked }))}
+                      label="Featured Course"
+                      description="Display in homepage discovery highlight cards."
+                    />
+                  </div>
+                </div>
 
                 <Field label="Short Description" hint="Shown on course cards and listings.">
                   <TextArea
@@ -613,6 +740,15 @@ export const CoursesAdmin: React.FC = () => {
         widthClass="max-w-3xl"
         footer={
           <>
+            <a
+              href={`/courses/${viewTarget?.slug}?preview=true`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-border text-xs font-semibold text-navy bg-white hover:bg-paper-alt transition-colors mr-auto"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              Open Live Preview
+            </a>
             <button
               type="button"
               onClick={() => setViewTarget(null)}
@@ -644,6 +780,15 @@ export const CoursesAdmin: React.FC = () => {
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-white/20 text-white">
                   {viewTarget.category}
+                </span>
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                  (viewTarget.status || 'published') === 'published'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                    : viewTarget.status === 'draft'
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                    : 'bg-white/10 text-white/80'
+                }`}>
+                  {viewTarget.status || 'published'}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-white/90">
                   {viewTarget.level}

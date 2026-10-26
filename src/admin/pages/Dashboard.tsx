@@ -6,12 +6,13 @@ import {
   FolderKanban,
   Newspaper,
   Inbox,
+  Quote,
   Plus,
   ArrowRight,
 } from 'lucide-react';
 import { useSupabaseTable } from '../../lib/useSupabaseTable';
 import { useAdminAuth } from '../context/AdminAuthContext';
-import type { Course, Program, StudentProject, InsightArticle, Inquiry } from '../../types';
+import type { Course, Program, StudentProject, InsightArticle, Inquiry, Testimonial } from '../../types';
 import { StatCard } from '../components/ui/StatCard';
 import { PageHeader } from '../components/ui/PageHeader';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -24,9 +25,11 @@ export const Dashboard: React.FC = () => {
   const { items: programs } = useSupabaseTable<Program>('programs');
   const { items: projects } = useSupabaseTable<StudentProject>('student_projects');
   const { items: insights } = useSupabaseTable<InsightArticle>('insights');
+  const { items: testimonials } = useSupabaseTable<Testimonial>('testimonials');
   const { items: inquiries } = useSupabaseTable<Inquiry>('inquiries');
 
   const newInquiryCount = inquiries.filter((i) => i.status === 'New').length;
+  const approvedTestimonialsCount = testimonials.filter((t) => t.status === 'Approved').length;
 
   const recentInquiries = useMemo(
     () =>
@@ -60,11 +63,12 @@ export const Dashboard: React.FC = () => {
       />
 
       {/* KPI row */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 mb-6">
         <StatCard label="Total Courses" value={courses.length} icon={GraduationCap} tone="navy" href="/admin/courses" hint={`${new Set(courses.map((c) => c.category)).size} categories`} />
         <StatCard label="Career Programs" value={programs.length} icon={Layers} tone="blue" href="/admin/programs" />
         <StatCard label="Portfolio Projects" value={projects.length} icon={FolderKanban} tone="sage" href="/admin/student-work" />
         <StatCard label="Published Insights" value={insights.length} icon={Newspaper} tone="neutral" href="/admin/insights" />
+        <StatCard label="Testimonials" value={testimonials.length} icon={Quote} tone="navy" href="/admin/testimonials" hint={`${approvedTestimonialsCount} approved`} />
         <StatCard label="New Inquiries" value={newInquiryCount} icon={Inbox} tone="amber" href="/admin/inquiries" hint={`${inquiries.length} total`} />
       </div>
 
@@ -159,6 +163,9 @@ export const Dashboard: React.FC = () => {
           </Button>
           <Button variant="secondary" size="sm" href="/admin/insights" leftIcon={<Plus className="w-3.5 h-3.5" />}>
             Publish Insight
+          </Button>
+          <Button variant="secondary" size="sm" href="/admin/testimonials" leftIcon={<Plus className="w-3.5 h-3.5" />}>
+            Add Testimonial
           </Button>
         </div>
       </div>

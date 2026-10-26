@@ -6,7 +6,8 @@ import { COURSES } from '../../data/courses';
 import { PROGRAMS } from '../../data/programs';
 import { STUDENT_PROJECTS } from '../../data/studentProjects';
 import { INSIGHTS } from '../../data/insights';
-import type { Course, Program, StudentProject, InsightArticle, Inquiry } from '../../types';
+import { TESTIMONIALS } from '../../data/testimonials';
+import type { Course, Program, StudentProject, InsightArticle, Inquiry, Testimonial } from '../../types';
 import { PageHeader } from '../components/ui/PageHeader';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 
@@ -29,7 +30,7 @@ function stripGeneratedFields<T extends { id: string }>(rows: T[]): Partial<T>[]
     const copy = { ...rest } as any;
     delete copy.whyChooseThis;
     delete copy.upcomingClasses;
-    return copy as Partial<T>;
+    return copy;
   });
 }
 
@@ -43,27 +44,37 @@ interface DataRowProps {
   resetLabel?: string;
 }
 
-const DataRow: React.FC<DataRowProps> = ({ label, count, isLoading, isBusy, onExport, onReset, resetLabel = 'Reset to Defaults' }) => (
-  <div className="flex items-center justify-between gap-4 py-3.5 border-b border-border-soft last:border-0">
+const DataRow: React.FC<DataRowProps> = ({
+  label,
+  count,
+  isLoading,
+  isBusy,
+  onExport,
+  onReset,
+  resetLabel = 'Reset to default',
+}) => (
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3.5 border-b border-paper-alt last:border-0">
     <div>
       <p className="text-sm font-semibold text-ink">{label}</p>
-      <p className="text-xs text-ink-faint">{isLoading ? 'Loading…' : `${count} ${count === 1 ? 'record' : 'records'} in the database`}</p>
+      <p className="text-xs text-ink-faint">
+        {isLoading ? 'Loading…' : `${count} record${count === 1 ? '' : 's'} in database`}
+      </p>
     </div>
-    <div className="flex items-center gap-2 shrink-0">
+    <div className="flex items-center gap-2 self-start sm:self-auto">
       <button
         type="button"
         onClick={onExport}
-        disabled={isLoading || isBusy}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-input-border text-xs font-semibold text-ink hover:bg-paper-alt transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={isLoading || count === 0}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-input-border text-xs font-semibold text-ink-soft hover:text-navy hover:border-navy hover:bg-paper-alt transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
       >
         <Download className="w-3.5 h-3.5" />
-        Export
+        Export JSON
       </button>
       <button
         type="button"
         onClick={onReset}
         disabled={isLoading || isBusy}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-input-border text-xs font-semibold text-ink-soft hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-input-border text-xs font-semibold text-red-600 hover:text-red-700 hover:border-red-200 hover:bg-red-50 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
       >
         {isBusy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RotateCcw className="w-3.5 h-3.5" />}
         {resetLabel}
@@ -79,11 +90,36 @@ export const SettingsAdmin: React.FC = () => {
   const { items: programs, isLoading: programsLoading, replaceAll: replacePrograms } = useSupabaseTable<Program>('programs');
   const { items: projects, isLoading: projectsLoading, replaceAll: replaceProjects } = useSupabaseTable<StudentProject>('student_projects');
   const { items: insights, isLoading: insightsLoading, replaceAll: replaceInsights } = useSupabaseTable<InsightArticle>('insights');
+  const { items: testimonials, isLoading: testimonialsLoading, replaceAll: replaceTestimonials } = useSupabaseTable<Testimonial>('testimonials');
   const { items: inquiries, isLoading: inquiriesLoading, replaceAll: replaceInquiries } = useSupabaseTable<Inquiry>('inquiries');
 
   const [resetTarget, setResetTarget] = useState<{ label: string; action: () => Promise<void> } | null>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
+
+  const handleDownloadFullBackup = () => {
+    const fullBackup = {
+      timestamp: new Date().toISOString(),
+      institution: 'Navya Ed Tech',
+      metadata: {
+        courses: courses.length,
+        programs: programs.length,
+        projects: projects.length,
+        insights: insights.length,
+        testimonials: testimonials.length,
+        inquiries: inquiries.length,
+      },
+      data: {
+        courses,
+        programs,
+        student_projects: projects,
+        insights,
+        testimonials,
+        inquiries,
+      },
+    };
+    downloadJSON(`navya-complete-backup-${new Date().toISOString().split('T')[0]}.json`, fullBackup);
+  };
 
   const handleConfirmReset = async () => {
     if (!resetTarget) return;
@@ -126,8 +162,22 @@ export const SettingsAdmin: React.FC = () => {
 
         {/* Data management */}
         <div className="bg-white rounded-2xl border border-border shadow-sm p-5 sm:p-6">
-          <h2 className="text-sm font-bold text-ink mb-1">Data Management</h2>
-          <p className="text-xs text-ink-faint mb-2">Export the live database as JSON, or reset a section back to its original seed content.</p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-sm font-bold text-ink mb-0.5">Data Management & Backups</h2>
+              <p className="text-xs text-ink-faint">Export the live database as JSON, download full system backups, or reset seed content.</p>
+            </div>
+            <button
+              type="button"
+              onClick={handleDownloadFullBackup}
+              disabled={coursesLoading || programsLoading || projectsLoading || insightsLoading || testimonialsLoading || inquiriesLoading}
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-navy text-white text-xs font-semibold hover:bg-navy-light shadow-sm transition-all cursor-pointer shrink-0 disabled:opacity-50"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Download Full Backup (.json)
+            </button>
+          </div>
+
           {resetError && (
             <div className="mb-3 px-4 py-2.5 rounded-lg bg-red-50 border border-red-100 text-xs font-medium text-red-700">
               {resetError}
@@ -172,6 +222,16 @@ export const SettingsAdmin: React.FC = () => {
               onExport={() => downloadJSON('navya-insights.json', insights)}
               onReset={() =>
                 setResetTarget({ label: 'Insights', action: () => replaceInsights(stripGeneratedFields(INSIGHTS)) })
+              }
+            />
+            <DataRow
+              label="Testimonials (Consent-Verified)"
+              count={testimonials.length}
+              isLoading={testimonialsLoading}
+              isBusy={isResetting && resetTarget?.label === 'Testimonials'}
+              onExport={() => downloadJSON('navya-testimonials.json', testimonials)}
+              onReset={() =>
+                setResetTarget({ label: 'Testimonials', action: () => replaceTestimonials(stripGeneratedFields(TESTIMONIALS)) })
               }
             />
             <DataRow
