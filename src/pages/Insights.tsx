@@ -10,7 +10,6 @@ import {
   Sparkles,
   CheckCircle2,
   Share2,
-  Send,
   Calendar,
   X
 } from 'lucide-react';
@@ -187,8 +186,6 @@ export const Insights: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isAdvisorOpen, setIsAdvisorOpen] = useState(false);
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Fallback to INSIGHTS if database is loading or empty
@@ -293,20 +290,12 @@ export const Insights: React.FC = () => {
     setTimeout(() => setCopiedId(null), 2200);
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newsletterEmail && newsletterEmail.includes('@')) {
-      setIsSubscribed(true);
-      setNewsletterEmail('');
-    }
-  };
-
   return (
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="Industry Insights, Engineering Guides & Tech Perspectives | Navya Ed Tech"
-        description="Read technical guides, software architecture principles, and tech hiring analysis from the engineering leads at Navya Ed Tech Kathmandu."
-        keywords="Nepal tech insights, software architecture blog Kathmandu, tech career guides Nepal, Python web dev articles, learning to code Nepal"
+        description="Read technical guides, software architecture principles, and tech hiring analysis from the engineering leads at Navya Ed Tech."
+        keywords="Nepal tech insights, software architecture blog Nepal, tech career guides Nepal, Python web dev articles, learning to code Nepal"
         structuredData={getBreadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Insights', path: '/insights' },
@@ -379,7 +368,7 @@ export const Insights: React.FC = () => {
           <div className="lg:col-span-5 relative">
             <HeroImageWithParallax
               src="/images/heroes/insights-hero.jpg"
-              alt="Software architecture and engineering research lab in Kathmandu"
+              alt="Software architecture and engineering research at Navya Ed Tech"
               heightClass="h-[320px] sm:h-[380px]"
               priority={true}
               overlayBadgeTop={
@@ -615,63 +604,7 @@ export const Insights: React.FC = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* 5. NEWSLETTER & ENGINEERING DISPATCH STRIP */}
-        {/* ========================================================================= */}
-        <section className="bg-gradient-to-br from-navy to-[#0E1F30] rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-white mb-16 shadow-md relative overflow-hidden">
-          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="lg:col-span-7 space-y-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#A8C6E5] flex items-center gap-1.5">
-                <Send className="w-3.5 h-3.5" />
-                Navya Engineering Dispatch
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
-                Monthly Technical Digests & Syllabus Updates
-              </h2>
-              <p className="text-xs sm:text-sm text-mist leading-relaxed max-w-xl">
-                Receive curated articles on software architecture, hiring trends in Nepal, open workshops, and new capstone syllabi directly in your inbox. No spam.
-              </p>
-            </div>
-
-            <div className="lg:col-span-5">
-              {isSubscribed ? (
-                <div className="p-4 rounded-xl bg-white/10 border border-white/20 text-center space-y-2 backdrop-blur-sm">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-400 mx-auto" />
-                  <p className="text-sm font-bold text-white">You are on the dispatch list!</p>
-                  <p className="text-xs text-mist">
-                    We'll email you when our next technical analysis and workshop dates drop.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleNewsletterSubmit} className="space-y-3">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <input
-                      type="email"
-                      required
-                      aria-label="Email address for engineering insights newsletter"
-                      placeholder="Enter your email (e.g. dev@domain.com)"
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full px-4 py-2.5 text-xs rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/15 transition-all"
-                    />
-                    <button
-                      type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-blue text-white text-xs font-bold hover:bg-[#4884BD] transition-colors whitespace-nowrap shrink-0 shadow-sm cursor-pointer"
-                    >
-                      Subscribe
-                    </button>
-                  </div>
-                  <p className="text-xs text-ink-faint">
-                    Curated by senior engineering mentors. Unsubscribe anytime in 1 click.
-                  </p>
-                </form>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* 6. BRIDGING THEORY TO PRACTICE: COURSE CTA */}
+        {/* 5. BRIDGING THEORY TO PRACTICE: COURSE CTA */}
         {/* ========================================================================= */}
         <section className="bg-white border border-border rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">

@@ -145,7 +145,7 @@ export const CourseQuickPreviewModal: React.FC<CourseQuickPreviewModalProps> = (
               className="space-y-4"
             >
               <div className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
-                Module Breakdown & Laboratory Exercises
+                Module Breakdown & Coding Exercises
               </div>
               <div className="space-y-3">
                 {course.curriculum?.map((mod, idx) => (

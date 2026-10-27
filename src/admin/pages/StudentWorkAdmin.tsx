@@ -141,7 +141,7 @@ export const StudentWorkAdmin: React.FC = () => {
                       onClick={() => setViewTarget(project)}
                       aria-label={`View details for ${project.title}`}
                       title="View project details"
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-blue transition-colors cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5" />
                     </button>

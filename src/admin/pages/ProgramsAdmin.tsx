@@ -168,7 +168,7 @@ export const ProgramsAdmin: React.FC = () => {
                           onClick={() => setViewTarget(program)}
                           aria-label={`View details for ${program.title}`}
                           title="View program details"
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-blue transition-colors cursor-pointer"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
@@ -278,7 +278,7 @@ export const ProgramsAdmin: React.FC = () => {
                 <TextInput
                   value={drawerState.draft.format}
                   onChange={(e) => setDrawerState({ ...drawerState, draft: { ...drawerState.draft, format: e.target.value } })}
-                  placeholder="e.g. Classroom Immersion"
+                  placeholder="e.g. Live Online Intensive"
                 />
               </Field>
               <Field label="Eligibility">

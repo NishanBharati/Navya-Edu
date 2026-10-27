@@ -38,7 +38,7 @@ export const FAQS: FAQItem[] = [
     categoryLabel: 'Admissions & Enrollment',
     question: 'Can I attend a free demo class or diagnostic consultation before committing?',
     answer:
-      'Yes! We encourage prospective students to attend a free introductory demo session or visit our Putalisadak Kathmandu lab before committing to tuition. This lets you experience our hands-on teaching methodology, inspect our physical workstations, review the full syllabus roadmap, and interact directly with instructors.',
+      'Yes! We encourage prospective students to attend a free live online demo session before committing to tuition. This lets you experience our hands-on teaching methodology, review the full syllabus roadmap, and interact directly with instructors.',
     link: { label: 'Book a Free Demo Session', href: '/contact?intent=demo' },
   },
   {
@@ -78,7 +78,7 @@ export const FAQS: FAQItem[] = [
     categoryLabel: 'Fees & Payment',
     question: 'What payment methods do you accept in Nepal?',
     answer:
-      'We accept official institutional bank transfers (ConnectIPS / Mobile Banking), Fonepay QR merchant counter payments, and in-person payments at our Putalisadak admissions desk. Every payment receives an official VAT/PAN tax invoice and stamped receipt voucher.',
+      'We accept official institutional bank transfers (ConnectIPS / Mobile Banking), and Fonepay QR payments. Every payment receives an official VAT/PAN tax invoice and stamped receipt voucher.',
   },
   {
     id: 'faq-7',
@@ -86,7 +86,7 @@ export const FAQS: FAQItem[] = [
     categoryLabel: 'Fees & Payment',
     question: 'How do installment plans work, and what payment happens when?',
     answer:
-      'For short courses (40–50 Days), fees are split into two equal milestones: Milestone 1 (50%) due upon registration to reserve your lab seat, and Milestone 2 (50%) due at the mid-course mark (Day 20/25). For multi-month career programs (60–90 Days), fees can be divided into 3 monthly milestones. Details are clearly documented in your enrollment voucher.',
+      'For short courses (40–50 Days), fees are split into two equal milestones: Milestone 1 (50%) due upon registration to reserve your place in the batch, and Milestone 2 (50%) due at the mid-course mark (Day 20/25). For multi-month career programs (60–90 Days), fees can be divided into 3 monthly milestones. Details are clearly documented in your enrollment voucher.',
     link: { label: 'View Enrollment Payment Milestones', href: '/apply#payment-schedule' },
   },
   {
@@ -115,25 +115,25 @@ export const FAQS: FAQItem[] = [
     id: 'faq-10',
     category: 'classes',
     categoryLabel: 'Classes & Format',
-    question: 'Are classes held in-person in Kathmandu or live online?',
+    question: 'Are classes held online or in person?',
     answer:
-      'We offer both options: (1) In-Person Laboratory Sessions at our Putalisadak Kathmandu Innovation Lab equipped with developer workstations, dual displays, and high-speed fiber internet, and (2) Interactive Live Online Cohorts with real-time code-along sessions, screen sharing, and remote lab assistance for students outside the Valley or working professionals.',
+      'All classes are live and online. You join interactive cohorts with real-time code-along sessions, screen sharing, and mentor support from anywhere in Nepal or abroad. We do not run in-person classes.',
   },
   {
     id: 'faq-11',
     category: 'classes',
     categoryLabel: 'Classes & Format',
-    question: 'Can I switch between classroom in-person and live online sessions?',
+    question: 'Do I need to travel anywhere to attend classes?',
     answer:
-      'Yes. All our classrooms are equipped with hybrid streaming infrastructure. If you are unable to visit our Putalisadak campus on any day due to weather, traffic, or personal reasons, you can join the live interactive session online and access recorded lab walkthroughs seamlessly.',
+      'No. Every class, mentor session, and project review happens online, so you can learn from home on a laptop or desktop computer with a stable internet connection. Recorded walkthroughs are available if you miss a session.',
   },
   {
     id: 'faq-12',
     category: 'classes',
     categoryLabel: 'Classes & Format',
-    question: 'What happens if I miss a live classroom or online lecture?',
+    question: 'What happens if I miss a live online class?',
     answer:
-      'Every lecture includes structured code repositories, step-by-step module notes, and recorded backup sessions. In addition, students receive dedicated 1-on-1 lab mentor hours to resolve any doubts or blockers before advancing to the next module.',
+      'Every lecture includes structured code repositories, step-by-step module notes, and recorded backup sessions. In addition, students receive dedicated 1-on-1 online mentor hours to resolve any doubts or blockers before advancing to the next module.',
   },
   {
     id: 'faq-13',
@@ -141,7 +141,7 @@ export const FAQS: FAQItem[] = [
     categoryLabel: 'Classes & Format',
     question: 'What is the typical batch size and instructor attention ratio?',
     answer:
-      'To guarantee rigorous line-by-line pull request code reviews and personal debugging attention during daily lab sprints, we cap batch sizes strictly at 12 to 16 students per cohort. Seats are reserved on a confirmed registration basis.',
+      'To guarantee rigorous line-by-line pull request code reviews and personal debugging attention during daily live coding sprints, we cap batch sizes strictly at 12 to 16 students per cohort. Places are reserved on a confirmed registration basis.',
   },
   {
     id: 'faq-14',
@@ -149,7 +149,7 @@ export const FAQS: FAQItem[] = [
     categoryLabel: 'Classes & Format',
     question: 'What hardware/laptop specifications do I need for classes?',
     answer:
-      'For in-person classes, our Kathmandu lab provides dedicated workstations. For remote work and homework assignments, we recommend a personal laptop running Windows, macOS, or Linux with at least an Intel Core i5 / AMD Ryzen 5 or Apple Silicon processor, 8 GB RAM (16 GB recommended for Docker and full-stack development), and an SSD.',
+      'Since all classes are online, you need a stable internet connection, a working microphone, and a laptop or desktop computer running Windows, macOS, or Linux with at least an Intel Core i5 / AMD Ryzen 5 or Apple Silicon processor, 8 GB RAM (16 GB recommended for Docker and full-stack development), and an SSD.',
   },
   {
     id: 'faq-15',
@@ -187,7 +187,7 @@ export const FAQS: FAQItem[] = [
     categoryLabel: 'Careers & Placement',
     question: 'How do I earn the Navya Ed Tech Certificate of Completion?',
     answer:
-      'Certificates are not handed out automatically for mere attendance. To earn an industry-recognized certificate, students must maintain at least 80% class attendance, submit all core laboratory assignments, and successfully deploy and defend their individual or team Capstone Project before an engineering review panel.',
+      'Certificates are not handed out automatically for mere attendance. To earn an industry-recognized certificate, students must maintain at least 80% class attendance, submit all core coding assignments, and successfully deploy and defend their individual or team Capstone Project before an engineering review panel.',
     link: { label: 'See Certificate Standards', href: '/terms#section-certification' },
   },
   {

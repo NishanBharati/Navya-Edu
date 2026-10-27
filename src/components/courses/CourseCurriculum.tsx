@@ -97,7 +97,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
     },
     {
       headline: 'Hands-On, Project-Based Training:',
-      detail: `Gain practical keyboard muscle memory through daily laboratory coding sessions, Git version control, and verifiable project portfolios.`
+      detail: `Gain practical keyboard muscle memory through daily live coding sessions, Git version control, and verifiable project portfolios.`
     },
     {
       headline: 'Line-by-Line Code Critiques:',
@@ -194,7 +194,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
               <button
                 type="button"
                 onClick={expandAll}
-                className="px-2.5 py-1.5 rounded-lg text-blue hover:bg-[#F0F5FA] transition-colors cursor-pointer font-semibold focus-visible:ring-2 focus-visible:ring-navy"
+                className="px-2.5 py-1.5 rounded-lg text-blue hover:bg-paper-alt transition-colors cursor-pointer font-semibold focus-visible:ring-2 focus-visible:ring-navy"
               >
                 Expand All
               </button>
@@ -263,8 +263,8 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                         aria-controls={modulePanelId}
                         className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-colors cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-inset ${
                           isModuleOpen
-                            ? 'bg-[#F0F5FA] text-navy'
-                            : 'bg-white hover:bg-[#F8FAFC] text-ink'
+                            ? 'bg-paper-alt text-navy'
+                            : 'bg-white hover:bg-paper text-ink'
                         }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
@@ -341,7 +341,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
                           {(module.practicalExercise || module.expectedOutcome) && (
                             <div className="mt-5 pt-4 border-t border-[#EAEFF5] grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                               {module.practicalExercise && (
-                                <div className="p-3.5 rounded-xl bg-[#F0F5FA] border border-[#D9E6F2] space-y-1">
+                                <div className="p-3.5 rounded-xl bg-paper-alt border border-[#D9E6F2] space-y-1">
                                   <div className="flex items-center gap-1.5 text-xs font-bold text-navy">
                                     <Terminal className="w-3.5 h-3.5 text-blue" />
                                     <span>Lab Deliverable</span>
@@ -489,7 +489,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
           {/* RIGHT COLUMN: "Why [Course Name]?" Value Proposition Card */}
           {/* ========================================================================= */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-5 sm:p-6 space-y-4 shadow-xs sticky top-28">
+            <div className="bg-paper border border-[#E2E8F0] rounded-2xl p-5 sm:p-6 space-y-4 shadow-xs sticky top-28">
               <h3 className="text-base font-extrabold text-ink tracking-tight">
                 {whyTitle}
               </h3>
@@ -601,7 +601,7 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
               <div className="p-6 rounded-2xl bg-navy text-white space-y-3">
                 <div className="flex items-center justify-between text-xs text-navy-mist">
                   <span>NAVYA ED TECH • ACADEMIC CURRICULUM SPECIFICATION</span>
-                  <span>Kathmandu Innovation Lab</span>
+                  <span>Live Online Course</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                   {course.title}
@@ -734,9 +734,9 @@ export const CourseCurriculum: React.FC<CourseCurriculumProps> = ({
               )}
 
               {/* Institutional Footer Signoff */}
-              <div className="p-5 rounded-2xl bg-[#F0F5FA] border border-[#D9E6F2] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+              <div className="p-5 rounded-2xl bg-paper-alt border border-[#D9E6F2] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
                 <div className="space-y-0.5 text-center sm:text-left">
-                  <p className="font-bold text-navy">Navya Ed Tech Pvt. Ltd. • Kathmandu Innovation Lab</p>
+                  <p className="font-bold text-navy">Navya Ed Tech Pvt. Ltd. • Live Online Courses</p>
                   <p className="text-ink-soft">Inquiries: info@navyaedtech.com • https://navyaedtech.com</p>
                 </div>
                 {onDownloadSyllabus && (

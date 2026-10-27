@@ -17,7 +17,7 @@ import { Badge } from '../../components/common/Badge';
 
 const CATEGORIES: Course['category'][] = ['Programming', 'Web Development', 'Kids Coding', 'Data & AI', 'Development', 'Design', 'Cloud & DevOps', 'Cybersecurity', 'Digital Skills'];
 const LEVELS: Course['level'][] = ['Beginner', 'Intermediate', 'Advanced', 'All Levels', 'Beginner to Intermediate', 'Intermediate to Advanced'];
-const MODES: Course['mode'][] = ['Classroom / In-Person', 'Online Live', 'Hybrid (Classroom & Online)'];
+const MODES: Course['mode'][] = ['Online Live'];
 
 type TabId = 'overview' | 'batch' | 'curriculum' | 'content' | 'instructor' | 'seo';
 
@@ -40,7 +40,7 @@ const emptyCourse = (): Course => ({
   heroImage: '',
   duration: '',
   level: 'Beginner to Intermediate',
-  mode: 'Classroom / In-Person',
+  mode: 'Online Live',
   featured: false,
   status: 'published',
   syllabusPdfUrl: '',
@@ -49,7 +49,7 @@ const emptyCourse = (): Course => ({
     classDays: 'Sunday – Friday',
     classTime: '',
     seatsStatus: 'Admissions Open',
-    location: 'Kathmandu Campus / Online Live',
+    location: 'Live online classes',
   },
   fee: 'Contact for current fee & batch structure (NPR)',
   technologies: [],
@@ -395,7 +395,7 @@ export const CoursesAdmin: React.FC = () => {
                             onClick={() => setViewTarget(course)}
                             aria-label={`Preview ${course.title}`}
                             title="Preview course & syllabus"
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-blue transition-colors cursor-pointer"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -951,7 +951,7 @@ const CurriculumTab: React.FC<CurriculumTabProps> = ({
   return (
     <div className="space-y-8">
       {/* 1. Official Syllabus PDF Upload Section */}
-      <div className="rounded-2xl border border-blue-mist p-5 bg-[#F8FAFC] space-y-3">
+      <div className="rounded-2xl border border-blue-mist p-5 bg-paper space-y-3">
         <div className="space-y-1">
           <p className="text-xs font-bold uppercase tracking-wider text-navy flex items-center gap-1.5">
             <FileText className="w-4 h-4 text-blue" />

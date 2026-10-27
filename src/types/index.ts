@@ -69,7 +69,7 @@ export interface Course {
   heroImage: string;
   duration: string;
   level: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels' | 'Beginner to Intermediate' | 'Intermediate to Advanced';
-  mode: 'Classroom / In-Person' | 'Online Live' | 'Hybrid (Classroom & Online)';
+  mode: 'Online Live';
   upcomingBatch: {
     startDate: string;
     classDays: string;

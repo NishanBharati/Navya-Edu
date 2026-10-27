@@ -18,13 +18,13 @@
   --color-block-violet: #6D3FF0;
   --color-block-green: #14A862;
   --color-block-pink: #F0518F;
-  --color-canvas: #F3F5FF;
+  --color-canvas: #F4F1E9;
   --color-sky: #DCE3FF;
 
   /* Legacy names, re-pointed into the Snap Lab world so every page shares it */
   --color-navy: #0F1640;
-  --color-navy-deep: #0A0F30;
-  --color-navy-dark: #080C26;
+  --color-navy-deep: #0A0E2C;
+  --color-navy-dark: #060920;
   --color-navy-light: #24306E;
   --color-blue: #2B47E0;
   --color-blue-electric: #2B47E0;
@@ -45,15 +45,15 @@
   --color-navy-mist: #A9B4F0;
   --color-mist: #CDD3F2;
 
-  /* Surfaces */
-  --color-paper: #FAFBFF;
-  --color-paper-alt: #F3F5FF;
+  /* Surfaces: warm ivory and parchment grounds under white cards */
+  --color-paper: #FBFAF6;
+  --color-paper-alt: #F4F1E9;
   --color-surface-white: #FFFFFF;
-  --color-surface-hover: #F6F7FF;
-  --color-border: #E2E6F6;
-  --color-border-warm: #D5DBF2;
-  --color-border-soft: #ECEFFA;
-  --color-border-faint: #F3F5FC;
+  --color-surface-hover: #F7F5EF;
+  --color-border: #E7E2D6;
+  --color-border-warm: #DAD3C3;
+  --color-border-soft: #EEEAE1;
+  --color-border-faint: #F5F3ED;
   /* Form control outline: 3.6:1 against white (WCAG 1.4.11) */
   --color-input-border: #7D84AD;
 
@@ -375,7 +375,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #B9C1EA;
+  background: #CFC7B5;
   border-radius: 999px;
   border: 2px solid var(--color-canvas);
 }

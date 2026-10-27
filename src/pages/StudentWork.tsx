@@ -202,7 +202,7 @@ export const StudentWork: React.FC = () => {
       <SEOHead
         title="Student Work & Production Capstone Reference Projects | Navya Ed Tech"
         description="Explore reference capstone software systems built and deployed at Navya Ed Tech. Real-world architecture, 100% PR review history, and live cloud demonstrations in Nepal."
-        keywords="student projects Nepal, full stack capstone projects Kathmandu, React software portfolio Nepal, production code Nepal, engineering proof of work"
+        keywords="student projects Nepal, full stack capstone projects Nepal, React software portfolio Nepal, production code Nepal, engineering proof of work"
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -289,7 +289,7 @@ export const StudentWork: React.FC = () => {
           <div className="lg:col-span-5 relative">
             <HeroImageWithParallax
               src="/images/heroes/student-work-hero.jpg"
-              alt="Student developers showcasing deployed software projects in Kathmandu"
+              alt="Student developers showcasing deployed software projects"
               heightClass="h-[320px] sm:h-[380px]"
               priority={true}
               overlayBadgeTop={

@@ -65,7 +65,7 @@ export const FAQ: React.FC = () => {
             Frequently Asked Questions
           </h1>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed">
-            Everything you need to know about our practical IT training batches in Kathmandu, workstation laboratory policies, payment terms, prerequisites, and capstone certification.
+            Everything you need to know about our live online IT training batches, class policies, payment terms, prerequisites, and capstone certification.
           </p>
 
           {/* Search Box */}
@@ -220,7 +220,7 @@ export const FAQ: React.FC = () => {
                 Have questions about your specific career path?
               </h3>
               <p className="text-xs sm:text-sm text-mist max-w-md leading-relaxed">
-                Speak directly with an instructor or admissions counselor in Kathmandu. We will assess your background, recommend the ideal course track, and explain upcoming batch dates.
+                Speak directly with an instructor or admissions counselor online. We will assess your background, recommend the ideal course track, and explain upcoming batch dates.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full sm:w-auto">
@@ -252,7 +252,7 @@ export const FAQ: React.FC = () => {
           >
             <ShieldCheck className="w-4 h-4 text-blue" />
             <span className="font-semibold text-ink">Terms of Service</span>
-            <span className="text-xs text-ink-faint">Admissions & lab ethics</span>
+            <span className="text-xs text-ink-faint">Admissions & class ethics</span>
           </Link>
           <Link
             to="/privacy"

@@ -315,7 +315,7 @@ export const InsightsAdmin: React.FC = () => {
                             onClick={() => setViewTarget(insight)}
                             aria-label={`View article details for ${insight.title}`}
                             title="Preview article"
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-[#F0F5FA] hover:text-blue transition-colors cursor-pointer"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-soft hover:bg-paper-alt hover:text-blue transition-colors cursor-pointer"
                           >
                             <Eye className="w-4 h-4" />
                           </button>

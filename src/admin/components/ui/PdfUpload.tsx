@@ -171,7 +171,7 @@ export const PdfUpload: React.FC<PdfUploadProps> = ({
 
       {/* Existing Uploaded PDF Card */}
       {value ? (
-        <div className="relative rounded-xl border border-blue-mist bg-[#F8FAFC] p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3.5 group shadow-xs">
+        <div className="relative rounded-xl border border-blue-mist bg-paper p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3.5 group shadow-xs">
           <div className="w-12 h-12 rounded-xl bg-navy/10 border border-navy/20 text-navy flex items-center justify-center shrink-0">
             <FileText className="w-6 h-6 text-navy" />
           </div>

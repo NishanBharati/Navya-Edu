@@ -33,7 +33,7 @@ async function runTests() {
       { name: '5. Practical Teaching Method (70/30 Coding)', pattern: /70% coding \/ 30% architecture/i },
       { name: '6. Faculty Mentorship Standards (No Placeholders)', pattern: /Departmental Mentorship Standards/i },
       { name: '6b. Faculty Vetting Policy', pattern: /Faculty Vetting &amp; Assignment Policy/i },
-      { name: '7. Campus Location (Putalisadak)', pattern: /Putalisadak Campus, Kathmandu/i },
+      { name: '7. Live Online Classroom', pattern: /A Live Online Classroom Built for Intensive Coding/i },
       { name: '7b. Hours of Operation', pattern: /Sun – Fri: 7:00 AM – 7:00 PM/i },
       { name: '8. Institutional Policies (Certificate of Competence)', pattern: /Certificate of Competence Policy/i },
       { name: '8b. Fee & Refund Terms', pattern: /Fee Transparency &amp; Refund Terms/i },

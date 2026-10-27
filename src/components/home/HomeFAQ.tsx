@@ -24,22 +24,22 @@ export const HOMEPAGE_FAQS: FAQEntry[] = [
     category: 'Admissions & Enrollment',
     question: 'How do I enroll in a course, and can I attend a free demo class first?',
     answer:
-      'You can apply directly online by browsing our Courses catalog and clicking "Inquire" or "Talk to an Advisor". We host free introductory demo sessions and diagnostic syllabus consultations for upcoming batches. This lets prospective students inspect our physical laboratory in Kathmandu, review the curriculum, and interact directly with instructors before committing to tuition.',
+      'You can apply directly online by browsing our Courses catalog and clicking "Inquire" or "Talk to an Advisor". We host free introductory demo sessions and diagnostic syllabus consultations for upcoming batches. This lets prospective students join a live online class, review the curriculum, and interact directly with instructors before committing to tuition.',
     highlight: 'Free diagnostic consultation & syllabus review before tuition',
     link: { label: 'Explore Course Catalog', href: '/courses' },
   },
   {
-    category: 'Learning Mode & Lab',
-    question: 'Are classes held in-person in Kathmandu or online?',
+    category: 'Learning Mode',
+    question: 'Are classes held online or in person?',
     answer:
-      'We offer both formats: (1) In-Person Laboratory Sessions at our Putalisadak Kathmandu Innovation Lab with dual-monitor developer desks, gigabit fiber, and direct 1-on-1 mentor guidance, and (2) Interactive Live Online Cohorts with real-time code-along sessions and recorded archives for students outside Kathmandu or working professionals.',
-    highlight: 'Physical Putalisadak lab desks + Live interactive online options',
+      'All classes are live and online. Learners join interactive cohorts with real-time code-along sessions, screen sharing, mentor guidance, and recorded archives, from anywhere in Nepal or abroad. We do not run in-person classes.',
+    highlight: '100% live online classes, joined from home',
   },
   {
     category: 'Class Size & Mentorship',
     question: 'What is the typical batch size and instructor attention ratio?',
     answer:
-      'To guarantee rigorous line-by-line pull request reviews and personal debugging attention during daily coding sprints, we cap batch sizes strictly at 12 to 16 students per cohort. Seats are reserved on a confirmed registration basis.',
+      'To guarantee rigorous line-by-line pull request reviews and personal debugging attention during daily coding sprints, we cap batch sizes strictly at 12 to 16 students per cohort. Places are reserved on a confirmed registration basis.',
     highlight: 'Strictly capped at 12–16 students per cohort for code review quality',
   },
   {
@@ -54,7 +54,7 @@ export const HOMEPAGE_FAQS: FAQEntry[] = [
     category: 'Tuition & Payment Options',
     question: 'How much are course fees, and are installment payment plans available?',
     answer:
-      'All course fees are quoted transparently in Nepali Rupees (NPR) with zero hidden lab surcharges or registration fees. For multi-month comprehensive programs, we provide structured 2-to-3 part installment schedules: an initial registration deposit, with subsequent payments aligned with mid-course milestones.',
+      'All course fees are quoted transparently in Nepali Rupees (NPR) with zero hidden surcharges or registration fees. For multi-month comprehensive programs, we provide structured 2-to-3 part installment schedules: an initial registration deposit, with subsequent payments aligned with mid-course milestones.',
     highlight: 'Transparent NPR pricing with flexible milestone installments',
     link: { label: 'View Terms & Fee Policy', href: '/terms' },
   },
@@ -62,7 +62,7 @@ export const HOMEPAGE_FAQS: FAQEntry[] = [
     category: 'Certification & Capstone',
     question: 'How do I earn the Navya Ed Tech Certificate of Completion?',
     answer:
-      'Certificates are awarded based on verified competence, not passive attendance. Students must maintain at least 80% attendance, complete laboratory sprint assignments, and deploy and defend an approved Capstone Project before a panel of senior software engineers. Every certificate carries a verifiable digital ID.',
+      'Certificates are awarded based on verified competence, not passive attendance. Students must maintain at least 80% attendance, complete coding sprint assignments, and deploy and defend an approved Capstone Project before a panel of senior software engineers. Every certificate carries a verifiable digital ID.',
     highlight: 'Verifiable certificate issued upon successful capstone defense',
   },
   {
@@ -103,7 +103,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
             <SectionHeader
               eyebrow="Clear & Transparent Information"
               title="Frequently Asked Questions"
-              description="Everything prospective learners and working professionals need to know about our syllabi, Kathmandu lab sessions, tuition terms, and graduation standards."
+              description="Everything prospective learners and working professionals need to know about our syllabi, live online classes, tuition terms, and graduation standards."
             />
 
             {/* Direct Counseling Callout */}
@@ -113,7 +113,7 @@ export const HomeFAQ: React.FC<HomeFAQProps> = ({ onOpenAdvisor }) => {
                 <span>Have a specific question about your background?</span>
               </div>
               <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
-                Our academic counseling desk can evaluate your current technical background, suggest the best starting track, and arrange a campus visit at our Kathmandu lab.
+                Our academic counseling desk can evaluate your current technical background, suggest the best starting track, and arrange a free online demo class.
               </p>
 
               <div className="pt-2 border-t border-border-faint flex flex-col sm:flex-row items-stretch sm:items-center gap-3">

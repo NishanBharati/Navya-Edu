@@ -6,7 +6,7 @@ import {
   Calendar,
   MessageSquare,
   Download,
-  MapPin,
+  Globe,
   Users,
   Layers,
   Sparkles,
@@ -20,7 +20,7 @@ import { Breadcrumbs } from '../common/Breadcrumbs';
 
 interface CourseHeroProps {
   course: Course;
-  onOpenAdvisor: (intent?: 'enroll' | 'demo') => void;
+  onOpenAdvisor: (intent?: 'enroll' | 'demo' | 'inquire') => void;
   onDownloadSyllabus: () => void;
 }
 
@@ -86,7 +86,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                 </span>
                 <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
                   <Laptop className="w-4 h-4 text-blue" />
-                  {course.mode.includes('Hybrid') ? 'Hybrid' : course.mode.split(' ')[0]}
+                  Live Online
                 </strong>
               </div>
 
@@ -172,7 +172,7 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-semibold">
                 <span className="bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-md">
-                  Kathmandu Campus & Live Online
+                  100% Live Online
                 </span>
                 <span className="bg-navy/80 backdrop-blur-xs px-2.5 py-1 rounded-md">
                   {course.projects?.length || 3} Capstone Projects
@@ -219,10 +219,10 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                   </span>
                 </div>
                 <div className="flex items-start justify-between gap-2">
-                  <span className="text-ink-soft">Location:</span>
+                  <span className="text-ink-soft">Format:</span>
                   <span className="font-medium text-ink text-right flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-blue shrink-0" />
-                    <span>{course.upcomingBatch.location}</span>
+                    <Globe className="w-3.5 h-3.5 text-blue shrink-0" />
+                    <span>Live online classes</span>
                   </span>
                 </div>
                 <div className="flex items-start justify-between pt-2.5 border-t border-border-faint">
@@ -240,9 +240,9 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                   <span>Payment & Installment Instructions:</span>
                 </div>
                 <ul className="space-y-1 text-ink-soft list-disc list-inside text-xs leading-relaxed">
-                  <li>Accepted: Fonepay QR, ConnectIPS, Bank Transfer, or Putalisadak campus desk.</li>
+                  <li>Accepted: Fonepay QR, ConnectIPS, or Bank Transfer.</li>
                   <li>Milestone installment facility available (50% upon enrollment, 50% at mid-term).</li>
-                  <li>Zero admission fees or hidden laboratory equipment surcharges.</li>
+                  <li>Zero admission fees or hidden surcharges.</li>
                 </ul>
               </div>
 
@@ -263,12 +263,13 @@ export const CourseHero: React.FC<CourseHeroProps> = ({
                     <Sparkles className="w-3.5 h-3.5 text-blue" />
                     <span>Free Demo</span>
                   </button>
-                  <a
-                    href="#inquiry"
+                  <button
+                    type="button"
+                    onClick={() => onOpenAdvisor('inquire')}
                     className="py-2 rounded-xl bg-white hover:bg-paper-alt text-ink-soft hover:text-ink text-xs font-semibold border border-border transition-colors cursor-pointer flex items-center justify-center gap-1.5 text-center"
                   >
                     <span>Inquire / Questions</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

@@ -14,7 +14,7 @@ const KIDS_FAQS: FAQItem[] = [
   },
   {
     question: 'How do you ensure a safe and supportive learning environment?',
-    answer: 'Our Putalisadak lab features child-friendly workstations, filtered high-speed internet, and a strictly enforced 1:8 instructor-to-student ratio. Instructors are patient, friendly software educators focused on positive encouragement.'
+    answer: 'Classes are small, live online sessions with a strictly enforced 1:8 instructor-to-student ratio, and parents are welcome to sit in from home. Instructors are patient, friendly software educators focused on positive encouragement.'
   },
   {
     question: 'How does learning Scratch prepare my child for future programming like Python?',
@@ -38,7 +38,7 @@ export const KidsFAQAccordion: React.FC = () => {
           Common Questions from Parents
         </h2>
         <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
-          Everything you need to know about our safe laboratory environment, age guidelines, and creative learning outcomes for kids in Kathmandu.
+          Everything you need to know about our safe live online classes, age guidelines, and creative learning outcomes for kids.
         </p>
       </div>
 

@@ -85,7 +85,7 @@ export const ProgramDetails: React.FC = () => {
       <SEOHead
         title={`${program.title} in Nepal | Navya Ed Tech Career Track`}
         description={program.tagline || program.description}
-        keywords={`${program.title}, career track Nepal, software engineering program Kathmandu, IT bootcamp Nepal`}
+        keywords={`${program.title}, career track Nepal, online software engineering program Nepal, IT bootcamp Nepal`}
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -150,7 +150,7 @@ export const ProgramDetails: React.FC = () => {
                   </span>
                   <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
                     <Laptop className="w-4 h-4 text-blue" />
-                    In-Person & Live Online
+                    100% Live Online
                   </strong>
                 </div>
 
@@ -160,7 +160,7 @@ export const ProgramDetails: React.FC = () => {
                   </span>
                   <strong className="text-sm sm:text-base font-bold text-ink flex items-center gap-1.5">
                     <Users className="w-4 h-4 text-blue" />
-                    Max 12–16 Seats
+                    Max 12–16 Learners
                   </strong>
                 </div>
               </div>
@@ -211,8 +211,8 @@ export const ProgramDetails: React.FC = () => {
 
               <div className="space-y-3 text-xs sm:text-sm">
                 <div className="flex items-start justify-between gap-3">
-                  <span className="text-ink-soft">Campus Location:</span>
-                  <span className="font-semibold text-ink text-right">Putalisadak, Kathmandu</span>
+                  <span className="text-ink-soft">Format:</span>
+                  <span className="font-semibold text-ink text-right">Live online classes</span>
                 </div>
                 <div className="flex items-start justify-between gap-3">
                   <span className="text-ink-soft">Batch Timings:</span>
@@ -308,7 +308,7 @@ export const ProgramDetails: React.FC = () => {
               What This Program Delivers
             </h2>
             <p className="text-xs sm:text-sm text-ink-soft">
-              Every phase is engineered around deliberate laboratory practice, pull request reviews, and production capstones.
+              Every phase is engineered around deliberate hands-on practice, pull request reviews, and production capstones.
             </p>
           </div>
 
@@ -431,13 +431,13 @@ export const ProgramDetails: React.FC = () => {
         <Container>
           <div className="max-w-4xl mx-auto rounded-3xl bg-navy text-white p-8 sm:p-14 shadow-lg text-center space-y-5">
             <span className="text-xs font-bold uppercase tracking-wider text-[#A8C6E5]">
-              Admissions Open • Capped at 12–16 Seats
+              Admissions Open • Capped at 12–16 Learners
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">
               Ready to Enroll in {program.title}?
             </h2>
             <p className="text-xs sm:text-sm text-mist max-w-xl mx-auto leading-relaxed">
-              Complete the step-by-step enrollment application to reserve your lab seat. Our admissions desk will schedule your 15-minute diagnostic consultation within 24 business hours.
+              Complete the step-by-step enrollment application to reserve your place. Our admissions desk will schedule your 15-minute diagnostic consultation within 24 business hours.
             </p>
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button

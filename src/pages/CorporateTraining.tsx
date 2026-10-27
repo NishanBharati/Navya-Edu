@@ -21,7 +21,7 @@ import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { SEOHead } from '../components/common/SEOHead';
 import { Button } from '../components/common/Button';
 import { getBreadcrumbSchema } from '../utils/structuredData';
-import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { submitInquiry } from '../lib/inquiryService';
 
 export const CorporateTraining: React.FC = () => {
   // Form State
@@ -29,10 +29,8 @@ export const CorporateTraining: React.FC = () => {
   const [contactName, setContactName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [orgType, setOrgType] = useState('company');
-  const [trainingNeed, setTrainingNeed] = useState('junior-onboarding');
+  const [trainingNeed, setTrainingNeed] = useState('Python Programming');
   const [cohortSize, setCohortSize] = useState('10-20');
-  const [deliveryFormat, setDeliveryFormat] = useState('on-campus');
   const [notes, setNotes] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,32 +49,28 @@ export const CorporateTraining: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const payload = {
-        name: contactName.trim(),
-        email: email.trim(),
-        phone: phone.trim(),
-        subject: `Institutional Training Inquiry: ${orgName.trim()}`,
-        message: `Institutional & Corporate Training Inquiry:
-Organization: ${orgName.trim()}
-Organization Type: ${orgType}
-Training Need: ${trainingNeed}
-Expected Batch Size: ${cohortSize}
-Preferred Delivery: ${deliveryFormat}
-Requirements/Notes: ${notes || 'None specified'}`,
-        intent: 'institutional_training',
-      };
+      // Saved through the shared inquiry service so it lands in the admin Inquiries list
+      const result = await submitInquiry({
+        fullName: contactName,
+        email,
+        phone,
+        interestedCourse: trainingNeed,
+        preferredMode: 'Online Live (Institutional)',
+        message: [`Organization: ${orgName.trim()}`, `Learners: ${cohortSize}`, notes.trim() && `Notes: ${notes.trim()}`]
+          .filter(Boolean)
+          .join(' | '),
+        source: 'Institutional Training',
+      });
 
-      if (isSupabaseConfigured) {
-        await supabase.from('inquiries').insert([payload]);
+      if (!result.success && result.errorMessage) {
+        setErrorMessage(result.errorMessage);
+        return;
       }
 
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      console.warn('Institutional inquiry notice:', err);
-      // Graceful fallback confirmation
-      setIsSubmitted(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setErrorMessage(err instanceof Error ? err.message : 'Could not send your request. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -87,7 +81,7 @@ Requirements/Notes: ${notes || 'None specified'}`,
       <SEOHead
         title="Corporate Tech Upskilling & College Bootcamps | Navya Ed Tech Nepal"
         description="Customized software engineering training for tech companies and computer science colleges (BSc.CSIT, BCA, BIT) in Nepal. Accelerate junior onboarding and student internship readiness."
-        keywords="corporate tech training Nepal, IT bootcamp for colleges Kathmandu, BSc.CSIT workshop Putalisadak, developer upskilling Nepal, software engineering internship readiness"
+        keywords="corporate tech training Nepal, online IT bootcamp for colleges Nepal, online BSc.CSIT workshop, developer upskilling Nepal, software engineering internship readiness"
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -343,9 +337,9 @@ Requirements/Notes: ${notes || 'None specified'}`,
               <div className="w-10 h-10 rounded-xl bg-navy text-white mx-auto flex items-center justify-center">
                 <Building2 className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-ink">On-Campus / On-Site</h3>
+              <h3 className="text-base font-bold text-ink">Private Cohort for Your Institution</h3>
               <p className="text-xs text-ink-soft leading-relaxed">
-                We send lead instructors and mentor assistants directly to your company office or university laboratory in Kathmandu Valley.
+                A dedicated live online batch for your students or staff, with a curriculum shaped around your goals.
               </p>
             </div>
 
@@ -353,9 +347,9 @@ Requirements/Notes: ${notes || 'None specified'}`,
               <div className="w-10 h-10 rounded-xl bg-blue text-white mx-auto flex items-center justify-center">
                 <Laptop className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-ink">Navya Putalisadak Lab</h3>
+              <h3 className="text-base font-bold text-ink">Live Online Classes</h3>
               <p className="text-xs text-ink-soft leading-relaxed">
-                Host your cohort at our physical computer lab in Putalisadak, equipped with developer workstations, dual monitors, and high-speed fiber internet.
+                Instructors teach live with screen sharing, so learners join from a computer room, an office or home, anywhere in Nepal.
               </p>
             </div>
 
@@ -363,9 +357,9 @@ Requirements/Notes: ${notes || 'None specified'}`,
               <div className="w-10 h-10 rounded-xl bg-sage text-white mx-auto flex items-center justify-center">
                 <Terminal className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-ink">Hybrid / Live Virtual</h3>
+              <h3 className="text-base font-bold text-ink">Private Workspace</h3>
               <p className="text-xs text-ink-soft leading-relaxed">
-                Synchronous live interactive sessions via screen sharing, private GitHub organization access, and dedicated Slack channels.
+                Private GitHub organization access and dedicated Slack channels for code reviews and support between sessions.
               </p>
             </div>
           </div>
@@ -483,29 +477,11 @@ Requirements/Notes: ${notes || 'None specified'}`,
                   </div>
                 </div>
 
-                {/* Org Type & Training Need */}
+                {/* Training Focus & Number of Learners */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="org-type" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Organization Type
-                    </label>
-                    <select
-                      id="org-type"
-                      value={orgType}
-                      onChange={(e) => setOrgType(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
-                    >
-                      <option value="company">IT / Software Company</option>
-                      <option value="college">College / University (CS/IT Dept)</option>
-                      <option value="school">High School (+2 STEM)</option>
-                      <option value="nonprofit">Development Agency / NGO</option>
-                      <option value="other">Other Commercial Enterprise</option>
-                    </select>
-                  </div>
-
-                  <div>
                     <label htmlFor="training-need" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Primary Training Focus
+                      Training Topic
                     </label>
                     <select
                       id="training-need"
@@ -513,22 +489,17 @@ Requirements/Notes: ${notes || 'None specified'}`,
                       onChange={(e) => setTrainingNeed(e.target.value)}
                       className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
                     >
-                      <option value="junior-onboarding">Junior Developer Onboarding</option>
-                      <option value="college-bootcamp">College Capstone Sprint / Bootcamp</option>
-                      <option value="internship-readiness">Software Internship Readiness</option>
-                      <option value="python-backend">Python & FastAPI Microservices</option>
-                      <option value="web-dev">Modern Web Development (Frontend/Full-Stack)</option>
-                      <option value="data-science">Data Science & Analytics</option>
-                      <option value="fdp">Faculty Development Program (FDP)</option>
+                      <option value="Scratch Coding for School Students">Scratch Coding (school students)</option>
+                      <option value="Python Programming">Python Programming</option>
+                      <option value="Web Development">Web Development</option>
+                      <option value="Data Science">Data Science</option>
+                      <option value="Custom Program">Custom program / not sure yet</option>
                     </select>
                   </div>
-                </div>
 
-                {/* Cohort Size & Delivery Mode */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="cohort-size" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Expected Cohort Size
+                      Number of Learners
                     </label>
                     <select
                       id="cohort-size"
@@ -542,36 +513,19 @@ Requirements/Notes: ${notes || 'None specified'}`,
                       <option value="50+">Large Scale Program (50+ participants)</option>
                     </select>
                   </div>
-
-                  <div>
-                    <label htmlFor="delivery-mode" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Preferred Training Location
-                    </label>
-                    <select
-                      id="delivery-mode"
-                      value={deliveryFormat}
-                      onChange={(e) => setDeliveryFormat(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
-                    >
-                      <option value="on-campus">At Your Office / College Campus</option>
-                      <option value="navya-lab">At Navya Putalisadak Innovation Lab</option>
-                      <option value="live-online">Live Interactive Virtual Sprints</option>
-                      <option value="hybrid">Blended / Hybrid Model</option>
-                    </select>
-                  </div>
                 </div>
 
                 {/* Notes & Requirements */}
                 <div>
                   <label htmlFor="notes" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                    Specific Requirements or Timeline (Optional)
+                    Requirements or Preferred Schedule (Optional)
                   </label>
                   <textarea
                     id="notes"
                     rows={3}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Provide any details on preferred start dates, specific frameworks, student semester, or current tech stack..."
+                    placeholder="e.g. preferred start date, class days and times, grade or semester of the learners"
                     className="w-full px-4 py-2.5 rounded-xl bg-paper-alt border border-border text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy resize-none"
                   />
                 </div>

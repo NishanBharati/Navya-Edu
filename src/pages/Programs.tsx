@@ -118,7 +118,7 @@ export const Programs: React.FC = () => {
       <SEOHead
         title="Career Programs & Specialized Technology Tracks | Navya Ed Tech"
         description="Comprehensive career programs designed to transition learners into production software engineering roles in Nepal. 1:12 cohort ratios, daily pull requests, and live cloud deployment."
-        keywords="software engineering programs Nepal, full stack career track Kathmandu, Python developer roadmap Nepal, coding bootcamp Nepal, kids STEM programs"
+        keywords="software engineering programs Nepal, online full stack career track Nepal, Python developer roadmap Nepal, coding bootcamp Nepal, kids STEM programs"
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -147,8 +147,8 @@ export const Programs: React.FC = () => {
               <HeroLiveIndicator color={isKidsActive ? 'amber' : 'blue'} />
               <span>
                 {isKidsActive
-                  ? 'Young Coders STEM Track • Kathmandu Lab & Weekend Batches (Ages 8–14)'
-                  : 'Multi-Tier Career Programs • Kathmandu Campus & Live Online'}
+                  ? 'Young Coders STEM Track • Live Online & Weekend Batches (Ages 8–14)'
+                  : 'Multi-Tier Career Programs • 100% Live Online'}
               </span>
             </motion.div>
 
@@ -182,7 +182,7 @@ export const Programs: React.FC = () => {
               >
                 <span className="text-xs font-semibold uppercase tracking-wider text-ink-faint block">Format</span>
                 <strong className="text-xs sm:text-sm font-bold text-ink block">
-                  {isKidsActive ? 'Lab & Weekend' : 'Classroom & Live'}
+                  {isKidsActive ? 'Online & Weekend' : 'Live Online'}
                 </strong>
               </motion.div>
               <motion.div
@@ -225,8 +225,8 @@ export const Programs: React.FC = () => {
               src={isKidsActive ? '/images/courses/scratch-beginner.jpg' : '/images/heroes/programs-hero.jpg'}
               alt={
                 isKidsActive
-                  ? 'Young students learning visual coding and robotics in Kathmandu'
-                  : 'Software engineering mentorship and career program in Kathmandu'
+                  ? 'Young students learning visual coding in a live online class'
+                  : 'Software engineering mentorship in a live online career program'
               }
               heightClass="h-[320px] sm:h-[380px]"
               priority={true}
@@ -538,7 +538,7 @@ export const Programs: React.FC = () => {
                       </strong>
                       <span>
                         {activeProgram.category === 'Kids & School Programs'
-                          ? '1:8 instructor ratio, supervised coding lab, verified certificate of achievement, and showcase of interactive games.'
+                          ? '1:8 instructor ratio, supervised live online classes, verified certificate of achievement, and showcase of interactive games.'
                           : 'Comprehensive portfolio defense, interview coaching, and recommendation pathways for junior engineering roles at Navya EdTech.'}
                       </span>
                     </div>
@@ -717,7 +717,7 @@ export const Programs: React.FC = () => {
 
           <p className="text-sm text-ink-soft leading-relaxed max-w-xl mx-auto">
             {isKidsActive
-              ? 'Schedule a lab visit or speak with our Young Coders instructor to review our curriculum, computer lab safety, and weekend batch timings for your child.'
+              ? 'Book a free online demo or speak with our Young Coders instructor to review our curriculum, online class safety, and weekend batch timings for your child.'
               : 'Speak with an academic counselor to evaluate your current programming level, discuss upcoming batch schedules, and review fee installment plans in NPR.'}
           </p>
 

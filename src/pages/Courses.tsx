@@ -88,7 +88,6 @@ export const Courses: React.FC = () => {
   // Filter & Search states
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedLevel, setSelectedLevel] = useState<string>('All');
-  const [selectedMode, setSelectedMode] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'alpha' | 'duration'>('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -116,7 +115,6 @@ export const Courses: React.FC = () => {
     setSearchParams(newParams, { replace: true });
     setSelectedCategory('All');
     setSelectedLevel('All');
-    setSelectedMode('All');
     setSearchQuery('');
   };
 
@@ -213,14 +211,6 @@ export const Courses: React.FC = () => {
       const matchesLevel =
         selectedLevel === 'All' || course.level.toLowerCase().includes(selectedLevel.toLowerCase());
 
-      // Mode filter
-      const courseMode = (course.mode || course.learningMode || '').toLowerCase();
-      const matchesMode =
-        selectedMode === 'All' ||
-        (selectedMode === 'In-Person' && (courseMode.includes('in-person') || courseMode.includes('classroom'))) ||
-        (selectedMode === 'Online' && courseMode.includes('online')) ||
-        (selectedMode === 'Hybrid' && courseMode.includes('hybrid'));
-
       // Search Query
       const q = searchQuery.toLowerCase().trim();
       const techs = course.technologies || course.skills || [];
@@ -232,7 +222,7 @@ export const Courses: React.FC = () => {
         techs.some((t) => t.toLowerCase().includes(q)) ||
         course.careerPaths?.some((p) => p.toLowerCase().includes(q));
 
-      return matchesCategory && matchesLevel && matchesMode && matchesSearch;
+      return matchesCategory && matchesLevel && matchesSearch;
     });
 
     // Sorting
@@ -256,18 +246,16 @@ export const Courses: React.FC = () => {
     });
 
     return result;
-  }, [audienceCourses, audience, selectedCategory, selectedLevel, selectedMode, searchQuery, sortBy]);
+  }, [audienceCourses, audience, selectedCategory, selectedLevel, searchQuery, sortBy]);
 
   const hasActiveFilters =
     selectedCategory !== 'All' ||
     selectedLevel !== 'All' ||
-    selectedMode !== 'All' ||
     searchQuery.trim() !== '';
 
   const handleResetFilters = () => {
     setSelectedCategory('All');
     setSelectedLevel('All');
-    setSelectedMode('All');
     setSearchQuery('');
   };
 
@@ -276,18 +264,18 @@ export const Courses: React.FC = () => {
       <SEOHead
         title={
           audience === 'kids'
-            ? 'Kids Coding & Scratch Programming Courses in Kathmandu (Ages 8-14) | Navya Ed Tech'
+            ? 'Live Online Kids Coding & Scratch Courses in Nepal (Ages 8-14) | Navya Ed Tech'
             : 'Explore Professional IT Courses & Tech Training | Navya Ed Tech Nepal'
         }
         description={
           audience === 'kids'
-            ? 'Creative block-based coding and game physics courses for children ages 8 to 14 in Kathmandu. Small batches, safe supervised lab, and playful problem solving.'
-            : 'Browse industry-standard courses in Web Development, Python, and Data Science in Kathmandu. Real production projects, small cohorts, and career mentorship.'
+            ? 'Creative block-based coding and game physics courses for children ages 8 to 14, taught live online. Small batches, supervised classes, and playful problem solving.'
+            : 'Browse live online courses in Web Development, Python, and Data Science. Real production projects, small cohorts, and career mentorship.'
         }
         keywords={
           audience === 'kids'
-            ? 'kids coding Nepal, Scratch programming Kathmandu, coding for children Kathmandu, STEM courses Nepal, young coders Nepal'
-            : 'IT courses in Nepal, computer training institute Kathmandu, web development course Nepal, Python programming Kathmandu, data science training Nepal'
+            ? 'kids coding Nepal, online Scratch classes Nepal, online coding for children Nepal, STEM courses Nepal, young coders Nepal'
+            : 'IT courses in Nepal, online IT training Nepal, web development course Nepal, online Python course Nepal, data science training Nepal'
         }
         structuredData={[
           getBreadcrumbSchema([
@@ -387,8 +375,8 @@ export const Courses: React.FC = () => {
               <HeroLiveIndicator color={audience === 'kids' ? 'amber' : 'sage'} />
               <span>
                 {audience === 'kids'
-                  ? 'Young Coders STEM Lab • Kathmandu Campus & Weekend Batches'
-                  : 'Admissions Open • Kathmandu Lab & Live Online'}
+                  ? 'Young Coders • Live Online & Weekend Batches'
+                  : 'Admissions Open • 100% Live Online'}
               </span>
             </motion.div>
 
@@ -406,8 +394,8 @@ export const Courses: React.FC = () => {
                 className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl"
               >
                 {audience === 'kids'
-                  ? 'Transform passive screen time into active creation. Children ages 8 to 14 master computational sequencing, arcade game physics, and animation in a safe, supervised Kathmandu laboratory.'
-                  : 'Every curriculum is designed around modern technologies, daily laboratory sprints, line-by-line GitHub pull request audits, and production capstone portfolios.'}
+                  ? 'Transform passive screen time into active creation. Children ages 8 to 14 master computational sequencing, arcade game physics, and animation in safe, supervised live online classesy.'
+                  : 'Every curriculum is designed around modern technologies, daily live coding sprints, line-by-line GitHub pull request audits, and production capstone portfolios.'}
               </motion.p>
             </div>
 
@@ -480,7 +468,7 @@ export const Courses: React.FC = () => {
                   <span className="text-input-border">•</span>
                   <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4 text-blue" />
-                    <span className="font-medium">Safe Supervised Lab</span>
+                    <span className="font-medium">Supervised Live Classes</span>
                   </motion.div>
                   <span className="text-input-border">•</span>
                   <motion.div variants={prefersReducedMotion ? undefined : heroCardItem} className="flex items-center gap-1.5">
@@ -515,15 +503,15 @@ export const Courses: React.FC = () => {
               src={audience === 'kids' ? '/images/courses/scratch-beginner.jpg' : '/images/heroes/courses-hero.jpg'}
               alt={
                 audience === 'kids'
-                  ? 'Young students learning visual coding and game design at Navya Ed Tech lab'
-                  : 'Students and developers learning in Kathmandu tech academy lab'
+                  ? 'Young students learning visual coding and game design in a Navya Ed Tech online class'
+                  : 'Students and developers learning in a live online coding class'
               }
               heightClass="h-80 sm:h-96"
               priority={true}
               overlayBadgeTop={
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/40 shadow-sm text-xs font-bold text-navy">
                   <HeroLiveIndicator color={audience === 'kids' ? 'amber' : 'emerald'} />
-                  <span>{audience === 'kids' ? 'Young Coders Lab (Ages 8–14)' : 'Putalisadak Kathmandu Lab'}</span>
+                  <span>{audience === 'kids' ? 'Young Coders (Ages 8–14)' : 'Live Online Classes'}</span>
                 </div>
               }
               overlayCardBottom={
@@ -537,7 +525,7 @@ export const Courses: React.FC = () => {
                     </p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
-                    {audience === 'kids' ? 'Creative Lab' : 'Kathmandu Campus'}
+                    {audience === 'kids' ? 'Live Online' : '100% Online'}
                   </span>
                 </div>
               }
@@ -660,18 +648,6 @@ export const Courses: React.FC = () => {
                 <option value="Advanced">Advanced Level</option>
               </select>
 
-              {/* Learning Mode Dropdown */}
-              <select
-                value={selectedMode}
-                onChange={(e) => setSelectedMode(e.target.value)}
-                aria-label="Filter by delivery mode"
-                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-input-border bg-white text-ink focus:outline-none focus:ring-2 focus:ring-navy"
-              >
-                <option value="All">All Delivery Modes</option>
-                <option value="In-Person">Classroom / In-Person</option>
-                <option value="Online">Online Live</option>
-                <option value="Hybrid">Hybrid Delivery</option>
-              </select>
 
               {/* Reset button if filters are active */}
               {hasActiveFilters && (
@@ -718,20 +694,6 @@ export const Courses: React.FC = () => {
                     type="button"
                     onClick={() => setSelectedLevel('All')}
                     aria-label={`Remove level filter ${selectedLevel}`}
-                    className="hover:text-ink cursor-pointer ml-0.5"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              )}
-
-              {selectedMode !== 'All' && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-navy/5 border border-navy/15 text-navy text-xs font-medium">
-                  <span>Format: {selectedMode}</span>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedMode('All')}
-                    aria-label={`Remove mode filter ${selectedMode}`}
                     className="hover:text-ink cursor-pointer ml-0.5"
                   >
                     <X className="w-3 h-3" />

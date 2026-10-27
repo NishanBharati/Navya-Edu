@@ -180,8 +180,9 @@ export async function submitInquiry(payload: InquirySubmissionPayload): Promise<
     };
   }
 
+  // Email is optional (most families reply on WhatsApp), but must be valid when given.
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (!sanitizedEmail || !emailPattern.test(sanitizedEmail)) {
+  if (sanitizedEmail && !emailPattern.test(sanitizedEmail)) {
     return {
       success: false,
       savedLocally: false,

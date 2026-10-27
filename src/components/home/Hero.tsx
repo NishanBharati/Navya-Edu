@@ -64,8 +64,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
             Your child snaps ideas together. <span className="text-block-yellow">Then writes real code.</span>
           </h1>
           <p style={riseDelay(90)} className="rise mt-6 max-w-[60ch] text-lg sm:text-xl leading-relaxed text-white/90">
-            Small, hands-on coding classes for ages 8 to 16 in Putalisadak, Kathmandu. Every class builds a real
-            project, from first Scratch blocks to Python and websites.
+            Small, hands-on live online coding classes for ages 8 to 16, joined from home. Every class builds a
+            real project, from first Scratch blocks to Python and websites.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenAdvisor }) => {
         </div>
 
         <p style={riseDelay(260)} className="rise mt-6 text-[15px] text-white/85">
-          Up to 12 children per mentor, in our lab in Putalisadak. An advisor confirms the right level in the free demo class.
+          Up to 12 children per mentor, live online. An advisor confirms the right level in the free demo class.
         </p>
       </Container>
     </section>

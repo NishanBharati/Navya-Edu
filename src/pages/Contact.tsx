@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   Mail,
-  MapPin,
+  Globe,
   Clock,
   ArrowRight,
   CheckCircle2,
@@ -41,7 +41,6 @@ import {
   getMotionVariants
 } from '../lib/motion';
 import { StatCounterRow, StatItem } from '../components/common/StatCounter';
-import { IconStrip, IconStripItem } from '../components/common/IconStrip';
 import { MeshCTABanner } from '../components/common/MeshCTABanner';
 import { HeroImageWithParallax } from '../components/common/HeroImageWithParallax';
 import { HeroLiveIndicator } from '../components/common/HeroLiveIndicator';
@@ -233,11 +232,8 @@ export const Contact: React.FC = () => {
     email: '',
     phone: '',
     interestedCourse: 'web-development',
-    preferredMode: 'Classroom (Kathmandu Campus)',
-    preferredTime: 'Morning (7:00 AM – 9:00 AM)',
-    experienceLevel: 'College Student / Recent Graduate',
+    preferredMode: 'Online Live (Morning)',
     message: '',
-    privacyConsent: false,
     website_hp: '' // Honeypot anti-spam field
   });
 
@@ -278,7 +274,8 @@ export const Contact: React.FC = () => {
         if (value.trim().length > 100) return 'Full Name must not exceed 100 characters.';
         return '';
       case 'email':
-        if (typeof value !== 'string' || !value.trim()) return 'Email address is required.';
+        // Optional: most families reply on WhatsApp
+        if (typeof value !== 'string' || !value.trim()) return '';
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value.trim())) {
           return 'Please enter a valid email address (e.g. name@domain.com).';
         }
@@ -291,12 +288,8 @@ export const Contact: React.FC = () => {
         }
         return '';
       case 'message':
-        if (typeof value !== 'string' || !value.trim()) return 'Please enter your message or questions.';
-        if (value.trim().length < 10) return 'Message must be at least 10 characters.';
+        if (typeof value !== 'string') return '';
         if (value.trim().length > 2000) return 'Message must not exceed 2000 characters.';
-        return '';
-      case 'privacyConsent':
-        if (!value) return 'You must agree to the privacy notice to submit an inquiry.';
         return '';
       default:
         return '';
@@ -343,7 +336,6 @@ export const Contact: React.FC = () => {
       email: validateField('email', formData.email),
       phone: validateField('phone', formData.phone),
       message: validateField('message', formData.message),
-      privacyConsent: validateField('privacyConsent', formData.privacyConsent),
     };
 
     setTouched({
@@ -351,7 +343,6 @@ export const Contact: React.FC = () => {
       email: true,
       phone: true,
       message: true,
-      privacyConsent: true,
     });
     setFormErrors(errors);
 
@@ -362,12 +353,6 @@ export const Contact: React.FC = () => {
 
     setIsSubmitting(true);
 
-    const detailedMessage = [
-      `Experience Level: ${formData.experienceLevel}`,
-      `Preferred Timing: ${formData.preferredTime}`,
-      formData.message ? `Notes: ${formData.message}` : ''
-    ].filter(Boolean).join('\n');
-
     try {
       const result = await submitInquiry({
         fullName: formData.fullName,
@@ -375,7 +360,7 @@ export const Contact: React.FC = () => {
         phone: formData.phone,
         interestedCourse: formData.interestedCourse,
         preferredMode: formData.preferredMode,
-        message: detailedMessage,
+        message: formData.message.trim(),
         source: 'Contact Page',
       });
 
@@ -414,47 +399,26 @@ export const Contact: React.FC = () => {
       icon: <Clock className="w-4 h-4 text-blue" />
     },
     {
-      rawDisplay: 'Hybrid',
-      label: 'Kathmandu & Online',
-      description: 'Putalisadak physical lab + interactive daily live streams',
-      badge: 'Dual Mode',
-      icon: <Building2 className="w-4 h-4 text-sage-ink" />
-    }
-  ];
-
-  const mapFacilityStrip: IconStripItem[] = [
-    {
-      icon: <MapPin className="w-4 h-4 text-blue" />,
-      label: 'Campus Address',
-      description: 'Putalisadak IT Corridor (Opp. Kathmandu Plaza), Ward 28, Kathmandu',
-      tag: 'Physical Lab'
-    },
-    {
-      icon: <Compass className="w-4 h-4 text-sage" />,
-      label: 'Transit Access',
-      description: '5-minute walk from Ratnapark, City Center & Old Bus Park hubs',
-      tag: 'Transit'
-    },
-    {
-      icon: <Clock className="w-4 h-4 text-amber" />,
-      label: 'Facility Schedule',
-      description: 'Sun – Fri: 7:00 AM – 7:00 PM • Developer Workstations Open Daily',
-      tag: 'Hours'
+      rawDisplay: '100%',
+      label: 'Live Online',
+      description: 'Every class is taught live online, joined from anywhere in Nepal',
+      badge: 'Online',
+      icon: <Globe className="w-4 h-4 text-sage-ink" />
     }
   ];
 
   const faqs: FAQItem[] = [
     {
       question: 'Can I attend a free demo or trial session before enrolling?',
-      answer: 'Yes! We encourage prospective students to schedule a free trial session or visit our Kathmandu campus to experience the teaching methodology, inspect the lab environment, and speak directly with instructors.'
+      answer: 'Yes! We encourage prospective students to join a free live online trial class to experience the teaching methodology and speak directly with instructors.'
     },
     {
       question: 'What are the fee payment options and installment plans in NPR?',
       answer: 'All course fees are priced transparently in Nepalese Rupees (NPR). We offer flexible 2 to 3 milestone installment plans structured across the training duration, allowing students to pay comfortably without upfront financial stress.'
     },
     {
-      question: 'What happens if I miss a live classroom or online lecture?',
-      answer: 'Every lecture includes structured code repositories, step-by-step documentation, and recorded backup sessions. Students also receive dedicated 1-on-1 lab mentor hours to resolve any doubts or blockers.'
+      question: 'What happens if I miss a live online class?',
+      answer: 'Every lecture includes structured code repositories, step-by-step documentation, and recorded backup sessions. Students also receive dedicated 1-on-1 online mentor hours to resolve any doubts or blockers.'
     }
   ];
 
@@ -462,8 +426,8 @@ export const Contact: React.FC = () => {
     <main className="min-h-screen text-ink">
       <SEOHead
         title="Contact Admissions & Academic Advisory | Navya Ed Tech Nepal"
-        description="Connect with academic advisors at Navya Ed Tech Kathmandu. Ask about upcoming batch dates, syllabus outlines, fees in NPR, campus visits, or demo classes."
-        keywords="contact Navya Ed Tech, IT training Kathmandu address, computer institute Putalisadak, admissions counselor Nepal, IT course fees Nepal"
+        description="Connect with academic advisors at Navya Ed Tech. Ask about upcoming live online batch dates, syllabus outlines, fees in NPR, or free online demo classes."
+        keywords="contact Navya Ed Tech, online IT training Nepal, online coding classes Nepal, admissions counselor Nepal, IT course fees Nepal"
         structuredData={[
           getEducationalOrganizationSchema(),
           getBreadcrumbSchema([
@@ -511,7 +475,7 @@ export const Contact: React.FC = () => {
                   variants={prefersReducedMotion ? undefined : heroParagraph}
                   className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl"
                 >
-                  Have questions regarding upcoming batch schedules, course prerequisites, syllabus modules, or installment fee plans in NPR? Connect directly with our Kathmandu admissions team or book a free trial class.
+                  Have questions regarding upcoming batch schedules, course prerequisites, syllabus modules, or installment fee plans in NPR? Connect directly with our admissions team or book a free online trial class.
                 </motion.p>
               </div>
 
@@ -525,20 +489,20 @@ export const Contact: React.FC = () => {
             <div className="lg:col-span-5 relative">
               <HeroImageWithParallax
                 src="/images/heroes/contact-hero.jpg"
-                alt="Academic advisory lounge at Navya EdTech in Kathmandu"
+                alt="Online admissions counseling at Navya Ed Tech"
                 heightClass="h-[320px] sm:h-[380px]"
                 priority={true}
                 overlayBadgeTop={
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/40 shadow-sm text-xs font-bold text-navy">
                     <HeroLiveIndicator color="sage" />
-                    <span>Kathmandu Advisory Lounge</span>
+                    <span>Online Admissions Desk</span>
                   </div>
                 }
                 overlayCardBottom={
                   <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                     <div className="space-y-0.5">
                       <p className="text-xs font-bold text-ink">Admissions Counseling</p>
-                      <p className="text-xs text-ink-soft">Putalisadak, Kathmandu • Call / WhatsApp</p>
+                      <p className="text-xs text-ink-soft">Online • Call / WhatsApp</p>
                     </div>
                     <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
                       Open Now
@@ -602,12 +566,8 @@ export const Contact: React.FC = () => {
                     <strong className="text-ink capitalize">{formData.interestedCourse.replace(/-/g, ' ')}</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span>Learning Mode:</span>
-                    <strong className="text-ink">{formData.preferredMode}</strong>
-                  </div>
-                  <div className="flex justify-between">
                     <span>Batch Time:</span>
-                    <strong className="text-ink">{formData.preferredTime}</strong>
+                    <strong className="text-ink">{formData.preferredMode}</strong>
                   </div>
                   {submissionResult && (
                     <div className="pt-2 border-t border-border-faint flex items-center justify-between text-xs">
@@ -664,11 +624,8 @@ export const Contact: React.FC = () => {
                         email: '',
                         phone: '',
                         interestedCourse: 'web-development',
-                        preferredMode: 'Classroom (Kathmandu Campus)',
-                        preferredTime: 'Morning (7:00 AM – 9:00 AM)',
-                        experienceLevel: 'College Student / Recent Graduate',
+                        preferredMode: 'Online Live (Morning)',
                         message: '',
-                        privacyConsent: false,
                         website_hp: ''
                       });
                       setTouched({});
@@ -687,7 +644,7 @@ export const Contact: React.FC = () => {
                     <span>Send an Academic Inquiry or Book a Demo</span>
                   </h2>
                   <p className="text-xs text-ink-soft mt-1">
-                    Fill in your contact info to receive official course brochures, fee installment options in NPR, and upcoming cohort start dates.
+                    Leave your name and number. An advisor will call or WhatsApp you with fees, batch dates and a free demo class slot.
                   </p>
                 </div>
 
@@ -710,8 +667,7 @@ export const Contact: React.FC = () => {
                     id="contact-email"
                     name="email"
                     type="email"
-                    required
-                    label="Email Address"
+                    label="Email (optional)"
                     value={formData.email}
                     error={touched.email ? formErrors.email : undefined}
                     onChange={(e) => handleChange('email', e.target.value)}
@@ -731,7 +687,7 @@ export const Contact: React.FC = () => {
                   />
                 </div>
 
-                {/* Course Selection & Learning Mode */}
+                {/* Course & Batch Time */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FloatingSelect
                     id="contact-course"
@@ -744,48 +700,19 @@ export const Contact: React.FC = () => {
                         {c.title} ({c.duration})
                       </option>
                     ))}
-                    <option value="general-it-career-counseling">General IT Career Counseling (Free)</option>
-                    <option value="corporate-training-inquiry">Corporate / Team Training</option>
+                    <option value="general-it-career-counseling">Not sure yet, help me choose</option>
+                    <option value="corporate-training-inquiry">School / Company Training</option>
                   </FloatingSelect>
 
                   <FloatingSelect
-                    id="contact-mode"
-                    label="Preferred Learning Mode"
+                    id="contact-time"
+                    label="Preferred Batch Time"
                     value={formData.preferredMode}
                     onChange={(e) => handleChange('preferredMode', e.target.value)}
                   >
-                    <option value="Classroom (Kathmandu Campus)">Classroom (Kathmandu Campus)</option>
-                    <option value="Online Live Interactive">Online Live (Interactive via Meet/Zoom)</option>
-                    <option value="Hybrid (Classroom + Online)">Hybrid (Classroom + Online)</option>
-                    <option value="Undecided">Undecided / Discuss with Advisor</option>
-                  </FloatingSelect>
-                </div>
-
-                {/* Batch Timing & Experience Level */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FloatingSelect
-                    id="contact-time"
-                    label="Preferred Batch Timing"
-                    value={formData.preferredTime}
-                    onChange={(e) => handleChange('preferredTime', e.target.value)}
-                  >
-                    <option value="Morning (7:00 AM – 9:00 AM)">Morning (7:00 AM – 9:00 AM)</option>
-                    <option value="Day (11:00 AM – 1:00 PM)">Day (11:00 AM – 1:00 PM)</option>
-                    <option value="Evening (5:00 PM – 7:00 PM)">Evening (5:00 PM – 7:00 PM)</option>
-                    <option value="Weekend Intensive">Weekend Intensive Batch</option>
-                    <option value="Flexible">Flexible / Discuss Available Slots</option>
-                  </FloatingSelect>
-
-                  <FloatingSelect
-                    id="contact-level"
-                    label="Current Background / Level"
-                    value={formData.experienceLevel}
-                    onChange={(e) => handleChange('experienceLevel', e.target.value)}
-                  >
-                    <option value="College Student / Recent Graduate">College Student (BSc.CSIT, BCA, BIT, BE)</option>
-                    <option value="Absolute Beginner / Non-Tech">Absolute Beginner (No coding experience)</option>
-                    <option value="Self-Taught Developer">Self-Taught Developer (Knows basics)</option>
-                    <option value="Working Professional">Working Professional / Career Switcher</option>
+                    <option value="Online Live (Morning)">Morning (7:00 – 8:30 AM)</option>
+                    <option value="Online Live (Evening)">Evening (5:00 – 6:30 PM)</option>
+                    <option value="Online Live (Flexible)">Flexible / discuss with advisor</option>
                   </FloatingSelect>
                 </div>
 
@@ -793,10 +720,9 @@ export const Contact: React.FC = () => {
                 <FloatingTextarea
                   id="contact-message"
                   name="message"
-                  required
                   rows={3}
                   maxLength={2000}
-                  label="Specific Questions, Goals, or Demo Class Request"
+                  label="Your question (optional)"
                   value={formData.message}
                   error={touched.message ? formErrors.message : undefined}
                   onChange={(e) => handleChange('message', e.target.value)}
@@ -817,32 +743,6 @@ export const Contact: React.FC = () => {
                   />
                 </div>
 
-                {/* Privacy Notice & Consent Checkbox */}
-                <div className="pt-1">
-                  <label className="flex items-start gap-2.5 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      id="contact-privacy"
-                      name="privacyConsent"
-                      aria-invalid={Boolean(touched.privacyConsent && formErrors.privacyConsent)}
-                      aria-describedby={touched.privacyConsent && formErrors.privacyConsent ? 'contact-consent-error' : undefined}
-                      checked={formData.privacyConsent}
-                      onChange={(e) => handleChange('privacyConsent', e.target.checked)}
-                      onBlur={() => handleBlur('privacyConsent')}
-                      className="mt-0.5 w-4 h-4 rounded border-input-border text-navy focus:ring-navy cursor-pointer"
-                    />
-                    <span className="text-xs text-ink-soft leading-snug">
-                      I agree to be contacted by Navya Ed Tech regarding course curriculum, batch timetables, and admissions advisory. We respect your privacy and never share your data. <span className="text-red-500">*</span>
-                    </span>
-                  </label>
-                  {touched.privacyConsent && formErrors.privacyConsent && (
-                    <p id="contact-consent-error" role="alert" className="mt-1.5 text-xs font-medium text-red-600 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
-                      <span>{formErrors.privacyConsent}</span>
-                    </p>
-                  )}
-                </div>
-
                 {submitError && (
                   <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs font-medium text-red-700 flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0" />
@@ -852,8 +752,11 @@ export const Contact: React.FC = () => {
 
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <span className="text-xs text-ink-faint flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-sage-ink" />
-                    <span>Official counseling desk. All fees quoted in NPR with zero hidden surcharges.</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-sage-ink shrink-0" />
+                    <span>
+                      By submitting, you agree to be contacted about this inquiry. See our{' '}
+                      <a href="/privacy" className="underline hover:text-ink">Privacy Policy</a>.
+                    </span>
                   </span>
 
                   {/* Animated Submit Button with Loading Spinner & Hover States */}
@@ -881,7 +784,7 @@ export const Contact: React.FC = () => {
             )}
           </div>
 
-          {/* Right Column: Direct Channels & Campus Details (Entrance Stagger) */}
+          {/* Right Column: Direct Channels (Entrance Stagger) */}
           <motion.div
             variants={prefersReducedMotion ? undefined : staggerContainer(0.12, 0.06)}
             initial={prefersReducedMotion ? false : 'hidden'}
@@ -889,30 +792,16 @@ export const Contact: React.FC = () => {
             viewport={VIEWPORT_ONCE}
             className="lg:col-span-5 space-y-6"
           >
-            {/* Campus & Admissions Information */}
+            {/* Admissions Information */}
             <motion.div
               variants={prefersReducedMotion ? undefined : bentoCardVariant}
               className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-border shadow-sm space-y-6"
             >
               <h2 className="text-lg font-extrabold text-ink">
-                Kathmandu Admissions & Direct Channels
+                Admissions & Direct Channels
               </h2>
 
               <div className="space-y-4 text-xs sm:text-sm text-ink-soft">
-                {/* Physical Location */}
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-navy/10 text-navy flex items-center justify-center shrink-0 mt-0.5">
-                    <MapPin className="w-4.5 h-4.5 text-blue" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <strong className="text-ink block text-sm">Training Campus & Labs:</strong>
-                    <span>Putalisadak (IT Corridor), Ward 28, Kathmandu 44600, Bagmati Province, Nepal</span>
-                    <span className="block text-xs text-ink-faint mt-0.5">
-                      Opposite Kathmandu Plaza. 5-minute walk from City Center and Ratnapark.
-                    </span>
-                  </div>
-                </div>
-
                 {/* Direct Phone Links */}
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 rounded-xl bg-navy/10 text-navy flex items-center justify-center shrink-0 mt-0.5">
@@ -1001,10 +890,10 @@ export const Contact: React.FC = () => {
                     <Clock className="w-4.5 h-4.5 text-blue" />
                   </div>
                   <div>
-                    <strong className="text-ink block text-sm">Advisory & Visiting Hours:</strong>
+                    <strong className="text-ink block text-sm">Advisory Hours:</strong>
                     <span>Sunday – Friday: 7:00 AM – 7:00 PM (NPT)</span>
                     <span className="block text-xs text-ink-faint mt-0.5">
-                      Saturday: 9:00 AM – 3:00 PM (Trial demo sessions & lab tours by appointment)
+                      Saturday: 9:00 AM – 3:00 PM (Online demo classes by appointment)
                     </span>
                   </div>
                 </div>
@@ -1044,75 +933,7 @@ export const Contact: React.FC = () => {
     </section>
 
       {/* ========================================================================= */}
-      {/* 3. CAMPUS LOCATION & EMBEDDED GOOGLE MAP (Warm Cream Ground) */}
-      {/* ========================================================================= */}
-      <section className="py-14 sm:py-20 bg-paper-alt border-b border-border">
-        <Container>
-          <motion.div
-            variants={prefersReducedMotion ? undefined : fadeUp}
-            initial={prefersReducedMotion ? false : 'hidden'}
-            whileInView="visible"
-            viewport={VIEWPORT_ONCE}
-            className="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-3xl border border-border shadow-sm space-y-6"
-          >
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue font-mono">
-                  <MapPin className="w-4 h-4 text-blue" />
-                  <span>Physical Campus • Bagmati Province, Nepal</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-ink leading-tight">
-                  Visit Our Kathmandu Innovation Lab
-                </h2>
-                <p className="text-xs sm:text-sm text-ink-soft max-w-2xl">
-                  Located in the Putalisadak IT Corridor, our physical center is easily accessible via public and private transport. Walk in for classroom tours, workstation inspections, or in-person career counseling.
-                </p>
-              </div>
-              <div className="shrink-0 flex items-center gap-2">
-                <a
-                  href="https://maps.google.com/?q=Putalisadak+IT+Corridor+Kathmandu+Nepal"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-navy text-white text-xs font-bold hover:bg-navy-light transition-all shadow-xs group/dir"
-                >
-                  <Compass className="w-3.5 h-3.5 text-sage" />
-                  <span>Get Directions (Google Maps)</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover/dir:translate-x-0.5 group-hover/dir:-translate-y-0.5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Embedded Responsive Google Maps Iframe (Animated Scale/Fade Reveal on Scroll) */}
-            <motion.div
-              variants={prefersReducedMotion ? undefined : scaleIn}
-              initial={prefersReducedMotion ? false : 'hidden'}
-              whileInView="visible"
-              viewport={VIEWPORT_ONCE}
-              className="rounded-2xl sm:rounded-3xl overflow-hidden border border-border shadow-inner relative w-full h-[360px] sm:h-[420px] bg-paper"
-            >
-              <iframe
-                title="Navya Ed Tech Kathmandu Location Map - Putalisadak / IT Corridor, Kathmandu, Nepal"
-                src="https://maps.google.com/maps?q=Putalisadak%20IT%20Corridor%2C%20Kathmandu%2C%20Nepal&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full"
-              />
-            </motion.div>
-
-            {/* Variant A: Divided Horizontal Icon Strip (Zero bulky card borders) */}
-            <div className="pt-2">
-              <IconStrip items={mapFacilityStrip} />
-            </div>
-          </motion.div>
-        </Container>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 4. ADMISSIONS FAQ ACCORDION SECTION (Clean White Ground) */}
+      {/* 3. ADMISSIONS FAQ ACCORDION SECTION (Clean White Ground) */}
       {/* ========================================================================= */}
       <section className="py-14 sm:py-20 bg-surface-white border-b border-border-soft">
         <Container>

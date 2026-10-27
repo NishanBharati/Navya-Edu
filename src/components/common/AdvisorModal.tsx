@@ -5,22 +5,16 @@ import {
   ArrowRight,
   BookOpen,
   Clock,
-  MapPin,
   MessageSquare,
   Mail,
   Phone,
   User,
   GraduationCap,
-  Target,
-  Building2,
-  Laptop,
+  Sunrise,
+  Sunset,
   Compass,
   ShieldCheck,
   Sparkles,
-  HelpCircle,
-  Calendar,
-  Send,
-  Loader2,
   Check
 } from 'lucide-react';
 import { Button } from './Button';
@@ -37,26 +31,18 @@ interface AdvisorModalProps {
   initialIntent?: 'enroll' | 'demo' | 'inquire';
 }
 
-const QUICK_INQUIRY_TAGS = [
-  'Next batch starting date',
-  'Curriculum & Syllabus PDF',
-  'Fee structure & Installments',
-  'Internship & Placement support',
-  'Weekend / Evening batches',
-];
-
 const PREFERRED_MODES = [
   {
-    id: 'Classroom (Kathmandu)',
-    label: 'Kathmandu Campus',
-    sublabel: 'In-Person Lab',
-    icon: Building2,
+    id: 'Online Live (Morning)',
+    label: 'Morning batch',
+    sublabel: '7:00 to 8:30 AM',
+    icon: Sunrise,
   },
   {
-    id: 'Online Live',
-    label: 'Online Live',
-    sublabel: 'Interactive Remote',
-    icon: Laptop,
+    id: 'Online Live (Evening)',
+    label: 'Evening batch',
+    sublabel: '5:00 to 6:30 PM',
+    icon: Sunset,
   },
   {
     id: 'Flexible / Undecided',
@@ -81,25 +67,16 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
     return COURSES;
   }, [courses]);
 
-  const defaultGoal = useMemo(() => {
-    if (initialIntent === 'demo') return 'Schedule a Free Demo Class / Trial Session';
-    if (initialIntent === 'enroll') return 'Cohort Enrollment / Admissions Registration';
-    return 'Job Readiness / Career Transition';
-  }, [initialIntent]);
-
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
     interestedCourse: defaultCourseSlug,
-    preferredMode: 'Classroom (Kathmandu)',
-    learningGoal: defaultGoal,
+    preferredMode: 'Online Live (Morning)',
     message: '',
-    privacyConsent: true,
     website_hp: '',
   });
 
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionResult, setSubmissionResult] = useState<InquirySubmissionResult | null>(null);
@@ -110,33 +87,11 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
       setFormData((prev) => ({
         ...prev,
         interestedCourse: defaultCourseSlug || prev.interestedCourse || (allCourses[0]?.slug ?? ''),
-        learningGoal: defaultGoal,
       }));
     }
-  }, [isOpen, defaultCourseSlug, defaultGoal, allCourses]);
+  }, [isOpen, defaultCourseSlug, allCourses]);
 
   if (!isOpen) return null;
-
-  const handleToggleTag = (tag: string) => {
-    const isPresent = selectedTags.includes(tag);
-    let nextTags: string[];
-    if (isPresent) {
-      nextTags = selectedTags.filter((t) => t !== tag);
-    } else {
-      nextTags = [...selectedTags, tag];
-    }
-    setSelectedTags(nextTags);
-
-    // Update message text cleanly
-    const existingLines = formData.message
-      .split('\n')
-      .map((l) => l.trim())
-      .filter((l) => l.length > 0 && !QUICK_INQUIRY_TAGS.some((q) => l.includes(q)));
-
-    const tagLines = nextTags.map((t) => `• Inquiring about: ${t}`);
-    const combinedMessage = [...existingLines, ...tagLines].join('\n');
-    setFormData((prev) => ({ ...prev, message: combinedMessage }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -169,25 +124,16 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
       return;
     }
 
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      setSubmitError('Please provide a valid email address.');
-      return;
-    }
-
-    if (!formData.privacyConsent) {
-      setSubmitError('Please accept the academic counseling agreement to proceed.');
+    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      setSubmitError('Please check the email address, or leave it blank.');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const fullNotes = [
-        `Goal: ${formData.learningGoal}`,
-        formData.message.trim(),
-      ]
-        .filter(Boolean)
-        .join(' | ');
+      const intentLabel = { demo: 'Free demo class request', enroll: 'Enrollment request', inquire: 'General inquiry' }[initialIntent];
+      const fullNotes = [intentLabel, formData.message.trim()].filter(Boolean).join(' | ');
 
       const result = await submitInquiry({
         fullName: formData.fullName.trim(),
@@ -218,7 +164,6 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
   const handleReset = () => {
     setIsSubmitted(false);
     setSubmissionResult(null);
-    setSelectedTags([]);
     onClose();
   };
 
@@ -227,7 +172,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
   const getCtaLabel = () => {
     if (isSubmitting) return 'Submitting Request...';
     if (initialIntent === 'demo') return 'Request Free Demo Class';
-    if (initialIntent === 'enroll') return 'Reserve Admission Seat';
+    if (initialIntent === 'enroll') return 'Reserve Your Place';
     return 'Get Free Counseling & Syllabus';
   };
 
@@ -291,14 +236,14 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
             {initialIntent === 'demo'
               ? 'Book a Free Interactive Demo Class'
               : initialIntent === 'enroll'
-              ? 'Enroll Now — Reserve Your Cohort Seat'
+              ? 'Enroll Now — Reserve Your Place'
               : 'Talk to an Education Advisor'}
           </h3>
           <p className="text-xs sm:text-sm text-stone-300 mt-1.5 leading-relaxed">
             {initialIntent === 'demo'
-              ? 'Experience our hands-on classroom pedagogy, meet senior engineering faculty mentors, and explore live project architectures before enrolling.'
+              ? 'Join a live online class, meet senior engineering faculty mentors, and explore live project architectures before enrolling.'
               : initialIntent === 'enroll'
-              ? 'Complete priority registration to secure your workstation seat in the upcoming batch at Kathmandu Campus or Live Online.'
+              ? 'Complete priority registration to secure your place in the upcoming live online batch.'
               : 'Get personalized guidance on batch schedules, syllabus walk-throughs, career placement paths, and scholarship eligibility.'}
           </p>
         </div>
@@ -359,7 +304,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   </div>
                   <div>
                     <span className="font-semibold text-ink block">Inquiry Logged & Queued</span>
-                    <span className="text-ink-muted">Your profile is sent directly to the admissions team in Kathmandu.</span>
+                    <span className="text-ink-muted">Your profile is sent directly to our admissions team.</span>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 text-xs">
@@ -368,7 +313,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   </div>
                   <div>
                     <span className="font-semibold text-ink block">Advisor Review</span>
-                    <span className="text-ink-muted">We verify cohort seat availability, batch timing, and prerequisites.</span>
+                    <span className="text-ink-muted">We verify batch availability, timing, and prerequisites.</span>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 text-xs">
@@ -388,7 +333,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
               <div className="mt-5 p-4 rounded-xl bg-paper-alt border border-border-warm max-w-md mx-auto text-left space-y-2.5">
                 <p className="text-xs font-semibold text-ink flex items-center gap-1.5">
                   <MessageSquare className="w-4 h-4 text-emerald-600" />
-                  Need immediate confirmation or seat reservation?
+                  Need immediate confirmation or a place reserved?
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <a
@@ -476,7 +421,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
 
                 <div>
                   <label htmlFor="advisor-email" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                    Email Address <span className="text-red-500">*</span>
+                    Email <span className="normal-case font-normal text-ink-muted">(optional)</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
@@ -485,14 +430,13 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                     <input
                       id="advisor-email"
                       type="email"
-                      required
                       placeholder="aarav@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all"
                     />
                   </div>
-                  <p className="text-xs text-ink-muted mt-1">For admissions notice & syllabus receipt</p>
+                  <p className="text-xs text-ink-muted mt-1">For the syllabus and fee details</p>
                 </div>
               </div>
             </div>
@@ -502,7 +446,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
               <div className="flex items-center justify-between pb-2 border-b border-border-soft">
                 <span className="text-xs font-bold text-navy uppercase tracking-wider flex items-center gap-1.5">
                   <GraduationCap className="w-4 h-4 text-navy" />
-                  2. Course & Learning Format
+                  2. Course & Batch
                 </span>
                 {selectedCourseObj && (
                   <span className="text-xs font-semibold text-navy bg-navy/5 px-2 py-0.5 rounded">
@@ -514,7 +458,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
               {/* Course Dropdown */}
               <div>
                 <label htmlFor="advisor-course" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                  Interested Course / Domain <span className="text-red-500">*</span>
+                  Course <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
@@ -526,17 +470,12 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                     onChange={(e) => setFormData({ ...formData, interestedCourse: e.target.value })}
                     className="w-full pl-10 pr-8 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm font-medium focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all appearance-none cursor-pointer"
                   >
-                    <optgroup label="Standard Career Tracks">
-                      {allCourses.map((course) => (
-                        <option key={course.slug} value={course.slug}>
-                          {course.title} ({course.duration})
-                        </option>
-                      ))}
-                    </optgroup>
-                    <optgroup label="Specialized Programs">
-                      <option value="career-program">Full Stack Engineering Career Program (6 Months)</option>
-                      <option value="general-counseling">General IT Career Counseling & Profile Assessment</option>
-                    </optgroup>
+                    {allCourses.map((course) => (
+                      <option key={course.slug} value={course.slug}>
+                        {course.title} ({course.duration})
+                      </option>
+                    ))}
+                    <option value="general-counseling">Not sure yet, help me choose</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-ink-muted text-xs">
                     ▼
@@ -547,7 +486,7 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
               {/* Preferred Mode: Tactile Segmented Cards */}
               <div>
                 <label className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                  Preferred Learning Mode
+                  Preferred Batch Time (Live Online)
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   {PREFERRED_MODES.map((mode) => {
@@ -577,79 +516,23 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
                   })}
                 </div>
               </div>
-
-              {/* Learning Goal */}
-              <div>
-                <label htmlFor="advisor-goal" className="block text-xs font-semibold text-ink uppercase tracking-wider mb-1.5">
-                  Primary Learning Goal
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-muted">
-                    <Target className="w-4 h-4" />
-                  </div>
-                  <select
-                    id="advisor-goal"
-                    value={formData.learningGoal}
-                    onChange={(e) => setFormData({ ...formData, learningGoal: e.target.value })}
-                    className="w-full pl-10 pr-8 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all appearance-none cursor-pointer"
-                  >
-                    <option value="Job Readiness / Career Transition">Job Readiness / Career Entry into Tech</option>
-                    <option value="Skill Upgrade for Current Job">Skill Upgrade & Architecture Mastery for Working Pro</option>
-                    <option value="College Project & Academic Support">College Final Year Project & Practical Lab Prep</option>
-                    <option value="Schedule a Free Demo Class / Trial Session">Schedule a Free Demo Class / Trial Session</option>
-                    <option value="Cohort Enrollment / Admissions Registration">Cohort Enrollment / Admissions Registration</option>
-                    <option value="General Exploration">General Exploration / Tech Career Guidance</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-ink-muted text-xs">
-                    ▼
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Group 3: Quick Questions & Custom Note */}
+            {/* Group 3: Optional note */}
             <div className="bg-white p-4 sm:p-5 rounded-xl border border-border shadow-xs space-y-3">
               <div className="flex items-center justify-between pb-1 border-b border-border-soft">
                 <label htmlFor="advisor-message" className="text-xs font-bold text-navy uppercase tracking-wider flex items-center gap-1.5">
                   <MessageSquare className="w-3.5 h-3.5 text-navy" />
-                  3. Questions or Specific Inquiries (Optional)
+                  3. Anything we should know? (Optional)
                 </label>
                 <span className="text-xs text-ink-muted">{formData.message.length}/500</span>
               </div>
 
-              {/* Quick Inquiry Chips */}
-              <div>
-                <span className="text-xs font-medium text-ink-muted block mb-1.5">
-                  Quick-add common questions with 1 click:
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {QUICK_INQUIRY_TAGS.map((tag) => {
-                    const isSelected = selectedTags.includes(tag);
-                    return (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => handleToggleTag(tag)}
-                        className={`text-xs px-2.5 py-1 rounded-full border transition-all cursor-pointer flex items-center gap-1 ${
-                          isSelected
-                            ? 'bg-navy text-white border-navy font-semibold shadow-xs'
-                            : 'bg-paper text-ink-soft border-border hover:border-navy/30 hover:bg-paper-alt'
-                        }`}
-                      >
-                        {isSelected ? <Check className="w-3 h-3" /> : <span>+</span>}
-                        <span>{tag}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Textarea */}
               <textarea
                 id="advisor-message"
                 rows={2}
                 maxLength={500}
-                placeholder="Tell us about your background, schedule preferences, or any questions for our advisor..."
+                placeholder="e.g. my child's age, questions about fees, or a preferred demo day"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-3.5 py-2.5 rounded-lg border border-input-border bg-white text-ink text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy transition-all resize-none"
@@ -670,22 +553,6 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
               />
             </div>
 
-            {/* Privacy Agreement Checkbox */}
-            <div className="p-3 rounded-lg bg-paper border border-border/80">
-              <label htmlFor="advisor-privacy" className="flex items-start gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  id="advisor-privacy"
-                  checked={formData.privacyConsent}
-                  onChange={(e) => setFormData({ ...formData, privacyConsent: e.target.checked })}
-                  className="mt-0.5 w-4 h-4 rounded border-input-border text-navy focus:ring-navy cursor-pointer"
-                />
-                <span className="text-xs text-ink-soft leading-snug">
-                  I agree to receive the syllabus brochure, batch timing options, and academic consultation from Navya Ed Tech. <span className="text-red-500">*</span>
-                </span>
-              </label>
-            </div>
-
             {/* Submission Error Banner */}
             {submitError && (
               <div
@@ -701,7 +568,10 @@ export const AdvisorModal: React.FC<AdvisorModalProps> = ({
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3.5">
               <div className="flex items-center gap-2 text-xs text-ink-muted">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>100% Confidential • Zero Spam Guarantee</span>
+                <span>
+                  By submitting, you agree to be contacted about this inquiry. See our{' '}
+                  <a href="/privacy" className="underline hover:text-ink">Privacy Policy</a>.
+                </span>
               </div>
 
               <div className="w-full sm:w-auto flex items-center gap-2">

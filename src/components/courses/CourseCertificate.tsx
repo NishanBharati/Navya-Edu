@@ -38,7 +38,7 @@ export const CourseCertificate: React.FC<CourseCertificateProps> = ({ course }) 
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-ink uppercase tracking-wider">Navya Ed Tech</h3>
-                    <p className="text-xs text-ink-faint">Kathmandu, Nepal • Registered Division</p>
+                    <p className="text-xs text-ink-faint">Nepal • Live Online Courses</p>
                   </div>
                 </div>
                 <span className="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sage/15 text-sage-ink border border-sage/25">
@@ -109,7 +109,7 @@ export const CourseCertificate: React.FC<CourseCertificateProps> = ({ course }) 
                       80% Minimum Live Attendance
                     </h4>
                     <p className="text-xs text-ink-soft mt-0.5 leading-relaxed">
-                      Active presence in classroom laboratory sessions or live interactive online cohorts. Habitual absences without prior academic leave disqualify certification.
+                      Active presence in live interactive online classes. Habitual absences without prior academic leave disqualify certification.
                     </p>
                   </div>
                 </div>

@@ -15,7 +15,7 @@ export const CourseFAQ: React.FC<CourseFAQProps> = ({ faqs }) => {
         <SectionHeader
           eyebrow="Questions & Clarity"
           title="Frequently Asked Questions"
-          description="Clear, factual answers regarding course structure, laboratory access, and enrollment requirements."
+          description="Clear, factual answers regarding course structure, live online classes, and enrollment requirements."
         />
 
         <div className="mt-10 max-w-3xl bg-white border border-border rounded-3xl p-6 sm:p-10 shadow-xs">

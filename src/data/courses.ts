@@ -11,14 +11,14 @@ export const COURSES: Course[] = [
     heroImage: '',
     duration: '40 Days',
     level: 'Beginner',
-    mode: 'Classroom / In-Person',
+    mode: 'Online Live',
     featured: true,
     upcomingBatch: {
       startDate: 'Next batch starting soon [Inquire for exact schedule]',
       classDays: 'Sunday – Friday (6 Days/Week)',
       classTime: 'Morning (7:00 AM – 8:30 AM) & Evening (5:00 PM – 6:30 PM)',
       seatsStatus: 'Admissions Open',
-      location: 'Kathmandu Campus / Online Live'
+      location: 'Live online classes'
     },
     fee: 'Contact for current fee & scholarship options (NPR)',
     technologies: [
@@ -41,7 +41,7 @@ export const COURSES: Course[] = [
     ],
     prerequisites: [
       'Basic computer literacy (operating a browser, file management, and typing).',
-      'A personal laptop for hands-on classroom lab sessions and code exercises.',
+      'A laptop or desktop computer with a stable internet connection for live online classes and code exercises.',
       'Passion and dedication to learn logical problem solving.'
     ],
     outcomes: [
@@ -83,8 +83,8 @@ export const COURSES: Course[] = [
           detail: 'Python is the foundational language for Artificial Intelligence, Data Science, Machine Learning, and Backend Web Development worldwide.'
         },
         {
-          headline: 'Hands-On Mentorship in Kathmandu:',
-          detail: 'Learn in small cohorts with instructor guidance, dedicated lab hours, and line-by-line code reviews at Navya Ed Tech.'
+          headline: 'Hands-On Live Mentorship:',
+          detail: 'Learn in small live online cohorts with instructor guidance, dedicated mentor hours, and line-by-line code reviews at Navya Ed Tech.'
         }
       ]
     },
@@ -298,8 +298,8 @@ export const COURSES: Course[] = [
         answer: 'Yes. Students who complete the practical coursework, lab assignments, and the capstone project receive the verified Navya Ed Tech Course Completion Certificate.'
       }
     ],
-    seoTitle: 'Python Beginner Course in Nepal (40 Days) | Learn Python Kathmandu',
-    seoDescription: 'Start your coding journey with our 40-day Python Beginner course in Kathmandu at Navya Ed Tech. Hands-on coding, practical projects, and personalized mentorship.'
+    seoTitle: 'Python Beginner Course in Nepal (40 Days) | Learn Python Online',
+    seoDescription: 'Start your coding journey with our 40-day live online Python Beginner course at Navya Ed Tech. Hands-on coding, practical projects, and personalized mentorship.'
   },
 {
     id: 'python-advance',
@@ -311,14 +311,14 @@ export const COURSES: Course[] = [
     heroImage: '',
     duration: '40 Days',
     level: 'Advanced',
-    mode: 'Classroom / In-Person',
+    mode: 'Online Live',
     featured: false,
     upcomingBatch: {
       startDate: 'Next batch starting soon [Inquire for exact schedule]',
       classDays: 'Sunday – Friday (6 Days/Week)',
       classTime: 'Morning (7:00 AM – 8:30 AM) & Evening (5:30 PM – 7:00 PM)',
       seatsStatus: 'Admissions Open',
-      location: 'Kathmandu Campus / Online Live'
+      location: 'Live online classes'
     },
     fee: 'Contact for current fee & batch structure (NPR)',
     technologies: [
@@ -595,8 +595,8 @@ export const COURSES: Course[] = [
         answer: 'Yes! You will build and containerize modern RESTful APIs using FastAPI, Pydantic, SQLAlchemy, and Docker.'
       }
     ],
-    seoTitle: 'Python Advance Course in Nepal (40 Days) | Advanced Python Kathmandu',
-    seoDescription: 'Master advanced Python in Kathmandu. Learn AsyncIO, design patterns, FastAPI, and scalable system engineering in our intensive 40-day course at Navya Ed Tech.'
+    seoTitle: 'Python Advance Course in Nepal (40 Days) | Advanced Python Online',
+    seoDescription: 'Master advanced Python online. Learn AsyncIO, design patterns, FastAPI, and scalable system engineering in our intensive 40-day course at Navya Ed Tech.'
   },
 {
     id: 'web-development',
@@ -608,14 +608,14 @@ export const COURSES: Course[] = [
     heroImage: '',
     duration: '45 Days',
     level: 'Beginner to Intermediate',
-    mode: 'Classroom / In-Person',
+    mode: 'Online Live',
     featured: true,
     upcomingBatch: {
       startDate: 'Next batch starting soon [Inquire for exact schedule]',
       classDays: 'Sunday – Friday (6 Days/Week)',
       classTime: 'Morning (7:00 AM – 9:00 AM) & Evening (5:00 PM – 7:00 PM)',
       seatsStatus: 'Admissions Open',
-      location: 'Kathmandu Campus / Online Live'
+      location: 'Live online classes'
     },
     fee: 'Contact for current fee & batch structure (NPR)',
     technologies: [
@@ -638,7 +638,7 @@ export const COURSES: Course[] = [
     prerequisites: [
       'Basic computer literacy and a passion for technology and design.',
       'No prior programming or web development experience required.',
-      'A personal laptop for development labs and coding assignments.'
+      'A laptop or desktop computer with a stable internet connection for live classes and coding assignments.'
     ],
     outcomes: [
       'Build fully responsive, accessible websites that render seamlessly across mobile, tablet, and desktop.',
@@ -680,7 +680,7 @@ export const COURSES: Course[] = [
         },
         {
           headline: 'Daily Hands-On Sprints:',
-          detail: 'Learn by coding every single day in our Kathmandu computer labs with direct instructor guidance and support.'
+          detail: 'Learn by coding every single day in live online sessions with direct instructor guidance and support.'
         }
       ]
     },
@@ -896,8 +896,8 @@ export const COURSES: Course[] = [
         answer: 'Yes! You will learn Git version control, push your work to GitHub, and deploy live websites to cloud platforms like Vercel and Netlify.'
       }
     ],
-    seoTitle: 'Web Development Course in Nepal (45 Days) | Learn Web Design Kathmandu',
-    seoDescription: 'Master web development in Nepal with Navya Ed Tech. Learn HTML5, CSS3, JavaScript, and Git in our 45-day hands-on course in Kathmandu.'
+    seoTitle: 'Web Development Course in Nepal (45 Days) | Learn Web Design Online',
+    seoDescription: 'Master web development in Nepal with Navya Ed Tech. Learn HTML5, CSS3, JavaScript, and Git in our 45-day hands-on live online course.'
   },
 {
     id: 'data-science',
@@ -909,14 +909,14 @@ export const COURSES: Course[] = [
     heroImage: '',
     duration: '50 Days',
     level: 'Intermediate to Advanced',
-    mode: 'Classroom / In-Person',
+    mode: 'Online Live',
     featured: true,
     upcomingBatch: {
       startDate: 'Next batch starting soon [Inquire for exact schedule]',
       classDays: 'Sunday – Friday (6 Days/Week)',
       classTime: 'Morning (7:00 AM – 9:00 AM) & Evening (5:30 PM – 7:30 PM)',
       seatsStatus: 'Admissions Open',
-      location: 'Kathmandu Campus / Online Live'
+      location: 'Live online classes'
     },
     fee: 'Contact for current fee & batch structure (NPR)',
     technologies: [
@@ -983,7 +983,7 @@ export const COURSES: Course[] = [
         },
         {
           headline: 'Senior Data Mentorship:',
-          detail: 'Learn directly from experienced data practitioners in Kathmandu with 1-on-1 code reviews and project defense sessions.'
+          detail: 'Learn directly from experienced data practitioners with 1-on-1 online code reviews and project defense sessions.'
         }
       ]
     },
@@ -1198,8 +1198,8 @@ export const COURSES: Course[] = [
         answer: 'Yes! You will implement linear and logistic regression, decision trees, random forests, k-means clustering, and model evaluation metrics using Scikit-Learn.'
       }
     ],
-    seoTitle: 'Data Science Course in Nepal (50 Days) | Python & ML Training Kathmandu',
-    seoDescription: 'Master Data Science in Kathmandu with Navya Ed Tech. Learn Python, Pandas, SQL, and Machine Learning with real-world datasets in our 50-day intensive course.'
+    seoTitle: 'Data Science Course in Nepal (50 Days) | Python & ML Training Online',
+    seoDescription: 'Master Data Science online with Navya Ed Tech. Learn Python, Pandas, SQL, and Machine Learning with real-world datasets in our 50-day live online course.'
   },
 {
     id: 'scratch-beginner',
@@ -1211,14 +1211,14 @@ export const COURSES: Course[] = [
     heroImage: '',
     duration: '30 Days',
     level: 'Beginner',
-    mode: 'Classroom / In-Person',
+    mode: 'Online Live',
     featured: false,
     upcomingBatch: {
       startDate: 'Next batch starting soon [Inquire for exact schedule]',
       classDays: 'Sunday – Friday (6 Days/Week)',
       classTime: 'Morning (8:00 AM – 9:30 AM) & Afternoon (4:00 PM – 5:30 PM)',
       seatsStatus: 'Admissions Open',
-      location: 'Kathmandu Campus / Online Live'
+      location: 'Live online classes'
     },
     fee: 'Contact for current fee & junior batch schedules (NPR)',
     technologies: [
@@ -1283,7 +1283,7 @@ export const COURSES: Course[] = [
         },
         {
           headline: 'Safe & Encouraging Environment:',
-          detail: 'Our Kathmandu classroom provides guided, patient mentorship tailored specifically for young learners and junior cohorts.'
+          detail: 'Our small live online classes provide guided, patient mentorship tailored specifically for young learners and junior cohorts.'
         }
       ]
     },
@@ -1418,8 +1418,8 @@ export const COURSES: Course[] = [
         answer: 'Yes! Scratch projects run inside any web browser and can be shared with family and friends anywhere via Scratch project links.'
       }
     ],
-    seoTitle: 'Scratch Beginner Coding Course for Kids (30 Days) | Nepal Kathmandu',
-    seoDescription: 'Introduce your child to coding with our 30-day Scratch Beginner course in Kathmandu at Navya Ed Tech. Fun, visual, creative game development for kids.'
+    seoTitle: 'Scratch Beginner Coding Course for Kids (30 Days) | Online in Nepal',
+    seoDescription: 'Introduce your child to coding with our 30-day live online Scratch Beginner course at Navya Ed Tech. Fun, visual, creative game development for kids.'
   },
 {
     id: 'scratch-advanced',
@@ -1431,14 +1431,14 @@ export const COURSES: Course[] = [
     heroImage: '',
     duration: '30 Days',
     level: 'Intermediate to Advanced',
-    mode: 'Classroom / In-Person',
+    mode: 'Online Live',
     featured: false,
     upcomingBatch: {
       startDate: 'Next batch starting soon [Inquire for exact schedule]',
       classDays: 'Sunday – Friday (6 Days/Week)',
       classTime: 'Morning (8:00 AM – 9:30 AM) & Afternoon (4:00 PM – 5:30 PM)',
       seatsStatus: 'Admissions Open',
-      location: 'Kathmandu Campus / Online Live'
+      location: 'Live online classes'
     },
     fee: 'Contact for current fee & junior batch schedules (NPR)',
     technologies: [
@@ -1461,7 +1461,7 @@ export const COURSES: Course[] = [
     prerequisites: [
       'Completion of Scratch Beginner or practical familiarity with loops, conditionals, and variables in Scratch.',
       'Comfortable using a mouse and keyboard.',
-      'A personal laptop for class coding labs.'
+      'A laptop or desktop computer with a stable internet connection for live online classes.'
     ],
     outcomes: [
       'Implement realistic 2D game physics including acceleration, gravity, jumping, and momentum.',
@@ -1636,7 +1636,7 @@ export const COURSES: Course[] = [
         answer: 'Yes! The logical patterns taught here—custom functions, parameters, data arrays, and game state loops—map directly to Python syntax, making the transition seamless.'
       }
     ],
-    seoTitle: 'Scratch Advanced Game Coding for Kids (30 Days) | Nepal Kathmandu',
+    seoTitle: 'Scratch Advanced Game Coding for Kids (30 Days) | Online in Nepal',
     seoDescription: 'Master 2D game physics, custom blocks, and advanced Scratch coding in Nepal. Intensive 30-day course for young game creators at Navya Ed Tech.'
   }
 ];

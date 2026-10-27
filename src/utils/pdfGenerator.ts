@@ -89,7 +89,7 @@ ET
 BT
 /F2 8 Tf
 ${pageWidth - margin - 150} ${pageHeight - 22} Td
-(Kathmandu Innovation Lab) Tj
+(Live Online Courses) Tj
 ET
 `);
     currentY = pageHeight - 50;
@@ -151,7 +151,7 @@ ET
 BT
 /F2 8.5 Tf
 ${margin + 115} ${currentY - 28} Td
-(${escapePdfText(course.upcomingBatch?.location || 'Kathmandu Innovation Lab, Nepal')}) Tj
+(${escapePdfText('Live online classes')}) Tj
 ET
 `);
   currentY -= 48;
@@ -441,14 +441,14 @@ ${margin} ${currentY - 55} ${contentWidth} 55 re S
 BT
 /F1 9 Tf
 ${margin + 12} ${currentY - 14} Td
-(NAVYA ED TECH - KATHMANDU CAMPUS ADMISSIONS & COUNSELING) Tj
+(NAVYA ED TECH - ONLINE ADMISSIONS & COUNSELING) Tj
 ET
 
 0.30 0.33 0.36 rg
 BT
 /F2 8 Tf
 ${margin + 12} ${currentY - 26} Td
-(Inquiries & Lab Tours: info@navyaedtech.com   |   Official Portal: https://navyaedtech.com) Tj
+(Inquiries & Demo Classes: info@navyaedtech.com   |   Official Portal: https://navyaedtech.com) Tj
 ET
 
 0.45 0.50 0.55 rg
@@ -482,7 +482,7 @@ ${margin} 30 ${contentWidth} 0.5 re f
 BT
 /F2 7.5 Tf
 ${margin} 20 Td
-(Navya Ed Tech Pvt. Ltd. • Kathmandu, Nepal • Licensed & Professional IT Education) Tj
+(Navya Ed Tech Pvt. Ltd. • Nepal • Live Online IT Education) Tj
 ET
 
 BT

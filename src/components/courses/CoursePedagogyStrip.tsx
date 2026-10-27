@@ -6,7 +6,7 @@ export const CoursePedagogyStrip: React.FC = () => {
     {
       icon: <GitPullRequest className="w-5 h-5 text-blue" />,
       title: 'Production Code Reviews',
-      description: 'Every laboratory assignment and project submission receives line-by-line engineering feedback and Git PR approval standards.'
+      description: 'Every coding assignment and project submission receives line-by-line engineering feedback and Git PR approval standards.'
     },
     {
       icon: <Cloud className="w-5 h-5 text-sage" />,

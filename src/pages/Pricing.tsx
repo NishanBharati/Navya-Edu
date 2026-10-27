@@ -45,7 +45,7 @@ const PRICING_COURSES: PricingItem[] = [
     type: 'course',
     category: 'Programming',
     duration: '40 Days',
-    format: 'Classroom / Putalisadak & Live Online',
+    format: 'Live Online',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -60,7 +60,7 @@ const PRICING_COURSES: PricingItem[] = [
     type: 'course',
     category: 'Programming',
     duration: '40 Days',
-    format: 'Classroom / Putalisadak & Live Online',
+    format: 'Live Online',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -75,7 +75,7 @@ const PRICING_COURSES: PricingItem[] = [
     type: 'course',
     category: 'Web Development',
     duration: '45 Days',
-    format: 'Classroom / Putalisadak & Live Online',
+    format: 'Live Online',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -90,7 +90,7 @@ const PRICING_COURSES: PricingItem[] = [
     type: 'course',
     category: 'Data & AI',
     duration: '50 Days',
-    format: 'Classroom / Putalisadak & Live Online',
+    format: 'Live Online',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -105,7 +105,7 @@ const PRICING_COURSES: PricingItem[] = [
     type: 'course',
     category: 'Young Coders',
     duration: '30 Days',
-    format: 'Classroom / Putalisadak & Live Online',
+    format: 'Live Online',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -120,7 +120,7 @@ const PRICING_COURSES: PricingItem[] = [
     type: 'course',
     category: 'Young Coders',
     duration: '30 Days',
-    format: 'Classroom / Putalisadak & Live Online',
+    format: 'Live Online',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -138,7 +138,7 @@ const PRICING_PROGRAMS: PricingItem[] = [
     type: 'program',
     category: 'Career Track',
     duration: '45 Days (7.5 Weeks)',
-    format: 'Classroom Lab & Mentored Sprints',
+    format: 'Live Online & Mentored Sprints',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -152,7 +152,7 @@ const PRICING_PROGRAMS: PricingItem[] = [
     type: 'program',
     category: 'Specialized Track',
     duration: '80 Days (~3 Months)',
-    format: 'Classroom & Hands-On Coding Lab',
+    format: 'Live Online & Hands-On Coding',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (3 Milestones)',
@@ -166,7 +166,7 @@ const PRICING_PROGRAMS: PricingItem[] = [
     type: 'program',
     category: 'Career Track',
     duration: '90 Days (~3 Months)',
-    format: 'Classroom Immersion / Lab',
+    format: 'Live Online Intensive',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (3 Milestones)',
@@ -180,7 +180,7 @@ const PRICING_PROGRAMS: PricingItem[] = [
     type: 'program',
     category: 'Kids Program',
     duration: '60 Days (2 Months)',
-    format: 'Interactive Lab & Sprints',
+    format: 'Live Online & Sprints',
     startingPrice: 'Contact for pricing',
     isPlaceholder: true,
     installments: 'Available (2 Milestones)',
@@ -203,7 +203,7 @@ export const Pricing: React.FC = () => {
       <SEOHead
         title="Course Pricing & Tuition Fees (NPR) | Navya Ed Tech Nepal"
         description="Transparent IT course tuition fees quoted in Nepalese Rupees (NPR). Review pricing for Web Development, Python, Data Science, and Scratch with flexible milestone installment plans."
-        keywords="IT course price Nepal, Python course fee Kathmandu, web development training cost NPR, data science training fee Nepal, installment computer training Putalisadak"
+        keywords="IT course price Nepal, online Python course fee Nepal, web development training cost NPR, data science training fee Nepal, online IT course installments Nepal"
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -237,7 +237,7 @@ export const Pricing: React.FC = () => {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-xs font-medium text-ink-soft">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-paper-alt border border-border">
               <CheckCircle2 className="w-3.5 h-3.5 text-sage" />
-              <span>Zero Hidden Lab Charges</span>
+              <span>Zero Hidden Charges</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-paper-alt border border-border">
               <CheckCircle2 className="w-3.5 h-3.5 text-sage" />
@@ -249,7 +249,7 @@ export const Pricing: React.FC = () => {
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-paper-alt border border-border">
               <CheckCircle2 className="w-3.5 h-3.5 text-sage" />
-              <span>Hybrid In-Person & Online</span>
+              <span>100% Live Online Classes</span>
             </span>
           </div>
         </div>
@@ -506,7 +506,7 @@ export const Pricing: React.FC = () => {
             </div>
             <h3 className="text-base font-bold text-ink">Institutional Tax Invoices</h3>
             <p className="text-xs text-ink-soft leading-relaxed">
-              Every tuition payment receives an official PAN/VAT invoice and stamped voucher from Navya Ed Tech Pvt. Ltd. Payments can be processed via ConnectIPS, Fonepay, Bank Transfer, or Putalisadak desk.
+              Every tuition payment receives an official PAN/VAT invoice and stamped voucher from Navya Ed Tech Pvt. Ltd. Payments can be processed via ConnectIPS, Fonepay, or Bank Transfer.
             </p>
           </div>
 
@@ -531,10 +531,10 @@ export const Pricing: React.FC = () => {
             Ready to Accelerate Your Career?
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white max-w-xl mx-auto">
-            Reserve Your Lab Seat for the Next Cohort
+            Reserve Your Place in the Next Cohort
           </h2>
           <p className="text-xs sm:text-sm text-mist max-w-lg mx-auto leading-relaxed">
-            Batch sizes are capped strictly at 12–16 students to ensure direct mentor access and line-by-line pull request code reviews. Complete the enrollment application to claim your seat.
+            Batch sizes are capped strictly at 12–16 students to ensure direct mentor access and line-by-line pull request code reviews. Complete the enrollment application to claim your place.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Button

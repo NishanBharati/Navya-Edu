@@ -9,8 +9,8 @@ export const PROGRAMS: Program[] = [
     tagline: 'Practical, project-based web development from UI foundations to interactive, API-driven web applications.',
     description: 'Our premier frontend and web engineering track designed to bridge the gap between academic theory and commercial web craftsmanship. Spanning semantic HTML5, modern Tailwind CSS styling, JavaScript ES6+ application logic, REST API integration, and cloud deployment on Vercel.',
     duration: '45 Days (7.5 Weeks)',
-    format: 'In-Person Computer Lab & Mentored Sprints',
-    eligibility: 'Open to beginners and students passionate about building modern web software. Personal laptop required.',
+    format: 'Live Online Classes & Mentored Sprints',
+    eligibility: 'Open to beginners and students passionate about building modern web software. A laptop or desktop computer with a stable internet connection is required.',
     whoItsFor: [
       'Students and fresh graduates aspiring to become frontend and web engineers.',
       'Career switchers looking to build commercial, production-ready web applications.',
@@ -41,7 +41,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'Comprehensive data engineering, statistical modeling, and machine learning for modern analytical roles.',
     description: 'An intensive, multi-tier data intelligence pathway taking you from core Python programming and asynchronous FastAPI microservices to high-impact exploratory data analysis, Pandas data wrangling, SQL querying, and predictive machine learning models with Scikit-Learn.',
     duration: '90 Days (~3 Months)',
-    format: 'Classroom Immersion / Intensive Laboratory',
+    format: 'Live Online Intensive',
     eligibility: 'Basic mathematical aptitude (algebra/statistics) and strong motivation for analytical problem solving.',
     whoItsFor: [
       'Graduates in CS, IT, BCA, statistics, mathematics, economics, or engineering.',
@@ -75,7 +75,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'Master clean object-oriented Python, asynchronous concurrency, and scalable API backend systems.',
     description: 'A structured software engineering pathway combining fundamental logic with production-grade backend engineering. Cover internal Python object models, dunder protocols, asynchronous I/O with AsyncIO, concurrency with multiprocessing, decorators, FastAPI microservices, and database ORMs with SQLAlchemy.',
     duration: '80 Days (~3 Months)',
-    format: 'Classroom & Hands-On Coding Lab',
+    format: 'Live Online Classes & Hands-On Coding',
     eligibility: 'Candidates wanting rigorous programming foundations and production software craftsmanship.',
     whoItsFor: [
       'Complete beginners wanting an end-to-end pathway to professional Python programming.',
@@ -108,7 +108,7 @@ export const PROGRAMS: Program[] = [
     tagline: 'Inspiring the next generation of engineers through creative game design and interactive computational logic.',
     description: 'A two-stage progressive coding curriculum designed specifically for young learners and school students. Starts with visual block-based storytelling and algorithmic sequencing in Scratch Beginner, and advances into 2D arcade physics, velocity math, collision detection, and multi-level game architecture in Scratch Advanced.',
     duration: '60 Days (2 Months)',
-    format: 'Interactive Laboratory & Creative Sprints',
+    format: 'Live Online Classes & Creative Sprints',
     eligibility: 'School students (Grade 4–12) with enthusiasm for creativity, games, and technology. No prior coding required.',
     whoItsFor: [
       'School students (+2 and below) taking their first steps in computer science.',

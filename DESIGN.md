@@ -13,8 +13,8 @@ colors:
   ink-soft: "#2E3563"
   ink-muted: "#4E5585"
   success-text: "#0A7A48"
-  canvas: "#F3F5FF"
-  paper: "#FAFBFF"
+  canvas: "#F4F1E9"
+  paper: "#FBFAF6"
   white: "#FFFFFF"
   hairline: "#E2E6F6"
   input-outline: "#7D84AD"
@@ -136,7 +136,7 @@ Imagery is drawn, never stocked. There are no photos of children, staff or class
 
 ## Colors
 
-A full palette of block colours, each with a fixed text pairing, over cool white and an indigo ink.
+A full palette of block colours, each with a fixed text pairing, over warm ivory and parchment grounds and an indigo ink.
 
 ### Primary
 - **Editor Blue** (#2B47E0): the hero field, links, focus rings, info states. White text only (6.8:1).
@@ -154,8 +154,8 @@ A full palette of block colours, each with a fixed text pairing, over cool white
 ### Neutral
 - **Ink** (#0F1640): body text, dark code panels, the footer field, the active tab indicator.
 - **Ink Muted** (#4E5585): secondary text on white and canvas (7.1:1 on white).
-- **Canvas** (#F3F5FF): editor panes, insight section ground, card bodies.
-- **Paper** (#FAFBFF) and **White** (#FFFFFF): page ground and card surfaces.
+- **Canvas** (#F4F1E9, warm parchment): editor panes, insight section ground, card bodies.
+- **Paper** (#FBFAF6, ivory) and **White** (#FFFFFF): page ground and card surfaces.
 - **Hairline** (#E2E6F6): borders and dividers.
 - **Input Outline** (#7D84AD): form control borders (3.6:1, meets non-text contrast).
 - **Success Text** (#0A7A48): green text on light grounds, where Operator Green would fail contrast.

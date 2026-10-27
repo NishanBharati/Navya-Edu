@@ -33,7 +33,7 @@ export const Privacy: React.FC = () => {
             Privacy Policy
           </h1>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed">
-            At Navya Ed Tech Pvt. Ltd. (Kathmandu, Nepal), we respect your privacy and are committed to safeguarding personal information collected through our website, admissions counseling desk, contact forms, and computer training laboratory programs.
+            At Navya Ed Tech Pvt. Ltd. (Nepal), we respect your privacy and are committed to safeguarding personal information collected through our website, admissions counseling, contact forms, and live online training programs.
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-ink-faint">
             <span>Last Updated: August 2026</span>
@@ -50,7 +50,7 @@ export const Privacy: React.FC = () => {
               <span>[LEGAL REVIEW NEEDED: Statutory Compliance & Data Protection Notice]</span>
             </strong>
             <p className="text-xs leading-relaxed text-ink-soft">
-              This policy outlines standard operational practices for contact form submission handling, basic website telemetry, cookies, and database storage for an IT educational institute in Kathmandu, Bagmati Province, Nepal. Formal statutory clauses require review by certified Nepalese legal counsel under the <em>Individual Privacy Act, 2075 (2018)</em> and related electronic transaction frameworks.
+              This policy outlines standard operational practices for contact form submission handling, basic website telemetry, cookies, and database storage for an online IT educational institute in Nepal. Formal statutory clauses require review by certified Nepalese legal counsel under the <em>Individual Privacy Act, 2075 (2018)</em> and related electronic transaction frameworks.
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export const Privacy: React.FC = () => {
                 <span>Information We Collect</span>
               </h2>
               <p className="text-sm text-ink-soft leading-relaxed">
-                We gather information voluntarily provided by you through our website contact forms, course consultation workflows, and physical admissions desk, as well as limited technical telemetry:
+                We gather information voluntarily provided by you through our website contact forms, course consultation workflows, and online admissions calls, as well as limited technical telemetry:
               </p>
               
               <div className="space-y-4 pt-1">
@@ -119,7 +119,7 @@ export const Privacy: React.FC = () => {
                     <span>B. Enrolled Student Academic Records</span>
                   </h3>
                   <p className="text-xs text-ink-soft leading-relaxed">
-                    For confirmed batch enrollees, we maintain laboratory attendance logs, assignment submissions, GitHub repository URLs for capstone projects, and mentor review evaluations required for certification.
+                    For confirmed batch enrollees, we maintain live class attendance logs, assignment submissions, GitHub repository URLs for capstone projects, and mentor review evaluations required for certification.
                   </p>
                 </div>
 
@@ -151,7 +151,7 @@ export const Privacy: React.FC = () => {
                 </div>
                 <div className="p-3.5 rounded-xl bg-paper-alt border border-border text-xs text-ink-soft">
                   <strong className="block text-ink font-semibold mb-1">Instructional Delivery:</strong>
-                  Providing code lab workstation access, course materials, assignment feedback, and workshop links.
+                  Providing live class access, course materials, assignment feedback, and workshop links.
                 </div>
                 <div className="p-3.5 rounded-xl bg-paper-alt border border-border text-xs text-ink-soft">
                   <strong className="block text-ink font-semibold mb-1">Certificate Verification:</strong>
@@ -159,7 +159,7 @@ export const Privacy: React.FC = () => {
                 </div>
                 <div className="p-3.5 rounded-xl bg-paper-alt border border-border text-xs text-ink-soft">
                   <strong className="block text-ink font-semibold mb-1">Essential Notices:</strong>
-                  Alerting students about emergency schedule changes, festival closures, or software lab updates.
+                  Alerting students about emergency schedule changes, festival closures, or online platform updates.
                 </div>
               </div>
             </section>
@@ -354,7 +354,7 @@ export const Privacy: React.FC = () => {
               </h3>
               <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
                 <em>
-                  [LEGAL REVIEW NEEDED: Certified legal counsel in Kathmandu should review this section to ensure precise conformity with the Individual Privacy Act 2075 (2018), Electronic Transactions Act 2063, and cross-border server data transfer provisions applicable to educational private limited enterprises in Nepal.]
+                  [LEGAL REVIEW NEEDED: Certified legal counsel in Nepal should review this section to ensure precise conformity with the Individual Privacy Act 2075 (2018), Electronic Transactions Act 2063, and cross-border server data transfer provisions applicable to educational private limited enterprises in Nepal.]
                 </em>
               </p>
             </section>
@@ -410,7 +410,7 @@ export const Privacy: React.FC = () => {
                     <span>info@navyaedtech.com</span>
                   </div>
                   <div className="text-xs text-navy-mist">
-                    Kathmandu, Bagmati Province, Nepal
+                    Nepal • Live Online
                   </div>
                 </div>
                 <div className="pt-2">

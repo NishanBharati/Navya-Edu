@@ -5,8 +5,8 @@ export const KidsPedagogyStrip: React.FC = () => {
   const pillars = [
     {
       icon: <ShieldCheck className="w-5 h-5 text-sage" />,
-      title: 'Safe & Supervised Lab',
-      description: 'Clean, supportive computer lab in Putalisadak with child-friendly workstations, filtered internet, and safe physical premises.'
+      title: 'Safe & Supervised Online Classes',
+      description: 'Small, supportive live online classes with a mentor watching every screen, and parents welcome to sit in from home.'
     },
     {
       icon: <HeartHandshake className="w-5 h-5 text-blue" />,

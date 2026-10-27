@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Mail, Clock, Phone, MapPin } from 'lucide-react';
+import { ArrowUpRight, Mail, Clock, Phone, Globe } from 'lucide-react';
 import { FOOTER_LINKS } from '../../data/navigation';
 import { Container } from '../common/Container';
 import { Logo } from '../common/Logo';
@@ -20,12 +20,12 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-4 space-y-6">
             <Link to="/" className="block w-fit rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-ink">
-              <Logo variant="dark" size="md" subtitle="Coding classes in Kathmandu" />
+              <Logo variant="dark" size="md" subtitle="Live online coding classes" />
             </Link>
 
             <p className="text-[15px] leading-relaxed text-mist max-w-sm">
               Hands-on coding classes for ages 8 to 16, and Python, web development and data science courses for older
-              students. Small groups, real projects, in our lab in Putalisadak, Kathmandu.
+              students. Small live online groups and real projects, from anywhere in Nepal.
             </p>
           </div>
 
@@ -78,15 +78,15 @@ export const Footer: React.FC = () => {
                 <span>Sun to Fri: 7:00 AM to 7:00 PM</span>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-navy-mist shrink-0 mt-0.5" />
-                <span>Putalisadak, Kathmandu, Nepal</span>
+                <Globe className="w-4 h-4 text-navy-mist shrink-0 mt-0.5" />
+                <span>100% online, live classes</span>
               </li>
             </ul>
             <Link
               to="/contact"
               className="group mt-6 inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-block-yellow text-ink font-display text-[15px] font-bold shadow-[inset_0_-7px_9px_-6px_rgb(15_22_64/0.32)] hover:-translate-y-0.5 active:scale-[0.97] transition-[translate,scale] duration-180 ease-out"
             >
-              <span>Inquire / Visit Campus</span>
+              <span>Inquire / Book a demo</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-240 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
           </div>
@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
         <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[13px] text-navy-mist">
           <p className="text-center md:text-left">
             © {new Date().getFullYear()} Navya Ed Tech Pvt. Ltd. All rights reserved.
-            <span className="hidden sm:inline"> Kathmandu, Bagmati Province, Nepal</span>
+            <span className="hidden sm:inline"> Live online classes across Nepal.</span>
           </p>
           <nav aria-label="Legal and institutional policies" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <Link to="/terms" className="link-underline hover:text-white">Terms of Service</Link>

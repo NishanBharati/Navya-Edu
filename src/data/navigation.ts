@@ -44,7 +44,7 @@ export const MAIN_NAV_ITEMS: NavItem[] = [
       {
         label: 'Contact & Counseling',
         href: '/contact',
-        description: 'Putalisadak admissions desk, campus visits & diagnostic sessions',
+        description: 'Admissions questions, free online demo classes & advisor calls',
       },
     ],
   },
@@ -88,7 +88,7 @@ export const FOOTER_LINKS = {
     subheading: 'IT & Technology Education Division',
     parentCompany: 'Navya EdTech (Technology & Software Solutions)',
     parentUrl: 'https://navyaedtech.com/',
-    location: 'Putalisadak / Kathmandu, Nepal [Campus visits by appointment]',
+    location: 'Online classes, available across Nepal',
     email: 'info@navyaedtech.com [Official admissions inquiries]',
     phone: '+977-9800000000 [Direct Admissions line]',
     whatsapp: 'Available via Advisor Desk & Contact Form',

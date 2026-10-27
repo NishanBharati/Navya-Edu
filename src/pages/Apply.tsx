@@ -21,7 +21,7 @@ import { Button } from '../components/common/Button';
 import { getBreadcrumbSchema } from '../utils/structuredData';
 import { COURSES } from '../data/courses';
 import { PROGRAMS } from '../data/programs';
-import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import { submitInquiry } from '../lib/inquiryService';
 
 export const Apply: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -32,10 +32,7 @@ export const Apply: React.FC = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [selectedTrack, setSelectedTrack] = useState(preselectedTrack);
-  const [learningMode, setLearningMode] = useState('in-person');
-  const [batchTiming, setBatchTiming] = useState('morning');
-  const [targetIntake, setTargetIntake] = useState('next-upcoming');
-  const [osPlatform, setOsPlatform] = useState('windows');
+  const [batchTiming, setBatchTiming] = useState('Online Live (Morning)');
   const [backgroundNotes, setBackgroundNotes] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
 
@@ -72,39 +69,28 @@ export const Apply: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Find track display title
-      const trackObj = [...COURSES, ...PROGRAMS].find((item) => item.slug === selectedTrack);
-      const trackTitle = trackObj ? trackObj.title : selectedTrack;
+      // Saved through the shared inquiry service so it lands in the admin Inquiries list
+      const result = await submitInquiry({
+        fullName,
+        email,
+        phone,
+        interestedCourse: selectedTrack,
+        preferredMode: batchTiming,
+        message: ['Enrollment application (terms acknowledged)', backgroundNotes.trim() && `Background: ${backgroundNotes.trim()}`]
+          .filter(Boolean)
+          .join(' | '),
+        source: 'Enrollment Application',
+      });
 
-      // Attempt to save to Supabase inquiries table with 'enroll' intent
-      const payload = {
-        name: fullName.trim(),
-        email: email.trim(),
-        phone: phone.trim(),
-        subject: `Enrollment Application: ${trackTitle}`,
-        message: `High-Intent Enrollment Application:
-Track: ${trackTitle} (${selectedTrack})
-Learning Mode: ${learningMode}
-Batch Timing: ${batchTiming}
-Target Intake: ${targetIntake}
-Operating System: ${osPlatform}
-Applicant Background: ${backgroundNotes || 'Not provided'}
-Acknowledged Terms: Yes`,
-        course_id: selectedTrack,
-        intent: 'enroll',
-      };
-
-      if (isSupabaseConfigured) {
-        await supabase.from('inquiries').insert([payload]);
+      if (!result.success && result.errorMessage) {
+        setErrorMessage(result.errorMessage);
+        return;
       }
 
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
-      console.warn('Enrollment inquiry submission notice:', err);
-      // Even if network fails, grant graceful confirmation to the user
-      setIsSubmitted(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setErrorMessage(err instanceof Error ? err.message : 'Could not submit your application. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -114,8 +100,8 @@ Acknowledged Terms: Yes`,
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="Student Enrollment & Application | Navya Ed Tech Nepal"
-        description="Step-by-step student enrollment application for Navya Ed Tech IT courses in Kathmandu. Review the application timeline, document requirements, payment milestones, and reserve your cohort seat."
-        keywords="enroll IT course Kathmandu, apply web development training Nepal, Python course admissions Putalisadak, IT training application form Nepal"
+        description="Step-by-step student enrollment application for Navya Ed Tech live online IT courses. Review the application timeline, document requirements, payment milestones, and reserve your cohort seat."
+        keywords="enroll online IT course Nepal, apply web development training Nepal, online Python course admissions Nepal, IT training application form Nepal"
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -142,7 +128,7 @@ Acknowledged Terms: Yes`,
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed">
-            Ready to commit? Complete the step-by-step enrollment application below to secure your workstation seat for the upcoming intake. Our cohorts are capped at 12–16 students.
+            Ready to commit? Complete the step-by-step enrollment application below to secure your place in the upcoming live online intake. Our cohorts are capped at 12–16 students.
           </p>
         </div>
 
@@ -171,7 +157,7 @@ Acknowledged Terms: Yes`,
                 </div>
                 <h3 className="text-base font-bold text-ink">Submit Application</h3>
                 <p className="text-xs text-ink-soft leading-relaxed">
-                  Select your desired course or career track, preferred format (In-Person lab or live online), and batch timing.
+                  Select your desired course or career track, and preferred batch timing for live online classes.
                 </p>
               </div>
               <div className="pt-4 text-xs font-semibold text-blue flex items-center gap-1">
@@ -187,7 +173,7 @@ Acknowledged Terms: Yes`,
                 </div>
                 <h3 className="text-base font-bold text-ink">Diagnostic Call</h3>
                 <p className="text-xs text-ink-soft leading-relaxed">
-                  A 15-minute consultation with an admissions advisor to confirm cohort availability, discuss goals, and calibrate lab workstation readiness.
+                  A 15-minute consultation with an admissions advisor to confirm cohort availability, discuss goals, and check your computer and internet setup.
                 </p>
               </div>
               <div className="pt-4 text-xs font-semibold text-ink-soft flex items-center gap-1">
@@ -202,9 +188,9 @@ Acknowledged Terms: Yes`,
                 <div className="w-9 h-9 rounded-xl bg-sage text-white font-extrabold flex items-center justify-center text-sm shadow-2xs">
                   03
                 </div>
-                <h3 className="text-base font-bold text-ink">Seat Deposit</h3>
+                <h3 className="text-base font-bold text-ink">Registration Deposit</h3>
                 <p className="text-xs text-ink-soft leading-relaxed">
-                  Secure your seat with Milestone 1 deposit via ConnectIPS, Fonepay QR, Bank Transfer, or Putalisadak desk. Receive your official tax invoice.
+                  Secure your place with Milestone 1 deposit via ConnectIPS, Fonepay QR, or Bank Transfer. Receive your official tax invoice.
                 </p>
               </div>
               <div className="pt-4 text-xs font-semibold text-sage flex items-center gap-1">
@@ -220,7 +206,7 @@ Acknowledged Terms: Yes`,
                 </div>
                 <h3 className="text-base font-bold text-ink">Orientation & Day 1</h3>
                 <p className="text-xs text-ink-soft leading-relaxed">
-                  Gain access to the batch GitHub organization, Slack channels, and developer tooling setup guide before your first live laboratory session.
+                  Gain access to the batch GitHub organization, Slack channels, and developer tooling setup guide before your first live online class.
                 </p>
               </div>
               <div className="pt-4 text-xs font-semibold text-purple-700 flex items-center gap-1">
@@ -263,7 +249,7 @@ Acknowledged Terms: Yes`,
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-sage shrink-0 mt-0.5" />
                 <span>
-                  <strong className="text-ink">Personal Laptop:</strong> Windows, macOS, or Linux laptop (Intel Core i5 / AMD Ryzen 5 or Apple Silicon, 8GB+ RAM, SSD). For in-person students, lab desktops are also available.
+                  <strong className="text-ink">Computer & Internet:</strong> Windows, macOS, or Linux laptop or desktop (Intel Core i5 / AMD Ryzen 5 or Apple Silicon, 8GB+ RAM, SSD), a stable internet connection, and a working microphone for live online classes.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -285,7 +271,7 @@ Acknowledged Terms: Yes`,
               What Payment Happens When
             </h3>
             <p className="text-xs sm:text-sm text-ink-soft leading-relaxed">
-              All fees are quoted in Nepalese Rupees (NPR) with zero hidden laboratory or certification costs:
+              All fees are quoted in Nepalese Rupees (NPR) with zero hidden certification costs:
             </p>
 
             <div className="space-y-3 text-xs sm:text-sm">
@@ -295,7 +281,7 @@ Acknowledged Terms: Yes`,
                   <span className="text-blue">50% (Courses) / 40% (Programs)</span>
                 </div>
                 <p className="text-xs text-ink-soft leading-relaxed">
-                  Due upon diagnostic approval to formally lock your seat in the 12–16 student batch and issue your registration voucher.
+                  Due upon diagnostic approval to formally lock your place in the 12–16 student batch and issue your registration voucher.
                 </p>
               </div>
 
@@ -322,7 +308,7 @@ Acknowledged Terms: Yes`,
 
             <div className="pt-2 text-xs text-ink-faint flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-sage" />
-              <span>Payment Channels: ConnectIPS, Fonepay QR, Bank Transfer & Putalisadak Desk</span>
+              <span>Payment Channels: ConnectIPS, Fonepay QR & Bank Transfer</span>
             </div>
           </div>
         </section>
@@ -355,7 +341,7 @@ Acknowledged Terms: Yes`,
                     <span>What to Prepare Before Your Diagnostic Call:</span>
                   </h4>
                   <ul className="space-y-1.5 text-xs text-ink-soft list-disc list-inside">
-                    <li>Have your laptop specifications handy (OS, RAM, storage).</li>
+                    <li>Check that your computer, microphone and internet connection work for a video call.</li>
                     <li>Think about your preferred class timing (Morning 7:00 AM or Evening 5:00 PM).</li>
                     <li>Prepare any specific syllabus or career transition questions you'd like to ask.</li>
                   </ul>
@@ -392,7 +378,7 @@ Acknowledged Terms: Yes`,
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="full-name" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Full Legal Name <span className="text-red-500">*</span>
+                      Full Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       id="full-name"
@@ -463,23 +449,8 @@ Acknowledged Terms: Yes`,
                   </div>
                 </div>
 
-                {/* Format, Timing & Readiness */}
+                {/* Batch Time & Background */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label htmlFor="format-select" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Learning Format
-                    </label>
-                    <select
-                      id="format-select"
-                      value={learningMode}
-                      onChange={(e) => setLearningMode(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
-                    >
-                      <option value="in-person">In-Person Lab (Putalisadak)</option>
-                      <option value="live-online">Live Interactive Online</option>
-                    </select>
-                  </div>
-
                   <div>
                     <label htmlFor="timing-select" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
                       Preferred Batch Time
@@ -490,58 +461,22 @@ Acknowledged Terms: Yes`,
                       onChange={(e) => setBatchTiming(e.target.value)}
                       className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
                     >
-                      <option value="morning">Morning (7:00 AM – 8:30 AM)</option>
-                      <option value="evening">Evening (5:00 PM – 6:30 PM)</option>
-                      <option value="flexible">Flexible / Either Batch</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="intake-select" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Target Start Timeline
-                    </label>
-                    <select
-                      id="intake-select"
-                      value={targetIntake}
-                      onChange={(e) => setTargetIntake(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
-                    >
-                      <option value="next-upcoming">Immediate Next Cohort</option>
-                      <option value="next-month">Within Next 3–4 Weeks</option>
-                      <option value="inquire-dates">Consult for Exact Batch Dates</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Laptop & Background */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label htmlFor="os-select" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Laptop Platform
-                    </label>
-                    <select
-                      id="os-select"
-                      value={osPlatform}
-                      onChange={(e) => setOsPlatform(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-xl bg-paper-alt border border-border text-xs text-ink focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
-                    >
-                      <option value="windows">Windows 10 / 11</option>
-                      <option value="macos">macOS (Apple Silicon / Intel)</option>
-                      <option value="linux">Linux (Ubuntu / Fedora / Debian)</option>
-                      <option value="no-laptop">Need Lab Desktop Only</option>
+                      <option value="Online Live (Morning)">Morning (7:00 AM – 8:30 AM)</option>
+                      <option value="Online Live (Evening)">Evening (5:00 PM – 6:30 PM)</option>
+                      <option value="Online Live (Flexible)">Flexible / Either Batch</option>
                     </select>
                   </div>
 
                   <div className="sm:col-span-2">
                     <label htmlFor="background-notes" className="block text-xs font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Educational / Career Background (Optional)
+                      Current Class or Background (Optional)
                     </label>
                     <input
                       id="background-notes"
                       type="text"
                       value={backgroundNotes}
                       onChange={(e) => setBackgroundNotes(e.target.value)}
-                      placeholder="e.g., +2 Science, BCA student, civil engineer switching to tech..."
+                      placeholder="e.g., Grade 7 student, BCA student, working professional"
                       className="w-full px-4 py-2.5 rounded-xl bg-paper-alt border border-border text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy"
                     />
                   </div>
@@ -557,7 +492,7 @@ Acknowledged Terms: Yes`,
                       className="mt-1 w-4 h-4 rounded text-navy focus:ring-navy border-border"
                     />
                     <span className="text-xs text-ink-soft leading-relaxed">
-                      I understand that cohort batches are strictly capped at 12–16 students, and seat confirmation is formalized upon diagnostic consultation and Milestone 1 deposit under Navya Ed Tech's{' '}
+                      I understand that cohort batches are strictly capped at 12–16 students, and place confirmation is formalized upon diagnostic consultation and Milestone 1 deposit under Navya Ed Tech's{' '}
                       <Link to="/terms" className="text-blue underline hover:text-navy">
                         Terms of Service
                       </Link>{' '}

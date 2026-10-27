@@ -255,7 +255,7 @@ export const BlogDetails: React.FC = () => {
       <SEOHead
         title={article.seoTitle ? `${article.seoTitle} | Navya Ed Tech` : `${article.title} | Navya Ed Tech Insights`}
         description={article.seoDescription || article.excerpt}
-        keywords={`${article.category}, IT insights Nepal, ${article.tags?.join(', ') || 'software engineering Kathmandu'}`}
+        keywords={`${article.category}, IT insights Nepal, ${article.tags?.join(', ') || 'online IT courses Nepal'}`}
         ogType="article"
         ogImage={article.coverImage}
         canonicalUrl={`${SITE_URL}/insights/${article.slug}`}
@@ -604,7 +604,7 @@ export const BlogDetails: React.FC = () => {
                 Learn {relatedCourse.title} through Hands-On Engineering Sprints
               </h2>
               <p className="text-xs sm:text-sm text-mist leading-relaxed max-w-2xl">
-                Master the practical architectures discussed in this article. Build verified full-stack applications with senior code reviews and live mentorship in Kathmandu.
+                Master the practical architectures discussed in this article. Build verified full-stack applications with senior code reviews and live online mentorship.
               </p>
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Button

@@ -12,7 +12,6 @@ import { CourseProjects } from '../components/courses/CourseProjects';
 import { CourseInstructor } from '../components/courses/CourseInstructor';
 import { CourseEligibilityMatrix } from '../components/courses/CourseEligibilityMatrix';
 import { CourseCertificate } from '../components/courses/CourseCertificate';
-import { CourseInquiryForm } from '../components/courses/CourseInquiryForm';
 import { CourseFAQ } from '../components/courses/CourseFAQ';
 import { CourseEnrollCTA } from '../components/courses/CourseEnrollCTA';
 
@@ -216,9 +215,9 @@ export const CourseDetails: React.FC = () => {
         </div>
       )}
       <SEOHead
-        title={`${course.title} Course in Nepal | Navya Ed Tech Kathmandu`}
+        title={`${course.title} Course Online in Nepal | Navya Ed Tech`}
         description={course.shortDescription || course.description}
-        keywords={`${course.title} course Nepal, ${course.title} training Kathmandu, ${course.technologies?.join(', ') || ''}, IT courses Nepal, Navya Ed Tech`}
+        keywords={`${course.title} course Nepal, ${course.title} online training Nepal, ${course.technologies?.join(', ') || ''}, IT courses Nepal, Navya Ed Tech`}
         ogImage={course.heroImage || '/og-image.jpg'}
         canonicalUrl={`${SITE_URL}/courses/${course.slug}`}
         noindex={isPreview}
@@ -274,10 +273,7 @@ export const CourseDetails: React.FC = () => {
         </div>
       )}
 
-      {/* 9. Direct Embedded Inquiry & Admissions Form */}
-      <CourseInquiryForm course={course} />
-
-      {/* 10. Final Consultation & Advisor CTA */}
+      {/* 9. Final Consultation & Advisor CTA */}
       <CourseEnrollCTA
         course={course}
         onOpenAdvisor={handleOpenAdvisor}

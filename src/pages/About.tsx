@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowUpRight,
@@ -11,7 +11,6 @@ import {
   Code2,
   GitBranch,
   Building2,
-  MapPin,
   Clock,
   Sparkles,
   Laptop,
@@ -131,7 +130,7 @@ const FACULTY_DEPARTMENTS: FacultyDepartment[] = [
     experienceRequirement: 'Min. 6+ Years Tech Recruitment & Talent Advisory',
     coreTech: ['GitHub Portfolio Optimization', 'System Design Mock Interviews', 'Resume Audits'],
     responsibilities:
-      'Conducts mandatory portfolio audits, code walk-through simulations, salary negotiation guidance, and direct referrals to Kathmandu technology employer networks.'
+      'Conducts mandatory portfolio audits, code walk-through simulations, salary negotiation guidance, and direct referrals to technology employer networks across Nepal.'
   }
 ];
 
@@ -155,15 +154,14 @@ const FAQS: FAQItem[] = [
 ];
 
 export const About: React.FC = () => {
-  const [activeLabTab, setActiveLabTab] = useState<'physical' | 'digital'>('physical');
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <main className="min-h-screen py-10 sm:py-16 bg-paper text-ink">
       <SEOHead
         title="About Navya Ed Tech | IT Education Division of Navya EdTech Nepal"
-        description="Learn about Navya Ed Tech Pvt. Ltd., our engineering-first learning philosophy, parent software enterprise, senior practitioner mentorship council, Kathmandu innovation laboratory, and institutional policies."
-        keywords="about Navya Ed Tech, IT training institute Kathmandu, software company education Nepal, engineering mentorship Nepal, Putalisadak computer institute"
+        description="Learn about Navya Ed Tech Pvt. Ltd., our engineering-first learning philosophy, parent software enterprise, senior practitioner mentorship council, live online classroom, and institutional policies."
+        keywords="about Navya Ed Tech, online IT training Nepal, software company education Nepal, engineering mentorship Nepal, online coding classes Nepal"
         structuredData={[
           getBreadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -191,7 +189,7 @@ export const About: React.FC = () => {
               className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-navy/5 border border-navy/15 text-xs font-semibold tracking-wider text-navy uppercase"
             >
               <HeroLiveIndicator color="sage" />
-              <span>About Navya Ed Tech • Kathmandu, Nepal</span>
+              <span>About Navya Ed Tech • Live Online Classes</span>
             </motion.div>
 
             <div className="space-y-3">
@@ -205,7 +203,7 @@ export const About: React.FC = () => {
                 variants={prefersReducedMotion ? undefined : heroParagraph}
                 className="text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl"
               >
-                Navya Ed Tech Pvt. Ltd. is the dedicated workforce training and technical education division of Navya EdTech—an active commercial software engineering firm based in Kathmandu. We train aspiring software engineers, university graduates, and career transitioners through production engineering workflows, daily Git code audits, and live cloud deployment.
+                Navya Ed Tech Pvt. Ltd. is the dedicated workforce training and technical education division of Navya EdTech—an active commercial software engineering firm in Nepal. All of our classes are taught live online. We train aspiring software engineers, university graduates, and career transitioners through production engineering workflows, daily Git code audits, and live cloud deployment.
               </motion.p>
             </div>
 
@@ -242,7 +240,7 @@ export const About: React.FC = () => {
           <div className="lg:col-span-5 relative">
             <HeroImageWithParallax
               src="/images/heroes/about-hero.jpg"
-              alt="Navya Ed Tech software development laboratory in Kathmandu"
+              alt="Navya Ed Tech live online software development class"
               heightClass="h-[320px] sm:h-[380px]"
               priority={true}
               overlayBadgeTop={
@@ -254,11 +252,11 @@ export const About: React.FC = () => {
               overlayCardBottom={
                 <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg flex items-center justify-between gap-3">
                   <div className="space-y-0.5">
-                    <p className="text-xs font-bold text-ink">Putalisadak Campus</p>
-                    <p className="text-xs text-ink-soft">Kathmandu Innovation Lab</p>
+                    <p className="text-xs font-bold text-ink">Live Online Classes</p>
+                    <p className="text-xs text-ink-soft">Join from anywhere in Nepal</p>
                   </div>
                   <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-navy text-white shrink-0">
-                    Kathmandu, NP
+                    100% Online
                   </span>
                 </div>
               }
@@ -299,7 +297,7 @@ export const About: React.FC = () => {
               </h2>
 
               <p className="text-sm sm:text-base text-ink-soft leading-relaxed">
-                Across Kathmandu, traditional training centers still ask students to memorize textbook definitions of polymorphism, write syntax by hand on chalkboards, and watch passive video lectures. Yet when these same graduates enter real engineering interviews, they struggle to resolve a simple Git merge conflict, diagnose an unindexed database query, or architect a resilient API microservice.
+                Across Nepal, traditional training centers still ask students to memorize textbook definitions of polymorphism, write syntax by hand on chalkboards, and watch passive video lectures. Yet when these same graduates enter real engineering interviews, they struggle to resolve a simple Git merge conflict, diagnose an unindexed database query, or architect a resilient API microservice.
               </p>
 
               <p className="text-sm text-ink-soft leading-relaxed">
@@ -445,7 +443,7 @@ export const About: React.FC = () => {
                   <div>
                     <strong className="text-ink font-bold block">Career Changers & Non-CS Professionals</strong>
                     <span className="text-ink-soft text-xs leading-relaxed">
-                      Transitioning from business, engineering, or arts disciplines into software development with guided laboratory mentorship.
+                      Transitioning from business, engineering, or arts disciplines into software development with guided live mentorship.
                     </span>
                   </div>
                 </div>
@@ -518,7 +516,7 @@ export const About: React.FC = () => {
                   <span className="text-xs font-bold uppercase tracking-wider text-navy-mist">
                     Parent Studio Disciplines
                   </span>
-                  <span className="text-xs font-mono text-white/60">Kathmandu, NP</span>
+                  <span className="text-xs font-mono text-white/60">Nepal</span>
                 </div>
 
                 <ul className="space-y-3 text-xs sm:text-sm text-border-warm">
@@ -722,7 +720,7 @@ export const About: React.FC = () => {
                 Faculty Vetting & Assignment Policy:
               </strong>
               <p className="leading-relaxed">
-                To guarantee contemporary production patterns, instructors must have a minimum of 5 years of active commercial software engineering experience. Lead engineers and laboratory teaching assistants are assigned to specific cohorts prior to batch orientation.
+                To guarantee contemporary production patterns, instructors must have a minimum of 5 years of active commercial software engineering experience. Lead engineers and teaching assistants are assigned to specific cohorts prior to batch orientation.
               </p>
             </div>
           </div>
@@ -858,94 +856,16 @@ export const About: React.FC = () => {
         </section>
 
         {/* ========================================================================= */}
-        {/* 7. TRAINING INFRASTRUCTURE: KATHMANDU LAB & DIGITAL CAMPUS */}
+        {/* 7. TRAINING INFRASTRUCTURE: LIVE ONLINE CLASSROOM */}
         {/* ========================================================================= */}
         <section className="mb-16 lg:mb-24">
           <SectionHeader
-            eyebrow="Facilities & Infrastructure"
-            title="Workstation Laboratories Built for Intensive Coding"
-            description="Whether attending in-person at our Putalisadak Innovation Lab or joining our interactive digital cohorts, you experience an environment engineered for focused programming."
+            eyebrow="How Classes Run"
+            title="A Live Online Classroom Built for Intensive Coding"
+            description="Every course is taught live online, so learners across Nepal get the same focused, mentor-led environment from home."
           />
 
-          <div className="mt-8 flex items-center justify-center gap-3 mb-8">
-            <button
-              onClick={() => setActiveLabTab('physical')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                activeLabTab === 'physical'
-                  ? 'bg-navy text-white shadow-md'
-                  : 'bg-white text-ink-soft hover:text-ink border border-border'
-              }`}
-            >
-              <Building2 className="w-4 h-4" />
-              <span>Kathmandu Physical Lab</span>
-            </button>
-
-            <button
-              onClick={() => setActiveLabTab('digital')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                activeLabTab === 'digital'
-                  ? 'bg-navy text-white shadow-md'
-                  : 'bg-white text-ink-soft hover:text-ink border border-border'
-              }`}
-            >
-              <Globe className="w-4 h-4" />
-              <span>Interactive Digital Campus</span>
-            </button>
-          </div>
-
-          {activeLabTab === 'physical' ? (
-            <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-xs">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                <div className="lg:col-span-6 space-y-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-sage/10 text-sage-ink text-xs font-bold">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>Putalisadak Campus, Kathmandu</span>
-                  </div>
-
-                  <h3 className="text-2xl sm:text-3xl font-bold text-ink">
-                    Ergonomic Developer Workstations & Laboratory Desks
-                  </h3>
-
-                  <p className="text-sm text-ink-soft leading-relaxed">
-                    Our Kathmandu computer lab is designed specifically for code sprints, pair programming, and live mentor troubleshooting. Students have access to dedicated power backup, high-speed optical fiber, and external multi-display workstations.
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
-                      <strong className="text-xs font-bold text-ink block">Dual-Monitor Stations</strong>
-                      <p className="text-xs text-ink-soft">External displays for simultaneous code editor & browser debugger views.</p>
-                    </div>
-
-                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
-                      <strong className="text-xs font-bold text-ink block">Redundant Optical Fiber</strong>
-                      <p className="text-xs text-ink-soft">High-bandwidth dedicated internet with automatic secondary failover.</p>
-                    </div>
-
-                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
-                      <strong className="text-xs font-bold text-ink block">Zero-Downtime Power</strong>
-                      <p className="text-xs text-ink-soft">Centralized online UPS system with generator backup during outages.</p>
-                    </div>
-
-                    <div className="p-3.5 rounded-xl bg-paper border border-border space-y-1">
-                      <strong className="text-xs font-bold text-ink block">Physical Server Rack</strong>
-                      <p className="text-xs text-ink-soft">On-premise Linux hardware for practical networking and DevOps demonstrations.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="lg:col-span-6 space-y-4">
-                  <div className="rounded-2xl overflow-hidden border border-border shadow-xs">
-                    <ImagePlaceholder alt="Navya Kathmandu Innovation Lab Workstations" aspectRatio="auto" art="python" className="w-full h-72 sm:h-80" />
-                  </div>
-                  <div className="p-4 rounded-xl bg-paper border border-border-soft text-xs text-ink-soft flex items-center justify-between">
-                    <span>Campus: Putalisadak, Kathmandu, Nepal</span>
-                    <span className="font-semibold text-navy">Open Sun–Fri: 7:00 AM – 7:00 PM</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-xs">
+          <div className="mt-8 bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-xs">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <div className="lg:col-span-6 space-y-5">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue/15 text-blue text-xs font-bold">
@@ -958,7 +878,7 @@ export const About: React.FC = () => {
                   </h3>
 
                   <p className="text-sm text-ink-soft leading-relaxed">
-                    For learners across Nepal or working professionals needing evening flexibility, our interactive digital campus provides real-time instructor code-along sessions, terminal screen sharing, and recorded lecture archives.
+                    For school students, university learners and working professionals across Nepal, our live online classroom provides real-time instructor code-along sessions, terminal screen sharing, and recorded lecture archives.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
@@ -986,7 +906,7 @@ export const About: React.FC = () => {
 
                 <div className="lg:col-span-6 space-y-4">
                   <div className="rounded-2xl overflow-hidden border border-border shadow-xs">
-                    <ImagePlaceholder alt="Digital campus live programming and online code sprints" aspectRatio="auto" art="web" className="w-full h-72 sm:h-80" />
+                    <ImagePlaceholder alt="Live online programming class and code sprints" aspectRatio="auto" art="web" className="w-full h-72 sm:h-80" />
                   </div>
                   <div className="p-4 rounded-xl bg-paper border border-border-soft text-xs text-ink-soft flex items-center justify-between">
                     <span>Platform: Interactive Live Cohorts</span>
@@ -995,7 +915,6 @@ export const About: React.FC = () => {
                 </div>
               </div>
             </div>
-          )}
         </section>
 
         {/* ========================================================================= */}
@@ -1032,7 +951,7 @@ export const About: React.FC = () => {
                 2. Fee Transparency & Refund Terms
               </h3>
               <p className="text-xs text-ink-soft leading-relaxed">
-                All course tuitions are quoted upfront in NPR with zero hidden lab or examination surcharges. Milestone-based installments are available. Clear withdrawal and refund terms are documented in our refund policy prior to enrollment.
+                All course tuitions are quoted upfront in NPR with zero hidden examination surcharges. Milestone-based installments are available. Clear withdrawal and refund terms are documented in our refund policy prior to enrollment.
               </p>
               <div className="pt-2">
                 <a href="/refund" className="text-xs font-bold text-blue hover:underline">
@@ -1093,7 +1012,7 @@ export const About: React.FC = () => {
         </section>
 
         {/* ========================================================================= */}
-        {/* 10. CAMPUS VISIT & ADMISSIONS CONSULTATION CTA */}
+        {/* 10. ONLINE DEMO & ADMISSIONS CONSULTATION CTA */}
         {/* ========================================================================= */}
         <section className="bg-navy rounded-3xl text-white p-8 sm:p-12 lg:p-16 border border-navy-deep shadow-xl text-center relative overflow-hidden">
           {/* Ambient Glow Mesh Orbs */}
@@ -1119,15 +1038,15 @@ export const About: React.FC = () => {
           <div className="max-w-2xl mx-auto space-y-6 relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-mono uppercase tracking-wider text-navy-mist">
               <Sparkles className="w-3.5 h-3.5 text-navy-mist" />
-              <span>Campus Visit & Counseling</span>
+              <span>Free Demo & Counseling</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Visit Our Putalisadak Innovation Lab
+              Join a Free Live Online Demo Class
             </h2>
 
             <p className="text-sm sm:text-base text-mist leading-relaxed">
-              Schedule an in-person academic counseling session or lab visit to inspect our workstations, review detailed curriculum modules, and discuss upcoming cohort schedules.
+              Schedule an online counseling call or demo class to meet a mentor, review detailed curriculum modules, and discuss upcoming batch schedules.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
@@ -1137,7 +1056,7 @@ export const About: React.FC = () => {
                 href="/contact"
                 rightIcon={<ArrowRight className="w-4 h-4 text-navy" />}
               >
-                Schedule Campus Counseling
+                Book a Free Online Demo
               </Button>
               <Button
                 variant="outline-white"
@@ -1151,8 +1070,8 @@ export const About: React.FC = () => {
 
             <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-navy-mist border-t border-white/10">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-sage" />
-                <span>Putalisadak, Kathmandu, Nepal</span>
+                <Globe className="w-4 h-4 text-sage" />
+                <span>100% live online classes</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-sage" />

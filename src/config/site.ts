@@ -52,18 +52,12 @@ export const SITE_CONFIG = {
   siteUrl: SITE_URL,
   tagline: 'Professional IT Training & Technology Education in Nepal',
   description:
-    'Practical IT education designed around modern technologies, real projects, and career-ready skills in Kathmandu, Nepal.',
+    'Practical IT education designed around modern technologies, real projects, and career-ready skills, taught live online across Nepal.',
   defaultOgImage: `${SITE_URL}/og-image.jpg`,
   logoUrl: `${SITE_URL}/logo.webp`,
   contactEmail: 'info@navyaedtech.com',
   contactPhone: '+977-9800000000',
   location: {
-    street: 'Putalisadak Campus',
-    city: 'Kathmandu',
-    region: 'Bagmati Province',
     country: 'NP',
-    postalCode: '44600',
-    latitude: '27.7172',
-    longitude: '85.3240',
   },
 };

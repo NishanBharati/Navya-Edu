@@ -31,7 +31,7 @@ export const CourseEnrollCTA: React.FC<CourseEnrollCTAProps> = ({
             </h2>
 
             <p className="text-sm sm:text-base text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Connect with our academic advisory team to discuss upcoming batch timings, laboratory infrastructure, and fee installment plans.
+              Connect with our academic advisory team to discuss upcoming batch timings, online class setup, and fee installment plans.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
@@ -71,7 +71,7 @@ export const CourseEnrollCTA: React.FC<CourseEnrollCTAProps> = ({
                 <span>Zero Obligation Admissions Consultation</span>
               </div>
               <span>•</span>
-              <div>Kathmandu Campus & Live Online</div>
+              <div>100% Live Online Classes</div>
               <span>•</span>
               <div>Installment Payment Options Available</div>
             </div>

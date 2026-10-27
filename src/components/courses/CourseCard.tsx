@@ -40,7 +40,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const techs = course.technologies || course.skills || [];
   const visibleTechs = techs.slice(0, 4);
   const remainingTechCount = techs.length - visibleTechs.length;
-  const courseMode = course.mode || course.learningMode || 'Classroom / In-Person';
+  // Every course is taught live online; older database rows may still carry an in-person mode.
+  const courseMode = 'Online Live';
   const courseSummary = course.shortDescription || course.description || '';
   const batchStatus = course.upcomingBatch?.seatsStatus || 'Admissions Open';
   const feeLabel = course.fee || 'Inquire for batch fee (NPR)';

@@ -9,8 +9,8 @@ const FAQS: FAQItem[] = [
     answer: 'Yes! While intermediate and advanced tracks have prerequisites, our beginner courses start with programming fundamentals, algorithmic thinking, and computer science basics before moving into frameworks and full-stack systems.'
   },
   {
-    question: 'Can I switch between classroom in-person and live online sessions?',
-    answer: 'Absolutely. All our classrooms are equipped with hybrid streaming infrastructure. If you are unable to visit our Kathmandu campus on any day, you can join the live interactive session online and access recorded lab walkthroughs.'
+    question: 'Are classes online or in person?',
+    answer: 'All classes are live and online, so you can join from anywhere with a stable internet connection. If you miss a session, recorded walkthroughs are available.'
   },
   {
     question: 'What certificate and credentials do I receive upon graduation?',

@@ -229,7 +229,7 @@ export const CareerPipelineStepper: React.FC = () => {
       {/* Bottom Pedagogy Link */}
       <div className="mt-8 pt-6 border-t border-border-warm flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-xs sm:text-sm text-ink-soft">
-          Want to see our full laboratory rubric and pull request audit criteria?
+          Want to see our full assessment rubric and pull request audit criteria?
         </p>
         <a
           href="/about#method"

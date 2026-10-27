@@ -4,12 +4,12 @@ import { SITE_URL } from '../config/site';
 const BASE_URL = SITE_URL;
 
 /**
- * EducationalOrganization & LocalBusiness Schema for Homepage, Site-wide Branding & Local SEO
+ * EducationalOrganization Schema for Homepage and Site-wide Branding
  */
 export function getEducationalOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': ['EducationalOrganization', 'LocalBusiness'],
+    '@type': 'EducationalOrganization',
     '@id': `${BASE_URL}/#organization`,
     name: 'Navya Ed Tech',
     alternateName: ['Navya Ed Tech Pvt. Ltd.', 'Navya EdTech Nepal'],
@@ -17,7 +17,7 @@ export function getEducationalOrganizationSchema() {
     logo: `${BASE_URL}/logo.webp`,
     image: `${BASE_URL}/og-image.jpg`,
     description:
-      'Practical IT education and software engineering training academy in Putalisadak, Kathmandu, Nepal. Practical curriculums, daily Git audits, production capstone defense, and placement support.',
+      'Practical IT education and software engineering training academy in Nepal, teaching live online classes. Practical curriculums, daily Git audits, production capstone defense, and placement support.',
     parentOrganization: {
       '@type': 'Organization',
       name: 'Navya EdTech',
@@ -25,48 +25,17 @@ export function getEducationalOrganizationSchema() {
     },
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Putalisadak (IT Corridor), Ward 28',
-      addressLocality: 'Kathmandu',
-      addressRegion: 'Bagmati Province',
-      postalCode: '44600',
       addressCountry: 'NP',
     },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '27.7050',
-      longitude: '85.3210',
-    },
+    areaServed: 'NP',
     telephone: '+977-9800000000',
     email: 'info@navyaedtech.com',
-    priceRange: 'NPR',
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '07:00',
-        closes: '19:00',
-      },
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Saturday'],
-        opens: '09:00',
-        closes: '15:00',
-      },
-    ],
     contactPoint: [
       {
         '@type': 'ContactPoint',
         telephone: '+977-9800000000',
-        contactType: 'Admissions Desk & Counseling',
+        contactType: 'Admissions & Counseling',
         email: 'admissions@navyaedtech.com',
-        areaServed: 'NP',
-        availableLanguage: ['English', 'Nepali'],
-      },
-      {
-        '@type': 'ContactPoint',
-        telephone: '+977-1-4400000',
-        contactType: 'Campus Landline',
-        email: 'info@navyaedtech.com',
         areaServed: 'NP',
         availableLanguage: ['English', 'Nepali'],
       },
@@ -116,18 +85,11 @@ export function getCourseSchema(course: Course) {
     },
     hasCourseInstance: {
       '@type': 'CourseInstance',
-      courseMode: [course.mode || 'Classroom / In-Person', 'Online Live'],
+      courseMode: 'online',
       courseWorkload: `${course.duration} (${course.upcomingBatch?.classDays || '6 Days/Week'})`,
       location: {
-        '@type': 'Place',
-        name: 'Navya Ed Tech Campus',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: 'Putalisadak, Ward 28',
-          addressLocality: 'Kathmandu',
-          postalCode: '44600',
-          addressCountry: 'NP',
-        },
+        '@type': 'VirtualLocation',
+        url: `${BASE_URL}/courses/${course.slug}`,
       },
       instructor: {
         '@type': 'Organization',
@@ -147,7 +109,7 @@ export function getItemListSchema(courses: Course[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Professional IT Training Courses in Kathmandu, Nepal',
+    name: 'Live Online IT Training Courses in Nepal',
     description: 'Catalog of industry-aligned software engineering and design courses at Navya Ed Tech.',
     itemListElement: courses.map((course, index) => ({
       '@type': 'ListItem',
@@ -212,7 +174,7 @@ export function getArticleSchema(article: InsightArticle) {
       '@id': `${BASE_URL}/insights/${article.slug}`,
     },
     image: coverUrl,
-    keywords: [article.category, 'IT training Nepal', 'software engineering Kathmandu'],
+    keywords: [article.category, 'IT training Nepal', 'online IT courses Nepal'],
   };
 }
 

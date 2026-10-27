@@ -11,7 +11,7 @@ export const Terms: React.FC = () => {
     <main className="min-h-screen py-10 sm:py-16 bg-paper">
       <SEOHead
         title="Terms of Service | Navya Ed Tech Nepal"
-        description="Review institutional terms governing course admissions, laboratory code of conduct, intellectual property, and liability policies at Navya Ed Tech."
+        description="Review institutional terms governing course admissions, online class code of conduct, intellectual property, and liability policies at Navya Ed Tech."
         structuredData={getBreadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Terms of Service', path: '/terms' },
@@ -33,7 +33,7 @@ export const Terms: React.FC = () => {
             Terms of Service
           </h1>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed">
-            These Terms of Service govern student admissions, computer laboratory usage, intellectual property rights, certification criteria, and platform interactions with Navya Ed Tech Pvt. Ltd. (Kathmandu, Nepal).
+            These Terms of Service govern student admissions, online class participation, intellectual property rights, certification criteria, and platform interactions with Navya Ed Tech Pvt. Ltd. (Nepal).
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-ink-faint">
             <span>Last Updated: August 2026</span>
@@ -83,7 +83,7 @@ export const Terms: React.FC = () => {
             </div>
             <h3 className="text-sm font-bold text-ink">Transparent Advisory</h3>
             <p className="text-xs text-ink-soft mt-1 leading-relaxed">
-              Honest course prerequisites, real software laboratory standards, and zero misleading "100% job guarantee" marketing claims.
+              Honest course prerequisites, real software engineering standards, and zero misleading "100% job guarantee" marketing claims.
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export const Terms: React.FC = () => {
                 <span>Acceptance of Terms</span>
               </h2>
               <p className="text-sm text-ink-soft leading-relaxed">
-                By accessing this website (<a href="https://navyaedtech.com" className="text-blue hover:underline">navyaedtech.com</a>), submitting an inquiry, enrolling in any training course, attending laboratory sessions, or using our digital course repositories, you agree to be bound by these Terms of Service.
+                By accessing this website (<a href="https://navyaedtech.com" className="text-blue hover:underline">navyaedtech.com</a>), submitting an inquiry, enrolling in any training course, attending live online classes, or using our digital course repositories, you agree to be bound by these Terms of Service.
               </p>
               <p className="text-sm text-ink-soft leading-relaxed">
                 If enrolling on behalf of an enterprise or sponsor, you represent that you possess authority to bind that entity to these educational terms.
@@ -119,11 +119,11 @@ export const Terms: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-sage shrink-0 mt-0.5" />
-                  <span><strong>Workstation Seat Reservation:</strong> Cohort laboratory seats are capped at 12 to 16 workstations per batch to preserve individual code review quality. Registration is secured upon receipt of the enrollment deposit.</span>
+                  <span><strong>Cohort Place Reservation:</strong> Live online cohorts are capped at 12 to 16 learners per batch to preserve individual code review quality. Registration is secured upon receipt of the enrollment deposit.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-sage shrink-0 mt-0.5" />
-                  <span><strong>Cohort Rescheduling:</strong> Navya Ed Tech reserves the right to postpone batch commencement dates by up to 14 calendar days due to laboratory maintenance, public holidays, or unforeseen institutional factors with advance notice provided.</span>
+                  <span><strong>Cohort Rescheduling:</strong> Navya Ed Tech reserves the right to postpone batch commencement dates by up to 14 calendar days due to platform maintenance, public holidays, or unforeseen institutional factors with advance notice provided.</span>
                 </li>
               </ul>
             </section>
@@ -135,7 +135,7 @@ export const Terms: React.FC = () => {
                 <span>Tuition Fees & Official Payment Methods</span>
               </h2>
               <p className="text-sm text-ink-soft leading-relaxed">
-                All course fees are stated in <strong>Nepalese Rupees (NPR / Rs.)</strong> and encompass live instruction, workstation access, software environment configurations, instructor code critiques, and certificate credential verification.
+                All course fees are stated in <strong>Nepalese Rupees (NPR / Rs.)</strong> and encompass live online instruction, software environment configurations, instructor code critiques, and certificate credential verification.
               </p>
               
               <div className="p-4 rounded-xl bg-paper-alt border border-border space-y-2 text-xs text-ink-soft">
@@ -144,7 +144,7 @@ export const Terms: React.FC = () => {
                   <span>Verified Official Payment Channels Only</span>
                 </div>
                 <p>
-                  To protect students from fraud, tuition fees must only be transferred through official institutional bank accounts, registered Fonepay QR merchant counters, or in-person at our Kathmandu admissions desk with an official stamped receipt voucher.
+                  To protect students from fraud, tuition fees must only be transferred through official institutional bank accounts, or registered Fonepay QR merchant accounts, with an official receipt voucher issued for every payment.
                 </p>
               </div>
 
@@ -157,7 +157,7 @@ export const Terms: React.FC = () => {
             <section id="section-conduct" className="bg-white rounded-2xl p-6 sm:p-8 border border-border shadow-xs space-y-4">
               <h2 className="text-xl font-bold text-ink flex items-center gap-2.5">
                 <span className="w-7 h-7 rounded-lg bg-navy text-white text-xs font-bold flex items-center justify-center">4</span>
-                <span>Laboratory Code of Conduct & Academic Integrity</span>
+                <span>Online Class Code of Conduct & Academic Integrity</span>
               </h2>
               <p className="text-sm text-ink-soft leading-relaxed">
                 Navya Ed Tech simulates a professional tech engineering work culture. All enrollees agree to the following standards:
@@ -169,7 +169,7 @@ export const Terms: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-blue font-bold">•</span>
-                  <span><strong>Responsible Lab Hardware Use:</strong> Physical workstations, peripheral equipment, and academy network bandwidth must be used strictly for coursework and software development activities.</span>
+                  <span><strong>Responsible Platform Use:</strong> Live class sessions, shared code repositories, and community channels must be used strictly for coursework and software development activities.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-blue font-bold">•</span>
@@ -210,11 +210,11 @@ export const Terms: React.FC = () => {
               <ul className="space-y-2 text-sm text-ink-soft">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-sage" />
-                  <span>Minimum 80% active cohort attendance in lab coding sprints.</span>
+                  <span>Minimum 80% active attendance in live online coding sprints.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-sage" />
-                  <span>Timely submission of all required module assignments and lab check-ins.</span>
+                  <span>Timely submission of all required module assignments and online check-ins.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-sage" />
@@ -275,7 +275,7 @@ export const Terms: React.FC = () => {
                     { id: 'section-acceptance', label: '1. Acceptance of Terms' },
                     { id: 'section-admissions', label: '2. Admissions & Cohorts' },
                     { id: 'section-fees', label: '3. Fees & Payment Methods' },
-                    { id: 'section-conduct', label: '4. Lab Code of Conduct' },
+                    { id: 'section-conduct', label: '4. Code of Conduct' },
                     { id: 'section-ip', label: '5. Intellectual Property (IP)' },
                     { id: 'section-certification', label: '6. Certificate Criteria' },
                     { id: 'section-liability', label: '7. Liability [LEGAL REVIEW]' },
@@ -309,7 +309,7 @@ export const Terms: React.FC = () => {
                     <span>info@navyaedtech.com</span>
                   </div>
                   <div className="text-xs text-navy-mist">
-                    Kathmandu, Nepal • Navya Ed Tech Pvt. Ltd.
+                    Nepal • Navya Ed Tech Pvt. Ltd.
                   </div>
                 </div>
                 <div className="pt-2">

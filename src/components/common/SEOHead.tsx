@@ -35,7 +35,7 @@ const DEFAULT_OG_IMAGE = `${DEFAULT_BASE_URL}/og-image.jpg`;
 export const SEOHead: React.FC<SEOHeadProps> = ({
   title = 'Navya Ed Tech | Professional IT Education & Technology Training in Nepal',
   description = 'Practical IT education designed around modern technologies, real projects, and career-ready skills. Learn technology from the company that builds technology.',
-  keywords = 'IT training in Nepal, IT training institute in Kathmandu, Web development course Nepal, Python programming Nepal, Data Science Nepal, Scratch kids coding Kathmandu, Navya Ed Tech',
+  keywords = 'IT training in Nepal, online IT training Nepal, Web development course Nepal, Python programming Nepal, Data Science Nepal, online coding classes for kids Nepal, Navya Ed Tech',
   ogImage = DEFAULT_OG_IMAGE,
   ogType = 'website',
   canonicalUrl,

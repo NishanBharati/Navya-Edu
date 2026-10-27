@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Mail, MapPin, Clock } from 'lucide-react';
+import { ArrowRight, Mail, Globe, Clock } from 'lucide-react';
 import { Container } from '../common/Container';
 import { Button } from '../common/Button';
 import { Block } from '../blocks/Block';
@@ -9,7 +9,7 @@ interface AdvisorCTAProps {
   onOpenAdvisor: () => void;
 }
 
-// The page's closing field: one action, the visit details beside it.
+// The page's closing field: one action, the contact details beside it.
 export const AdvisorCTA: React.FC<AdvisorCTAProps> = ({ onOpenAdvisor }) => (
   <section id="final-cta-section" className="relative overflow-hidden bg-block-orange text-ink">
     <div className="absolute inset-0 bg-dots pointer-events-none opacity-60" aria-hidden="true" />
@@ -18,7 +18,7 @@ export const AdvisorCTA: React.FC<AdvisorCTAProps> = ({ onOpenAdvisor }) => (
         <Reveal>
           <h2 className="text-display text-ink max-w-[14ch]">Come and see a class.</h2>
           <p className="mt-6 text-lg sm:text-xl leading-relaxed text-ink/85 max-w-[52ch]">
-            Book a free demo class to see the lab, look through the course plan and meet the mentors. An advisor then
+            Book a free online demo class to look through the course plan and meet the mentors. An advisor then
             suggests the right course and batch for your child.
           </p>
           <div className="mt-9 flex flex-col sm:flex-row gap-3">
@@ -26,15 +26,15 @@ export const AdvisorCTA: React.FC<AdvisorCTAProps> = ({ onOpenAdvisor }) => (
               Book a free demo class
             </Button>
             <Button variant="secondary" size="lg" href="/contact">
-              Visit the lab
+              Contact us
             </Button>
           </div>
         </Reveal>
 
         <Reveal delay={0.1} className="flex flex-col items-start gap-1 stack-depth text-[15px] sm:text-base">
           <Block color="ink" hat>
-            <MapPin className="w-4 h-4" aria-hidden="true" />
-            Putalisadak, Kathmandu
+            <Globe className="w-4 h-4" aria-hidden="true" />
+            Live online, join from home
           </Block>
           <Block color="white">
             <Clock className="w-4 h-4" aria-hidden="true" />

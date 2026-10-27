@@ -51,7 +51,7 @@ async function runTests() {
     email: `verification_${Date.now()}@example.com`,
     phone: '9841000000',
     interestedCourse: 'web-development',
-    preferredMode: 'Classroom (Kathmandu Campus)',
+    preferredMode: 'Online Live Interactive',
     message: 'Automated E2E test verifying anonymous database storage and zero data loss.',
     source: 'E2E Verification Script',
   };

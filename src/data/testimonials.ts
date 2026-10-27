@@ -98,7 +98,7 @@ export const TESTIMONIAL_POLICY = {
     'Navya Ed Tech never publishes fabricated reviews, artificial 5-star ratings, or synthetic student profiles. As an engineering-first institution in our inaugural year, verified student retrospectives, interview recordings, and employment transitions will be published strictly following the successful capstone defense of our first graduating cohorts with signed graduate consent.',
   verificationProcess: [
     'Independent defense of capstone project architecture before an engineering review panel',
-    'Verification of 80%+ classroom attendance and completed GitHub assignment deliverables',
+    'Verification of 80%+ live class attendance and completed GitHub assignment deliverables',
     'Explicit written authorization before publishing student names or repository links',
   ],
 };

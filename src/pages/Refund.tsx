@@ -11,7 +11,7 @@ export const Refund: React.FC = () => {
     <main className="min-h-screen py-10 sm:py-16 bg-paper">
       <SEOHead
         title="Refund & Cancellation Policy | Navya Ed Tech Nepal"
-        description="Understand Navya Ed Tech's transparent refund, withdrawal, and cohort transfer policies for IT training courses in Kathmandu."
+        description="Understand Navya Ed Tech's transparent refund, withdrawal, and cohort transfer policies for live online IT training courses."
         structuredData={getBreadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Refund & Cancellation Policy', path: '/refund' },
@@ -33,7 +33,7 @@ export const Refund: React.FC = () => {
             Refund & Cancellation Policy
           </h1>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed">
-            We believe in honest, transparent educational relationships. Because our computer laboratory workstation cohorts are capped at 12–16 seats, this policy outlines the exact conditions for tuition refunds, cohort transfers, and withdrawal timelines.
+            We believe in honest, transparent educational relationships. Because our live online cohorts are capped at 12–16 learners, this policy outlines the exact conditions for tuition refunds, cohort transfers, and withdrawal timelines.
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-ink-faint">
             <span>Last Updated: August 2026</span>
@@ -99,7 +99,7 @@ export const Refund: React.FC = () => {
                 <span>Withdrawal Prior to Batch Commencement</span>
               </h2>
               <p className="text-sm text-ink-soft leading-relaxed">
-                Because seats in each computer lab cohort are strictly capped (12–16 workstations) and reserved upon payment, cancellations impact batch planning:
+                Because places in each live online cohort are strictly capped (12–16 learners) and reserved upon payment, cancellations impact batch planning:
               </p>
               
               <div className="space-y-3 pt-1">
@@ -109,7 +109,7 @@ export const Refund: React.FC = () => {
                     <span>Cancellation 7 or More Calendar Days Prior to Batch Start:</span>
                   </h3>
                   <p className="text-xs text-ink-soft leading-relaxed">
-                    Full tuition refunded minus a 10% administrative seat reservation charge (or NPR 2,500, whichever is lower [PLACEHOLDER: Fee ceiling subject to official finance policy]).
+                    Full tuition refunded minus a 10% administrative reservation charge (or NPR 2,500, whichever is lower [PLACEHOLDER: Fee ceiling subject to official finance policy]).
                   </p>
                 </div>
 
@@ -129,7 +129,7 @@ export const Refund: React.FC = () => {
                     <span>Cancellation Less than 48 Hours Before Batch Start:</span>
                   </h3>
                   <p className="text-xs text-ink-soft leading-relaxed">
-                    Tuition fees are non-refundable as instructors, laboratory workstation software environments, and curriculum materials have been committed.
+                    Tuition fees are non-refundable as instructors, online software environments, and curriculum materials have been committed.
                   </p>
                 </div>
               </div>
@@ -142,10 +142,10 @@ export const Refund: React.FC = () => {
                 <span>Post-Commencement Policy (Classes Underway)</span>
               </h2>
               <p className="text-sm text-ink-soft leading-relaxed">
-                Once cohort instruction, code repository invitations, and laboratory seat occupancy begin, <strong>tuition fees are strictly non-refundable</strong>.
+                Once cohort instruction, code repository invitations, and live class attendance begin, <strong>tuition fees are strictly non-refundable</strong>.
               </p>
               <p className="text-sm text-ink-soft leading-relaxed">
-                Rationale: Unlike passive video platforms, Navya Ed Tech operates live, instructor-led cohorts with small-group code reviews. When a student leaves mid-course, that workstation cannot be filled by a new student due to foundational syllabus progression.
+                Rationale: Unlike passive video platforms, Navya Ed Tech operates live, instructor-led cohorts with small-group code reviews. When a student leaves mid-course, that place cannot be filled by a new student due to foundational syllabus progression.
               </p>
             </section>
 
@@ -165,7 +165,7 @@ export const Refund: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-sage shrink-0 mt-0.5" />
-                  <span><strong>Transfer Window:</strong> You may resume in an upcoming scheduled cohort within <strong>6 months</strong> of the original start date, subject to workstation availability.</span>
+                  <span><strong>Transfer Window:</strong> You may resume in an upcoming scheduled cohort within <strong>6 months</strong> of the original start date, subject to cohort availability.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-sage shrink-0 mt-0.5" />
@@ -190,7 +190,7 @@ export const Refund: React.FC = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-blue shrink-0 mt-0.5" />
-                  <span><strong>Option B (Priority Seat):</strong> Instant priority reservation in the rescheduled batch or an alternate track with an enrollment credit.</span>
+                  <span><strong>Option B (Priority Place):</strong> Instant priority reservation in the rescheduled batch or an alternate track with an enrollment credit.</span>
                 </li>
               </ul>
             </section>
@@ -275,7 +275,7 @@ export const Refund: React.FC = () => {
                   Need Help with an Enrollment?
                 </h4>
                 <p className="text-xs text-mist leading-relaxed">
-                  Our counseling desk can help clarify batch start dates, seat availability, or payment schedules before you commit.
+                  Our counseling desk can help clarify batch start dates, cohort availability, or payment schedules before you commit.
                 </p>
                 <div className="pt-1 space-y-2 text-xs">
                   <div className="flex items-center gap-2 text-navy-mist">
@@ -283,7 +283,7 @@ export const Refund: React.FC = () => {
                     <span>info@navyaedtech.com</span>
                   </div>
                   <div className="text-xs text-navy-mist">
-                    Kathmandu, Nepal • Navya Ed Tech
+                    Live Online • Navya Ed Tech
                   </div>
                 </div>
                 <div className="pt-2 flex flex-col gap-2">

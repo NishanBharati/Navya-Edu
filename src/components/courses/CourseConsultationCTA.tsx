@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquareCode, Phone, MapPin, ShieldCheck } from 'lucide-react';
+import { MessageSquareCode, Phone, Globe, ShieldCheck } from 'lucide-react';
 import { Button } from '../common/Button';
 import { DarkCTACard } from '../common/DarkCTACard';
 
@@ -35,7 +35,7 @@ export const CourseConsultationCTA: React.FC<CourseConsultationCTAProps> = ({
 
           <p className="text-sm sm:text-base text-white/80 leading-relaxed max-w-2xl mx-auto">
             {isKids
-              ? 'Visit our Putalisadak lab for a 15-minute walkthrough, or speak directly with our Young Coders instructor to see if Scratch Beginner or Advanced is the best fit for your child.'
+              ? 'Book a 15-minute online walkthrough, or speak directly with our Young Coders instructor to see if Scratch Beginner or Advanced is the best fit for your child.'
               : "Schedule a 15-minute consultation with our senior engineering faculty. We'll assess your current background, walk through syllabi, and map out your roadmap."}
           </p>
 
@@ -60,11 +60,11 @@ export const CourseConsultationCTA: React.FC<CourseConsultationCTAProps> = ({
 
           <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-xs text-white/70">
             <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-blue-light" />
+              <Globe className="w-3.5 h-3.5 text-blue-light" />
               <span>
                 {isKids
-                  ? 'Putalisadak Lab (Filtered Internet & Safe Premises)'
-                  : 'Kathmandu Campus & Live Online Hybrid'}
+                  ? 'Live Online Classes, Learn Safely From Home'
+                  : '100% Live Online Classes'}
               </span>
             </div>
             <span>•</span>
